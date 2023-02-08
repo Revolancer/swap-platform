@@ -78,6 +78,18 @@ export const {
       green200: "#9AE6B4",
       green100: "#EDFCF2",
     },
+    opacity: {
+      900: "100%",
+      800: "80%",
+      700: "64%",
+      600: "56%",
+      500: "40%",
+      400: "24%",
+      300: "16%",
+      200: "8%",
+      100: "4%",
+      0: "0%",
+    },
   },
   media: {
     bp1: "(min-width: 480px)",
@@ -87,3 +99,5 @@ export const {
 export const globalStyles = globalCss({
   "@import": ["reset.css"],
 });
+
+export const darkTheme = createTheme({});

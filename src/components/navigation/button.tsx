@@ -7,6 +7,36 @@ export const Button = styled(Interactive.A, {
       primary: {
         backgroundColor: "$pink500",
         color: "$white",
+        border: "1px solid $pink500",
+
+        "&.hover, &.focus": {
+          backgroundColor: "$pink700",
+          borderColor: "$pink700",
+        },
+        "&.active": {
+          backgroundColor: "$pink800",
+          borderColor: "$pink800",
+        },
+        "&.disabled": {
+          opacity: "$opacity$700",
+          backgroundColor: "$pink200",
+          borderColor: "$pink200",
+        },
+      },
+      secondary: {
+        backgroundColor: "$white",
+        color: "$neutral900",
+        border: "1px solid $neutral400",
+
+        "&.hover, &.focus": {
+          backgroundColor: "$neutral100",
+        },
+        "&.active": {
+          backgroundColor: "$neutral300",
+        },
+        "&.disabled": {
+          opacity: "$opacity$500",
+        },
       },
     },
     size: {
@@ -28,9 +58,8 @@ export const Button = styled(Interactive.A, {
   borderRadius: "8px",
   textDecoration: "none",
   fontSize: "1rem",
-  flexGrow: "0",
-  flexShrink: "0",
   height: "max-content",
+  width: "max-content",
   defaultVariants: {
     role: "primary",
     size: "medium",

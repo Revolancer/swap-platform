@@ -4,4 +4,5 @@ export const Flex = styled("div", {
   display: "flex",
   gap: "$$gap",
   flexWrap: "$$wrap",
+  flexDirection: "$$direction",
 });
