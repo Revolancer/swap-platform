@@ -1,6 +1,12 @@
 import { MainGrid, FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
-import { Button, FormButton } from "@/components/navigation/button";
+import {
+  Button,
+  FormButton,
+  Link,
+  TertiaryButton,
+  TertiaryFormButton,
+} from "@/components/navigation/button";
 import { H1, H2, H3, H4, H5 } from "@/components/text/headings";
 
 export default function Home() {
@@ -41,6 +47,12 @@ export default function Home() {
               <Button href="#" size="large" role="secondary" disabled>
                 Button
               </Button>
+            </Flex>
+            <Flex wrap gap="3">
+              <TertiaryFormButton>Button</TertiaryFormButton>
+              <TertiaryButton disabled>Button</TertiaryButton>
+              <Link>Link</Link>
+              <Link disabled>Link</Link>
             </Flex>
           </Flex>
         </FullWidth>

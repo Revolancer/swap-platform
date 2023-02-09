@@ -4,7 +4,7 @@ import { Source_Sans_Pro } from "@next/font/google";
 
 const headfont = Montserrat({
   style: ["normal", "italic"],
-  subsets: ["latin", "latin-ext"],
+  subsets: ["latin"],
 });
 
 const bodyfont = Source_Sans_Pro({

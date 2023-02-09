@@ -72,5 +72,58 @@ const styles = {
   },
 };
 
+const tertiaryStyles = {
+  color: "$neutral700",
+  display: "inline",
+  background: "none",
+  border: "none",
+  textDecoration: "none",
+  fontSize: "$body2",
+  fontWeight: "$normal",
+  height: "max-content",
+  width: "max-content",
+  transition: "none",
+  padding: 0,
+
+  "&.hover": {
+    color: "$navy500",
+  },
+  "&.active": {
+    color: "$navy500",
+    fontWeight: "$semibold",
+    textDecoration: "underline",
+  },
+  "&.disabled": {
+    color: "$neutral900",
+    opacity: "$opacity$500",
+  },
+};
+
+const linkStyles = {
+  color: "$pink500",
+  display: "inline",
+  background: "none",
+  border: "none",
+  textDecoration: "none",
+  fontSize: "$body2",
+  fontWeight: "$normal",
+  height: "max-content",
+  width: "max-content",
+  transition: "none",
+  padding: 0,
+
+  "&.hover, &.active": {
+    fontWeight: "$semibold",
+    textDecoration: "underline",
+  },
+  "&.disabled": {
+    color: "$neutral900",
+    opacity: "$opacity$500",
+  },
+};
+
 export const Button = styled(Interactive.A, styles);
 export const FormButton = styled(Interactive.Button, styles);
+export const TertiaryButton = styled(Interactive.A, tertiaryStyles);
+export const TertiaryFormButton = styled(Interactive.Button, tertiaryStyles);
+export const Link = styled(Interactive.A, linkStyles);
