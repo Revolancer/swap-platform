@@ -1,6 +1,6 @@
 import { MainGrid, FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
-import { Button } from "@/components/navigation/button";
+import { Button, FormButton } from "@/components/navigation/button";
 import { H1, H2, H3, H4, H5 } from "@/components/text/headings";
 
 export default function Home() {
@@ -9,15 +9,15 @@ export default function Home() {
       <MainGrid undecorated>
         <FullWidth>
           <Flex column gap="3">
-            <H1>Heading</H1>
-            <H2>Heading</H2>
-            <H3>Heading</H3>
-            <H4>Heading</H4>
-            <H5>Heading</H5>
+            <div>
+              <H1>Revolancer</H1>
+              <H2>Revolancer</H2>
+              <H3>Revolancer</H3>
+              <H4>Revolancer</H4>
+              <H5>Revolancer</H5>
+            </div>
             <Flex wrap gap="3">
-              <Button href="#" size="small">
-                Button
-              </Button>
+              <FormButton size="small">Button</FormButton>
               <Button href="#" size="medium">
                 Button
               </Button>

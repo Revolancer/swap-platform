@@ -1,13 +1,15 @@
 import { Interactive } from "react-interactive";
 import { styled } from "stitches.config";
 
-export const Button = styled(Interactive.A, {
+const styles = {
   variants: {
     role: {
       primary: {
         backgroundColor: "$pink500",
         color: "$white",
-        border: "1px solid $pink500",
+        borderWidth: "$1",
+        borderStyle: "$solid",
+        borderColor: "$pink500",
 
         "&.hover": {
           backgroundColor: "$pink700",
@@ -26,7 +28,9 @@ export const Button = styled(Interactive.A, {
       secondary: {
         backgroundColor: "$white",
         color: "$neutral900",
-        border: "1px solid $neutral400",
+        borderWidth: "$1",
+        borderStyle: "$solid",
+        borderColor: "$neutral400",
 
         "&.hover": {
           backgroundColor: "$neutral100",
@@ -41,28 +45,32 @@ export const Button = styled(Interactive.A, {
     },
     size: {
       small: {
-        paddingBlock: "6px",
-        paddingInline: "12px",
+        paddingBlock: "$2",
+        paddingInline: "$4",
       },
       medium: {
-        paddingBlock: "8px",
-        paddingInline: "20px",
+        paddingBlock: "$3",
+        paddingInline: "$6",
       },
       large: {
-        paddingBlock: "12px",
-        paddingInline: "24px",
+        paddingBlock: "$4",
+        paddingInline: "$7",
       },
     },
   },
   display: "inline-block",
-  borderRadius: "8px",
+  borderRadius: "$1",
   textDecoration: "none",
-  fontSize: "1rem",
-  fontWeight: "600",
+  fontSize: "$body1",
+  fontWeight: "$semibold",
   height: "max-content",
   width: "max-content",
+  boxShadow: "$2",
   defaultVariants: {
     role: "primary",
     size: "medium",
   },
-});
+};
+
+export const Button = styled(Interactive.A, styles);
+export const FormButton = styled(Interactive.Button, styles);

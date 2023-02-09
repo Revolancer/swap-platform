@@ -1,4 +1,17 @@
 import { createStitches } from "@stitches/react";
+import { Montserrat } from "@next/font/google";
+import { Source_Sans_Pro } from "@next/font/google";
+
+const headfont = Montserrat({
+  style: ["normal", "italic"],
+  subsets: ["latin", "latin-ext"],
+});
+
+const bodyfont = Source_Sans_Pro({
+  weight: ["400", "600", "700"],
+  style: ["normal", "italic"],
+  subsets: ["latin", "latin-ext"],
+});
 
 export const {
   styled,
@@ -92,21 +105,86 @@ export const {
     },
     space: {
       1: "4px",
-      2: "8px",
-      3: "12px",
-      4: "16px",
-      5: "20px",
-      6: "24px",
-      7: "28px",
-      8: "32px",
-      9: "36px",
-      10: "40px",
-      11: "44px",
-      12: "48px",
-      13: "52px",
-      14: "56px",
-      15: "60px",
-      16: "64px",
+      2: "6px",
+      3: "8px",
+      4: "12px",
+      5: "16px",
+      6: "20px",
+      7: "24px",
+      8: "28px",
+      9: "32px",
+      10: "36px",
+      11: "40px",
+      12: "44px",
+      13: "48px",
+      14: "52px",
+      15: "56px",
+      16: "60px",
+      17: "64px",
+    },
+    fontSizes: {
+      h1: "60px",
+      h1m: "48px", //Mobile sizes
+      h2: "48px",
+      h2m: "40px",
+      h3: "40px",
+      h3m: "32px",
+      h4: "28px",
+      h4m: "24px",
+      h5: "18px",
+      body1: "18px",
+      body2: "16px",
+    },
+    lineHeights: {
+      h1: "72px",
+      h1m: "60px", //Mobile sizes
+      h2: "64px",
+      h2m: "48px",
+      h3: "48px",
+      h3m: "40px",
+      h4: "40px",
+      h4m: "32px",
+      h5: "28px",
+      body1: "28px",
+      body2: "24px",
+      base: "16px",
+    },
+    fonts: {
+      heading: headfont.style.fontFamily,
+      body: bodyfont.style.fontFamily,
+    },
+    fontWeights: {
+      normal: "400",
+      medium: "500",
+      semibold: "600",
+      bold: "700",
+    },
+    radii: {
+      1: "8px",
+      2: "12px",
+      3: "16px",
+    },
+    borderStyles: {
+      solid: "solid",
+    },
+    borderWidths: {
+      1: "1px",
+    },
+    zIndices: {
+      0: 0,
+      1: 10,
+      2: 20,
+      3: 30,
+      4: 40,
+      modalbg: 990,
+      modal: 1000,
+    },
+    shadows: {
+      1: "0px 4px 4px 0px rgba(33,37,41,0.25), 0px 1px 1px 0px rgba(33,37,41,0.36)",
+      2: "0px 2px 2px 0px rgba(33,37,41,0.08), 0px 0px 1px 0px rgba(33,37,41,0.08)",
+    },
+    transitions: {
+      default: "all 0.2s ease-in-out",
     },
   },
   media: {
@@ -118,7 +196,35 @@ export const {
 });
 
 export const globalStyles = globalCss({
-  "@import": ["reset.css"],
+  "*, *::before, *::after": {
+    boxSizing: "border-box",
+  },
+  "*": {
+    margin: 0,
+    transition: "$default",
+  },
+  "html, body": {
+    height: "100%",
+  },
+  body: {
+    fontFamily: "$body",
+    fontSize: "$base",
+    lineHeight: 1.5,
+    fontSmooth: "antialiased",
+  },
+  "img, picture, video, canvas, svg": {
+    display: "block",
+    maxWidth: "100%",
+  },
+  "input, button, textarea, select": {
+    font: "inherit",
+  },
+  "p, h1, h2, h3, h4, h5, h6": {
+    overflowWrap: "break-word",
+  },
+  "#root, #__next": {
+    isolation: "isolate",
+  },
 });
 
 export const darkTheme = createTheme({});
