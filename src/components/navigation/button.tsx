@@ -9,7 +9,7 @@ export const Button = styled(Interactive.A, {
         color: "$white",
         border: "1px solid $pink500",
 
-        "&.hover, &.focus": {
+        "&.hover": {
           backgroundColor: "$pink700",
           borderColor: "$pink700",
         },
@@ -28,7 +28,7 @@ export const Button = styled(Interactive.A, {
         color: "$neutral900",
         border: "1px solid $neutral400",
 
-        "&.hover, &.focus": {
+        "&.hover": {
           backgroundColor: "$neutral100",
         },
         "&.active": {
@@ -58,6 +58,7 @@ export const Button = styled(Interactive.A, {
   borderRadius: "8px",
   textDecoration: "none",
   fontSize: "1rem",
+  fontWeight: "600",
   height: "max-content",
   width: "max-content",
   defaultVariants: {

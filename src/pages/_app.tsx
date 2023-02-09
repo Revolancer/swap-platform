@@ -2,7 +2,7 @@ import type { AppProps } from "next/app";
 import { Source_Sans_Pro } from "@next/font/google";
 
 const sans = Source_Sans_Pro({
-  weight: ["400", "700"],
+  weight: ["400", "600", "700"],
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext"],
 });
