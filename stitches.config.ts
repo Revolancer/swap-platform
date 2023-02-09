@@ -184,7 +184,7 @@ export const {
       2: "0px 2px 2px 0px rgba(33,37,41,0.08), 0px 0px 1px 0px rgba(33,37,41,0.08)",
     },
     transitions: {
-      default: "all 0.2s ease-in-out",
+      smoothly: "all 0.2s ease-in-out",
     },
   },
   media: {
@@ -201,7 +201,6 @@ export const globalStyles = globalCss({
   },
   "*": {
     margin: 0,
-    transition: "$default",
   },
   "html, body": {
     height: "100%",

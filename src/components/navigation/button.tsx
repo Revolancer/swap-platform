@@ -112,7 +112,12 @@ const linkStyles = {
   transition: "none",
   padding: 0,
 
-  "&.hover, &.active": {
+  "&.hover": {
+    color: "$pink600",
+    textDecoration: "underline",
+  },
+  "&.active": {
+    color: "$pink600",
     fontWeight: "$semibold",
     textDecoration: "underline",
   },
