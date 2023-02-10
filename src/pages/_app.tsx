@@ -1,16 +1,11 @@
+import store from "@/redux/store";
 import type { AppProps } from "next/app";
-import { Source_Sans_Pro } from "@next/font/google";
-
-const sans = Source_Sans_Pro({
-  weight: ["400", "600", "700"],
-  style: ["normal", "italic"],
-  subsets: ["latin", "latin-ext"],
-});
+import { Provider } from "react-redux";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <main className={sans.className}>
+    <Provider store={store}>
       <Component {...pageProps} />
-    </main>
+    </Provider>
   );
 }

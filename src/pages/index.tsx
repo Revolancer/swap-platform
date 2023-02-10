@@ -1,5 +1,6 @@
-import { MainGrid, FullWidth } from "@/components/layout/columns";
+import { FullWidth, HalfWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
+import { PrimaryLayout } from "@/components/layout/layouts";
 import {
   Button,
   FormButton,
@@ -7,14 +8,14 @@ import {
   TertiaryButton,
   TertiaryFormButton,
 } from "@/components/navigation/button";
-import { MainNav } from "@/components/navigation/main-nav";
 import { H1, H2, H3, H4, H5 } from "@/components/text/headings";
 
 export default function Home() {
   return (
     <>
-      <MainNav />
-      <MainGrid>
+      <PrimaryLayout>
+        <HalfWidth css={{ backgroundColor: "red", height: "200px" }} />
+        <HalfWidth css={{ backgroundColor: "blue", height: "200px" }} />
         <FullWidth>
           <Flex column gap="3">
             <Flex column gap="3">
@@ -129,7 +130,7 @@ export default function Home() {
             </Flex>
           </Flex>
         </FullWidth>
-      </MainGrid>
+      </PrimaryLayout>
     </>
   );
 }

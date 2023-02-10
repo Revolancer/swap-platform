@@ -1,4 +1,8 @@
+import { RootState } from "@/redux/store";
+import { NodeNextRequest } from "next/dist/server/base-http/node";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "stitches.config";
+import { contract } from "../navigation/main/nav-toggle";
 
 export const FullWidth = styled("div", {
   gridColumn: "auto / span 4",
@@ -19,24 +23,7 @@ export const HalfWidth = styled("div", {
   },
 });
 
-const MainGridInner = styled("div", {
-  width: "100vw",
-  position: "absolute",
-  top: 0,
-  left: 0,
-
-  variants: {
-    expanded: {
-      true: {
-        "@sm": {
-          left: "376px",
-        },
-      },
-    },
-  },
-});
-
-const MainGridInnerInner = styled("div", {
+export const ColumnLayout = styled("div", {
   maxWidth: "328px",
   display: "grid",
   gridTemplateColumns: "repeat(4, 1fr)",
@@ -87,31 +74,3 @@ const MainGridInnerInner = styled("div", {
     },
   },
 });
-
-const MainGridOuter = styled("div", {
-  overflowX: "hidden",
-  overflowY: "auto",
-  width: "100%",
-  height: "100vh",
-  position: "relative",
-});
-
-export const MainGrid = ({
-  expanded = false,
-  undecorated = false,
-  children,
-}: {
-  expanded?: boolean;
-  undecorated?: boolean;
-  children: any;
-}) => {
-  return (
-    <MainGridOuter>
-      <MainGridInner expanded={expanded}>
-        <MainGridInnerInner undecorated={undecorated}>
-          {children}
-        </MainGridInnerInner>
-      </MainGridInner>
-    </MainGridOuter>
-  );
-};

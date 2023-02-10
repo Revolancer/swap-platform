@@ -1,5 +1,9 @@
+import { RootState } from "@/redux/store";
+import { useDispatch, useSelector } from "react-redux";
 import { styled } from "stitches.config";
-import { Logo } from "../branding/logo";
+import { Logo } from "../../branding/logo";
+import { MobileNav } from "./mobile";
+import { expand } from "./nav-toggle";
 
 const Container = styled("div", {
   backgroundColor: "$navy900",
@@ -21,11 +25,11 @@ const Container = styled("div", {
   "@sm": {
     width: "72px",
     position: "fixed",
-    transition: "height 0s",
+    transition: "width 0.2s ease-in-out",
   },
 });
 
-const DesktopItems = styled("div", {
+const DesktopItemContainer = styled("div", {
   display: "none",
 
   "@sm": {
@@ -44,24 +48,21 @@ const DesktopItems = styled("div", {
   },
 });
 
-const MobileItems = styled("div", {
-  display: "flex",
-  padding: "$5",
-  height: "56px",
-  "@sm": {
-    display: "none",
-  },
-});
+export const MainNav = () => {
+  const expanded = useSelector(
+    (state: RootState) => state.root.navigation.toggle.expanded
+  );
+  const dispatch = useDispatch();
 
-export const MainNav = ({ expanded = false }) => {
   return (
     <Container expanded={expanded}>
-      <DesktopItems expanded={expanded}>
+      <DesktopItemContainer
+        expanded={expanded}
+        onClick={() => dispatch(expand())}
+      >
         <Logo expanded={expanded} />
-      </DesktopItems>
-      <MobileItems>
-        <Logo expanded />
-      </MobileItems>
+      </DesktopItemContainer>
+      <MobileNav />
     </Container>
   );
 };
