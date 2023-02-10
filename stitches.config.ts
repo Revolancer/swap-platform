@@ -147,7 +147,6 @@ export const {
       h5: "28px",
       body1: "28px",
       body2: "24px",
-      base: "16px",
     },
     fonts: {
       heading: headfont.style.fontFamily,
@@ -207,7 +206,7 @@ export const globalStyles = globalCss({
   },
   body: {
     fontFamily: "$body",
-    fontSize: "$base",
+    fontSize: "$body2",
     lineHeight: 1.5,
     fontSmooth: "antialiased",
   },
