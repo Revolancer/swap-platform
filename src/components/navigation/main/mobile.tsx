@@ -1,7 +1,7 @@
 import { Logo } from "@/components/branding/logo";
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { styled } from "stitches.config";
+import { darkTheme, styled } from "stitches.config";
 import { toggle } from "./nav-toggle";
 
 const MobileTopbarContainer = styled("div", {
@@ -32,6 +32,9 @@ const MobileItemContainer = styled("div", {
         zIndex: "$4",
       },
     },
+  },
+  [`.${darkTheme} &`]: {
+    backgroundColor: "$black",
   },
 });
 

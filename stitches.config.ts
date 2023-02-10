@@ -194,6 +194,8 @@ export const {
   },
 });
 
+export const darkTheme = createTheme({});
+
 export const globalStyles = globalCss({
   "*, *::before, *::after": {
     boxSizing: "border-box",
@@ -209,6 +211,8 @@ export const globalStyles = globalCss({
     fontSize: "$body2",
     lineHeight: 1.5,
     fontSmooth: "antialiased",
+    backgroundColor: "$white",
+    color: "$black",
   },
   "img, picture, video, canvas, svg": {
     display: "block",
@@ -223,6 +227,8 @@ export const globalStyles = globalCss({
   "#root, #__next": {
     isolation: "isolate",
   },
+  [`.${darkTheme}`]: {
+    backgroundColor: "$neutral900",
+    color: "$white",
+  },
 });
-
-export const darkTheme = createTheme({});

@@ -1,6 +1,6 @@
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { styled } from "stitches.config";
+import { darkTheme, styled } from "stitches.config";
 import { Logo } from "../../branding/logo";
 import { MobileNav } from "./mobile";
 import { expand } from "./nav-toggle";
@@ -26,6 +26,10 @@ const Container = styled("div", {
     width: "72px",
     position: "fixed",
     transition: "width 0.2s ease-in-out",
+  },
+
+  [`.${darkTheme} &`]: {
+    backgroundColor: "$black",
   },
 });
 

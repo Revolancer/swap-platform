@@ -1,8 +1,4 @@
-import { RootState } from "@/redux/store";
-import { NodeNextRequest } from "next/dist/server/base-http/node";
-import { useDispatch, useSelector } from "react-redux";
 import { styled } from "stitches.config";
-import { contract } from "../navigation/main/nav-toggle";
 
 export const FullWidth = styled("div", {
   gridColumn: "auto / span 4",
