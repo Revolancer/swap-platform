@@ -6,7 +6,7 @@ import { darkTheme } from "stitches.config";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <Provider store={store}>
-      <div>
+      <div id="mainctx" className={darkTheme}>
         <Component {...pageProps} />
       </div>
     </Provider>

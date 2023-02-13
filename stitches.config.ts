@@ -90,6 +90,9 @@ export const {
       green300: "#68D391",
       green200: "#9AE6B4",
       green100: "#EDFCF2",
+      background: "$white",
+      text: "$black",
+      borders: "$neutral200",
     },
     opacity: {
       900: "100%",
@@ -194,7 +197,17 @@ export const {
   },
 });
 
-export const darkTheme = createTheme({});
+export const darkTheme = createTheme({
+  colors: {
+    background: "$neutral900",
+    text: "$white",
+    borders: "$neutral800",
+  },
+  shadows: {
+    1: "0px 4px 4px 0px rgba(233,236,239,0.25), 0px 1px 1px 0px rgba(233,236,239,0.36)",
+    2: "0px 2px 2px 0px rgba(233,236,239,0.08), 0px 0px 1px 0px rgba(233,236,239,0.08)",
+  },
+});
 
 export const globalStyles = globalCss({
   "*, *::before, *::after": {
@@ -211,8 +224,6 @@ export const globalStyles = globalCss({
     fontSize: "$body2",
     lineHeight: 1.5,
     fontSmooth: "antialiased",
-    backgroundColor: "$white",
-    color: "$black",
   },
   "img, picture, video, canvas, svg": {
     display: "block",
@@ -227,8 +238,9 @@ export const globalStyles = globalCss({
   "#root, #__next": {
     isolation: "isolate",
   },
-  [`.${darkTheme}`]: {
-    backgroundColor: "$neutral900",
-    color: "$white",
+  [`#mainctx`]: {
+    backgroundColor: "$background",
+    color: "$text",
+    minHeight: "100vh",
   },
 });

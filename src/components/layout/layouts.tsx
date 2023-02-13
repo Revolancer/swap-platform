@@ -23,7 +23,7 @@ const NavExpandedBodyHider = styled("div", {
   position: "fixed",
   top: 0,
   left: 0,
-  backgroundColor: "$white",
+  backgroundColor: "$background",
 
   variants: {
     expanded: {
