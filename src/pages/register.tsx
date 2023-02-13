@@ -28,7 +28,15 @@ export default function Register() {
   return (
     <>
       <LoginLayout>
-        <Card css={{ gridColumn: "4 / 10", gap: "$7" }}>
+        <Card
+          css={{
+            gridColumn: "1 / 5",
+            "@sm": { gridColumn: "2 / 8" },
+            "@md": { gridColumn: "3 / 11" },
+            "@xl": { gridColumn: "4 / 10" },
+            gap: "$7",
+          }}
+        >
           <H4 css={{ textAlign: "center" }}>Welcome to Revolancer! 🤩</H4>
           <Formik
             initialValues={{
