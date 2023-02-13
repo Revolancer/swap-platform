@@ -30,12 +30,18 @@ export const InputOuter = styled("div", {
       true: {
         borderColor: "$red500",
         borderWidth: "$2",
+        [`.${darkTheme} &`]: {
+          borderColor: "$red500",
+        },
       },
     },
     warning: {
       true: {
         borderColor: "$orange500",
         borderWidth: "$2",
+        [`.${darkTheme} &`]: {
+          borderColor: "$orange500",
+        },
       },
     },
   },

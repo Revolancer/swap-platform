@@ -8,6 +8,10 @@ import { styled } from "stitches.config";
 
 const FeedbackText = styled("span", {
   fontSize: "$body2",
+  paddingInlineStart: "$1",
+  display: "inline-flex",
+  gap: "$4",
+  alignItems: "center",
 
   variants: {
     state: {
@@ -30,6 +34,11 @@ const FeedbackText = styled("span", {
     state: "feedback",
   },
 });
+const FeedbackTextAfter = styled("span", {
+  display: "inline-flex",
+  flexWrap: "wrap",
+  gap: "$2",
+});
 
 export const Feedback = ({
   state = "warning",
@@ -51,8 +60,7 @@ export const Feedback = ({
   return (
     <FeedbackText state={state}>
       <FontAwesomeIcon icon={symbol} />
-      {` `}
-      {children}
+      <FeedbackTextAfter>{children}</FeedbackTextAfter>
     </FeedbackText>
   );
 };
