@@ -135,9 +135,7 @@ export default function Register() {
                       </Feedback>
                     )}
                 </Flex>
-                <FormButton type="submit" role="secondary">
-                  Register
-                </FormButton>
+                <FormButton type="submit">Register</FormButton>
               </Form>
             )}
           </Formik>
