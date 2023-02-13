@@ -41,6 +41,24 @@ const styles = {
         "&.disabled": {
           opacity: "$opacity$500",
         },
+
+        [`.${darkTheme} &`]: {
+          backgroundColor: "$neutral900",
+          color: "$neutral100",
+          borderColor: "$neutral800",
+
+          "&.hover": {
+            borderColor: "$neutral700",
+            backgroundColor: "$neutral800",
+          },
+          "&.active": {
+            borderColor: "$neutral600",
+            backgroundColor: "$neutral700",
+          },
+          "&.disabled": {
+            opacity: "$opacity$500",
+          },
+        },
       },
     },
     size: {
