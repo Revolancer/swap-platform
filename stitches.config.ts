@@ -171,6 +171,7 @@ export const {
     },
     borderWidths: {
       1: "1px",
+      2: "2px",
     },
     zIndices: {
       0: 0,

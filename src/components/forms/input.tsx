@@ -19,6 +19,26 @@ export const InputOuter = styled("div", {
     borderColor: "$neutral700",
     backgroundColor: "$neutral800",
   },
+
+  "&:focus-within": {
+    borderColor: "$navy500",
+    borderWidth: "$2",
+  },
+
+  variants: {
+    error: {
+      true: {
+        borderColor: "$red500",
+        borderWidth: "$2",
+      },
+    },
+    warning: {
+      true: {
+        borderColor: "$orange500",
+        borderWidth: "$2",
+      },
+    },
+  },
 });
 
 export const InputInner = styled("input", {
@@ -26,4 +46,9 @@ export const InputInner = styled("input", {
   background: "none",
   flexGrow: "1",
   color: "inherit",
+
+  "&:focus": {
+    border: "none",
+    outline: "none",
+  },
 });
