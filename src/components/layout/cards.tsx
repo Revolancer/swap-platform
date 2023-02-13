@@ -8,4 +8,7 @@ export const Card = styled("div", {
   backgroundColor: "$background",
   boxShadow: "$1",
   padding: "$4",
+  display: "flex",
+  gap: "$3",
+  flexDirection: "column",
 });

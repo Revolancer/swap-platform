@@ -204,8 +204,8 @@ export const darkTheme = createTheme({
     borders: "$neutral800",
   },
   shadows: {
-    1: "0px 4px 4px 0px rgba(233,236,239,0.25), 0px 1px 1px 0px rgba(233,236,239,0.36)",
-    2: "0px 2px 2px 0px rgba(233,236,239,0.08), 0px 0px 1px 0px rgba(233,236,239,0.08)",
+    1: "0px 4px 4px 0px rgba(108,117,125,0.25), 0px 1px 1px 0px rgba(108,117,125,0.36)",
+    2: "0px 2px 2px 0px rgba(108,117,125,0.08), 0px 0px 1px 0px rgba(108,117,125,0.08)",
   },
 });
 

@@ -108,7 +108,9 @@ export const LoginLayout = ({ children }: { children?: any }) => {
           </FullWidth>
         </ColumnLayout>
       </LoginHeader>
-      <ColumnLayout undecorated>{children}</ColumnLayout>
+      <ColumnLayout undecorated css={{ paddingBlock: "$7" }}>
+        {children}
+      </ColumnLayout>
     </>
   );
 };
