@@ -1,5 +1,5 @@
 import { Interactive } from "react-interactive";
-import { styled } from "stitches.config";
+import { darkTheme, styled } from "stitches.config";
 
 const styles = {
   variants: {
@@ -96,6 +96,23 @@ const tertiaryStyles = {
   "&.disabled": {
     color: "$neutral900",
     opacity: "$opacity$500",
+  },
+
+  [`.${darkTheme} &`]: {
+    color: "$white",
+
+    "&.hover": {
+      color: "$navy500",
+    },
+    "&.active": {
+      color: "$navy500",
+      fontWeight: "$semibold",
+      textDecoration: "underline",
+    },
+    "&.disabled": {
+      color: "$neutral100",
+      opacity: "$opacity$500",
+    },
   },
 };
 
