@@ -1,9 +1,11 @@
 import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
-import { styled } from "stitches.config";
+import { darkTheme, styled } from "stitches.config";
+import { Logo } from "../branding/logo";
 import { MainNav } from "../navigation/main/main-nav";
 import { contract } from "../navigation/main/nav-toggle";
-import { ColumnLayout } from "./columns";
+import { ColumnLayout, FullWidth } from "./columns";
+import { Flex } from "./flex";
 
 const MainGridOuter = styled("div", {
   overflowX: "hidden",
@@ -79,6 +81,34 @@ export const PrimaryLayout = ({ children }: { children: any }) => {
           <ColumnLayout>{children}</ColumnLayout>
         </MainGridInner>
       </MainGridOuter>
+    </>
+  );
+};
+
+const LoginHeader = styled("div", {
+  height: "56px",
+  backgroundColor: "$navy900",
+  [`.${darkTheme} &`]: {
+    backgroundColor: "$black",
+  },
+});
+
+/**
+ * Layout for login, registration, reset password
+ */
+export const LoginLayout = ({ children }: { children?: any }) => {
+  return (
+    <>
+      <LoginHeader>
+        <ColumnLayout undecorated css={{ height: "100%" }}>
+          <FullWidth css={{ height: "100%" }}>
+            <Flex css={{ height: "100%", alignItems: "center" }}>
+              <Logo expanded />
+            </Flex>
+          </FullWidth>
+        </ColumnLayout>
+      </LoginHeader>
+      <ColumnLayout undecorated>{children}</ColumnLayout>
     </>
   );
 };
