@@ -1,14 +1,11 @@
 import { Feedback } from "@/components/forms/feedback";
 import { Form } from "@/components/forms/form";
 import { InputInner, InputOuter } from "@/components/forms/input";
+import { Turnstile } from "@/components/forms/turnstile";
 import { Card } from "@/components/layout/cards";
 import { Flex } from "@/components/layout/flex";
 import { LoginLayout } from "@/components/layout/layouts";
-import {
-  FormButton,
-  Link,
-  TertiaryButton,
-} from "@/components/navigation/button";
+import { FormButton, TertiaryButton } from "@/components/navigation/button";
 import { H4 } from "@/components/text/headings";
 import { Yup } from "@/lib/yup/yup";
 import axios from "axios";
@@ -23,6 +20,8 @@ const RegistrationSchema = Yup.object().shape({
     .required("Please confirm your password")
     .oneOf([Yup.ref("password")], "Passwords must match"),
 });
+
+var turnstileResponse = "";
 
 export default function Register() {
   return (
@@ -47,6 +46,7 @@ export default function Register() {
             validationSchema={RegistrationSchema}
             onSubmit={(values, actions) => {
               const { repeatpassword: _, ...data } = values;
+              (data as any).turnstileResponse = turnstileResponse;
               axios
                 .post(`${process.env.NEXT_PUBLIC_API_HOST}auth/register`, data)
                 .then((response) => {
@@ -143,6 +143,12 @@ export default function Register() {
                       </Feedback>
                     )}
                 </Flex>
+                <Turnstile
+                  onSuccess={(token) => (turnstileResponse = token)}
+                  onError={() => {
+                    turnstileResponse = "";
+                  }}
+                />
                 <FormButton type="submit">Register</FormButton>
               </Form>
             )}
