@@ -73,7 +73,10 @@ export const PasswordReveal = ({
   onClick?: MouseEventHandler<HTMLAnchorElement>;
   revealed?: boolean;
 }) => (
-  <Interactive.A onClick={onClick}>
+  <Interactive.A
+    onClick={onClick}
+    aria-label={revealed ? "Hide Password" : "Show Password"}
+  >
     <FontAwesomeIcon icon={revealed ? faEyeSlash : faEye} />
   </Interactive.A>
 );
@@ -90,6 +93,7 @@ const CheckboxRoot = styled(RadixCheckbox.Root, {
   borderRadius: "$1",
   borderWidth: "$1",
   borderColor: "$neutral400",
+  borderStyle: "$solid",
   display: "flex",
   alignItems: "center",
   justifyContent: "center",
@@ -97,6 +101,11 @@ const CheckboxRoot = styled(RadixCheckbox.Root, {
   color: "$white",
   transition: "$smoothly",
   cursor: "pointer",
+
+  "&.focus": {
+    outline: "none",
+  },
+
   '&[aria-checked="true"]': {
     backgroundColor: "$pink500",
     borderColor: "$pink500",
@@ -105,8 +114,10 @@ const CheckboxRoot = styled(RadixCheckbox.Root, {
 
   [`.${darkTheme} &`]: {
     borderColor: "$neutral700",
+    backgroundColor: "$neutral800",
     '&[aria-checked="true"]': {
       borderColor: "$pink500",
+      backgroundColor: "$pink500",
     },
   },
 });
