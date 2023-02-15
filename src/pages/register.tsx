@@ -17,12 +17,13 @@ import {
 } from "@/components/navigation/button";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
+import { login } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup/yup";
-import { faEye } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { RootState } from "@/redux/store";
 import axios from "axios";
 import { Formik } from "formik";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 const RegistrationSchema = Yup.object().shape({
   email: Yup.string()
@@ -41,6 +42,14 @@ const RegistrationSchema = Yup.object().shape({
 export default function Register() {
   const [pwType, setPwType] = useState("password");
   const [turnstileResponse, setTurnstileResponse] = useState("");
+
+  const dispatch = useDispatch();
+  const authed = useSelector((state: RootState) => state.root.auth.authed);
+
+  if (authed) {
+    window.location.href = "/";
+  }
+
   return (
     <>
       <LoginLayout>
@@ -72,8 +81,7 @@ export default function Register() {
               await axios
                 .post(`${process.env.NEXT_PUBLIC_API_HOST}auth/register`, data)
                 .then((response) => {
-                  //TODO: Success, store tokens
-                  console.log(response);
+                  dispatch(login(response.data));
                 })
                 .catch((reason) => {
                   const statuscode = Number(reason?.response?.status);
@@ -81,9 +89,15 @@ export default function Register() {
                     case 409:
                       actions.setFieldError("email", "exists");
                       break;
+                    case 400:
+                      actions.setFieldError(
+                        "email",
+                        "Please provide a valid email address"
+                      );
+                      break;
                     default:
                       //TODO: Other failure reasons (not validated, etc)
-                      console.log(reason.response);
+                      console.log(reason);
                       break;
                   }
                 });
