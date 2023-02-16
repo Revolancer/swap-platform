@@ -2,6 +2,7 @@ import { RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, styled } from "stitches.config";
 import { Logo } from "../branding/logo";
+import { CrumbBar } from "../navigation/crumbs/crumbbar";
 import { MainNav } from "../navigation/main/main-nav";
 import { contract } from "../navigation/main/nav-toggle";
 import { ColumnLayout, FullWidth } from "./columns";
@@ -78,6 +79,7 @@ export const PrimaryLayout = ({ children }: { children: any }) => {
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
+          <CrumbBar />
           <ColumnLayout>{children}</ColumnLayout>
         </MainGridInner>
       </MainGridOuter>
