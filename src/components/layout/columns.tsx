@@ -9,6 +9,17 @@ export const FullWidth = styled("div", {
   "@md": {
     gridColumn: "auto / span 12",
   },
+
+  variants: {
+    placeholder: {
+      true: {
+        height: "80vh",
+        backgroundColor: "$neutral100",
+        borderRadius: "$3",
+        boxShadow: "$2",
+      },
+    },
+  },
 });
 
 export const HalfWidth = styled("div", {
