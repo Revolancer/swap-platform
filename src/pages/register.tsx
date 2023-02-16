@@ -90,7 +90,10 @@ export default function Register() {
                   })
                   .catch((reason) => {
                     if (reason.code == "ERR_NETWORK") {
-                      actions.setFieldError("password", "err_network");
+                      actions.setFieldError(
+                        "marketingthirdparty",
+                        "err_network"
+                      );
                     } else {
                       const statuscode = Number(reason?.response?.status);
                       switch (statuscode) {
