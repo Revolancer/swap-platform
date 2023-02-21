@@ -66,7 +66,7 @@ const MainGridInner = styled("div", {
 
 export const PrimaryLayout = ({ children }: { children: any }) => {
   const expanded = useSelector(
-    (state: RootState) => state.root.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded
   );
   const dispatch = useDispatch();
 

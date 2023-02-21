@@ -1,67 +1,119 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { getCookie, setCookie } from "cookies-next";
-import jwt_decode from "jwt-decode";
+import { RootState } from "@/redux/store";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { axiosPrivate, axiosPublic } from "../axios";
+import { AppState } from "../types";
 
-interface UserAuthState {
-  authed: boolean;
-  authtoken: string;
-  refreshtoken: string;
-  id?: string;
-  expiry?: Date;
-  refreshexpiry?: Date;
-}
+const modulePrefix = "user";
 
-const authtoken = String(getCookie("rv-auth") ?? "");
-const refreshtoken = String(getCookie("rv-auth-refresh") ?? "");
-const authed = authtoken != "";
+const initialState: AppState = {
+  user:
+    typeof window !== "undefined"
+      ? JSON.parse(window?.localStorage?.getItem("user") as string) || null
+      : null,
+  email: "",
+  password: "",
+  success: false,
+  error: false,
+};
 
-if (authed) {
-  const unpacked = jwt_decode(authtoken);
-  const expiry = new Date((unpacked as any).exp * 1000);
-  const id = (unpacked as any).sub;
-  const refreshunpacked = jwt_decode(refreshtoken);
-  const refreshexpiry = new Date((refreshunpacked as any).exp * 1000);
-}
+export const login = createAsyncThunk(
+  `${modulePrefix}/login`,
+  async (_, { getState }) => {
+    const state = getState() as RootState;
 
-const initialState = {
-  authed,
-  authtoken,
-  refreshtoken,
-} as UserAuthState;
+    const res = await axiosPublic.post("auth/login", {
+      email: state.userData.email,
+      password: state.userData.password,
+    });
 
-const authSlice = createSlice({
-  name: "auth",
+    return res.data;
+  }
+);
+
+export const deleteUser = createAsyncThunk(
+  `${modulePrefix}/deleteUser`,
+  async (id: number, { getState }) => {
+    const state = getState() as RootState;
+
+    const res = await axiosPrivate.delete(`users/${id}`, {
+      headers: { authorization: `Bearer ${state.userData.user?.accessToken}` },
+    });
+
+    return res.data;
+  }
+);
+
+export const refreshToken = createAsyncThunk(
+  `${modulePrefix}/refreshToken`,
+  async (_, { getState }) => {
+    const state = getState() as RootState;
+
+    const res = await axiosPublic.get(`auth/refresh`, {
+      headers: { Authentication: `jwt ${state.userData.user?.refreshToken}` },
+    });
+
+    const newUser = {
+      ...state.userData.user,
+      accessToken: res.data.accessToken,
+      refreshToken: res.data.refreshToken,
+    };
+
+    return newUser;
+  }
+);
+
+export const userSlice = createSlice({
+  name: "user",
   initialState,
   reducers: {
-    login(state, action) {
-      const tokenContent1 = jwt_decode(action.payload.access_token);
-      state.id = (tokenContent1 as any).sub;
-      state.expiry = (tokenContent1 as any).exp;
-      state.authed = true;
-      const tokenContent2 = jwt_decode(action.payload.refresh_token);
-      state.refreshexpiry = (tokenContent2 as any).exp;
-      setCookie("rv-auth-refresh", action.payload.refresh_token, {
-        maxAge: 28 * 24 * 60 * 60 * 1000,
-        path: "/",
-      });
-      setCookie("rv-auth", action.payload.access_token, {
-        maxAge: 60 * 60 * 1000,
-        path: "/",
-      });
-      console.log(state);
+    updateEmail(state, action: PayloadAction<AppState["email"]>) {
+      state.email = action.payload;
     },
-    logout() {
-      setCookie("rv-auth-refresh", "", {
-        maxAge: 28 * 24 * 60 * 60 * 1000,
-        path: "/",
-      });
-      setCookie("rv-auth", "", {
-        maxAge: 60 * 60 * 1000,
-        path: "/",
-      });
+    updatePassword(state, action: PayloadAction<AppState["password"]>) {
+      state.password = action.payload;
     },
+    logout(state) {
+      if (typeof window !== "undefined") {
+        window?.localStorage.removeItem("user");
+      }
+      state.user = null;
+      state.email = "";
+      state.password = "";
+      state.success = false;
+      state.error = false;
+    },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(
+        login.fulfilled,
+        (state, action: PayloadAction<AppState["user"]>) => {
+          if (typeof window !== "undefined") {
+            window?.localStorage.setItem(
+              "user",
+              JSON.stringify(action.payload)
+            );
+          }
+          state.user = action.payload;
+        }
+      )
+      .addCase(deleteUser.pending, (state) => {
+        state.success = false;
+        state.error = false;
+      })
+      .addCase(deleteUser.fulfilled, (state) => {
+        state.success = true;
+      })
+      .addCase(deleteUser.rejected, (state) => {
+        state.error = true;
+      })
+      .addCase(refreshToken.fulfilled, (state, action) => {
+        if (typeof window !== "undefined") {
+          window?.localStorage.setItem("user", JSON.stringify(action.payload));
+        }
+        state.user = action.payload as AppState["user"];
+      });
   },
 });
 
-export const { login, logout } = authSlice.actions;
-export default authSlice.reducer;
+export const { updateEmail, updatePassword, logout } = userSlice.actions;

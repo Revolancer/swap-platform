@@ -1,7 +1,6 @@
 import { FullWidth } from "@/components/layout/columns";
-import { RootState } from "@/redux/store";
+import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
 
 export const AuthGuard = ({
   redirectTo,
@@ -16,7 +15,7 @@ export const AuthGuard = ({
   useEffect(() => {
     setDidMount(true);
   }, []);
-  const authed = useSelector((state: RootState) => state.root.auth.authed);
+  const authed = useAppSelector((state) => state.userData.user != null);
   if (!didMount) {
     return <FullWidth placeholder />;
   }

@@ -50,7 +50,7 @@ const MobileTopBar = () => {
 
 export const MobileNav = () => {
   const expanded = useSelector(
-    (state: RootState) => state.root.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded
   );
 
   return (

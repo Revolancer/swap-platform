@@ -54,7 +54,7 @@ const DesktopItemContainer = styled("div", {
 
 export const MainNav = () => {
   const expanded = useSelector(
-    (state: RootState) => state.root.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded
   );
   const dispatch = useDispatch();
 

@@ -16,25 +16,31 @@ import {
 import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
-import { login } from "@/lib/user/auth";
+import { login, updatePassword, updateEmail } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup/yup";
-import { RootState } from "@/redux/store";
-import axios from "axios";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-const RegistrationSchema = Yup.object().shape({
-  email: Yup.string()
-    .email("Please provide a valid email address")
-    .required("Please provide a valid email address"),
-  password: Yup.string().password().required("Please provide your password"),
-});
+import { useCallback, useState } from "react";
 
 export default function Register() {
   const [pwType, setPwType] = useState("password");
 
-  const dispatch = useDispatch();
+  const email = useAppSelector((state) => state.userData.email);
+  const password = useAppSelector((state) => state.userData.password);
+
+  const dispatch = useAppDispatch();
+
+  const handleEmailChange = useCallback(
+    (value: string) => dispatch(updateEmail(value)),
+    [dispatch]
+  );
+
+  const handlePasswordChange = useCallback(
+    (value: string) => dispatch(updatePassword(value)),
+    [dispatch]
+  );
+
+  const handleLogin = useCallback(() => dispatch(login()), [dispatch]);
 
   return (
     <>
@@ -56,33 +62,9 @@ export default function Register() {
                 email: "",
                 password: "",
               }}
-              validationSchema={RegistrationSchema}
-              onSubmit={async (values, actions) => {
+              onSubmit={async (_, actions) => {
                 actions.setSubmitting(true);
-                await axios
-                  .post(`${process.env.NEXT_PUBLIC_API_HOST}auth/login`, values)
-                  .then((response) => {
-                    console.log(response);
-                    dispatch(login(response.data));
-                  })
-                  .catch((reason) => {
-                    if (reason.code == "ERR_NETWORK") {
-                      actions.setFieldError("password", "err_network");
-                    } else {
-                      const statuscode = Number(reason?.response?.status);
-                      switch (statuscode) {
-                        case 401:
-                          actions.setFieldError(
-                            "password",
-                            "Looks like your email address or password is incorrect."
-                          );
-                          break;
-                        default:
-                          console.log(reason.response);
-                          break;
-                      }
-                    }
-                  });
+                await handleLogin();
                 actions.setSubmitting(false);
               }}
             >
@@ -99,9 +81,8 @@ export default function Register() {
                           id="email"
                           placeholder="Email"
                           aria-label="Email"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values.email}
+                          onChange={(e) => handleEmailChange(e.target.value)}
+                          value={email}
                         ></InputInner>
                       </InputOuter>
                       <InputOuter
@@ -115,9 +96,8 @@ export default function Register() {
                           id="password"
                           placeholder="Password"
                           aria-label="Password"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values.password}
+                          onChange={(e) => handlePasswordChange(e.target.value)}
+                          value={password}
                         ></InputInner>
                         <PasswordReveal
                           revealed={pwType == "text"}

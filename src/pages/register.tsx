@@ -18,13 +18,12 @@ import {
 import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
-import { login } from "@/lib/user/auth";
+import { login, updateEmail, updatePassword } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup/yup";
-import { RootState } from "@/redux/store";
+import { useAppDispatch, useAppSelector } from "@/redux/store";
 import axios from "axios";
 import { Formik } from "formik";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useCallback, useState } from "react";
 
 const RegistrationSchema = Yup.object().shape({
   email: Yup.string()
@@ -44,8 +43,9 @@ export default function Register() {
   const [pwType, setPwType] = useState("password");
   const [turnstileResponse, setTurnstileResponse] = useState("");
 
-  const dispatch = useDispatch();
-  const authed = useSelector((state: RootState) => state.root.auth.authed);
+  const dispatch = useAppDispatch();
+  const authed = useAppSelector((state) => state.userData.user != null);
+  const handleLogin = useCallback(() => dispatch(login()), [dispatch]);
 
   if (authed) {
     window.location.href = "/";
@@ -86,7 +86,9 @@ export default function Register() {
                     data
                   )
                   .then((response) => {
-                    dispatch(login(response.data));
+                    updateEmail(values.email);
+                    updatePassword(values.password);
+                    handleLogin();
                   })
                   .catch((reason) => {
                     if (reason.code == "ERR_NETWORK") {
