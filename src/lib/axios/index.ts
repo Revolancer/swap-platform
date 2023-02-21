@@ -1,7 +1,7 @@
 import store from "@/redux/store";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
-import { refreshToken } from "../user/auth";
+import { logout, refreshToken } from "../user/auth";
 
 export const axiosPublic = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_HOST,
@@ -16,6 +16,13 @@ axiosPrivate.interceptors.request.use(
 
     let currentDate = new Date();
     if (user?.accessToken) {
+      const decodedRefreshToken: { exp: number } = jwt_decode(
+        user?.refreshToken
+      );
+      if (decodedRefreshToken.exp * 1000 < currentDate.getTime()) {
+        store.dispatch(logout());
+        return config;
+      }
       const decodedToken: { exp: number } = jwt_decode(user?.accessToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         await store.dispatch(refreshToken());
