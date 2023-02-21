@@ -36,7 +36,7 @@ export const deleteUser = createAsyncThunk(
     const state = getState() as RootState;
 
     const res = await axiosPrivate.delete(`users/${id}`, {
-      headers: { authorization: `Bearer ${state.userData.user?.accessToken}` },
+      headers: { Authorization: `Bearer ${state.userData.user?.accessToken}` },
     });
 
     return res.data;
@@ -49,7 +49,9 @@ export const refreshToken = createAsyncThunk(
     const state = getState() as RootState;
 
     const res = await axiosPublic.get(`auth/refresh`, {
-      headers: { Authentication: `jwt ${state.userData.user?.refreshToken}` },
+      headers: {
+        Authorization: `Bearer ${state.userData.user?.refreshToken}`,
+      },
     });
 
     const newUser = {
