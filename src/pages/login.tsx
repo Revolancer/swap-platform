@@ -17,7 +17,6 @@ import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
 import { login, updatePassword, updateEmail } from "@/lib/user/auth";
-import { Yup } from "@/lib/yup/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
 import { useCallback, useState } from "react";
