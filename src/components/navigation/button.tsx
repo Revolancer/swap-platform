@@ -84,6 +84,7 @@ const styles = {
   height: "max-content",
   width: "max-content",
   boxShadow: "$2",
+  textTransform: "capitalize",
   defaultVariants: {
     role: "primary",
     size: "medium",
@@ -101,6 +102,7 @@ const tertiaryStyles = {
   height: "max-content",
   width: "max-content",
   transition: "none",
+  textTransform: "capitalize",
   padding: 0,
 
   "&.hover": {
