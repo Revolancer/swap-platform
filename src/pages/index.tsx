@@ -1,10 +1,11 @@
+import { ChargeBeePortalButton } from "@/components/chargebee/chargebee";
 import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { Button } from "@/components/navigation/button";
 import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import store, { useAppSelector } from "@/redux/store";
+import { useAppSelector } from "@/redux/store";
 
 export default function Home() {
   const token = useAppSelector((state) => state.userData.user?.refreshToken);
@@ -38,6 +39,7 @@ export default function Home() {
               </Button>
               <Button onClick={checkRefreshToken}>Check Refresh Token</Button>
               <Button onClick={checkToken}>Check Token</Button>
+              <ChargeBeePortalButton />
             </Flex>
           </FullWidth>
         </AuthGuard>
