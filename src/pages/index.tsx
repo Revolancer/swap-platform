@@ -1,4 +1,7 @@
-import { ChargeBeePortalButton } from "@/components/chargebee/chargebee";
+import {
+  ChargeBeeCheckoutButton,
+  ChargeBeePortalButton,
+} from "@/components/chargebee/chargebee";
 import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
@@ -39,6 +42,7 @@ export default function Home() {
               </Button>
               <Button onClick={checkRefreshToken}>Check Refresh Token</Button>
               <Button onClick={checkToken}>Check Token</Button>
+              <ChargeBeeCheckoutButton />
               <ChargeBeePortalButton />
             </Flex>
           </FullWidth>
