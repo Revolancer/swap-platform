@@ -18,10 +18,10 @@ import {
 import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
+import { axiosPublic } from "@/lib/axios";
 import { login, updateEmail, updatePassword } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
-import axios from "axios";
 import { Formik } from "formik";
 import { useCallback, useState } from "react";
 
@@ -78,16 +78,13 @@ export default function Register() {
               validationSchema={RegistrationSchema}
               onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
+                updateEmail(values.email);
+                updatePassword(values.password);
                 const { repeatpassword: _, ...data } = values;
                 (data as any).turnstileResponse = turnstileResponse;
-                await axios
-                  .post(
-                    `${process.env.NEXT_PUBLIC_API_HOST}auth/register`,
-                    data
-                  )
+                await axiosPublic
+                  .post("auth/register", data)
                   .then((response) => {
-                    updateEmail(values.email);
-                    updatePassword(values.password);
                     handleLogin();
                   })
                   .catch((reason) => {
