@@ -6,6 +6,7 @@ import { Button } from "@/components/navigation/button";
 import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { useAppSelector } from "@/redux/store";
+import Head from "next/head";
 
 export default function Home() {
   const token = useAppSelector((state) => state.userData.user?.refreshToken);
@@ -19,20 +20,32 @@ export default function Home() {
   };
   return (
     <>
+      <Head>
+        <title>Discover - Revolancer Beta</title>
+      </Head>
       <PrimaryLayout>
-        <AuthGuard>
-          <FullWidth>
-            <Flex column gap="3">
-              <Button onClick={requestVerification}>
-                Request Verification email
-              </Button>
-              <Button onClick={requestPasswordResetLink}>
-                Request Password Reset email
-              </Button>
-              <ChargebeeButton />
-            </Flex>
-          </FullWidth>
-        </AuthGuard>
+        <FullWidth>
+          <Flex column gap="3">
+            <Button onClick={requestVerification}>
+              Request Verification email
+            </Button>
+            <Button onClick={requestPasswordResetLink}>
+              Request Password Reset email
+            </Button>
+            <ChargebeeButton />
+          </Flex>
+        </FullWidth>
+        <FullWidth>
+          <Flex column gap="3">
+            <Button onClick={requestVerification}>
+              Request Verification email
+            </Button>
+            <Button onClick={requestPasswordResetLink}>
+              Request Password Reset email
+            </Button>
+            <ChargebeeButton />
+          </Flex>
+        </FullWidth>
       </PrimaryLayout>
     </>
   );

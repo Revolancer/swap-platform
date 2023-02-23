@@ -1,8 +1,10 @@
 import { RootState } from "@/redux/store";
+import { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, styled } from "stitches.config";
 import { Logo } from "../branding/logo";
 import { CrumbBar } from "../navigation/crumbs/crumbbar";
+import { AuthGuard } from "../navigation/guards/authguard";
 import { MainNav } from "../navigation/main/main-nav";
 import { contract } from "../navigation/main/nav-toggle";
 import { ColumnLayout, FullWidth } from "./columns";
@@ -64,11 +66,25 @@ const MainGridInner = styled("div", {
   },
 });
 
-export const PrimaryLayout = ({ children }: { children: any }) => {
+export const PrimaryLayout = ({
+  unguarded = false,
+  children = <></>,
+}: {
+  unguarded?: boolean;
+  children?: ReactNode;
+}) => {
   const expanded = useSelector(
     (state: RootState) => state.navigation.toggle.expanded
   );
   const dispatch = useDispatch();
+
+  let inner: ReactNode;
+
+  if (!unguarded) {
+    inner = <AuthGuard>{children}</AuthGuard>;
+  } else {
+    inner = children;
+  }
 
   return (
     <>
@@ -80,7 +96,7 @@ export const PrimaryLayout = ({ children }: { children: any }) => {
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
           <CrumbBar />
-          <ColumnLayout>{children}</ColumnLayout>
+          <ColumnLayout>{inner}</ColumnLayout>
         </MainGridInner>
       </MainGridOuter>
     </>
@@ -111,7 +127,7 @@ export const LoginLayout = ({ children }: { children?: any }) => {
         </ColumnLayout>
       </LoginHeader>
       <ColumnLayout undecorated css={{ paddingBlock: "$7" }}>
-        {children}
+        <AuthGuard redirectIfAuthed>{children}</AuthGuard>
       </ColumnLayout>
     </>
   );
