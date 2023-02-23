@@ -1,7 +1,4 @@
-import {
-  ChargeBeeCheckoutButton,
-  ChargeBeePortalButton,
-} from "@/components/chargebee/chargebee";
+import { ChargebeeButton } from "@/components/chargebee/chargebee";
 import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
@@ -20,14 +17,6 @@ export default function Home() {
       email: "skye@blueskye.co.uk",
     });
   };
-  const checkRefreshToken = () => {
-    axiosPublic.get(`auth/refresh_token_check`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
-  };
-  const checkToken = () => {
-    axiosPrivate.get(`auth/token_check`);
-  };
   return (
     <>
       <PrimaryLayout>
@@ -40,10 +29,7 @@ export default function Home() {
               <Button onClick={requestPasswordResetLink}>
                 Request Password Reset email
               </Button>
-              <Button onClick={checkRefreshToken}>Check Refresh Token</Button>
-              <Button onClick={checkToken}>Check Token</Button>
-              <ChargeBeeCheckoutButton />
-              <ChargeBeePortalButton />
+              <ChargebeeButton />
             </Flex>
           </FullWidth>
         </AuthGuard>

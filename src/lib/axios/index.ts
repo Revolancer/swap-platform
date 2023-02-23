@@ -20,12 +20,12 @@ axiosPrivate.interceptors.request.use(
         user?.refreshToken
       );
       if (decodedRefreshToken.exp * 1000 < currentDate.getTime()) {
-        store.dispatch(logout());
+        store?.dispatch(logout());
         return config;
       }
       const decodedToken: { exp: number } = jwt_decode(user?.accessToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
-        await store.dispatch(refreshToken());
+        await store?.dispatch(refreshToken());
       }
       if (config?.headers) {
         config.headers["Authorization"] = `Bearer ${

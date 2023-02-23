@@ -1,9 +1,11 @@
 import { axiosPrivate } from "@/lib/axios";
+import { refreshToken } from "@/lib/user/auth";
+import store, { useAppSelector } from "@/redux/store";
 import Script from "next/script";
 import { useState } from "react";
 import { Button } from "../navigation/button";
 
-export const ChargeBeePortalButton = () => {
+const ChargeBeePortalButton = () => {
   const [cbInstance, setCbInstance] = useState(null);
 
   const initChargeBee = () => {
@@ -26,7 +28,11 @@ export const ChargeBeePortalButton = () => {
           console.log(response.data);
           return response.data;
         });
-        (cbInstance as any).createChargebeePortal().open();
+        (cbInstance as any).createChargebeePortal().open({
+          close: async () => {
+            await store?.dispatch(refreshToken());
+          },
+        });
       }
     }
   };
@@ -42,7 +48,7 @@ export const ChargeBeePortalButton = () => {
   );
 };
 
-export const ChargeBeeCheckoutButton = () => {
+const ChargeBeeCheckoutButton = () => {
   const [cbInstance, setCbInstance] = useState(null);
 
   const initChargeBee = () => {
@@ -68,8 +74,8 @@ export const ChargeBeeCheckoutButton = () => {
             console.log(response.data);
             return response.data;
           },
-          success: () => {
-            //TODO: update state
+          success: async () => {
+            await store?.dispatch(refreshToken());
           },
         });
       }
@@ -82,7 +88,14 @@ export const ChargeBeeCheckoutButton = () => {
         src="https://js.chargebee.com/v2/chargebee.js"
         onLoad={initChargeBee}
       />
-      <Button onClick={openChargeBeeCheckout}>New Subscription</Button>
+      <Button onClick={openChargeBeeCheckout}>Manage Subscription</Button>
     </>
   );
+};
+
+export const ChargebeeButton = () => {
+  const license = useAppSelector((state) => state.userData.user?.license);
+  if (!license) return <ChargeBeeCheckoutButton />;
+  if (license.type == "paid") return <ChargeBeePortalButton />;
+  return <ChargeBeeCheckoutButton />;
 };
