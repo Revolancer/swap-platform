@@ -1,0 +1,7 @@
+.env*
+.vscode
+.devcontainer
+.github
+.next
+node_modules
+npm-debug.log
