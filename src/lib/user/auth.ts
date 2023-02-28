@@ -54,11 +54,7 @@ export const refreshToken = createAsyncThunk(
       },
     });
 
-    const newUser = {
-      ...state.userData.user,
-      accessToken: res.data.accessToken,
-      refreshToken: res.data.refreshToken,
-    };
+    const newUser = res.data;
 
     return newUser;
   }
