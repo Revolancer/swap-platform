@@ -132,3 +132,25 @@ export const LoginLayout = ({ children }: { children?: any }) => {
     </>
   );
 };
+
+/**
+ * Layout for onboarding
+ */
+export const OnboardingLayout = ({ children }: { children?: any }) => {
+  return (
+    <>
+      <LoginHeader>
+        <ColumnLayout undecorated css={{ height: "100%" }}>
+          <FullWidth css={{ height: "100%" }}>
+            <Flex css={{ height: "100%", alignItems: "center" }}>
+              <Logo expanded />
+            </Flex>
+          </FullWidth>
+        </ColumnLayout>
+      </LoginHeader>
+      <ColumnLayout undecorated css={{ paddingBlock: "$7" }}>
+        <AuthGuard>{children}</AuthGuard>
+      </ColumnLayout>
+    </>
+  );
+};

@@ -3,13 +3,15 @@ import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { Button } from "@/components/navigation/button";
-import { AuthGuard } from "@/components/navigation/guards/authguard";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { useAppSelector } from "@/redux/store";
-import Head from "next/head";
+import store, { useAppDispatch, useAppSelector } from "@/redux/store";
+import { refreshToken } from "@/lib/user/auth";
+import { H1 } from "@/components/text/headings";
+import { Title } from "@/components/head/title";
 
 export default function Home() {
   const token = useAppSelector((state) => state.userData.user?.refreshToken);
+  const dispatch = useAppDispatch();
   const requestVerification = () => {
     axiosPrivate.get("mail/request_verification");
   };
@@ -18,11 +20,12 @@ export default function Home() {
       email: "skye@blueskye.co.uk",
     });
   };
+  const refreshTheToken = () => {
+    store?.dispatch(refreshToken());
+  };
   return (
     <>
-      <Head>
-        <title>Discover - Revolancer Beta</title>
-      </Head>
+      <Title>Discover</Title>
       <PrimaryLayout>
         <FullWidth>
           <Flex column gap="3">
@@ -32,20 +35,11 @@ export default function Home() {
             <Button onClick={requestPasswordResetLink}>
               Request Password Reset email
             </Button>
+            <Button onClick={refreshTheToken}>Refresh Token</Button>
             <ChargebeeButton />
           </Flex>
         </FullWidth>
-        <FullWidth>
-          <Flex column gap="3">
-            <Button onClick={requestVerification}>
-              Request Verification email
-            </Button>
-            <Button onClick={requestPasswordResetLink}>
-              Request Password Reset email
-            </Button>
-            <ChargebeeButton />
-          </Flex>
-        </FullWidth>
+        <H1>Heading</H1>
       </PrimaryLayout>
     </>
   );

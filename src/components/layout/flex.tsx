@@ -65,4 +65,7 @@ export const Flex = styled("div", {
       },
     },
   },
+  defaultVariants: {
+    gap: 3,
+  },
 });

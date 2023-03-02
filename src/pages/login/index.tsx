@@ -5,6 +5,7 @@ import {
   InputOuter,
   PasswordReveal,
 } from "@/components/forms/input";
+import { Title } from "@/components/head/title";
 import { Card } from "@/components/layout/cards";
 import { Flex } from "@/components/layout/flex";
 import { LoginLayout } from "@/components/layout/layouts";
@@ -18,7 +19,6 @@ import { P } from "@/components/text/text";
 import { login, updatePassword, updateEmail } from "@/lib/user/auth";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
-import Head from "next/head";
 import { useCallback, useState } from "react";
 
 export default function Register() {
@@ -43,9 +43,7 @@ export default function Register() {
 
   return (
     <>
-      <Head>
-        <title>Log in - Revolancer Beta</title>
-      </Head>
+      <Title>Log in</Title>
       <LoginLayout>
         <Card
           css={{

@@ -1,3 +1,4 @@
+import { ChakraProvider } from "@chakra-ui/react";
 import { Html, Head, Main, NextScript } from "next/document";
 import { getCssText, globalStyles } from "stitches.config";
 
@@ -12,8 +13,10 @@ export default function Document() {
         />
       </Head>
       <body>
-        <Main />
-        <NextScript />
+        <ChakraProvider>
+          <Main />
+          <NextScript />
+        </ChakraProvider>
       </body>
     </Html>
   );

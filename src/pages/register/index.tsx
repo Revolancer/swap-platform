@@ -7,6 +7,7 @@ import {
   PasswordReveal,
 } from "@/components/forms/input";
 import { Turnstile } from "@/components/forms/turnstile";
+import { Title } from "@/components/head/title";
 import { Card } from "@/components/layout/cards";
 import { Flex } from "@/components/layout/flex";
 import { LoginLayout } from "@/components/layout/layouts";
@@ -19,10 +20,9 @@ import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
 import { axiosPublic } from "@/lib/axios";
 import { login, updateEmail, updatePassword } from "@/lib/user/auth";
-import { Yup } from "@/lib/yup/yup";
+import { Yup } from "@/lib/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
-import Head from "next/head";
 import { useCallback, useState } from "react";
 
 const RegistrationSchema = Yup.object().shape({
@@ -53,9 +53,7 @@ export default function Register() {
 
   return (
     <>
-      <Head>
-        <title>Register - Revolancer Beta</title>
-      </Head>
+      <Title>Register</Title>
       <LoginLayout>
         <Card
           css={{
