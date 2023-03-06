@@ -34,7 +34,7 @@
     "react-interactive": "^1.1.2",
     "react-redux": "^8.0.5",
     "typescript": "4.9.5",
-    "yup": "^1.0.0",
+    "yup": "^1.0.2",
     "yup-password": "^0.2.2"
   }
 }
