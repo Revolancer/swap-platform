@@ -14,7 +14,7 @@ import { Form } from "@/components/forms/form";
 import { Feedback } from "@/components/forms/feedback";
 import { DateTime } from "luxon";
 import { InputInner, InputOuter } from "@/components/forms/input";
-import { Button } from "@/components/navigation/button";
+import { Button, TertiaryButton } from "@/components/navigation/button";
 import { useEffect, useMemo, useRef } from "react";
 import debounce from "lodash.debounce";
 
@@ -136,10 +136,7 @@ export default function GetStarted() {
                     .catch((reason) => {
                       //TODO - error handling
                       if (reason.code == "ERR_NETWORK") {
-                        actions.setFieldError(
-                          "marketingthirdparty",
-                          "err_network"
-                        );
+                        actions.setFieldError("userName", "err_network");
                       } else {
                         const statuscode = Number(reason?.response?.status);
                         switch (statuscode) {
@@ -264,10 +261,27 @@ export default function GetStarted() {
                             )}
                           </Field>
                         </InputOuter>
-                        {props.touched.userName && props.errors.userName && (
+                        {props.errors.userName == "err_network" ? (
                           <Feedback state="error">
-                            {props.errors.userName}
+                            Looks like the site is experiencing heavy traffic
+                            right now. Please try again, or if the issue
+                            continues, check our
+                            <TertiaryButton
+                              href="https://status.revolancer.com/"
+                              rel="nofollow"
+                              target="_blank"
+                            >
+                              status page
+                            </TertiaryButton>{" "}
+                            for updates.
                           </Feedback>
+                        ) : (
+                          props.touched.userName &&
+                          props.errors.userName && (
+                            <Feedback state="error">
+                              {props.errors.userName}
+                            </Feedback>
+                          )
                         )}
                       </Flex>
                       <Flex css={{ flexDirection: "row-reverse" }}>
