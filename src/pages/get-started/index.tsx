@@ -119,7 +119,7 @@ export default function GetStarted() {
                 initialValues={{
                   firstName: "",
                   lastName: "",
-                  dateOfBirth: new Date().toISOString().split("T")[0],
+                  dateOfBirth: "",
                   userName: "",
                 }}
                 validationSchema={OnboardingSchema}
@@ -252,7 +252,7 @@ export default function GetStarted() {
                                 type="text"
                                 name="userName"
                                 id="userName"
-                                placeholder="Username"
+                                placeholder="username"
                                 aria-label="Username"
                                 onChange={form.handleChange}
                                 onBlur={form.handleBlur}

@@ -17,6 +17,7 @@
     "@marsidev/react-turnstile": "^0.0.7",
     "@next/font": "13.2.1",
     "@radix-ui/react-checkbox": "1.0.1",
+    "@radix-ui/react-slider": "^1.1.0",
     "@reduxjs/toolkit": "^1.9.3",
     "@stitches/react": "^1.2.8",
     "@types/node": "18.14.2",
