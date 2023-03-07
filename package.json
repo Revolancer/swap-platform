@@ -28,14 +28,21 @@
     "eslint-config-next": "13.2.1",
     "formik": "^2.2.9",
     "jwt-decode": "^3.1.2",
+    "lodash.debounce": "^4.0.8",
     "luxon": "^3.2.1",
     "next": "13.1.6",
     "react": "18.2.0",
+    "react-datepicker": "^4.10.0",
     "react-dom": "18.2.0",
     "react-interactive": "^1.1.2",
     "react-redux": "^8.0.5",
     "typescript": "4.9.5",
     "yup": "^1.0.0",
     "yup-password": "^0.2.2"
+  },
+  "devDependencies": {
+    "@types/lodash.debounce": "^4.0.7",
+    "@types/luxon": "^3.2.0",
+    "@types/react-datepicker": "^4.10.0"
   }
 }
