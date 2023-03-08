@@ -19,7 +19,8 @@ import {
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
 import { axiosPublic } from "@/lib/axios";
-import { login, updateEmail, updatePassword } from "@/lib/user/auth";
+import { AppState } from "@/lib/types";
+import { afterRegister, updateEmail, updatePassword } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
@@ -45,7 +46,10 @@ export default function Register() {
 
   const dispatch = useAppDispatch();
   const authed = useAppSelector((state) => state.userData.user != null);
-  const handleLogin = useCallback(() => dispatch(login()), [dispatch]);
+  const handleLogin = useCallback(
+    (payload: AppState["user"]) => dispatch(afterRegister(payload)),
+    [dispatch]
+  );
 
   if (authed) {
     window.location.href = "/";
@@ -85,7 +89,7 @@ export default function Register() {
               await axiosPublic
                 .post("auth/register", data)
                 .then((response) => {
-                  handleLogin();
+                  handleLogin(response.data);
                 })
                 .catch((reason) => {
                   if (reason.code == "ERR_NETWORK") {

@@ -64,6 +64,12 @@ export const userSlice = createSlice({
   name: "user",
   initialState,
   reducers: {
+    afterRegister(state, action: PayloadAction<AppState["user"]>) {
+      if (typeof window !== "undefined") {
+        window?.localStorage.setItem("user", JSON.stringify(action.payload));
+      }
+      state.user = action.payload;
+    },
     updateEmail(state, action: PayloadAction<AppState["email"]>) {
       state.email = action.payload;
     },
@@ -114,4 +120,5 @@ export const userSlice = createSlice({
   },
 });
 
-export const { updateEmail, updatePassword, logout } = userSlice.actions;
+export const { updateEmail, updatePassword, logout, afterRegister } =
+  userSlice.actions;
