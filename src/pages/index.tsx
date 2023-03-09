@@ -1,17 +1,15 @@
-import { ChargebeeButton } from "@/components/chargebee/chargebee";
+import { ChargeBeePortalButton } from "@/components/chargebee/chargebee";
 import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { Button } from "@/components/navigation/button";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import store, { useAppDispatch, useAppSelector } from "@/redux/store";
+import store from "@/redux/store";
 import { refreshToken } from "@/lib/user/auth";
 import { H1 } from "@/components/text/headings";
 import { Title } from "@/components/head/title";
 
 export default function Home() {
-  const token = useAppSelector((state) => state.userData.user?.refreshToken);
-  const dispatch = useAppDispatch();
   const requestVerification = () => {
     axiosPrivate.get("mail/request_verification");
   };
@@ -36,7 +34,7 @@ export default function Home() {
               Request Password Reset email
             </Button>
             <Button onClick={refreshTheToken}>Refresh Token</Button>
-            <ChargebeeButton />
+            <ChargeBeePortalButton />
           </Flex>
         </FullWidth>
         <H1>Heading</H1>
