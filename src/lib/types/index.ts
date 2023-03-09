@@ -8,7 +8,7 @@ export interface AppState {
       active: boolean;
       expires: number;
       type: string;
-      source: string;
+      card_status: string;
     };
   } | null;
   email: string;

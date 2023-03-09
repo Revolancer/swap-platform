@@ -3,6 +3,7 @@ import { ReactNode } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, styled } from "stitches.config";
 import { Logo } from "../branding/logo";
+import { TrialNagBar } from "../chargebee/nagbar";
 import { CrumbBar } from "../navigation/crumbs/crumbbar";
 import { AuthGuard } from "../navigation/guards/authguard";
 import { MainNav } from "../navigation/main/main-nav";
@@ -95,6 +96,7 @@ export const PrimaryLayout = ({
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
+          <TrialNagBar />
           <CrumbBar />
           <ColumnLayout>{inner}</ColumnLayout>
         </MainGridInner>
