@@ -288,7 +288,6 @@ export default function GetStarted() {
                         <Button
                           onClick={() => {
                             props.submitForm();
-                            console.log(props);
                           }}
                           disabled={props.isSubmitting}
                         >

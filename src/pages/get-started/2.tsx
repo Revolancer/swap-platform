@@ -8,11 +8,13 @@ import { Div } from "@/components/layout/utils";
 import { Progress } from "@/components/forms/progress";
 import { Yup } from "@/lib/yup";
 import "react-datepicker/dist/react-datepicker.css";
-import { Formik } from "formik";
+import { Field, Formik } from "formik";
 import { axiosPrivate } from "@/lib/axios";
 import { Form } from "@/components/forms/form";
 import { Feedback } from "@/components/forms/feedback";
-import { Slider } from "@/components/forms/input";
+import { InputInner, InputOuter, Slider } from "@/components/forms/input";
+import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
+import { Button } from "@/components/navigation/button";
 
 const OnboardingSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
@@ -75,7 +77,7 @@ export default function GetStarted() {
               <Formik
                 initialValues={{
                   experience: 0,
-                  currency: "",
+                  currency: undefined,
                   hourlyRate: "",
                 }}
                 validationSchema={OnboardingSchema}
@@ -115,7 +117,7 @@ export default function GetStarted() {
                           How many years of experience do you have in your field
                           of work?
                         </span>
-                        <Slider max={10} />
+                        <Slider name="experience" max={10} />
                         <Flex
                           css={{
                             justifyContent: "space-between",
@@ -132,6 +134,70 @@ export default function GetStarted() {
                               {props.errors.experience}
                             </Feedback>
                           )}
+                      </Flex>
+                      <Flex column>
+                        <H5>Hourly Rate</H5>
+                        <span>
+                          How much do you typically charge per hour for your
+                          services?
+                        </span>
+                        <Div
+                          css={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr 3fr",
+                            gap: "$4",
+                          }}
+                        >
+                          <Select name="currency" placeholder="Currency">
+                            <SelectGroup>
+                              <SelectItem value="gbp">GBP £</SelectItem>
+                              <SelectItem value="usd">USD $</SelectItem>
+                              <SelectItem value="eur">EUR €</SelectItem>
+                            </SelectGroup>
+                          </Select>
+                          <InputOuter
+                            error={
+                              props.touched.hourlyRate &&
+                              !!props.errors.hourlyRate
+                            }
+                          >
+                            <InputInner
+                              type="text"
+                              name="hourlyRate"
+                              id="hourlyRate"
+                              placeholder="50"
+                              aria-label="Hourly Rate"
+                              onChange={props.handleChange}
+                              onBlur={props.handleBlur}
+                              value={props.values.hourlyRate}
+                            ></InputInner>
+                          </InputOuter>
+                        </Div>
+                        {props.touched.currency && props.errors.currency && (
+                          <Feedback state="error">
+                            {props.errors.currency}
+                          </Feedback>
+                        )}
+                        {props.touched.hourlyRate &&
+                          props.errors.hourlyRate && (
+                            <Feedback state="error">
+                              {props.errors.hourlyRate}
+                            </Feedback>
+                          )}
+                      </Flex>
+                      <Feedback state="feedback">
+                        We will never disclose this information - we use it to
+                        help you when pricing your services
+                      </Feedback>
+                      <Flex css={{ flexDirection: "row-reverse" }}>
+                        <Button
+                          onClick={() => {
+                            props.submitForm();
+                          }}
+                          disabled={props.isSubmitting}
+                        >
+                          Next
+                        </Button>
                       </Flex>
                     </Form>
                   );

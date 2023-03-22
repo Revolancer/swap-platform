@@ -2,7 +2,7 @@ import { darkTheme, styled } from "stitches.config";
 import * as RadixCheckbox from "@radix-ui/react-checkbox";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck, faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
-import { useFormikContext } from "formik";
+import { Field, FieldProps, useFormikContext } from "formik";
 import { Interactive } from "react-interactive";
 import { MouseEventHandler } from "react";
 import * as RadixSlider from "@radix-ui/react-slider";
@@ -51,27 +51,33 @@ export const SliderThumb = styled(RadixSlider.Thumb, {
 });
 
 export const Slider = ({
-  thumbs = 1,
   step = 1,
   min = 0,
   max = 100,
   name = "",
 }: {
-  thumbs?: number;
   step?: number;
   min?: number;
   max?: number;
   name?: string;
 }) => {
   return (
-    <SliderRoot name={name} min={min} max={max} step={step}>
-      <SliderTrack>
-        <SliderRange />
-      </SliderTrack>
-      {[...Array(thumbs)].map((_, i) => {
-        return <SliderThumb key={i} />;
-      })}
-    </SliderRoot>
+    <Field name={name} id={`slider-${name}`} type="number">
+      {({ field: { value }, form: { setFieldValue } }: FieldProps) => (
+        <SliderRoot
+          value={[value]}
+          min={min}
+          max={max}
+          step={step}
+          onValueChange={(val) => setFieldValue(name, val[0])}
+        >
+          <SliderTrack>
+            <SliderRange />
+          </SliderTrack>
+          <SliderThumb />
+        </SliderRoot>
+      )}
+    </Field>
   );
 };
 
