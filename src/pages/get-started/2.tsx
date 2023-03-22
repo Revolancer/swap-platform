@@ -8,7 +8,7 @@ import { Div } from "@/components/layout/utils";
 import { Progress } from "@/components/forms/progress";
 import { Yup } from "@/lib/yup";
 import "react-datepicker/dist/react-datepicker.css";
-import { Field, Formik } from "formik";
+import { Formik } from "formik";
 import { axiosPrivate } from "@/lib/axios";
 import { Form } from "@/components/forms/form";
 import { Feedback } from "@/components/forms/feedback";
