@@ -112,7 +112,7 @@ export default function GetStarted() {
               />
             </Div>
             <Flex column css={{ flexGrow: "1" }}>
-              <Progress />
+              <Progress progress={10} />
               <H4>Personal information</H4>
               <Formik
                 innerRef={formik}
