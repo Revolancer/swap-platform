@@ -81,3 +81,11 @@ export const ColumnLayout = styled("div", {
     },
   },
 });
+
+export const TwoCols = styled("div", {
+  display: "grid",
+  gridTemplateColumns: "1fr",
+  "@sm": {
+    gridTemplateColumns: "1fr 1fr",
+  },
+});
