@@ -14,7 +14,7 @@ import { Form } from "@/components/forms/form";
 import { Feedback } from "@/components/forms/feedback";
 import { InputInner, InputOuter, Slider } from "@/components/forms/input";
 import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
-import { Button } from "@/components/navigation/button";
+import { Button, TertiaryButton } from "@/components/navigation/button";
 
 const OnboardingSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
@@ -72,7 +72,7 @@ export default function GetStarted() {
               />
             </Div>
             <Flex column css={{ flexGrow: "1" }}>
-              <Progress progress={33} />
+              <Progress progress={40} />
               <H4>Professional information</H4>
               <Formik
                 initialValues={{
@@ -91,10 +91,7 @@ export default function GetStarted() {
                     .catch((reason) => {
                       //TODO - error handling
                       if (reason.code == "ERR_NETWORK") {
-                        actions.setFieldError(
-                          "marketingthirdparty",
-                          "err_network"
-                        );
+                        actions.setFieldError("hourlyrate", "err_network");
                       } else {
                         const statuscode = Number(reason?.response?.status);
                         switch (statuscode) {
@@ -178,12 +175,28 @@ export default function GetStarted() {
                             {props.errors.currency}
                           </Feedback>
                         )}
-                        {props.touched.hourlyRate &&
+                        {props.errors.hourlyRate == "err_network" ? (
+                          <Feedback state="error">
+                            Looks like the site is experiencing heavy traffic
+                            right now. Please try again, or if the issue
+                            continues, check our
+                            <TertiaryButton
+                              href="https://status.revolancer.com/"
+                              rel="nofollow"
+                              target="_blank"
+                            >
+                              status page
+                            </TertiaryButton>{" "}
+                            for updates.
+                          </Feedback>
+                        ) : (
+                          props.touched.hourlyRate &&
                           props.errors.hourlyRate && (
                             <Feedback state="error">
                               {props.errors.hourlyRate}
                             </Feedback>
-                          )}
+                          )
+                        )}
                       </Flex>
                       <Feedback state="feedback">
                         We will never disclose this information - we use it to
