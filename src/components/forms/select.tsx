@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import * as RadixSelect from "@radix-ui/react-select";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { darkTheme, styled } from "stitches.config";
@@ -8,6 +8,9 @@ import {
   faChevronUp,
 } from "@fortawesome/free-solid-svg-icons";
 import { Field, FieldProps } from "formik";
+import { DateTime } from "luxon";
+import { Feedback } from "./feedback";
+import { getCodeList as getCountryNames } from "country-list";
 
 const Select = ({
   name,
@@ -20,29 +23,37 @@ const Select = ({
 }) => {
   return (
     <Field name={name} id={`select-${name}`}>
-      {({ field: { value }, form: { setFieldValue } }: FieldProps) => (
-        <SelectRoot
-          onValueChange={(val) => setFieldValue(name, val)}
-          value={value}
-        >
-          <SelectTrigger aria-label="Food">
-            <RadixSelect.Value placeholder={placeholder} />
-            <SelectIcon>
-              <FontAwesomeIcon icon={faChevronDown} />
-            </SelectIcon>
-          </SelectTrigger>
-          <RadixSelect.Portal>
-            <SelectContent>
-              <SelectScrollUpButton>
-                <FontAwesomeIcon icon={faChevronUp} />
-              </SelectScrollUpButton>
-              <SelectViewport>{children}</SelectViewport>
-              <SelectScrollDownButton>
+      {({
+        field: { value },
+        form: { setFieldValue, errors, touched },
+      }: FieldProps) => (
+        <>
+          <SelectRoot
+            onValueChange={(val) => setFieldValue(name, val)}
+            value={value}
+          >
+            <SelectTrigger error={touched[name] && !!errors[name]}>
+              <RadixSelect.Value placeholder={placeholder} />
+              <SelectIcon>
                 <FontAwesomeIcon icon={faChevronDown} />
-              </SelectScrollDownButton>
-            </SelectContent>
-          </RadixSelect.Portal>
-        </SelectRoot>
+              </SelectIcon>
+            </SelectTrigger>
+            <RadixSelect.Portal>
+              <SelectContent>
+                <SelectScrollUpButton>
+                  <FontAwesomeIcon icon={faChevronUp} />
+                </SelectScrollUpButton>
+                <SelectViewport>{children}</SelectViewport>
+                <SelectScrollDownButton>
+                  <FontAwesomeIcon icon={faChevronDown} />
+                </SelectScrollDownButton>
+              </SelectContent>
+            </RadixSelect.Portal>
+          </SelectRoot>
+          {touched[name] && errors[name] && (
+            <Feedback state="error">{errors[name]}</Feedback>
+          )}
+        </>
       )}
     </Field>
   );
@@ -56,7 +67,7 @@ const SelectTrigger = styled(RadixSelect.SelectTrigger, {
   all: "unset",
   display: "inline-flex",
   alignItems: "center",
-  justifyContent: "center",
+  justifyContent: "space-between",
   paddingBlock: "$3",
   paddingInline: "$5",
   fontSize: "$body2",
@@ -79,6 +90,27 @@ const SelectTrigger = styled(RadixSelect.SelectTrigger, {
     backgroundColor: "$neutral800",
     "&:hover": { backgroundColor: "$neutral700" },
     "&[data-placeholder]": { color: "$neutral200" },
+  },
+
+  variants: {
+    error: {
+      true: {
+        borderColor: "$red500",
+        borderWidth: "$2",
+        [`.${darkTheme} &`]: {
+          borderColor: "$red500",
+        },
+      },
+    },
+    warning: {
+      true: {
+        borderColor: "$orange500",
+        borderWidth: "$2",
+        [`.${darkTheme} &`]: {
+          borderColor: "$orange500",
+        },
+      },
+    },
   },
 });
 
@@ -203,4 +235,49 @@ const SelectScrollDownButton = styled(
 
 const SelectGroup = RadixSelect.Group;
 
-export { SelectItem, SelectGroup, SelectSeparator, SelectLabel, Select };
+const TzSelect = ({ name }: { name: string }) => {
+  const [timezones, setTimezones] = useState([]);
+  useEffect(() => {
+    setTimezones(
+      (Intl as any)
+        .supportedValuesOf("timeZone")
+        .filter((tz: string) => DateTime.local().setZone(tz).isValid)
+    );
+  }, []);
+  return (
+    <Select name={name} placeholder="Timezone">
+      {timezones.map((tz) => {
+        return (
+          <SelectItem value={tz} key={tz}>
+            {tz}
+          </SelectItem>
+        );
+      })}
+    </Select>
+  );
+};
+
+const CountrySelect = ({ name }: { name: string }) => {
+  const countries = getCountryNames();
+  return (
+    <Select name={name} placeholder="Country">
+      {Object.keys(countries).map((code) => {
+        return (
+          <SelectItem value={code} key={code}>
+            {countries[code]}
+          </SelectItem>
+        );
+      })}
+    </Select>
+  );
+};
+
+export {
+  SelectItem,
+  SelectGroup,
+  SelectSeparator,
+  SelectLabel,
+  Select,
+  TzSelect,
+  CountrySelect,
+};

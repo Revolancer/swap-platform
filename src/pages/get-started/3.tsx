@@ -11,29 +11,24 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Formik } from "formik";
 import { axiosPrivate } from "@/lib/axios";
 import { Form } from "@/components/forms/form";
-import { Feedback } from "@/components/forms/feedback";
-import { InputInner, InputOuter, Slider } from "@/components/forms/input";
-import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
+import { CountrySelect, TzSelect } from "@/components/forms/select";
 import { Button } from "@/components/navigation/button";
 import { TwoCols } from "@/components/layout/columns";
 import { TagField } from "@/components/forms/taginput";
+import { UploadField } from "@/components/forms/upload";
 
 const OnboardingSchema = Yup.object().shape({
-  experience: Yup.number().min(0).max(10),
-  currency: Yup.string()
-    .required("Please provide your currency")
-    .oneOf(
-      ["gbp", "eur", "usd"],
-      "Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR"
-    )
+  country: Yup.string()
+    .required("Please select a country")
+    .min(1, "Please select a country")
     .ensure(),
-  hourlyRate: Yup.number()
-    .required("Please provide your hourly rate")
-    .min(5, "We recommend charging more")
-    .max(
-      10000,
-      "Your hourly rate is extremely high, we recommend a lower rate"
-    ),
+  timezone: Yup.string()
+    .required("Please select a timezone")
+    .min(1, "Please select a timezone")
+    .ensure(),
+  profileImage: Yup.string()
+    .required("Please provide a profile picture. Maximum upload size is 40MB")
+    .min(1, "Please provide a profile picture. Maximum upload size is 40MB"),
 });
 
 export default function GetStarted() {
@@ -78,9 +73,9 @@ export default function GetStarted() {
               <H4>Your Profile</H4>
               <Formik
                 initialValues={{
-                  experience: 0,
-                  currency: undefined,
-                  hourlyRate: "",
+                  country: undefined,
+                  timezone: undefined,
+                  profileImage: "",
                 }}
                 validationSchema={OnboardingSchema}
                 onSubmit={async (values, actions) => {
@@ -115,6 +110,7 @@ export default function GetStarted() {
                     <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
                       <Flex column>
                         <H5>Profile Picture</H5>
+                        <UploadField name="profileImage" />
                       </Flex>
                       <Flex column>
                         <H5>Skills &amp; Tools</H5>
@@ -127,9 +123,11 @@ export default function GetStarted() {
                       <TwoCols>
                         <Flex column>
                           <H5>Location</H5>
+                          <CountrySelect name="country" />
                         </Flex>
                         <Flex column>
                           <H5>Timezone</H5>
+                          <TzSelect name="timezone" />
                         </Flex>
                       </TwoCols>
                       <Flex css={{ flexDirection: "row-reverse" }}>

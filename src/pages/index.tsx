@@ -13,6 +13,9 @@ export default function Home() {
   const requestVerification = () => {
     axiosPrivate.get("mail/request_verification");
   };
+  const requestSignedUrl = () => {
+    axiosPrivate.get("upload/url/image.png");
+  };
   const requestPasswordResetLink = () => {
     axiosPublic.post("auth/request_reset_password", {
       email: "skye@blueskye.co.uk",
@@ -33,6 +36,7 @@ export default function Home() {
             <Button onClick={requestPasswordResetLink}>
               Request Password Reset email
             </Button>
+            <Button onClick={requestSignedUrl}>Get Signed Url</Button>
             <Button onClick={refreshTheToken}>Refresh Token</Button>
             <ChargeBeePortalButton />
           </Flex>

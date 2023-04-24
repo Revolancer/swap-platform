@@ -60,7 +60,6 @@ const validateUsernameAsync = async (username: string) => {
   const result = await axiosPrivate.post("user/username_available", {
     userName: username,
   });
-  console.log(result.data);
   if (result?.data !== true) return "This username is not available";
 };
 
@@ -71,7 +70,6 @@ export default function GetStarted() {
     [formik]
   );
   useEffect(() => {
-    console.log("calling deboucedValidate");
     debouncedValidate();
   }, [formik.current?.values, debouncedValidate]);
 
@@ -126,7 +124,6 @@ export default function GetStarted() {
                 validateOnChange={false}
                 validateOnMount={true}
                 onSubmit={async (values, actions) => {
-                  console.log("submitting");
                   actions.setSubmitting(true);
                   await axiosPrivate
                     .post("user/onboarding/1", values)

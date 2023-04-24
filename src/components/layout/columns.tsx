@@ -85,6 +85,7 @@ export const ColumnLayout = styled("div", {
 export const TwoCols = styled("div", {
   display: "grid",
   gridTemplateColumns: "1fr",
+  gap: "$6",
   "@sm": {
     gridTemplateColumns: "1fr 1fr",
   },
