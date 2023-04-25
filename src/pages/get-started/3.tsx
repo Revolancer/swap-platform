@@ -29,6 +29,16 @@ const OnboardingSchema = Yup.object().shape({
   profileImage: Yup.string()
     .required("Please provide a profile picture. Maximum upload size is 40MB")
     .min(1, "Please provide a profile picture. Maximum upload size is 40MB"),
+  skills: Yup.array()
+    .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
+    .required(
+      "Please select some skills and tools to let us know what you're good at"
+    )
+    .min(3, "Please select at least three skills or tools")
+    .max(
+      20,
+      "Whoa there! That's a lot of skills! We want to know what you're best at, so please only provide 20 tags."
+    ),
 });
 
 export default function GetStarted() {
@@ -83,7 +93,7 @@ export default function GetStarted() {
                   await axiosPrivate
                     .post("user/onboarding/3", values)
                     .then((response) => {
-                      window.location.href = "/";
+                      window.location.href = "/profile";
                     })
                     .catch((reason) => {
                       //TODO - error handling
@@ -110,7 +120,7 @@ export default function GetStarted() {
                     <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
                       <Flex column>
                         <H5>Profile Picture</H5>
-                        <UploadField name="profileImage" />
+                        <UploadField name="profileImage" type="image" />
                       </Flex>
                       <Flex column>
                         <H5>Skills &amp; Tools</H5>
@@ -120,16 +130,10 @@ export default function GetStarted() {
                         </span>
                         <TagField name="skills" />
                       </Flex>
-                      <TwoCols>
-                        <Flex column>
-                          <H5>Location</H5>
-                          <CountrySelect name="country" />
-                        </Flex>
-                        <Flex column>
-                          <H5>Timezone</H5>
-                          <TzSelect name="timezone" />
-                        </Flex>
-                      </TwoCols>
+                      <Flex column>
+                        <H5>Timezone</H5>
+                        <TzSelect name="timezone" />
+                      </Flex>
                       <Flex css={{ flexDirection: "row-reverse" }}>
                         <Button
                           onClick={() => {

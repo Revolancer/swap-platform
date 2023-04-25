@@ -5,15 +5,16 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { axiosPrivate } from "@/lib/axios";
 import axios from "axios";
 import { Button } from "../navigation/button";
-import { Div } from "../layout/utils";
 import { Flex } from "../layout/flex";
 
 const UploadField = ({
   name,
   placeholder,
+  type = "any",
 }: {
   name: string;
   placeholder?: string;
+  type?: "any" | "image";
 }) => {
   const [fileName, setFileName] = useState(placeholder ?? "Upload File");
   const [uploading, setUploading] = useState(false);
@@ -30,10 +31,30 @@ const UploadField = ({
           setFieldTouched,
         },
       }: FieldProps) => {
+        const isImage = (file: File) => {
+          const validTypes = ["image/gif", "image/jpeg", "image/png"];
+          const validExtensions = ["gif", "jpg", "jpeg", "png"];
+          const extStart = file.name.lastIndexOf(".");
+          const extension = file.name.substring(extStart + 1);
+          return (
+            validTypes.includes(file.type) &&
+            validExtensions.includes(extension)
+          );
+        };
+
         const uploadFile = async (file: File) => {
           setFieldError(name, undefined);
           setFileName(file.name);
           const options = { headers: { "Content-Type": file.type } };
+          if (type == "image" && !isImage(file)) {
+            setFieldError(
+              name,
+              "Please provide a valid image. Supported types are jpg, gif, and png."
+            );
+            setFieldTouched(name, true, false);
+            setFieldValue(name, "", false);
+            return;
+          }
           if (file.size > 40000000) {
             //40MB max upload size
             setFieldError(name, "Maximum file size is 40MB");

@@ -39,9 +39,14 @@ export const TagField = ({
         field: { value },
         form: { setFieldValue, errors, touched },
       }: FieldProps) => {
-        const handleDelete = (i: number) => {
-          setTags(tags.filter((tag, index) => index !== i));
+        const updateTags = (tags: Tag[]) => {
+          setTags(tags);
           setFieldValue(name, tags);
+          console.log(tags);
+        };
+
+        const handleDelete = (i: number) => {
+          updateTags(tags.filter((tag, index) => index !== i));
         };
 
         const handleAddition = (tag: Tag) => {
@@ -51,8 +56,7 @@ export const TagField = ({
           //No custom tags
           if (!suggestions.includes(tag)) return;
 
-          setTags([...tags, tag]);
-          setFieldValue(name, tags);
+          updateTags([...tags, tag]);
         };
 
         const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
@@ -62,7 +66,7 @@ export const TagField = ({
           newTags.splice(newPos, 0, tag);
 
           // re-render
-          setTags(newTags);
+          updateTags(newTags);
         };
         return (
           <>

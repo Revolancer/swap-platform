@@ -4,12 +4,7 @@ export interface AppState {
     refreshToken: string;
     email: string;
     roles: string[];
-    license: {
-      active: boolean;
-      expires: number;
-      type: string;
-      card_status: string;
-    };
+    onboardingComplete: boolean;
   } | null;
   email: string;
   password: string;
