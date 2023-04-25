@@ -1,4 +1,4 @@
-import { ChargebeeButton } from "@/components/chargebee/chargebee";
+import { ChargeBeePortalButton } from "@/components/chargebee/chargebee";
 import { FullWidth } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
@@ -24,7 +24,7 @@ export default function Settings() {
                   method please click the button below
                 </P>
               </Flex>
-              <ChargebeeButton />
+              <ChargeBeePortalButton />
             </Flex>
           </Flex>
         </FullWidth>
