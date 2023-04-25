@@ -6,6 +6,7 @@ import { Link } from "../navigation/button";
 import { P } from "../text/text";
 
 export const TrialNagBar = () => {
+  /*
   const [didMount, setDidMount] = useState(false);
   const license = useAppSelector((state) => state.userData.user?.license);
   useEffect(() => {
@@ -44,5 +45,6 @@ export const TrialNagBar = () => {
       </NagBar>
     );
   }
+  */
   return <></>;
 };
