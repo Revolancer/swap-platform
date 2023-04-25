@@ -11,6 +11,7 @@ import { contract } from "../navigation/main/nav-toggle";
 import { ColumnLayout, FullWidth } from "./columns";
 import { Flex } from "./flex";
 import { OnboardingGuard } from "../navigation/guards/onboardingguard";
+import { AdminGuard } from "../navigation/guards/adminguard";
 
 const MainGridOuter = styled("div", {
   overflowX: "hidden",
@@ -110,6 +111,38 @@ export const PrimaryLayout = ({
   );
 };
 
+export const AdminLayout = ({
+  children = <></>,
+}: {
+  unguarded?: boolean;
+  children?: ReactNode;
+}) => {
+  const expanded = useSelector(
+    (state: RootState) => state.navigation.toggle.expanded
+  );
+  const dispatch = useDispatch();
+
+  return (
+    <>
+      <MainNav />
+      <NavExpandedBodyHider
+        expanded={expanded}
+        onClick={() => dispatch(contract())}
+      />
+      <MainGridOuter>
+        <MainGridInner expanded={expanded}>
+          <CrumbBar />
+          <ColumnLayout>
+            <AuthGuard>
+              <AdminGuard>{children}</AdminGuard>
+            </AuthGuard>
+          </ColumnLayout>
+        </MainGridInner>
+      </MainGridOuter>
+    </>
+  );
+};
+
 const LoginHeader = styled("div", {
   height: "56px",
   backgroundColor: "$navy900",
@@ -156,7 +189,9 @@ export const OnboardingLayout = ({ children }: { children?: any }) => {
         </ColumnLayout>
       </LoginHeader>
       <ColumnLayout undecorated css={{ paddingBlock: "$7" }}>
-        <AuthGuard>{children}</AuthGuard>
+        <AuthGuard>
+          <OnboardingGuard>{children}</OnboardingGuard>
+        </AuthGuard>
       </ColumnLayout>
     </>
   );
