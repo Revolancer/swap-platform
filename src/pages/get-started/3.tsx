@@ -11,17 +11,14 @@ import "react-datepicker/dist/react-datepicker.css";
 import { Formik } from "formik";
 import { axiosPrivate } from "@/lib/axios";
 import { Form } from "@/components/forms/form";
-import { CountrySelect, TzSelect } from "@/components/forms/select";
+import { TzSelect } from "@/components/forms/select";
 import { Button } from "@/components/navigation/button";
-import { TwoCols } from "@/components/layout/columns";
 import { TagField } from "@/components/forms/taginput";
 import { UploadField } from "@/components/forms/upload";
+import { refreshToken } from "@/lib/user/auth";
+import store from "@/redux/store";
 
 const OnboardingSchema = Yup.object().shape({
-  country: Yup.string()
-    .required("Please select a country")
-    .min(1, "Please select a country")
-    .ensure(),
   timezone: Yup.string()
     .required("Please select a timezone")
     .min(1, "Please select a timezone")
@@ -83,7 +80,7 @@ export default function GetStarted() {
               <H4>Your Profile</H4>
               <Formik
                 initialValues={{
-                  country: undefined,
+                  skills: [],
                   timezone: undefined,
                   profileImage: "",
                 }}
@@ -92,15 +89,23 @@ export default function GetStarted() {
                   actions.setSubmitting(true);
                   await axiosPrivate
                     .post("user/onboarding/3", values)
-                    .then((response) => {
-                      window.location.href = "/profile";
+                    .then(async (response) => {
+                      if (response.data?.success == "false") {
+                        actions.setFieldError(
+                          "timezone",
+                          "Oops, something went wrong"
+                        );
+                      } else {
+                        await store?.dispatch(refreshToken());
+                        window.location.href = "/profile";
+                      }
                     })
                     .catch((reason) => {
                       //TODO - error handling
                       if (reason.code == "ERR_NETWORK") {
                         actions.setFieldError(
-                          "marketingthirdparty",
-                          "err_network"
+                          "timezone",
+                          "Oops, something went wrong"
                         );
                       } else {
                         const statuscode = Number(reason?.response?.status);

@@ -7,16 +7,16 @@ export const OnboardingGuard = ({ children }: { children?: any }) => {
   useEffect(() => {
     setDidMount(true);
   }, []);
-  const onboarded = useAppSelector(
-    (state) => state.userData.user?.onboardingComplete ?? false
+  const onboarding = useAppSelector(
+    (state) => state.userData.user?.onboardingStage ?? 1
   );
   if (!didMount) {
     return <FullWidth placeholder />;
   }
-  console.log("onboarded?", onboarded);
-  if (!onboarded) {
+  const target = `/get-started/${onboarding}`;
+  if (onboarding <= 3 && window.location.pathname != target) {
     if (typeof window != "undefined") {
-      window.location.href = "/get-started/";
+      window.location.href = target;
     }
     return <FullWidth placeholder />;
   } else {
