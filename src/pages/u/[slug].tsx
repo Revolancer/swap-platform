@@ -15,6 +15,7 @@ import { useRouter } from "next/router";
 import { UserProfileData } from "@/lib/types";
 import { ProfileImage } from "@/components/user/profileimage";
 import { SkillSegment } from "@/components/user/skillsegment";
+import { Timezone } from "@/components/user/timezone";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -41,19 +42,22 @@ export default function UserProfile() {
       </Title>
       <PrimaryLayout>
         <SideBar>
-          <Flex
-            column
-            gap={3}
-            css={{
-              alignItems: "center",
-            }}
-          >
-            <ProfileImage uid={userProfile?.user?.id ?? ""} />
-            <H1 style={{ fontSize: "32px" }}>
-              {userProfile?.first_name
-                ? `${userProfile?.first_name} ${userProfile?.last_name}`
-                : "User Profile"}
-            </H1>
+          <Flex column gap={3}>
+            <Flex
+              column
+              gap={3}
+              css={{
+                alignItems: "center",
+              }}
+            >
+              <ProfileImage uid={userProfile?.user?.id ?? ""} />
+              <H1 style={{ fontSize: "32px" }}>
+                {userProfile?.first_name
+                  ? `${userProfile?.first_name} ${userProfile?.last_name}`
+                  : "User Profile"}
+              </H1>
+            </Flex>
+            <Timezone uid={userProfile?.user?.id ?? ""} />
             <SkillSegment uid={userProfile?.user?.id ?? ""} />
           </Flex>
         </SideBar>

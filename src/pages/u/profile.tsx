@@ -17,6 +17,7 @@ import { ProfileImage } from "@/components/user/profileimage";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { SkillSegment } from "@/components/user/skillsegment";
+import { Timezone } from "@/components/user/timezone";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -40,19 +41,22 @@ export default function UserProfile() {
       </Title>
       <PrimaryLayout>
         <SideBar>
-          <Flex
-            column
-            gap={3}
-            style={{
-              alignItems: "center",
-            }}
-          >
-            <ProfileImage uid={userProfile?.user?.id ?? ""} own />
-            <H1 style={{ fontSize: "32px" }}>
-              {userProfile?.first_name
-                ? `${userProfile?.first_name} ${userProfile?.last_name}`
-                : "User Profile"}
-            </H1>
+          <Flex column gap={3}>
+            <Flex
+              column
+              gap={3}
+              style={{
+                alignItems: "center",
+              }}
+            >
+              <ProfileImage uid={userProfile?.user?.id ?? ""} own />
+              <H1 style={{ fontSize: "32px" }}>
+                {userProfile?.first_name
+                  ? `${userProfile?.first_name} ${userProfile?.last_name}`
+                  : "User Profile"}
+              </H1>
+            </Flex>
+            <Timezone uid={userProfile?.user?.id ?? ""} own />
             <SkillSegment uid={userProfile?.user?.id ?? ""} own />
           </Flex>
         </SideBar>

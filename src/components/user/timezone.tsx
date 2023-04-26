@@ -1,0 +1,134 @@
+import { styled } from "stitches.config";
+import { Div } from "../layout/utils";
+import Image from "next/image";
+import { useCallback, useEffect, useState } from "react";
+import { axiosPrivate, axiosPublic } from "@/lib/axios";
+import { Form } from "../forms/form";
+import { Flex } from "../layout/flex";
+import { Button } from "../navigation/button";
+import { Formik } from "formik";
+import { UploadField } from "../forms/upload";
+import { Yup } from "@/lib/yup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faC, faClock, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { TzSelect } from "../forms/select";
+import { P } from "../text/text";
+import { DateTime } from "luxon";
+
+const UpdateTimezoneSchema = Yup.object().shape({
+  timezone: Yup.string()
+    .required("Please select a timezone")
+    .min(1, "Please select a timezone")
+    .ensure(),
+});
+
+export const Timezone = ({
+  uid = "",
+  own = false,
+}: {
+  uid: string;
+  own?: boolean;
+}) => {
+  const [editMode, setEditMode] = useState(false);
+  const [timezone, setTimezone] = useState("");
+
+  const zoneOffset = (timezone: string) => {
+    const dt = DateTime.now().setZone(timezone);
+    const zonename = DateTime.now().setZone(timezone).offsetNameLong;
+    const offsetMins = dt.offset;
+    const offset = `${offsetMins >= 0 ? "+" : "-"}${Math.abs(offsetMins) / 60}`;
+    return `${zonename} (UTC${offset})`;
+  };
+
+  const toggleEdit = () => {
+    setEditMode(!editMode);
+    loadTimezone();
+  };
+
+  const loadTimezone = useCallback(async () => {
+    const response = await axiosPublic.get(`user/timezone/${uid}`);
+    setTimezone(response.data?.timezone ?? "");
+  }, [uid]);
+
+  useEffect(() => {
+    if (uid != "") {
+      loadTimezone();
+    }
+  }, [uid, loadTimezone]);
+
+  const StaticTZ = () => {
+    return (
+      <P css={{ color: "$neutral800" }}>
+        <FontAwesomeIcon icon={faClock} /> {zoneOffset(timezone)}{" "}
+        {own && (
+          <FontAwesomeIcon
+            onClick={toggleEdit}
+            icon={faPencil}
+            style={{ cursor: "pointer" }}
+          />
+        )}
+      </P>
+    );
+  };
+
+  const EditTimezone = () => {
+    return (
+      <Formik
+        initialValues={{
+          timezone: timezone,
+        }}
+        validationSchema={UpdateTimezoneSchema}
+        onSubmit={async (values, actions) => {
+          actions.setSubmitting(true);
+          await axiosPrivate
+            .post("user/timezone", values)
+            .then(async (response) => {
+              if (response.data?.success == "false") {
+                actions.setFieldError("timezone", "Oops, something went wrong");
+              } else {
+                toggleEdit();
+              }
+            })
+            .catch((reason) => {
+              //TODO - error handling
+              if (reason.code == "ERR_NETWORK") {
+                actions.setFieldError("timezone", "Oops, something went wrong");
+              } else {
+                const statuscode = Number(reason?.response?.status);
+                switch (statuscode) {
+                  default:
+                    //TODO: Other failure reasons (not validated, etc)
+                    console.log(reason);
+                    break;
+                }
+              }
+            });
+          actions.setSubmitting(false);
+        }}
+      >
+        {(props) => {
+          return (
+            <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+              <TzSelect name="timezone" />
+              <Flex css={{ flexDirection: "row-reverse" }}>
+                <Button role="secondary" onClick={toggleEdit}>
+                  Cancel
+                </Button>
+                <Button role="secondary" onClick={props.submitForm}>
+                  Save
+                </Button>
+              </Flex>
+            </Form>
+          );
+        }}
+      </Formik>
+    );
+  };
+
+  return (
+    <>
+      {(!own || !editMode) && StaticTZ()}
+      {own && editMode && EditTimezone()}
+    </>
+  );
+};
