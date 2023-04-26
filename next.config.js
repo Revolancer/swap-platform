@@ -9,6 +9,16 @@ const nextConfig = {
     "@react-dnd/asap",
     "@react-dnd/shallowequal",
   ],
+  images: {
+    remotePatterns: [
+      {
+        protocol: "https",
+        hostname: "uploads.revolancer.com",
+        port: "",
+        pathname: "/**",
+      },
+    ],
+  },
 };
 
 module.exports = nextConfig;

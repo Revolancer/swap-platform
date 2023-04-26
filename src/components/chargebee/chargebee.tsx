@@ -25,7 +25,6 @@ export const ChargeBeePortalButton = () => {
       if (cbInstance) {
         (cbInstance as any).setPortalSession(async () => {
           const response = await axiosPrivate.get("chargebee/portal_session");
-          console.log(response.data);
           return response.data;
         });
         (cbInstance as any).createChargebeePortal().open({
