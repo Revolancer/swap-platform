@@ -8,12 +8,13 @@ import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { Button } from "@/components/navigation/button";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { H1 } from "@/components/text/headings";
+import { H1, H2, H5 } from "@/components/text/headings";
 import { Title } from "@/components/head/title";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { UserProfileData } from "@/lib/types";
 import { ProfileImage } from "@/components/user/profileimage";
+import { SkillSegment } from "@/components/user/skillsegment";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -47,15 +48,26 @@ export default function UserProfile() {
               alignItems: "center",
             }}
           >
-            <ProfileImage url={userProfile?.profile_image ?? ""} size="xl" />
+            <ProfileImage uid={userProfile?.user?.id ?? ""} />
             <H1 style={{ fontSize: "32px" }}>
               {userProfile?.first_name
                 ? `${userProfile?.first_name} ${userProfile?.last_name}`
                 : "User Profile"}
             </H1>
+            <SkillSegment uid={userProfile?.user?.id ?? ""} />
           </Flex>
         </SideBar>
-        <MainContentWithSideBar></MainContentWithSideBar>
+        <MainContentWithSideBar>
+          <H2> </H2>
+          <H5>
+            {userProfile?.first_name ? `${userProfile?.first_name}'s` : "My"}{" "}
+            Needs
+          </H5>
+          <H5>
+            {userProfile?.first_name ? `${userProfile?.first_name}'s` : "My"}{" "}
+            Portfolio
+          </H5>
+        </MainContentWithSideBar>
       </PrimaryLayout>
     </>
   );

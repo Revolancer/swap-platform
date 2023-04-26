@@ -47,7 +47,7 @@ export default function UserProfile() {
               alignItems: "center",
             }}
           >
-            <ProfileImage url={userProfile?.profile_image ?? ""} size="xl" />
+            <ProfileImage uid={userProfile?.user?.id ?? ""} own />
             <H1 style={{ fontSize: "32px" }}>
               {userProfile?.first_name
                 ? `${userProfile?.first_name} ${userProfile?.last_name}`
