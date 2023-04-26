@@ -13,17 +13,12 @@ import { Feedback } from "@/components/forms/feedback";
 import { Div } from "@/components/layout/utils";
 import { FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
+import { Tag } from "@/lib/types";
 
 const NewTagSchema = Yup.object().shape({
   text: Yup.string().required(),
   parent: Yup.string(),
 });
-
-class Tag {
-  id: string = "";
-  text: string = "";
-  parent?: Tag;
-}
 
 const TH = styled("th", { border: "1px solid black", padding: "$1" });
 const TD = styled("td", { border: "1px solid black", padding: "$1" });

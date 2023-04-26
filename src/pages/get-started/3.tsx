@@ -97,7 +97,7 @@ export default function GetStarted() {
                         );
                       } else {
                         await store?.dispatch(refreshToken());
-                        window.location.href = "/profile";
+                        window.location.href = "/u/profile";
                       }
                     })
                     .catch((reason) => {

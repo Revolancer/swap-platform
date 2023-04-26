@@ -21,7 +21,6 @@ export const TagField = ({
   name: string;
   placeholder?: string;
 }) => {
-  const [tags, setTags] = useState<Tag[]>([]);
   const [suggestions, setSuggestions] = useState<Tag[]>([]);
   const [isLoading, setLoading] = useState(false);
 
@@ -39,48 +38,48 @@ export const TagField = ({
         field: { value },
         form: { setFieldValue, errors, touched },
       }: FieldProps) => {
-        const updateTags = (tags: Tag[]) => {
-          setTags(tags);
-          setFieldValue(name, tags);
-        };
-
         const handleDelete = (i: number) => {
-          updateTags(tags.filter((tag, index) => index !== i));
+          setFieldValue(
+            name,
+            (value as Tag[]).filter((tag, index) => index !== i)
+          );
         };
 
         const handleAddition = (tag: Tag) => {
           //No duplicates
-          if (tags.includes(tag)) return;
+          if ((value as Tag[]).includes(tag)) return;
 
           //No custom tags
           if (!suggestions.includes(tag)) return;
 
-          updateTags([...tags, tag]);
+          setFieldValue(name, [...(value as Tag[]), tag]);
         };
 
         const handleDrag = (tag: Tag, currPos: number, newPos: number) => {
-          const newTags = tags.slice();
+          const newTags = (value as Tag[]).slice();
 
           newTags.splice(currPos, 1);
           newTags.splice(newPos, 0, tag);
 
           // re-render
-          updateTags(newTags);
+          setFieldValue(name, newTags);
         };
         return (
           <>
             <InputOuter error={touched[name] && !!errors[name]}>
               <TagsContainer>
-                <ReactTags
-                  handleDelete={handleDelete}
-                  handleAddition={handleAddition}
-                  handleDrag={handleDrag}
-                  tags={tags}
-                  suggestions={suggestions}
-                  delimiters={delimiters}
-                  autocomplete={true}
-                  placeholder={placeholder}
-                />
+                {!isLoading && (
+                  <ReactTags
+                    handleDelete={handleDelete}
+                    handleAddition={handleAddition}
+                    handleDrag={handleDrag}
+                    tags={value}
+                    suggestions={suggestions}
+                    delimiters={delimiters}
+                    autocomplete={true}
+                    placeholder={placeholder}
+                  />
+                )}
               </TagsContainer>
             </InputOuter>
             {touched[name] && errors[name] && (
