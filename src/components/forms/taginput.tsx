@@ -42,7 +42,6 @@ export const TagField = ({
         const updateTags = (tags: Tag[]) => {
           setTags(tags);
           setFieldValue(name, tags);
-          console.log(tags);
         };
 
         const handleDelete = (i: number) => {
