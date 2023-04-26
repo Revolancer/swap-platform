@@ -4,7 +4,7 @@ export interface AppState {
     refreshToken: string;
     email: string;
     roles: string[];
-    onboardingComplete: boolean;
+    onboardingStage: number;
   } | null;
   email: string;
   password: string;

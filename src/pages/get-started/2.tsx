@@ -15,6 +15,8 @@ import { Feedback } from "@/components/forms/feedback";
 import { InputInner, InputOuter, Slider } from "@/components/forms/input";
 import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
 import { Button, TertiaryButton } from "@/components/navigation/button";
+import { refreshToken } from "@/lib/user/auth";
+import store from "@/redux/store";
 
 const OnboardingSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
@@ -85,8 +87,16 @@ export default function GetStarted() {
                   actions.setSubmitting(true);
                   await axiosPrivate
                     .post("user/onboarding/2", values)
-                    .then((response) => {
-                      window.location.href = "/get-started/3";
+                    .then(async (response) => {
+                      if (response.data?.success == "false") {
+                        actions.setFieldError(
+                          "hourlyrate",
+                          "Oops, something went wrong"
+                        );
+                      } else {
+                        await store?.dispatch(refreshToken());
+                        window.location.href = "/get-started/3";
+                      }
                     })
                     .catch((reason) => {
                       //TODO - error handling

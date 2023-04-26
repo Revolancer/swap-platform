@@ -17,6 +17,8 @@ import { InputInner, InputOuter } from "@/components/forms/input";
 import { Button, TertiaryButton } from "@/components/navigation/button";
 import { useEffect, useMemo, useRef } from "react";
 import debounce from "lodash.debounce";
+import { refreshToken } from "@/lib/user/auth";
+import store from "@/redux/store";
 
 const OnboardingSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -127,8 +129,16 @@ export default function GetStarted() {
                   actions.setSubmitting(true);
                   await axiosPrivate
                     .post("user/onboarding/1", values)
-                    .then((response) => {
-                      window.location.href = "/get-started/2";
+                    .then(async (response) => {
+                      if (response.data?.success == "false") {
+                        actions.setFieldError(
+                          "userName",
+                          "Oops, something went wrong"
+                        );
+                      } else {
+                        await store?.dispatch(refreshToken());
+                        window.location.href = "/get-started/2";
+                      }
                     })
                     .catch((reason) => {
                       //TODO - error handling

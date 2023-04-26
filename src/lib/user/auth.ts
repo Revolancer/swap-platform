@@ -53,7 +53,7 @@ export const refreshToken = createAsyncThunk(
         Authorization: `Bearer ${state.userData.user?.refreshToken}`,
       },
     });
-
+    console.log(res.data);
     const newUser = res.data;
 
     return newUser;

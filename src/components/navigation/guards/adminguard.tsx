@@ -2,21 +2,26 @@ import { FullWidth } from "@/components/layout/columns";
 import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
 
-export const OnboardingGuard = ({ children }: { children?: any }) => {
+export const AdminGuard = ({
+  children,
+}: {
+  redirectTo?: string;
+  redirectIfAuthed?: boolean;
+  children?: any;
+}) => {
   const [didMount, setDidMount] = useState(false);
   useEffect(() => {
     setDidMount(true);
   }, []);
-  const onboarding = useAppSelector(
-    (state) => state.userData.user?.onboardingStage ?? 1
+  const admin = useAppSelector(
+    (state) => state.userData.user?.roles?.includes("admin") ?? false
   );
   if (!didMount) {
     return <FullWidth placeholder />;
   }
-  const target = `/get-started/${onboarding}`;
-  if (onboarding <= 3 && window.location.pathname != target) {
+  if (!admin) {
     if (typeof window != "undefined") {
-      window.location.href = target;
+      window.location.href = "/";
     }
     return <FullWidth placeholder />;
   } else {
