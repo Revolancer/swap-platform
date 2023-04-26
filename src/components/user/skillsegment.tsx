@@ -73,6 +73,7 @@ export const SkillSegment = ({
                 actions.setFieldError("skills", "Oops, something went wrong");
               } else {
                 await loadTagsForUser();
+                toggleEdit();
               }
             })
             .catch((reason) => {

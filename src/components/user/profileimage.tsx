@@ -9,6 +9,8 @@ import { Button } from "../navigation/button";
 import { Formik } from "formik";
 import { UploadField } from "../forms/upload";
 import { Yup } from "@/lib/yup";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencil } from "@fortawesome/free-solid-svg-icons";
 
 const UpdateImageSchema = Yup.object().shape({
   profileImage: Yup.string()
@@ -56,22 +58,33 @@ export const ProfileImage = ({
 
   const StaticImage = () => {
     return (
-      <ProfileImageContainer>
-        {url != "" && (
-          <>
-            <ProfileImage
-              src={url}
-              height={128}
-              width={128}
-              alt={own ? "Your profile picture" : "This user's profile picture"}
-              onClick={() => {
-                if (own) toggleEdit();
-              }}
-              css={{ cursor: `${own && "pointer"}` }}
-            ></ProfileImage>
-          </>
+      <Flex>
+        <ProfileImageContainer>
+          {url != "" && (
+            <>
+              <ProfileImage
+                src={url}
+                height={128}
+                width={128}
+                alt={
+                  own ? "Your profile picture" : "This user's profile picture"
+                }
+                onClick={() => {
+                  if (own) toggleEdit();
+                }}
+                css={{ cursor: `${own && "pointer"}` }}
+              ></ProfileImage>
+            </>
+          )}
+        </ProfileImageContainer>
+        {own && (
+          <FontAwesomeIcon
+            onClick={toggleEdit}
+            icon={faPencil}
+            style={{ cursor: "pointer" }}
+          />
         )}
-      </ProfileImageContainer>
+      </Flex>
     );
   };
 

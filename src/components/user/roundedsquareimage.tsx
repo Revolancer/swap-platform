@@ -2,11 +2,13 @@ import { styled } from "stitches.config";
 import { Div } from "../layout/utils";
 import Image from "next/image";
 
-export const UserImage = ({
+export const RoundedSquareImage = ({
   url = "",
   size = "xl",
+  alt = "",
 }: {
   url?: string;
+  alt?: string;
   size?: "small" | "medium" | "large" | "xl";
 }) => {
   const sizePixels = (size: "small" | "medium" | "large" | "xl") => {
@@ -29,6 +31,7 @@ export const UserImage = ({
     overflow: "hidden",
     width: `${width}px`,
     height: `${width}px`,
+    flexShrink: "0",
     variants: {
       size: {
         small: {
@@ -59,7 +62,7 @@ export const UserImage = ({
             src={url}
             height={width}
             width={width}
-            alt="This user's profile picture"
+            alt={alt}
           ></ProfileImage>
         </>
       )}
