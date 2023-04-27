@@ -17,7 +17,7 @@ export const SkillSegment = ({
   own = false,
 }: {
   uid: string;
-  own: boolean;
+  own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -39,7 +39,7 @@ export const SkillSegment = ({
   const StaticTags = () => {
     const staticTags = [];
     for (const tag of tags) {
-      staticTags.push(<TagElement tag={tag} />);
+      staticTags.push(<TagElement tag={tag} key={tag.id} />);
     }
     return <Flex wrap>{staticTags}</Flex>;
   };
@@ -73,6 +73,7 @@ export const SkillSegment = ({
                 actions.setFieldError("skills", "Oops, something went wrong");
               } else {
                 await loadTagsForUser();
+                toggleEdit();
               }
             })
             .catch((reason) => {
@@ -117,14 +118,16 @@ export const SkillSegment = ({
         }}
       >
         <P css={{ color: "$neutral600" }}>Skills</P>
-        <FontAwesomeIcon
-          onClick={toggleEdit}
-          icon={faPencil}
-          style={{ cursor: "pointer" }}
-        />
+        {own && (
+          <FontAwesomeIcon
+            onClick={toggleEdit}
+            icon={faPencil}
+            style={{ cursor: "pointer" }}
+          />
+        )}
       </Flex>
-      {!editMode && StaticTags()}
-      {editMode && EditTags()}
+      {(!own || !editMode) && StaticTags()}
+      {own && editMode && EditTags()}
     </>
   );
 };

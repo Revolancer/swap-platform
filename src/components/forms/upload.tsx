@@ -1,11 +1,12 @@
 import { Field, FieldProps } from "formik";
 import { Feedback } from "./feedback";
 import { InputOuter } from "./input";
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { axiosPrivate } from "@/lib/axios";
 import axios from "axios";
 import { Button } from "../navigation/button";
 import { Flex } from "../layout/flex";
+import { RoundedSquareImage } from "../user/roundedsquareimage";
 
 const UploadField = ({
   name,
@@ -101,33 +102,42 @@ const UploadField = ({
 
         return (
           <>
-            <InputOuter error={touched[name] && !!errors[name]}>
-              <input
-                type="file"
-                id={`upload-${name}`}
-                hidden
-                style={{ display: "none" }}
-                onChange={getFile}
-              />
-              <Flex
-                css={{
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                  cursor: uploading ? "progress" : "pointer",
-                }}
-                onClick={triggerFileField}
-              >
-                <span>{fileName}</span>
-                <Button
+            <Flex>
+              {type == "image" && (
+                <RoundedSquareImage
+                  alt="The uploaded image"
+                  size="large"
+                  url={value}
+                />
+              )}
+              <InputOuter error={touched[name] && !!errors[name]}>
+                <input
+                  type="file"
+                  id={`upload-${name}`}
+                  hidden
+                  style={{ display: "none" }}
+                  onChange={getFile}
+                />
+                <Flex
+                  css={{
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    width: "100%",
+                    cursor: uploading ? "progress" : "pointer",
+                  }}
                   onClick={triggerFileField}
-                  size="small"
-                  disabled={uploading}
                 >
-                  {uploading ? "Uploading..." : "Upload"}
-                </Button>
-              </Flex>
-            </InputOuter>
+                  <span>{fileName}</span>
+                  <Button
+                    onClick={triggerFileField}
+                    size="small"
+                    disabled={uploading}
+                  >
+                    {uploading ? "Uploading..." : "Upload"}
+                  </Button>
+                </Flex>
+              </InputOuter>
+            </Flex>
             {touched[name] && errors[name] && (
               <Feedback state="error">{errors[name]}</Feedback>
             )}

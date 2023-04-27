@@ -10,15 +10,19 @@ import { Formik } from "formik";
 import { UploadField } from "../forms/upload";
 import { Yup } from "@/lib/yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { faC, faClock, faPencil } from "@fortawesome/free-solid-svg-icons";
+import { TzSelect } from "../forms/select";
+import { P } from "../text/text";
+import { DateTime } from "luxon";
 
-const UpdateImageSchema = Yup.object().shape({
-  profileImage: Yup.string()
-    .required("Please provide a profile picture. Maximum upload size is 40MB")
-    .min(1, "Please provide a profile picture. Maximum upload size is 40MB"),
+const UpdateTimezoneSchema = Yup.object().shape({
+  timezone: Yup.string()
+    .required("Please select a timezone")
+    .min(1, "Please select a timezone")
+    .ensure(),
 });
 
-export const ProfileImage = ({
+export const Timezone = ({
   uid = "",
   own = false,
 }: {
@@ -26,57 +30,36 @@ export const ProfileImage = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [url, setUrl] = useState("");
+  const [timezone, setTimezone] = useState("");
+
+  const zoneOffset = (timezone: string) => {
+    const dt = DateTime.now().setZone(timezone);
+    const zonename = DateTime.now().setZone(timezone).offsetNameLong;
+    const offsetMins = dt.offset;
+    const offset = `${offsetMins >= 0 ? "+" : "-"}${Math.abs(offsetMins) / 60}`;
+    return `${zonename} (UTC${offset})`;
+  };
 
   const toggleEdit = () => {
     setEditMode(!editMode);
-    loadImageForUser();
+    loadTimezone();
   };
 
-  const loadImageForUser = useCallback(async () => {
-    const response = await axiosPublic.get(`user/profile_picture/${uid}`);
-    setUrl(response.data?.profile_image ?? "");
+  const loadTimezone = useCallback(async () => {
+    const response = await axiosPublic.get(`user/timezone/${uid}`);
+    setTimezone(response.data?.timezone ?? "");
   }, [uid]);
 
   useEffect(() => {
     if (uid != "") {
-      loadImageForUser();
+      loadTimezone();
     }
-  }, [uid, loadImageForUser]);
+  }, [uid, loadTimezone]);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
-    width: `128px`,
-    height: `128px`,
-    borderRadius: "$2",
-  });
-
-  const ProfileImage = styled(Image, {
-    objectFit: "cover",
-  });
-
-  const StaticImage = () => {
+  const StaticTZ = () => {
     return (
-      <Flex>
-        <ProfileImageContainer>
-          {url != "" && (
-            <>
-              <ProfileImage
-                src={url}
-                height={128}
-                width={128}
-                alt={
-                  own ? "Your profile picture" : "This user's profile picture"
-                }
-                onClick={() => {
-                  if (own) toggleEdit();
-                }}
-                css={{ cursor: `${own && "pointer"}` }}
-              ></ProfileImage>
-            </>
-          )}
-        </ProfileImageContainer>
+      <P css={{ color: "$neutral800" }}>
+        <FontAwesomeIcon icon={faClock} /> {zoneOffset(timezone)}{" "}
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
@@ -84,38 +67,32 @@ export const ProfileImage = ({
             style={{ cursor: "pointer" }}
           />
         )}
-      </Flex>
+      </P>
     );
   };
 
-  const EditImage = () => {
+  const EditTimezone = () => {
     return (
       <Formik
         initialValues={{
-          profileImage: "",
+          timezone: timezone,
         }}
-        validationSchema={UpdateImageSchema}
+        validationSchema={UpdateTimezoneSchema}
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/profile_picture", values)
+            .post("user/timezone", values)
             .then(async (response) => {
               if (response.data?.success == "false") {
-                actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong"
-                );
+                actions.setFieldError("timezone", "Oops, something went wrong");
               } else {
-                await toggleEdit();
+                toggleEdit();
               }
             })
             .catch((reason) => {
               //TODO - error handling
               if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong"
-                );
+                actions.setFieldError("timezone", "Oops, something went wrong");
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -132,7 +109,7 @@ export const ProfileImage = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
-              <UploadField name="profileImage" type="image" />
+              <TzSelect name="timezone" />
               <Flex css={{ flexDirection: "row-reverse" }}>
                 <Button role="secondary" onClick={toggleEdit}>
                   Cancel
@@ -150,8 +127,8 @@ export const ProfileImage = ({
 
   return (
     <>
-      {(!own || !editMode) && StaticImage()}
-      {own && editMode && EditImage()}
+      {(!own || !editMode) && StaticTZ()}
+      {own && editMode && EditTimezone()}
     </>
   );
 };
