@@ -27,22 +27,7 @@ export default function Home() {
   return (
     <>
       <Title>Discover</Title>
-      <PrimaryLayout>
-        <FullWidth>
-          <Flex column gap="3">
-            <Button onClick={requestVerification}>
-              Request Verification email
-            </Button>
-            <Button onClick={requestPasswordResetLink}>
-              Request Password Reset email
-            </Button>
-            <Button onClick={requestSignedUrl}>Get Signed Url</Button>
-            <Button onClick={refreshTheToken}>Refresh Token</Button>
-            <ChargeBeePortalButton />
-          </Flex>
-        </FullWidth>
-        <H1>Heading</H1>
-      </PrimaryLayout>
+      <PrimaryLayout></PrimaryLayout>
     </>
   );
 }
