@@ -5,6 +5,7 @@ import { InputOuter } from "./input";
 import { type Tag, WithContext as ReactTags } from "react-tag-input";
 import { styled } from "stitches.config";
 import { axiosPublic } from "@/lib/axios";
+import { matchSorter } from "match-sorter";
 
 const KeyCodes = {
   comma: 188,
@@ -64,6 +65,11 @@ export const TagField = ({
           // re-render
           setFieldValue(name, newTags);
         };
+
+        const filterSuggestions = (query: string, suggestions: Tag[]) => {
+          const matches = matchSorter(suggestions, query, { keys: ["text"] });
+          return matches.slice(0, 6);
+        };
         return (
           <>
             <InputOuter error={touched[name] && !!errors[name]}>
@@ -78,6 +84,7 @@ export const TagField = ({
                     delimiters={delimiters}
                     autocomplete={true}
                     placeholder={placeholder}
+                    handleFilterSuggestions={filterSuggestions}
                   />
                 )}
               </TagsContainer>
