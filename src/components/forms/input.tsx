@@ -141,6 +141,18 @@ export const InputInner = styled("input", {
   },
 });
 
+export const TextAreaInner = styled("textarea", {
+  border: "none",
+  background: "none",
+  flexGrow: "1",
+  color: "inherit",
+
+  "&:focus": {
+    border: "none",
+    outline: "none",
+  },
+});
+
 export const PasswordReveal = ({
   onClick,
   revealed = false,

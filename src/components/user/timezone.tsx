@@ -46,8 +46,10 @@ export const Timezone = ({
   };
 
   const loadTimezone = useCallback(async () => {
-    const response = await axiosPublic.get(`user/timezone/${uid}`);
-    setTimezone(response.data?.timezone ?? "");
+    axiosPublic
+      .get(`user/timezone/${uid}`)
+      .then((response) => setTimezone(response.data?.timezone ?? ""))
+      .catch(() => setTimezone(""));
   }, [uid]);
 
   useEffect(() => {
