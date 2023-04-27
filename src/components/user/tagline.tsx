@@ -1,24 +1,21 @@
-import { styled } from "stitches.config";
-import { Div } from "../layout/utils";
-import Image from "next/image";
 import { useCallback, useEffect, useState } from "react";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Form } from "../forms/form";
 import { Flex } from "../layout/flex";
 import { Button } from "../navigation/button";
 import { Formik } from "formik";
-import { UploadField } from "../forms/upload";
 import { Yup } from "@/lib/yup";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { InputInner, InputOuter } from "../forms/input";
+import { Feedback } from "../forms/feedback";
+import { H2 } from "../text/headings";
 
-const UpdateImageSchema = Yup.object().shape({
-  profileImage: Yup.string()
-    .required("Please provide a profile picture. Maximum upload size is 40MB")
-    .min(1, "Please provide a profile picture. Maximum upload size is 40MB"),
+const UpdateTaglineSchema = Yup.object().shape({
+  tagline: Yup.string().optional().ensure(),
 });
 
-export const ProfileImage = ({
+export const Tagline = ({
   uid = "",
   own = false,
 }: {
@@ -26,59 +23,34 @@ export const ProfileImage = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [url, setUrl] = useState("");
+  const [tagline, setTagline] = useState("");
 
   const toggleEdit = () => {
     setEditMode(!editMode);
-    loadImageForUser();
+    loadTagline();
   };
 
-  const loadImageForUser = useCallback(() => {
+  const loadTagline = useCallback(() => {
     axiosPublic
-      .get(`user/profile_picture/${uid}`)
-      .then((response) => setUrl(response.data?.profile_image ?? ""))
-      .catch(() => setUrl(""));
+      .get(`user/tagline/${uid}`)
+      .then((response) => setTagline(response.data?.tagline ?? ""))
+      .catch(() => setTagline(""));
   }, [uid]);
 
   useEffect(() => {
     if (uid != "") {
-      loadImageForUser();
+      loadTagline();
     }
-  }, [uid, loadImageForUser]);
+  }, [uid, loadTagline]);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
-    width: `128px`,
-    height: `128px`,
-    borderRadius: "$2",
-  });
+  const placeholder = () => {
+    return own && tagline == "";
+  };
 
-  const ProfileImage = styled(Image, {
-    objectFit: "cover",
-  });
-
-  const StaticImage = () => {
+  const StaticTagline = () => {
     return (
-      <Flex>
-        <ProfileImageContainer>
-          {url != "" && (
-            <>
-              <ProfileImage
-                src={url}
-                height={128}
-                width={128}
-                alt={
-                  own ? "Your profile picture" : "This user's profile picture"
-                }
-                onClick={() => {
-                  if (own) toggleEdit();
-                }}
-                css={{ cursor: `${own && "pointer"}` }}
-              ></ProfileImage>
-            </>
-          )}
-        </ProfileImageContainer>
+      <H2 css={{ color: `${placeholder() ? "$neutral600" : "$neutral800"}` }}>
+        {placeholder() ? "Add a tagline" : tagline}{" "}
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
@@ -86,38 +58,32 @@ export const ProfileImage = ({
             style={{ cursor: "pointer" }}
           />
         )}
-      </Flex>
+      </H2>
     );
   };
 
-  const EditImage = () => {
+  const EditTagline = () => {
     return (
       <Formik
         initialValues={{
-          profileImage: "",
+          tagline: tagline,
         }}
-        validationSchema={UpdateImageSchema}
+        validationSchema={UpdateTaglineSchema}
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/profile_picture", values)
+            .post("user/tagline", values)
             .then(async (response) => {
               if (response.data?.success == "false") {
-                actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong"
-                );
+                actions.setFieldError("tagline", "Oops, something went wrong");
               } else {
-                await toggleEdit();
+                toggleEdit();
               }
             })
             .catch((reason) => {
               //TODO - error handling
               if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong"
-                );
+                actions.setFieldError("tagline", "Oops, something went wrong");
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -134,7 +100,23 @@ export const ProfileImage = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
-              <UploadField name="profileImage" type="image" />
+              <InputOuter
+                error={props.touched.tagline && !!props.errors.tagline}
+              >
+                <InputInner
+                  type="text"
+                  name="tagline"
+                  id="tagline"
+                  placeholder="Enter a tagline"
+                  aria-label="Tagline"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.tagline}
+                />
+              </InputOuter>
+              {props.touched.tagline && props.errors.tagline && (
+                <Feedback state="error">{props.errors.tagline}</Feedback>
+              )}
               <Flex css={{ flexDirection: "row-reverse" }}>
                 <Button role="secondary" onClick={toggleEdit}>
                   Cancel
@@ -152,8 +134,8 @@ export const ProfileImage = ({
 
   return (
     <>
-      {(!own || !editMode) && StaticImage()}
-      {own && editMode && EditImage()}
+      {(!own || !editMode) && StaticTagline()}
+      {own && editMode && EditTagline()}
     </>
   );
 };

@@ -3,16 +3,19 @@ import { Flex } from "../layout/flex";
 import { P } from "../text/text";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { Tag } from "@/lib/types";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { TagElement } from "../tags";
-import { TagField } from "../forms/taginput";
 import { Form } from "../forms/form";
 import { Formik } from "formik";
 import { Yup } from "@/lib/yup";
 import { Button } from "../navigation/button";
+import { InputOuter, TextAreaInner } from "../forms/input";
+import { Feedback } from "../forms/feedback";
 
-export const SkillSegment = ({
+const UpdateAboutSchema = Yup.object().shape({
+  about: Yup.string().optional().ensure(),
+});
+
+export const AboutSegment = ({
   uid = "",
   own = false,
 }: {
@@ -20,68 +23,59 @@ export const SkillSegment = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [tags, setTags] = useState<Tag[]>([]);
+  const [about, setAbout] = useState("");
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
 
-  const loadTagsForUser = useCallback(async () => {
+  const loadAboutForUser = useCallback(async () => {
     axiosPublic
-      .get(`user/skills/${uid}`)
-      .then((response) => setTags(response.data?.skills ?? []))
-      .catch(() => setTags([]));
+      .get(`user/about/${uid}`)
+      .then((response) => setAbout(response.data?.about ?? ""))
+      .catch(() => setAbout(""));
   }, [uid]);
 
   useEffect(() => {
     if (uid != "") {
-      loadTagsForUser();
+      loadAboutForUser();
     }
-  }, [uid, loadTagsForUser]);
+  }, [uid, loadAboutForUser]);
 
-  const StaticTags = () => {
-    const staticTags = [];
-    for (const tag of tags) {
-      staticTags.push(<TagElement tag={tag} key={tag.id} />);
-    }
-    return <Flex wrap>{staticTags}</Flex>;
+  const StaticAbout = () => {
+    return (
+      <P css={{ color: `${placeholder() ? "$neutral600" : "$neutral800"}` }}>
+        {placeholder() ? "Tell us a bit about yourself" : about}
+      </P>
+    );
   };
 
-  const SkillEditSchema = Yup.object().shape({
-    skills: Yup.array()
-      .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
-      .required(
-        "Please select some skills and tools to let us know what you're good at"
-      )
-      .min(3, "Please select at least three skills or tools")
-      .max(
-        20,
-        "Whoa there! That's a lot of skills! We want to know what you're best at, so please only provide 20 tags."
-      ),
-  });
+  const placeholder = () => {
+    return own && about == "";
+  };
 
-  const EditTags = () => {
+  const EditAbout = () => {
     return (
       <Formik
         initialValues={{
-          skills: tags,
+          about: about,
         }}
-        validationSchema={SkillEditSchema}
+        validationSchema={UpdateAboutSchema}
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/skills", values)
+            .post("user/about", values)
             .then(async (response) => {
               if (response.data?.success == "false") {
-                actions.setFieldError("skills", "Oops, something went wrong");
+                actions.setFieldError("about", "Oops, something went wrong");
               } else {
-                await loadTagsForUser();
+                await loadAboutForUser();
                 toggleEdit();
               }
             })
             .catch((reason) => {
               //TODO - error handling
               if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError("skills", "Oops, something went wrong");
+                actions.setFieldError("about", "Oops, something went wrong");
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -98,8 +92,24 @@ export const SkillSegment = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
-              <TagField name="skills" />
+              <InputOuter error={props.touched.about && !!props.errors.about}>
+                <TextAreaInner
+                  name="about"
+                  id="about"
+                  placeholder="Tell us a bit about you"
+                  aria-label="about"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.about}
+                />
+              </InputOuter>
+              {props.touched.about && props.errors.about && (
+                <Feedback state="error">{props.errors.about}</Feedback>
+              )}
               <Flex css={{ flexDirection: "row-reverse" }}>
+                <Button role="secondary" onClick={toggleEdit}>
+                  Cancel
+                </Button>
                 <Button role="secondary" onClick={props.submitForm}>
                   Save
                 </Button>
@@ -119,7 +129,7 @@ export const SkillSegment = ({
           width: "100%",
         }}
       >
-        <P css={{ color: "$neutral600" }}>Skills</P>
+        <P css={{ color: "$neutral600" }}>About</P>
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
@@ -128,8 +138,8 @@ export const SkillSegment = ({
           />
         )}
       </Flex>
-      {(!own || !editMode) && StaticTags()}
-      {own && editMode && EditTags()}
+      {(!own || !editMode) && StaticAbout()}
+      {own && editMode && EditAbout()}
     </>
   );
 };

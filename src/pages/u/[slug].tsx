@@ -16,6 +16,8 @@ import { UserProfileData } from "@/lib/types";
 import { ProfileImage } from "@/components/user/profileimage";
 import { SkillSegment } from "@/components/user/skillsegment";
 import { Timezone } from "@/components/user/timezone";
+import { Tagline } from "@/components/user/tagline";
+import { AboutSegment } from "@/components/user/aboutsegment";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -57,12 +59,13 @@ export default function UserProfile() {
                   : "User Profile"}
               </H1>
             </Flex>
+            <AboutSegment uid={userProfile?.user?.id ?? ""} />
             <Timezone uid={userProfile?.user?.id ?? ""} />
             <SkillSegment uid={userProfile?.user?.id ?? ""} />
           </Flex>
         </SideBar>
         <MainContentWithSideBar>
-          <H2> </H2>
+          <Tagline uid={userProfile?.user?.id ?? ""} />
           <H5>
             {userProfile?.first_name ? `${userProfile?.first_name}'s` : "My"}{" "}
             Needs

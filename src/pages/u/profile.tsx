@@ -18,6 +18,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPencil } from "@fortawesome/free-solid-svg-icons";
 import { SkillSegment } from "@/components/user/skillsegment";
 import { Timezone } from "@/components/user/timezone";
+import { Tagline } from "@/components/user/tagline";
+import { AboutSegment } from "@/components/user/aboutsegment";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -56,15 +58,14 @@ export default function UserProfile() {
                   : "User Profile"}
               </H1>
             </Flex>
+            <AboutSegment uid={userProfile?.user?.id ?? ""} own />
             <Timezone uid={userProfile?.user?.id ?? ""} own />
             <SkillSegment uid={userProfile?.user?.id ?? ""} own />
           </Flex>
         </SideBar>
         <MainContentWithSideBar>
           <Flex column gap={3}>
-            <H2>
-              Add a tagline <FontAwesomeIcon icon={faPencil} />
-            </H2>
+            <Tagline uid={userProfile?.user?.id ?? ""} own />
             <H5>Your Needs</H5>
             <H5>Your Portfolio</H5>
           </Flex>
