@@ -60,17 +60,20 @@ export const MainContentWithSideBar = styled("div", {
 });
 
 export const ColumnLayout = styled("div", {
-  maxWidth: "328px",
+  maxWidth: "420px",
+  minWidth: "328px",
   display: "grid",
   gridTemplateColumns: "repeat(4, 1fr)",
   marginInline: "auto",
   gap: "$4",
   position: "relative",
+  paddingInline: "1rem",
 
   "@sm": {
     minWidth: "480px",
     maxWidth: "480px",
     gridTemplateColumns: "repeat(8, 1fr)",
+    paddingInline: "0",
   },
   "@md": {
     minWidth: "756px",

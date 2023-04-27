@@ -75,7 +75,7 @@ export default function GetStarted() {
                 src="/img/onboarding/onboarding3.jpg"
               />
             </Div>
-            <Flex column css={{ flexGrow: "1" }}>
+            <Flex column css={{ flexGrow: "1", width: "100%" }}>
               <Progress progress={75} />
               <H4>Your Profile</H4>
               <Formik

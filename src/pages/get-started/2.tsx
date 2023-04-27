@@ -73,7 +73,7 @@ export default function GetStarted() {
                 src="/img/onboarding/onboarding2.jpg"
               />
             </Div>
-            <Flex column css={{ flexGrow: "1" }}>
+            <Flex column css={{ flexGrow: "1", width: "100%" }}>
               <Progress progress={40} />
               <H4>Professional information</H4>
               <Formik
@@ -151,8 +151,12 @@ export default function GetStarted() {
                         <Div
                           css={{
                             display: "grid",
-                            gridTemplateColumns: "1fr 3fr",
+                            gridTemplateColumns: "1fr",
                             gap: "$4",
+
+                            "@sm": {
+                              gridTemplateColumns: "1fr 3fr",
+                            },
                           }}
                         >
                           <Select name="currency" placeholder="Currency">

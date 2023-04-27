@@ -111,7 +111,7 @@ export default function GetStarted() {
                 src="/img/onboarding/onboarding1.jpg"
               />
             </Div>
-            <Flex column css={{ flexGrow: "1" }}>
+            <Flex column css={{ flexGrow: "1", width: "100%" }}>
               <Progress progress={10} />
               <H4>Personal information</H4>
               <Formik
