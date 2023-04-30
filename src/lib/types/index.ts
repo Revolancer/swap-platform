@@ -5,6 +5,7 @@ export interface AppState {
     email: string;
     roles: string[];
     onboardingStage: number;
+    id: string;
   } | null;
   email: string;
   password: string;
@@ -23,6 +24,7 @@ export interface Tag {
 }
 
 export interface UserProfileData {
+  slug?: string;
   id?: string;
   first_name?: string;
   last_name?: string;
@@ -30,4 +32,12 @@ export interface UserProfileData {
   timezone?: string;
   user?: User;
   skills?: Tag[];
+}
+
+export interface PostData {
+  id?: string;
+  user?: User;
+  title?: string;
+  tags?: Tag[];
+  data?: string;
 }

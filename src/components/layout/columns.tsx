@@ -31,15 +31,10 @@ export const HalfWidth = styled("div", {
 });
 
 export const SideBar = styled("div", {
-  padding: "$6",
-  borderWidth: "$1",
-  borderColor: "$neutral200",
-  borderRadius: "$2",
-  borderStyle: "$solid",
   gridColumn: "auto / span 4",
 
   "@sm": {
-    gridColumn: "auto / span 3",
+    gridColumn: "auto / span 8",
   },
 
   "@md": {
@@ -51,10 +46,6 @@ export const MainContentWithSideBar = styled("div", {
   gridColumn: "auto / span 4",
 
   "@sm": {
-    gridColumn: "auto / span 5",
-  },
-
-  "@md": {
     gridColumn: "auto / span 8",
   },
 });
