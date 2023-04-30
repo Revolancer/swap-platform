@@ -36,11 +36,6 @@ export default function PortfolioEditorPage() {
   const [loadedData, setLoadedData] = useState<PostData | undefined>(undefined);
   const { id } = router.query;
 
-  if (id === "new") {
-    setNew(true);
-    setHasLoaded(true);
-  }
-
   const PortfolioEditorJs = dynamic(
     import("@/components/portfolio/portfolio-editor-js"),
     {
@@ -56,6 +51,9 @@ export default function PortfolioEditorPage() {
           setLoadedData(response.data);
           setHasLoaded(true);
         }
+      } else if (id == "new") {
+        setNew(true);
+        setHasLoaded(true);
       }
     };
     loadPost();
