@@ -10,14 +10,17 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { Div } from "../layout/utils";
+import { Author } from "./author";
 export const PortfolioProfileCard = ({
   data = {},
   own = false,
   placeholder = false,
+  withAuthor = false,
 }: {
   data?: PostData;
   own?: boolean;
   placeholder?: boolean;
+  withAuthor?: boolean;
 }) => {
   const getFirstImage = (data: OutputData) => {
     if (placeholder) return "";
@@ -97,6 +100,7 @@ export const PortfolioProfileCard = ({
         ) : (
           <>
             <P css={{ fontWeight: "$bold" }}>{data.title}</P>
+            {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary && <ParagraphBlock data={summary} />}
             <Flex gap={6} css={{ alignItems: "center" }}>
