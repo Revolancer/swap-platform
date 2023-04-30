@@ -2,7 +2,6 @@ import { OutputData } from "@editorjs/editorjs";
 import EditorJS from "@editorjs/editorjs";
 import { editorTools } from "./tools";
 import { useEffect, useState } from "react";
-import DragDrop from "editorjs-drag-drop";
 import { Field, FieldProps } from "formik";
 
 const PortfolioEditor = ({
@@ -21,9 +20,6 @@ const PortfolioEditor = ({
         holder: "editorjs",
         tools: editorTools(),
         placeholder: "Let us know about a project you've worked on!",
-        onReady: () => {
-          new DragDrop(e);
-        },
         onChange: async (api) => {
           setOutput(await api.saver.save());
         },

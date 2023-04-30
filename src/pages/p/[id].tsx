@@ -47,8 +47,51 @@ export default function UserProfile() {
       fontStyle: "italic",
       textAlign: "end",
     },
+    "& ul": {
+      marginBlock: "$3",
+    },
+    "& ol": {
+      marginBlock: "$3",
+    },
     "& p": {
-      paddingBlock: "$3",
+      marginBlock: "$3",
+    },
+    "& table": {
+      width: "100%",
+      borderSpacing: "0",
+      borderCollapse: "collapse",
+      marginBlock: "$3",
+    },
+    "& th": {
+      border: "1px solid black",
+      textAlign: "center",
+    },
+    "& td": {
+      border: "1px solid black",
+      textAlign: "center",
+    },
+    "& pre": {
+      backgroundColor: "$neutral800",
+      color: "$neutral100",
+      padding: "$3",
+    },
+    "& blockquote": {
+      background: "$neutral100",
+      borderLeft: "10px solid $neutral600",
+      margin: "1.5em 10px",
+      padding: "0.5em 10px",
+      quotes: "“”‘’",
+    },
+    "& blockquote:before": {
+      color: "$neutral800",
+      content: "open-quote",
+      fontSize: "4em",
+      lineHeight: "0.1em",
+      marginRight: "0.25em",
+      verticalAlign: "-0.4em",
+    },
+    "& blockquote p": {
+      display: "inline",
     },
   });
 
@@ -57,7 +100,7 @@ export default function UserProfile() {
       <Title>{postData?.title ? postData?.title : "Portfolio Post"}</Title>
       <PrimaryLayout>
         <FullWidth>
-          <Flex column gap={3}>
+          <Flex column gap={3} css={{ paddingBlockEnd: "$16" }}>
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}

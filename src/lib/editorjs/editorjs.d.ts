@@ -18,11 +18,6 @@ declare module "@editorjs/embed" {
   export = Embed;
 }
 
-declare module "@editorjs/warning" {
-  import Warning from "@editorjs/warning";
-  export = Warning;
-}
-
 declare module "@editorjs/code" {
   import Code from "@editorjs/code";
   export = Code;
@@ -48,27 +43,12 @@ declare module "@editorjs/marker" {
   export = Marker;
 }
 
-declare module "@editorjs/nested-list" {
-  import NestedList from "@editorjs/nested-list";
-  export = NestedList;
-}
-
-declare module "@editorjs/checklist" {
-  import CheckList from "@editorjs/checklist";
-  export = CheckList;
+declare module "@editorjs/list" {
+  import List from "@editorjs/list";
+  export = List;
 }
 
 declare module "@editorjs/paragraph" {
   import Paragraph from "@editorjs/paragraph";
   export = Paragraph;
-}
-
-declare module "editorjs-text-alignment-blocktune" {
-  import AlignmentTuneTool from "editorjs-text-alignment-blocktune";
-  export = AlignmentTuneTool;
-}
-
-declare module "editorjs-drag-drop" {
-  import DragDrop from "editorjs-drag-drop";
-  export = DragDrop;
 }
