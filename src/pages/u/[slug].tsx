@@ -41,8 +41,10 @@ export default function UserProfile() {
         if ((response?.data ?? null) != null) {
           setUserProfile(response.data);
           const self = store?.getState()?.userData?.user?.id ?? "guest";
-          if (userProfile?.user?.id ?? "" == self) {
+          if ((userProfile?.user?.id ?? "") == self) {
             setOwn(true);
+          } else {
+            setOwn(false);
           }
         }
       }

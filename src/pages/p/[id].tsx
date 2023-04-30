@@ -27,7 +27,8 @@ export default function UserProfile() {
         if ((response?.data ?? null) != null) {
           setPostData(response.data);
           const self = store?.getState()?.userData?.user?.id ?? "guest";
-          if (response.data?.user?.id ?? "" == self) {
+          console.log(self, response.data?.user?.id ?? "");
+          if ((response.data?.user?.id ?? "") == self) {
             setOwn(true);
           }
         }
@@ -94,6 +95,7 @@ export default function UserProfile() {
       display: "inline",
     },
   });
+  console.log(own);
 
   return (
     <>
