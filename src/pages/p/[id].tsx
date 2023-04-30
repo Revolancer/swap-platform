@@ -94,6 +94,11 @@ export default function UserProfile() {
     "& blockquote p": {
       display: "inline",
     },
+    "& iframe": {
+      display: "block",
+      maxWidth: "100%",
+      marginInline: "auto",
+    },
   });
   console.log(own);
 
