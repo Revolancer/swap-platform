@@ -7,6 +7,7 @@ import axios from "axios";
 import { Button } from "../navigation/button";
 import { Flex } from "../layout/flex";
 import { RoundedSquareImage } from "../user/roundedsquareimage";
+import { uploadFile } from "@/lib/upload";
 
 const UploadField = ({
   name,
@@ -43,10 +44,9 @@ const UploadField = ({
           );
         };
 
-        const uploadFile = async (file: File) => {
+        const uploadFileField = async (file: File) => {
           setFieldError(name, undefined);
           setFileName(file.name);
-          const options = { headers: { "Content-Type": file.type } };
           if (type == "image" && !isImage(file)) {
             setFieldError(
               name,
@@ -64,21 +64,9 @@ const UploadField = ({
             return;
           }
           try {
-            const urls = await axiosPrivate
-              .get(`upload/url?filename=${file.name}&size=${file.size}`)
-              .then((response) => response.data);
-
-            if (!urls.signedUrl) {
-              setFieldError(name, "Error uploading file");
-              setFieldTouched(name, true, false);
-              setFieldValue(name, "", false);
-              return;
-            } else {
-              await axios.put(urls.signedUrl, file, options);
-              setFieldValue(name, urls.publicUrl);
-            }
+            setFieldValue(name, uploadFile(file));
           } catch (err: any) {
-            setFieldError(name, `Error uploading file: ${err.message}`);
+            setFieldError(name, `Error uploading file`);
             setFieldTouched(name, true, false);
             setFieldValue(name, "", false);
             return;
@@ -89,7 +77,7 @@ const UploadField = ({
           setUploading(true);
           const file = event.target?.files?.item(0);
           if (file instanceof File) {
-            await uploadFile(file);
+            await uploadFileField(file);
           }
           setUploading(false);
         };
