@@ -6,7 +6,11 @@ import { Field, FieldProps } from "formik";
 
 const PortfolioEditor = ({
   name,
-  data,
+  data = {
+    time: 1682956618189,
+    blocks: [],
+    version: "2.26.5",
+  },
 }: {
   name: string;
   data?: OutputData;
@@ -25,6 +29,11 @@ const PortfolioEditor = ({
         },
       });
       setEditor(e);
+      const doInitialSave = async (e: EditorJS) => {
+        await e.isReady;
+        setOutput(await e.save());
+      };
+      doInitialSave(e);
     }
   }, [editor, data]);
   return (

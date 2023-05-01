@@ -87,7 +87,10 @@ export default function NeedEditorPage() {
         {hasLoaded && (
           <Formik
             initialValues={{
-              data: JSON.parse(loadedData?.data ?? "{}"),
+              data: JSON.parse(
+                loadedData?.data ??
+                  '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}'
+              ),
               tags: loadedData?.tags ?? [],
               title: loadedData?.title ?? "",
             }}

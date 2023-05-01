@@ -4,7 +4,17 @@ import { editorTools } from "./tools";
 import { useEffect, useState } from "react";
 import { Field, FieldProps } from "formik";
 
-const NeedEditor = ({ name, data }: { name: string; data?: OutputData }) => {
+const NeedEditor = ({
+  name,
+  data = {
+    time: 1682956618189,
+    blocks: [],
+    version: "2.26.5",
+  },
+}: {
+  name: string;
+  data?: OutputData;
+}) => {
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [output, setOutput] = useState(data);
   useEffect(() => {
@@ -19,6 +29,11 @@ const NeedEditor = ({ name, data }: { name: string; data?: OutputData }) => {
         },
       });
       setEditor(e);
+      const doInitialSave = async (e: EditorJS) => {
+        await e.isReady;
+        setOutput(await e.save());
+      };
+      doInitialSave(e);
     }
   }, [editor, data]);
   return (
