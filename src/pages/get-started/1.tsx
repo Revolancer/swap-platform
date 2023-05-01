@@ -59,10 +59,15 @@ const OnboardingSchema = Yup.object().shape({
 
 const validateUsernameAsync = async (username: string) => {
   if (username == "") return;
-  const result = await axiosPrivate.post("user/username_available", {
-    userName: username,
-  });
-  if (result?.data !== true) return "This username is not available";
+  const result = await axiosPrivate
+    .post("user/username_available", {
+      userName: username,
+    })
+    .then((res) => res.data)
+    .catch((err) => {
+      return false;
+    });
+  if (result !== true) return "This username is not available";
 };
 
 export default function GetStarted() {

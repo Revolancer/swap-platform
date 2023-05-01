@@ -10,7 +10,18 @@ import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
 import { uploadForEditorJs } from "@/lib/upload";
 
-export const editorTools = () => {
+type EditorReason = "portfolio" | "need";
+
+export const editorTools = (reason: EditorReason = "portfolio") => {
+  if (reason == "need") {
+    return {
+      paragraph: Paragraph,
+      image: {
+        class: Image,
+        config: { uploader: { uploadByFile: uploadForEditorJs } },
+      },
+    };
+  }
   return {
     header: Header,
     paragraph: Paragraph,

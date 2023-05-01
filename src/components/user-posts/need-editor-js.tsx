@@ -4,13 +4,7 @@ import { editorTools } from "./tools";
 import { useEffect, useState } from "react";
 import { Field, FieldProps } from "formik";
 
-const PortfolioEditor = ({
-  name,
-  data,
-}: {
-  name: string;
-  data?: OutputData;
-}) => {
+const NeedEditor = ({ name, data }: { name: string; data?: OutputData }) => {
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [output, setOutput] = useState(data);
   useEffect(() => {
@@ -18,8 +12,8 @@ const PortfolioEditor = ({
       let e = new EditorJS({
         data: data,
         holder: "editorjs",
-        tools: editorTools(),
-        placeholder: "Let us know about a project you've worked on!",
+        tools: editorTools("need") as any,
+        placeholder: "Let us know what you need!",
         onChange: async (api) => {
           setOutput(await api.saver.save());
         },
@@ -39,4 +33,4 @@ const PortfolioEditor = ({
   );
 };
 
-export default PortfolioEditor;
+export default NeedEditor;

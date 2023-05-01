@@ -18,20 +18,23 @@ import { Flex } from "@/components/layout/flex";
 import store from "@/redux/store";
 import FourOhFour from "../404";
 
-const ArticleSchema = Yup.object().shape({
+const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
   title: Yup.string().required().ensure().min(1),
   tags: Yup.array()
     .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
-    .required("Please tag this post with some associated skills or tools")
+    .required("Please tag this project with some associated skills or tools")
     .min(
       1,
       "Please select at least one skill or tool associated with this project"
     )
-    .max(6, "Please provide up to 6 skills or tools associated with this post"),
+    .max(
+      6,
+      "Please provide up to 6 skills or tools associated with this project"
+    ),
 });
 
-export default function PortfolioEditorPage() {
+export default function NeedEditorPage() {
   const router = useRouter();
   const [isNew, setNew] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
@@ -39,8 +42,8 @@ export default function PortfolioEditorPage() {
   const [isNotFound, setNotFound] = useState(false);
   const { id } = router.query;
 
-  const PortfolioEditorJs = dynamic(
-    import("@/components/user-posts/portfolio-editor-js"),
+  const NeedEditorJs = dynamic(
+    import("@/components/user-posts/need-editor-js"),
     {
       ssr: false,
     }
@@ -49,8 +52,10 @@ export default function PortfolioEditorPage() {
   useEffect(() => {
     const loadPost = async () => {
       if (id != null && id != "new") {
+        setNotFound(true);
+        /* Editing not currently allowed
         await axiosPublic
-          .get(`portfolio/${id}`)
+          .get(`need/${id}`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
               if ((response?.data?.id ?? "") == "") {
@@ -62,7 +67,7 @@ export default function PortfolioEditorPage() {
           })
           .catch((err) => {
             setNotFound(true);
-          });
+          });*/
       } else if (id == "new") {
         setNew(true);
         setHasLoaded(true);
@@ -76,7 +81,7 @@ export default function PortfolioEditorPage() {
 
   return (
     <>
-      <Title>{`${isNew ? "New" : "Edit"} Portfolio Post`}</Title>
+      <Title>{`${isNew ? "New" : "Edit"} Need`}</Title>
       <PrimaryLayout>
         {!hasLoaded && <H1>Loading...</H1>}
         {hasLoaded && (
@@ -86,12 +91,12 @@ export default function PortfolioEditorPage() {
               tags: loadedData?.tags ?? [],
               title: loadedData?.title ?? "",
             }}
-            validationSchema={ArticleSchema}
+            validationSchema={NeedSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               if (isNew) {
                 await axiosPrivate
-                  .put("portfolio", values)
+                  .put("need", values)
                   .then(async (response) => {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
@@ -101,10 +106,8 @@ export default function PortfolioEditorPage() {
                     } else {
                       const self =
                         store?.getState()?.userData?.user?.id ?? "guest";
-                      await axiosPublic.storage.remove(
-                        `user-portfolio-${self}`
-                      );
-                      window.location.href = `/p/${response?.data ?? ""}`;
+                      await axiosPublic.storage.remove(`user-needs-${self}`);
+                      window.location.href = `/n/${response?.data ?? ""}`;
                     }
                   })
                   .catch((reason) => {
@@ -126,7 +129,7 @@ export default function PortfolioEditorPage() {
                   });
               } else {
                 await axiosPrivate
-                  .post(`portfolio/${id}`, values)
+                  .post(`need/${id}`, values)
                   .then(async (response) => {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
@@ -134,7 +137,7 @@ export default function PortfolioEditorPage() {
                         "Oops, something went wrong"
                       );
                     } else {
-                      window.location.href = `/p/${id}`;
+                      window.location.href = `/n/${id}`;
                     }
                   })
                   .catch((reason) => {
@@ -162,7 +165,7 @@ export default function PortfolioEditorPage() {
               return (
                 <>
                   <MainContentWithSideBar>
-                    <H1>{`${isNew ? "New" : "Edit"} Portfolio Article`}</H1>
+                    <H1>I need...</H1>
                     <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
                       <InputOuter
                         error={props.touched.title && !!props.errors.title}
@@ -181,7 +184,7 @@ export default function PortfolioEditorPage() {
                         <Feedback state="error">{props.errors.title}</Feedback>
                       )}
                       <TagField name="tags" />
-                      <PortfolioEditorJs name="data" data={props.values.data} />
+                      <NeedEditorJs name="data" data={props.values.data} />
                     </Form>
                   </MainContentWithSideBar>
                   <SideBar>
@@ -190,7 +193,7 @@ export default function PortfolioEditorPage() {
                       <Button
                         role="secondary"
                         href={
-                          isNew ? "/u/profile" : `/p/${loadedData?.id ?? ""}`
+                          isNew ? "/u/profile" : `/n/${loadedData?.id ?? ""}`
                         }
                       >
                         Cancel

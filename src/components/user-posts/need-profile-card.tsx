@@ -1,0 +1,64 @@
+import { PostData } from "@/lib/types";
+import { ParagraphBlock } from "editorjs-blocks-react-renderer";
+import { OutputData } from "@editorjs/editorjs";
+import { P } from "../text/text";
+import { Flex } from "../layout/flex";
+import { Tags } from "./tags";
+import { Button, TertiaryButton } from "../navigation/button";
+import { Author } from "./author";
+export const NeedProfileCard = ({
+  data = {},
+  placeholder = false,
+  withAuthor = false,
+}: {
+  data?: PostData;
+  own?: boolean;
+  placeholder?: boolean;
+  withAuthor?: boolean;
+}) => {
+  const getSummary = (data: OutputData) => {
+    if (placeholder) return {};
+    for (const block of data.blocks) {
+      if (block.type == "paragraph") {
+        return block.data;
+      }
+    }
+  };
+  const summary = getSummary(JSON.parse(data?.data ?? "{}"));
+
+  return (
+    <Flex
+      column
+      css={{
+        borderColor: "$neutral200",
+        borderStyle: "$solid",
+        borderWidth: "$1",
+        borderRadius: "$2",
+        overflow: "hidden",
+      }}
+    >
+      <Flex column gap={4} css={{ padding: "$6" }}>
+        {placeholder ? (
+          <>
+            <P css={{ fontWeight: "$bold" }}>Add a need</P>
+            <P>
+              Do you need to outsource some work? Share your project with the
+              community and get help.
+            </P>
+            <Button href="/need/new">Add</Button>
+          </>
+        ) : (
+          <>
+            <P css={{ fontWeight: "$bold" }}>{data.title}</P>
+            {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
+            <Tags tags={data?.tags ?? []} />
+            {summary && <ParagraphBlock data={summary} />}
+            <Flex gap={6} css={{ alignItems: "center" }}>
+              <Button href={`/n/${data?.id ?? ""}`}>View Need</Button>
+            </Flex>
+          </>
+        )}
+      </Flex>
+    </Flex>
+  );
+};

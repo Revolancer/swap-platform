@@ -1,5 +1,5 @@
 import { Logo } from "@/components/branding/logo";
-import { RootState } from "@/redux/store";
+import { RootState, useAppDispatch } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 import { darkTheme, styled } from "stitches.config";
 import { contract, expand, toggle } from "./nav-toggle";
@@ -29,7 +29,7 @@ const MobileItemContainer = styled("div", {
   variants: {
     expanded: {
       true: {
-        height: "100vh",
+        height: "100dvh",
         width: "100vw",
         overflowY: "scroll",
         position: "fixed",
@@ -61,6 +61,7 @@ const MobileTopBar = ({ expanded = false }: { expanded: boolean }) => {
 };
 
 export const MobileNav = ({ items }: { items: any }) => {
+  const dispatch = useAppDispatch();
   const expanded = useSelector(
     (state: RootState) => state.navigation.toggle.expanded
   );
@@ -71,6 +72,13 @@ export const MobileNav = ({ items }: { items: any }) => {
       {expanded && (
         <Div
           css={{ paddingInline: "$6", height: "100%", marginBlockEnd: "$10" }}
+          id="container-113"
+          onClick={(e) => {
+            const id = (e.target as HTMLElement).id;
+            if (id !== "container-113" && id !== "container-112") {
+              if (expanded) dispatch(contract());
+            }
+          }}
         >
           {items}
         </Div>

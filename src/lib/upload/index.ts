@@ -5,12 +5,17 @@ export const uploadFile = async (file: File) => {
   const options = { headers: { "Content-Type": file.type } };
   const urls = await axiosPrivate
     .get(`upload/url?filename=${file.name}&size=${file.size}`)
-    .then((response) => response.data);
+    .then((response) => response.data)
+    .catch((err) => {
+      throw new Error("Error uploading file");
+    });
 
   if (!urls.signedUrl) {
     throw new Error("Error uploading file");
   } else {
-    await axios.put(urls.signedUrl, file, options);
+    await axios.put(urls.signedUrl, file, options).catch((err) => {
+      throw new Error("Error uploading file");
+    });
     return urls.publicUrl;
   }
 };

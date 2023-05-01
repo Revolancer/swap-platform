@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { PostData } from "@/lib/types";
 import Blocks, { DataProp } from "editorjs-blocks-react-renderer";
-import { H1 } from "@/components/text/headings";
+import { H1, H2, H3 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
 import { Flex } from "@/components/layout/flex";
 import { Author } from "@/components/user-posts/author";
@@ -26,7 +26,7 @@ export default function UserProfile() {
     const getUserProfileData = async () => {
       if (id != null) {
         await axiosPublic
-          .get(`portfolio/${id}`)
+          .get(`need/${id}`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
               if ((response?.data?.id ?? "") == "") {
@@ -115,21 +115,23 @@ export default function UserProfile() {
 
   return (
     <>
-      <Title>{postData?.title ? postData?.title : "Portfolio Post"}</Title>
+      <Title>{postData?.title ? postData?.title : "Need"}</Title>
       <PrimaryLayout>
         <FullWidth>
           <Flex column gap={3}>
+            {postData?.title && <H3>I Need...</H3>}
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
-            {own && (
+            {/*own && (
+              //No editing for now
               <Button
                 role="secondary"
-                href={`/portfolio/${postData?.id ?? ""}`}
+                href={`/need/${postData?.id ?? ""}`}
               >
                 Edit
               </Button>
-            )}
+            )*/}
             {postData?.data && (
               <StyledBlocksContainer>
                 <Blocks data={JSON.parse(postData.data) as DataProp} />
