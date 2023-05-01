@@ -9,13 +9,31 @@ export const FeedSegment = () => {
 
   const loadPostsForUser = useCallback(async () => {
     axiosPrivate
-      .get(`feed`)
-      .then((response) => setPosts(response.data ?? []))
-      .catch(() => setPosts([]));
-  }, []);
+      .get(`feed`, {
+        id: "feed-data",
+        cache: {
+          ttl: 1000 * 60, // 1 minute.
+        },
+      })
+      .then((response) => {
+        const firstRendered = posts.length > 0 ? posts[0].id : "";
+        const firstFetched =
+          response.data.length > 0 ? response.data[0].id : "";
+        if (firstRendered !== firstFetched) {
+          setPosts(response.data ?? []);
+        }
+      })
+      .catch(() => {
+        return;
+      });
+  }, [posts]);
 
   useEffect(() => {
+    const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
     loadPostsForUser();
+    return () => {
+      clearInterval(interval);
+    };
   }, [loadPostsForUser]);
   const staticPosts = [];
   for (const post of posts) {
