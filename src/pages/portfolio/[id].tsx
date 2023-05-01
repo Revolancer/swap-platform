@@ -38,7 +38,7 @@ export default function PortfolioEditorPage() {
   const { id } = router.query;
 
   const PortfolioEditorJs = dynamic(
-    import("@/components/portfolio/portfolio-editor-js"),
+    import("@/components/user-posts/portfolio-editor-js"),
     {
       ssr: false,
     }

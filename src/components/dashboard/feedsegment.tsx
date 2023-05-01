@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
 import { PostData } from "@/lib/types";
 import { axiosPrivate } from "@/lib/axios";
-import { PortfolioProfileCard } from "../portfolio/profile-card";
+import { PortfolioProfileCard } from "../user-posts/profile-card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 
 export const FeedSegment = () => {
