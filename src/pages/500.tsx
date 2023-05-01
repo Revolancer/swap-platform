@@ -11,7 +11,7 @@ import { Flex } from "@/components/layout/flex";
 export default function FourOhFour() {
   return (
     <>
-      <Title>Discover</Title>
+      <Title>Uh-Oh</Title>
       <PrimaryLayout>
         <FullWidth>
           <Flex column gap={3} css={{ width: "100%", alignItems: "center" }}>
