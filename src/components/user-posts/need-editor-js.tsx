@@ -1,7 +1,7 @@
 import { OutputData } from "@editorjs/editorjs";
 import EditorJS from "@editorjs/editorjs";
 import { editorTools } from "./tools";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Field, FieldProps } from "formik";
 
 const NeedEditor = ({
@@ -15,12 +15,23 @@ const NeedEditor = ({
   name: string;
   data?: OutputData;
 }) => {
+  const cleanData = useMemo(
+    () =>
+      data?.version ?? false
+        ? data
+        : {
+            time: 1682956618189,
+            blocks: [],
+            version: "2.26.5",
+          },
+    [data]
+  );
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
-  const [output, setOutput] = useState(data);
+  const [output, setOutput] = useState(cleanData);
   useEffect(() => {
     if (!editor) {
       let e = new EditorJS({
-        data: data,
+        data: cleanData,
         holder: "editorjs",
         tools: editorTools("need") as any,
         placeholder: "Let us know what you need!",
@@ -35,7 +46,7 @@ const NeedEditor = ({
       };
       doInitialSave(e);
     }
-  }, [editor, data]);
+  }, [editor, cleanData]);
   return (
     <Field name={name} id={`editor-${name}`}>
       {({ form: { setFieldValue, values } }: FieldProps) => {

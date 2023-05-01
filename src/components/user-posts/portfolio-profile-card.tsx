@@ -10,6 +10,7 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { Author } from "./author";
+import { useMemo } from "react";
 export const PortfolioProfileCard = ({
   data = {},
   own = false,
@@ -21,6 +22,23 @@ export const PortfolioProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
+  const cleanData = useMemo(() => {
+    try {
+      return JSON.parse(data?.data ?? "{}")?.version ?? false
+        ? JSON.parse(data?.data ?? "{}")
+        : {
+            time: 1682956618189,
+            blocks: [],
+            version: "2.26.5",
+          };
+    } catch (err) {
+      return {
+        time: 1682956618189,
+        blocks: [],
+        version: "2.26.5",
+      };
+    }
+  }, [data]);
   const getFirstImage = (data: OutputData) => {
     if (placeholder) return "";
     for (const block of data.blocks) {
@@ -29,7 +47,7 @@ export const PortfolioProfileCard = ({
       }
     }
   };
-  const firstImage = getFirstImage(JSON.parse(data?.data ?? "{}"));
+  const firstImage = getFirstImage(cleanData);
   const getSummary = (data: OutputData) => {
     if (placeholder) return {};
     for (const block of data.blocks) {
@@ -38,7 +56,7 @@ export const PortfolioProfileCard = ({
       }
     }
   };
-  const summary = getSummary(JSON.parse(data?.data ?? "{}"));
+  const summary = getSummary(cleanData);
 
   const PostImageContainer = styled("div", {
     backgroundColor: "$neutral300",

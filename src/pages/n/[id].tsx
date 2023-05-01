@@ -2,7 +2,7 @@ import { FullWidth } from "@/components/layout/columns";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { PostData } from "@/lib/types";
 import Blocks, { DataProp } from "editorjs-blocks-react-renderer";
@@ -45,6 +45,24 @@ export default function UserProfile() {
     };
     getUserProfileData();
   }, [id]);
+
+  const cleanData = useMemo(() => {
+    try {
+      return JSON.parse(postData?.data ?? "{}")?.version ?? false
+        ? JSON.parse(postData?.data ?? "{}")
+        : {
+            time: 1682956618189,
+            blocks: [],
+            version: "2.26.5",
+          };
+    } catch (err) {
+      return {
+        time: 1682956618189,
+        blocks: [],
+        version: "2.26.5",
+      };
+    }
+  }, [postData]);
 
   const StyledBlocksContainer = styled("div", {
     "& .image-block--stretched": {
@@ -134,7 +152,7 @@ export default function UserProfile() {
             )*/}
             {postData?.data && (
               <StyledBlocksContainer>
-                <Blocks data={JSON.parse(postData.data) as DataProp} />
+                <Blocks data={cleanData} />
               </StyledBlocksContainer>
             )}
           </Flex>

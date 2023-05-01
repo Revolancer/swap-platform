@@ -6,6 +6,7 @@ import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
 import { Button, TertiaryButton } from "../navigation/button";
 import { Author } from "./author";
+import { useMemo } from "react";
 export const NeedProfileCard = ({
   data = {},
   placeholder = false,
@@ -16,6 +17,23 @@ export const NeedProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
+  const cleanData = useMemo(() => {
+    try {
+      return JSON.parse(data?.data ?? "{}")?.version ?? false
+        ? JSON.parse(data?.data ?? "{}")
+        : {
+            time: 1682956618189,
+            blocks: [],
+            version: "2.26.5",
+          };
+    } catch (err) {
+      return {
+        time: 1682956618189,
+        blocks: [],
+        version: "2.26.5",
+      };
+    }
+  }, [data]);
   const getSummary = (data: OutputData) => {
     if (placeholder) return {};
     for (const block of data.blocks) {
@@ -24,7 +42,7 @@ export const NeedProfileCard = ({
       }
     }
   };
-  const summary = getSummary(JSON.parse(data?.data ?? "{}"));
+  const summary = getSummary(cleanData);
 
   return (
     <Flex
