@@ -21,6 +21,7 @@ import { AboutSegment } from "@/components/user/aboutsegment";
 import { PortfolioSegment } from "@/components/user/portfoliosegment";
 import { Div } from "@/components/layout/utils";
 import store from "@/redux/store";
+import { NeedsSegment } from "@/components/user/needssegment";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -91,16 +92,19 @@ export default function UserProfile() {
           </Div>
         </SideBar>
         <MainContentWithSideBar>
-          <Tagline uid={userProfile?.user?.id ?? ""} own={own} />
-          <H5>
-            {userProfile?.first_name ? `${userProfile?.first_name}'s` : "My"}{" "}
-            Needs
-          </H5>
-          <H5>
-            {userProfile?.first_name ? `${userProfile?.first_name}'s` : "My"}{" "}
-            Portfolio
-          </H5>
-          <PortfolioSegment uid={userProfile?.user?.id ?? ""} own={own} />
+          <Flex column gap={8}>
+            <Tagline uid={userProfile?.user?.id ?? ""} own={own} />
+            <NeedsSegment
+              name={userProfile?.first_name ?? ""}
+              uid={userProfile?.user?.id ?? ""}
+              own={own}
+            />
+            <PortfolioSegment
+              name={userProfile?.first_name ?? ""}
+              uid={userProfile?.user?.id ?? ""}
+              own={own}
+            />
+          </Flex>
         </MainContentWithSideBar>
       </PrimaryLayout>
     </>
