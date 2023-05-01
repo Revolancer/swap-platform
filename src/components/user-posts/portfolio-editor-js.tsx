@@ -18,7 +18,7 @@ const PortfolioEditor = ({
       let e = new EditorJS({
         data: data,
         holder: "editorjs",
-        tools: editorTools(),
+        tools: editorTools() as any,
         placeholder: "Let us know about a project you've worked on!",
         onChange: async (api) => {
           setOutput(await api.saver.save());
