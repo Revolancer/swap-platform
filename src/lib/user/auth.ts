@@ -84,6 +84,9 @@ export const userSlice = createSlice({
       state.password = "";
       state.success = false;
       state.error = false;
+      if (typeof window !== "undefined") {
+        window.location.href = "/login";
+      }
     },
   },
   extraReducers: (builder) => {
