@@ -131,6 +131,7 @@ export const MainNav = () => {
           <Flex
             column
             css={{ justifyContent: "space-between", height: "100%" }}
+            id="container-112"
           >
             <Flex column css={{ marginBlockStart: "$10" }} gap={4}>
               <Navigable
@@ -213,8 +214,12 @@ export const MainNav = () => {
     <Container expanded={expanded}>
       <DesktopItemContainer
         expanded={expanded}
-        onClick={() => {
-          if (!expanded) dispatch(expand());
+        id="container-111"
+        onClick={(e) => {
+          const id = (e.target as HTMLElement).id;
+          if (id == "container-111" || id == "container-112") {
+            if (!expanded) dispatch(expand());
+          }
         }}
       >
         <Flex
