@@ -29,7 +29,7 @@ const MobileItemContainer = styled("div", {
   variants: {
     expanded: {
       true: {
-        height: "100vh",
+        height: "100dvh",
         width: "100vw",
         overflowY: "scroll",
         position: "fixed",
