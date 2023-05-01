@@ -17,9 +17,9 @@ export const FeedSegment = () => {
         },
       })
       .then((response) => {
-        const firstRendered = posts.length > 0 ? posts[0].id : "";
+        const firstRendered = posts.length > 0 ? posts[0].data.id : "";
         const firstFetched =
-          response.data.length > 0 ? response.data[0].id : "";
+          response.data.length > 0 ? response.data[0].data.id : "";
         if (firstRendered !== firstFetched) {
           setPosts(response.data ?? []);
         }
