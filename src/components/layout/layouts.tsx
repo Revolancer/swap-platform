@@ -46,6 +46,7 @@ const MainGridInner = styled("div", {
   position: "absolute",
   top: 0,
   left: 0,
+  paddingBlockEnd: "$16",
 
   "@sm": {
     width: "calc(100vw - 72px)",

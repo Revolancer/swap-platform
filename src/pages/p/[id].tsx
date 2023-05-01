@@ -107,7 +107,7 @@ export default function UserProfile() {
       <Title>{postData?.title ? postData?.title : "Portfolio Post"}</Title>
       <PrimaryLayout>
         <FullWidth>
-          <Flex column gap={3} css={{ paddingBlockEnd: "$16" }}>
+          <Flex column gap={3}>
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
