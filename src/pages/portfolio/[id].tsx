@@ -15,6 +15,7 @@ import { useEffect, useState } from "react";
 import { PostData } from "@/lib/types";
 import { H1 } from "@/components/text/headings";
 import { Flex } from "@/components/layout/flex";
+import store from "@/redux/store";
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -84,6 +85,11 @@ export default function PortfolioEditorPage() {
                         "Oops, something went wrong"
                       );
                     } else {
+                      const self =
+                        store?.getState()?.userData?.user?.id ?? "guest";
+                      await axiosPublic.storage.remove(
+                        `user-portfolio-${self}`
+                      );
                       window.location.href = `/p/${response?.data ?? ""}`;
                     }
                   })

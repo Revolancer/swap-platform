@@ -16,7 +16,9 @@ export const PortfolioSegment = ({
 
   const loadPostsForUser = useCallback(async () => {
     axiosPublic
-      .get(`portfolio/for_user/${uid}`)
+      .get(`portfolio/for_user/${uid}`, {
+        id: `user-portfolio-${uid}`,
+      })
       .then((response) => setPosts(response.data ?? []))
       .catch(() => setPosts([]));
   }, [uid]);
