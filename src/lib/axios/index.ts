@@ -2,13 +2,18 @@ import store from "@/redux/store";
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 import { logout, refreshToken } from "../user/auth";
+import { setupCache } from "axios-cache-interceptor";
 
-export const axiosPublic = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_HOST,
-});
-export const axiosPrivate = axios.create({
-  baseURL: process.env.NEXT_PUBLIC_API_HOST,
-});
+export const axiosPublic = setupCache(
+  axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_HOST,
+  })
+);
+export const axiosPrivate = setupCache(
+  axios.create({
+    baseURL: process.env.NEXT_PUBLIC_API_HOST,
+  })
+);
 
 axiosPrivate.interceptors.request.use(
   async (config) => {
