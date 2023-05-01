@@ -41,3 +41,8 @@ export interface PostData {
   tags?: Tag[];
   data?: string;
 }
+
+export interface FeedPostData {
+  type: "portfolio" | "need";
+  data: PostData;
+}

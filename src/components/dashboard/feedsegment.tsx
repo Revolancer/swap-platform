@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useState } from "react";
-import { PostData } from "@/lib/types";
+import { FeedPostData } from "@/lib/types";
 import { axiosPrivate } from "@/lib/axios";
 import { PortfolioProfileCard } from "../user-posts/portfolio-profile-card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { NeedProfileCard } from "../user-posts/need-profile-card";
 
 export const FeedSegment = () => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<FeedPostData[]>([]);
 
   const loadPostsForUser = useCallback(async () => {
     axiosPrivate
@@ -37,9 +38,23 @@ export const FeedSegment = () => {
   }, [loadPostsForUser]);
   const staticPosts = [];
   for (const post of posts) {
-    staticPosts.push(
-      <PortfolioProfileCard data={post} key={post?.id ?? ""} withAuthor />
-    );
+    if (post.type == "need") {
+      staticPosts.push(
+        <NeedProfileCard
+          data={post.data}
+          key={post.data?.id ?? ""}
+          withAuthor
+        />
+      );
+    } else {
+      staticPosts.push(
+        <PortfolioProfileCard
+          data={post.data}
+          key={post.data?.id ?? ""}
+          withAuthor
+        />
+      );
+    }
   }
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
