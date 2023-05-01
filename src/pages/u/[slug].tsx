@@ -1,14 +1,8 @@
-import { ChargeBeePortalButton } from "@/components/chargebee/chargebee";
-import {
-  FullWidth,
-  MainContentWithSideBar,
-  SideBar,
-} from "@/components/layout/columns";
+import { MainContentWithSideBar, SideBar } from "@/components/layout/columns";
 import { Flex } from "@/components/layout/flex";
 import { PrimaryLayout } from "@/components/layout/layouts";
-import { Button } from "@/components/navigation/button";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { H1, H2, H5 } from "@/components/text/headings";
+import { axiosPrivate } from "@/lib/axios";
+import { H1 } from "@/components/text/headings";
 import { Title } from "@/components/head/title";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -22,36 +16,56 @@ import { PortfolioSegment } from "@/components/user/portfoliosegment";
 import { Div } from "@/components/layout/utils";
 import store from "@/redux/store";
 import { NeedsSegment } from "@/components/user/needssegment";
+import FourOhFour from "../404";
 
 export default function UserProfile() {
   const router = useRouter();
   const { slug } = router.query;
   const [userProfile, setUserProfile] = useState<UserProfileData>({});
   const [own, setOwn] = useState(false);
+  const [isNotFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const getUserProfileData = async () => {
       if (slug === "profile") {
         setOwn(true);
-        const response = await axiosPrivate.get(`user/profile`);
-        if ((response?.data ?? null) != null) {
-          setUserProfile(response.data);
-        }
+        await axiosPrivate
+          .get(`user/profile`)
+          .then((res) => {
+            if ((res?.data ?? null) != null) {
+              setUserProfile(res.data);
+            }
+          })
+          .catch((err) => {
+            setNotFound(true);
+          });
       } else if (slug != null) {
-        const response = await axiosPrivate.get(`user/profile/${slug}`);
-        if ((response?.data ?? null) != null) {
-          setUserProfile(response.data);
-          const self = store?.getState()?.userData?.user?.id ?? "guest";
-          if ((userProfile?.user?.id ?? "") == self) {
-            setOwn(true);
-          } else {
-            setOwn(false);
-          }
-        }
+        await axiosPrivate
+          .get(`user/profile/${slug}`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if ((response?.data?.id ?? "") == "") {
+                setNotFound(true);
+              }
+              setUserProfile(response.data);
+              const self = store?.getState()?.userData?.user?.id ?? "guest";
+              if ((userProfile?.user?.id ?? "") == self) {
+                setOwn(true);
+              } else {
+                setOwn(false);
+              }
+            }
+          })
+          .catch((err) => {
+            setNotFound(true);
+          });
       }
     };
     getUserProfileData();
   }, [slug, userProfile?.user?.id]);
+  if (isNotFound) {
+    return <FourOhFour />;
+  }
   return (
     <>
       <Title>

@@ -27,8 +27,10 @@ export default function Settings() {
   const [tags, setTags] = useState<Tag[]>([]);
 
   const loadTags = async () => {
-    const response = await axiosPublic.get("tags/with_parents");
-    setTags(response.data ?? []);
+    await axiosPublic
+      .get("tags/with_parents")
+      .then((response) => setTags(response.data ?? []))
+      .catch((err) => setTags([]));
   };
 
   useEffect(() => {

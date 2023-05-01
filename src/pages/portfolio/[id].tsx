@@ -16,6 +16,7 @@ import { PostData } from "@/lib/types";
 import { H1 } from "@/components/text/headings";
 import { Flex } from "@/components/layout/flex";
 import store from "@/redux/store";
+import FourOhFour from "../404";
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -35,6 +36,7 @@ export default function PortfolioEditorPage() {
   const [isNew, setNew] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedData, setLoadedData] = useState<PostData | undefined>(undefined);
+  const [isNotFound, setNotFound] = useState(false);
   const { id } = router.query;
 
   const PortfolioEditorJs = dynamic(
@@ -47,11 +49,20 @@ export default function PortfolioEditorPage() {
   useEffect(() => {
     const loadPost = async () => {
       if (id != null && id != "new") {
-        const response = await axiosPublic.get(`portfolio/${id}`);
-        if ((response?.data ?? null) != null) {
-          setLoadedData(response.data);
-          setHasLoaded(true);
-        }
+        await axiosPublic
+          .get(`portfolio/${id}`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if ((response?.data?.id ?? "") == "") {
+                setNotFound(true);
+              }
+              setLoadedData(response.data);
+              setHasLoaded(true);
+            }
+          })
+          .catch((err) => {
+            setNotFound(true);
+          });
       } else if (id == "new") {
         setNew(true);
         setHasLoaded(true);
@@ -59,6 +70,9 @@ export default function PortfolioEditorPage() {
     };
     loadPost();
   }, [id]);
+  if (isNotFound) {
+    return <FourOhFour />;
+  }
 
   return (
     <>

@@ -13,25 +13,34 @@ import { Author } from "@/components/user-posts/author";
 import { styled } from "stitches.config";
 import store from "@/redux/store";
 import { Button } from "@/components/navigation/button";
+import FourOhFour from "../404";
 
 export default function UserProfile() {
   const router = useRouter();
   const { id } = router.query;
   const [postData, setPostData] = useState<PostData>({});
   const [own, setOwn] = useState(false);
+  const [isNotFound, setNotFound] = useState(false);
 
   useEffect(() => {
     const getUserProfileData = async () => {
       if (id != null) {
-        const response = await axiosPublic.get(`portfolio/${id}`);
-        if ((response?.data ?? null) != null) {
-          setPostData(response.data);
-          const self = store?.getState()?.userData?.user?.id ?? "guest";
-          console.log(self, response.data?.user?.id ?? "");
-          if ((response.data?.user?.id ?? "") == self) {
-            setOwn(true);
-          }
-        }
+        await axiosPublic
+          .get(`portfolio/${id}`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if ((response?.data?.id ?? "") == "") {
+                setNotFound(true);
+              }
+              setPostData(response.data);
+              const self = store?.getState()?.userData?.user?.id ?? "guest";
+              console.log(self, response.data?.user?.id ?? "");
+              if ((response.data?.user?.id ?? "") == self) {
+                setOwn(true);
+              }
+            }
+          })
+          .catch((err) => setNotFound(true));
       }
     };
     getUserProfileData();
@@ -100,7 +109,9 @@ export default function UserProfile() {
       marginInline: "auto",
     },
   });
-  console.log(own);
+  if (isNotFound) {
+    return <FourOhFour />;
+  }
 
   return (
     <>

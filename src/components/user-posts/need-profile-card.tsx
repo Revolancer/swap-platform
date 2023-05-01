@@ -9,9 +9,8 @@ import { styled } from "stitches.config";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
-import { Div } from "../layout/utils";
 import { Author } from "./author";
-export const PortfolioProfileCard = ({
+export const NeedProfileCard = ({
   data = {},
   own = false,
   placeholder = false,
