@@ -35,7 +35,7 @@ export const ProfileImage = ({
 
   const loadImageForUser = useCallback(() => {
     axiosPublic
-      .get(`user/profile_picture/${uid}`)
+      .get(`user/profile_picture/${uid}`, { id: `user-image-${uid}` })
       .then((response) => setUrl(response.data?.profile_image ?? ""))
       .catch(() => setUrl(""));
   }, [uid]);
@@ -108,6 +108,7 @@ export const ProfileImage = ({
                   "Oops, something went wrong"
                 );
               } else {
+                await axiosPublic.storage.remove(`user-image-${uid}`);
                 await toggleEdit();
               }
             })

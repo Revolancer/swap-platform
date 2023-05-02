@@ -47,7 +47,7 @@ export const Timezone = ({
 
   const loadTimezone = useCallback(async () => {
     axiosPublic
-      .get(`user/timezone/${uid}`)
+      .get(`user/timezone/${uid}`, { id: `user-timezone-${uid}` })
       .then((response) => setTimezone(response.data?.timezone ?? ""))
       .catch(() => setTimezone(""));
   }, [uid]);
@@ -88,6 +88,7 @@ export const Timezone = ({
               if (response.data?.success == "false") {
                 actions.setFieldError("timezone", "Oops, something went wrong");
               } else {
+                await axiosPublic.storage.remove(`user-timezone-${uid}`);
                 toggleEdit();
               }
             })
