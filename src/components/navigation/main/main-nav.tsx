@@ -8,12 +8,12 @@ import Link from "next/link";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faAnglesLeft,
-  faArrowUpFromBracket,
   faBriefcase,
   faChartPie,
   faCog,
   faHouse,
   faLayerGroup,
+  faRightFromBracket,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
@@ -191,16 +191,21 @@ export const MainNav = () => {
                       ? `${ownProfile?.first_name} ${ownProfile?.last_name}`
                       : "My Profile")}
                 </NavLink>
-                {expanded && (
-                  <TertiaryButton
-                    css={{ color: "$white", fontSize: "1.4rem" }}
-                    aria-label="Log out"
-                    onClick={() => dispatch(logout())}
-                  >
-                    <FontAwesomeIcon icon={faArrowUpFromBracket} />
-                  </TertiaryButton>
-                )}
               </Flex>
+              {expanded && (
+                <Flex
+                  gap={4}
+                  css={{ justifyContent: expanded ? "flex-start" : "center" }}
+                >
+                  <NavLink href="#" onClick={() => dispatch(logout())}>
+                    <FontAwesomeIcon
+                      icon={faRightFromBracket}
+                      style={{ fontSize: "1.4rem" }}
+                    />
+                    Log Out
+                  </NavLink>
+                </Flex>
+              )}
             </Flex>
           </Flex>
         </>
