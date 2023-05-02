@@ -101,12 +101,14 @@ export default function UserProfile() {
                     ? `${userProfile?.first_name} ${userProfile?.last_name}`
                     : "User Profile"}
                 </H1>
-                <Button
-                  role="secondary"
-                  href={`/message/${userProfile?.user?.id ?? ""}`}
-                >
-                  <FontAwesomeIcon icon={faMessage} />
-                </Button>
+                {!own && (
+                  <Button
+                    role="secondary"
+                    href={`/message/${userProfile?.user?.id ?? ""}`}
+                  >
+                    <FontAwesomeIcon icon={faMessage} /> Message
+                  </Button>
+                )}
               </Flex>
               <AboutSegment uid={userProfile?.user?.id ?? ""} own={own} />
               <Timezone uid={userProfile?.user?.id ?? ""} own={own} />

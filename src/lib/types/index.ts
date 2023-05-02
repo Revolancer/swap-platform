@@ -46,3 +46,18 @@ export interface FeedPostData {
   type: "portfolio" | "need";
   data: PostData;
 }
+
+export interface MessageThreadSummary {
+  time?: Date;
+  uid?: string;
+  count?: number;
+  countUnread?: number;
+  lastMessage?: string;
+}
+
+export interface Message {
+  time?: Date;
+  uid?: string;
+  read?: boolean;
+  body?: string;
+}
