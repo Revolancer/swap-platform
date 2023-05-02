@@ -1,6 +1,6 @@
 import { createStitches } from "@stitches/react";
-import { Montserrat } from "@next/font/google";
-import { Source_Sans_Pro } from "@next/font/google";
+import { Montserrat } from "next/font/google";
+import { Source_Sans_Pro } from "next/font/google";
 
 const headfont = Montserrat({
   style: ["normal", "italic"],
