@@ -17,7 +17,6 @@ import {
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
-import { TertiaryButton } from "../button";
 import { logout } from "@/lib/user/auth";
 import { axiosPrivate } from "@/lib/axios";
 import { UserProfileData } from "@/lib/types";
