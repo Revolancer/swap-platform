@@ -17,6 +17,9 @@ import { Div } from "@/components/layout/utils";
 import store from "@/redux/store";
 import { NeedsSegment } from "@/components/user/needssegment";
 import FourOhFour from "../404";
+import { Button } from "@/components/navigation/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMessage } from "@fortawesome/free-regular-svg-icons";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -98,6 +101,12 @@ export default function UserProfile() {
                     ? `${userProfile?.first_name} ${userProfile?.last_name}`
                     : "User Profile"}
                 </H1>
+                <Button
+                  role="secondary"
+                  href={`/message/${userProfile?.user?.id ?? ""}`}
+                >
+                  <FontAwesomeIcon icon={faMessage} />
+                </Button>
               </Flex>
               <AboutSegment uid={userProfile?.user?.id ?? ""} own={own} />
               <Timezone uid={userProfile?.user?.id ?? ""} own={own} />
