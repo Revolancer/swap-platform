@@ -19,9 +19,6 @@ export const MessageInput = ({
   uid: string;
   refresh?: () => void;
 }) => {
-  useEffect(() => {
-    console.log("rerendered input field");
-  });
   return (
     <Formik
       initialValues={{

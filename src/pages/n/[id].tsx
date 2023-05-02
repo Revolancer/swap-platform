@@ -34,7 +34,6 @@ export default function UserProfile() {
               }
               setPostData(response.data);
               const self = store?.getState()?.userData?.user?.id ?? "guest";
-              console.log(self, response.data?.user?.id ?? "");
               if ((response.data?.user?.id ?? "") == self) {
                 setOwn(true);
               }

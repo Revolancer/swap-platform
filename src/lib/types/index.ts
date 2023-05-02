@@ -56,8 +56,14 @@ export interface MessageThreadSummary {
 }
 
 export interface Message {
-  time?: Date;
-  uid?: string;
-  read?: boolean;
-  body?: string;
+  id: string;
+  body: string;
+  read: boolean;
+  read_at: string;
+  admin_hidden: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  sender: string;
+  reciever: string;
 }

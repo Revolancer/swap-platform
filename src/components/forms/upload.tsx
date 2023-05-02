@@ -65,7 +65,6 @@ const UploadField = ({
           }
           try {
             setFieldValue(name, await uploadFile(file));
-            console.log("hello");
           } catch (err: any) {
             setFieldError(name, `Error uploading file`);
             setFieldTouched(name, true, false);

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Flex } from "../layout/flex";
 import { axiosPrivate } from "@/lib/axios";
 import { MessageThreadSummary } from "@/lib/types";
