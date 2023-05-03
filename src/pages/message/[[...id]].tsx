@@ -11,6 +11,7 @@ import { Divider } from "@/components/layout/divider";
 import { Flex } from "@/components/layout/flex";
 import { CurrentThread } from "@/components/messaging/current-thread";
 import { ThreadList } from "@/components/messaging/thread-list";
+import { P } from "@/components/text/text";
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -18,6 +19,7 @@ export default function MessageCenter() {
   const [activeThreadProfile, setActiveThreadProfile] =
     useState<UserProfileData>();
   const [activeThread, setActiveThread] = useState("");
+  const [allMessageCount, setAllMessageCount] = useState(0);
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -37,6 +39,16 @@ export default function MessageCenter() {
           setActiveThread("");
         });
     };
+    const checkIfAnyMessages = async () => {
+      await axiosPrivate
+        .get(`message/count_all`)
+        .then((res) => res.data)
+        .then((data) => {
+          setAllMessageCount(data);
+        })
+        .catch((err) => {});
+    };
+    checkIfAnyMessages();
     if (typeof id !== "undefined") {
       try {
         //If url param is a valid uuid, we can try to open a thread with that user
@@ -64,6 +76,14 @@ export default function MessageCenter() {
               <Divider css={{ flexGrow: 0 }} />
               <CurrentThread uid={activeThread} />
             </Flex>
+          )}
+          {!activeThreadProfile && allMessageCount < 1 && (
+            <P css={{ color: "$neutral600" }}>
+              Looks like you haven&rsquo;t messaged anyone just yet
+            </P>
+          )}
+          {!activeThreadProfile && allMessageCount >= 1 && (
+            <P css={{ color: "$neutral600" }}>Select a conversation</P>
           )}
         </MainContentWithSideBar>
       </PrimaryLayout>

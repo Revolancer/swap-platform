@@ -9,7 +9,6 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
 
   useEffect(() => {
     const loadThreads = async () => {
-      console.log("Oh baby I'm refreshing so hard right now");
       axiosPrivate
         .get("message", {
           id: `message-threads`,

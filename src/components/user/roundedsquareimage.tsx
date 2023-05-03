@@ -53,10 +53,11 @@ export const RoundedSquareImage = ({
   const ProfileImage = styled(Image, {
     objectFit: "cover",
   });
+  console.log(url);
 
   return (
     <ProfileImageContainer size={size}>
-      {url != "" && (
+      {url && url != "" && (
         <>
           <ProfileImage
             src={url}

@@ -21,6 +21,8 @@ import { logout } from "@/lib/user/auth";
 import { axiosPrivate } from "@/lib/axios";
 import { UserProfileData } from "@/lib/types";
 import { RoundedSquareImage } from "@/components/user/roundedsquareimage";
+import { Divider } from "@/components/layout/divider";
+import { SidebarMessagesIndicator } from "@/components/messaging/sidebar-messages-indicator";
 
 const Container = styled("div", {
   backgroundColor: "$navy900",
@@ -129,10 +131,16 @@ export const MainNav = () => {
         <>
           <Flex
             column
-            css={{ justifyContent: "space-between", height: "100%" }}
+            css={{
+              justifyContent: "space-between",
+              height: "100%",
+              width: "100%",
+            }}
             id="container-112"
           >
             <Flex column css={{ marginBlockStart: "$10" }} gap={4}>
+              <SidebarMessagesIndicator expanded={expanded} />
+              <Divider color="white" />
               <Navigable
                 label="Discovery Feed"
                 icon={faHouse}

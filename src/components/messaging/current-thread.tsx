@@ -78,12 +78,19 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
     };
   }, [loadActiveThread, uid, scrollToBottom]);
 
+  const sendReadReceipt = async (id: string) => {
+    axiosPrivate.post(`message/acknowledge/${id}`).catch((err) => {});
+  };
+
   const renderMessageArray = () => {
     const rendered = [];
     let lastSender = "";
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     for (const message of messages) {
+      if (!message.read) {
+        sendReadReceipt(message.id);
+      }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date
       if (lastTime.startOf("day") < thisTime.startOf("day")) {
