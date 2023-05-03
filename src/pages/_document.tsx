@@ -52,7 +52,16 @@ export default function Document() {
         <meta name="msapplication-TileColor" content="#0d253a" />
         <meta name="theme-color" content="#0d253a" />
         <link rel="dns-prefetch" href="https://api.revolancer.com" />
-        <link rel="preconnect" href="https://api.revolancer.com" />
+        <link
+          rel="preconnect"
+          href="https://api.revolancer.com"
+          crossOrigin="anonymous"
+        />
+        <link
+          rel="preconnect"
+          href="https://vitals.vercel-insights.com"
+          crossOrigin="anonymous"
+        />
       </Head>
       <body>
         <Main />
