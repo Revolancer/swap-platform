@@ -57,11 +57,6 @@ export default function Document() {
           href="https://api.revolancer.com"
           crossOrigin="anonymous"
         />
-        <link
-          rel="preconnect"
-          href="https://vitals.vercel-insights.com"
-          crossOrigin="anonymous"
-        />
       </Head>
       <body>
         <Main />
