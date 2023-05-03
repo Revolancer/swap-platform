@@ -52,13 +52,16 @@ export default function MessageCenter() {
       <Title>Messages</Title>
       <PrimaryLayout>
         <SideBar>
-          <ThreadList />
+          <ThreadList activeThread={activeThread} />
         </SideBar>
         <MainContentWithSideBar>
           {activeThreadProfile && (
-            <Flex column css={{ maxHeight: "max(400px, 85dvh)" }}>
+            <Flex
+              column
+              css={{ maxHeight: "max(400px, 85dvh)", height: "100vh" }}
+            >
               <CurrentThreadAuthor data={activeThreadProfile} />
-              <Divider />
+              <Divider css={{ flexGrow: 0 }} />
               <CurrentThread uid={activeThread} />
             </Flex>
           )}

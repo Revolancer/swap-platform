@@ -6,7 +6,6 @@ import { InputOuter, TextAreaInner } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { Flex } from "../layout/flex";
 import { Button } from "../navigation/button";
-import { useEffect } from "react";
 
 const MessageSchema = Yup.object().shape({
   body: Yup.string().optional().ensure(),

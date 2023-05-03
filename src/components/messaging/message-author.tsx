@@ -27,7 +27,7 @@ export const MessageAuthor = ({
   });
 
   return (
-    <Flex css={{ alignItems: "center" }}>
+    <Flex css={{ alignItems: "center", paddingTop: "$3" }}>
       <ProfileImageContainer>
         {profile?.profile_image && (
           <ProfileImage

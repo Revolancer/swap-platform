@@ -1,31 +1,41 @@
 import { axiosPrivate } from "@/lib/axios";
 import { Message, UserProfileData } from "@/lib/types";
-import { useCallback, useEffect, useState } from "react";
+import { LegacyRef, useCallback, useEffect, useState } from "react";
 import { LabelledDivider } from "../layout/divider";
 import { Div } from "../layout/utils";
 import { MessageInput } from "./message-input";
 import { DateTime } from "luxon";
 import store from "@/redux/store";
 import { MessageAuthor } from "./message-author";
+import { relative } from "path";
 
 export const CurrentThread = ({ uid }: { uid: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
+  const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
+  const scrollToBottom = useCallback(() => {
+    if (messagesEnd) messagesEnd.scrollIntoView({ behavior: "smooth" });
+  }, [messagesEnd]);
 
   const loadActiveThread = useCallback(() => {
     if (uid == "") return;
     axiosPrivate
       .get(`message/${uid}`, {
-        id: `mesage-threads-${uid}`,
+        id: `message-threads-${uid}`,
         cache: {
-          ttl: 10 * 1000,
+          ttl: 20 * 1000,
         },
       })
       .then((res) => res.data)
-      .then((data) => setMessages(data))
+      .then((data) => {
+        if (data.length != messages.length) {
+          scrollToBottom();
+          setMessages(data);
+        }
+      })
       .catch((err) => setMessages([]));
-  }, [uid]);
+  }, [uid, messages, scrollToBottom]);
 
   useEffect(() => {
     const loadProfiles = async () => {
@@ -61,11 +71,12 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
     };
     loadProfiles();
     loadActiveThread();
+    scrollToBottom();
     const refreshActiveThread = setInterval(loadActiveThread, 20 * 1000);
     return () => {
       clearInterval(refreshActiveThread);
     };
-  }, [loadActiveThread, uid]);
+  }, [loadActiveThread, uid, scrollToBottom]);
 
   const renderMessageArray = () => {
     const rendered = [];
@@ -97,6 +108,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
       }
       //Sender chip
       if (
+        lastTime.startOf("day") < thisTime.startOf("day") ||
         lastTime.plus({ hours: 6 }) < thisTime ||
         lastSender != message.sender
       ) {
@@ -141,6 +153,14 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
     <>
       <Div css={{ flexGrow: "1", overflowY: "auto" }}>
         {renderMessageArray()}
+        <div style={{ position: "relative" }}>
+          <div
+            style={{ position: "absolute", top: "0.1rem" }}
+            ref={(el) => {
+              if (el) setMessagesEnd(el);
+            }}
+          ></div>
+        </div>
       </Div>
       <MessageInput uid={uid} refresh={loadActiveThread} />
     </>

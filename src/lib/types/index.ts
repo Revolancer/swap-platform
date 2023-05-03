@@ -47,14 +47,6 @@ export interface FeedPostData {
   data: PostData;
 }
 
-export interface MessageThreadSummary {
-  time?: Date;
-  uid?: string;
-  count?: number;
-  countUnread?: number;
-  lastMessage?: string;
-}
-
 export interface Message {
   id: string;
   body: string;

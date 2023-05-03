@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import { Flex } from "../layout/flex";
 import { axiosPrivate } from "@/lib/axios";
-import { MessageThreadSummary } from "@/lib/types";
+import { Message } from "@/lib/types";
+import { ThreadListEntry } from "./thread-list-entry";
 
-export const ThreadList = () => {
-  const [threads, setThreads] = useState<MessageThreadSummary[]>([]);
+export const ThreadList = ({ activeThread }: { activeThread: string }) => {
+  const [threads, setThreads] = useState<Message[]>([]);
 
   useEffect(() => {
     const loadThreads = async () => {
+      console.log("Oh baby I'm refreshing so hard right now");
       axiosPrivate
         .get("message", {
           id: `message-threads`,
@@ -26,9 +28,23 @@ export const ThreadList = () => {
     };
   }, []);
 
+  const displayThreads = () => {
+    const rendered = [];
+    for (const thread of threads) {
+      rendered.push(
+        <ThreadListEntry
+          message={thread}
+          key={thread.id}
+          activeThread={activeThread}
+        />
+      );
+    }
+    return rendered;
+  };
+
   return (
-    <Flex column css={{ maxHeight: "85dvh" }}>
-      Threads Here
+    <Flex column css={{ maxHeight: "85dvh" }} gap={0}>
+      {displayThreads()}
     </Flex>
   );
 };
