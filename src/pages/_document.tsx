@@ -51,6 +51,8 @@ export default function Document() {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#0d253a" />
         <meta name="msapplication-TileColor" content="#0d253a" />
         <meta name="theme-color" content="#0d253a" />
+        <link rel="dns-prefetch" href="https://api.revolancer.com" />
+        <link rel="preconnect" href="https://api.revolancer.com" />
       </Head>
       <body>
         <Main />
