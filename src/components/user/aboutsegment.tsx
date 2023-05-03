@@ -30,7 +30,7 @@ export const AboutSegment = ({
 
   const loadAboutForUser = useCallback(async () => {
     axiosPublic
-      .get(`user/about/${uid}`)
+      .get(`user/about/${uid}`, { id: `user-about-${uid}` })
       .then((response) => setAbout(response.data?.about ?? ""))
       .catch(() => setAbout(""));
   }, [uid]);
@@ -44,7 +44,16 @@ export const AboutSegment = ({
   const StaticAbout = () => {
     return (
       <P css={{ color: `${placeholder() ? "$neutral600" : "$neutral800"}` }}>
-        {placeholder() ? "Tell us a bit about yourself" : about}
+        {placeholder()
+          ? "Tell us a bit about yourself"
+          : about.split("\n").map(function (item, idx) {
+              return (
+                <span key={idx}>
+                  {item}
+                  <br />
+                </span>
+              );
+            })}
       </P>
     );
   };
@@ -68,6 +77,7 @@ export const AboutSegment = ({
               if (response.data?.success == "false") {
                 actions.setFieldError("about", "Oops, something went wrong");
               } else {
+                await axiosPublic.storage.remove(`user-about-${uid}`);
                 await loadAboutForUser();
                 toggleEdit();
               }

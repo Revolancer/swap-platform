@@ -164,8 +164,14 @@ const linkStyles = {
   },
 };
 
+const unstyledLinkStyles = {
+  textDecoration: "none",
+  color: "inherit",
+};
+
 export const Button = styled(Interactive.A, styles);
 export const FormButton = styled(Interactive.Button, styles);
 export const TertiaryButton = styled(Interactive.A, tertiaryStyles);
 export const TertiaryFormButton = styled(Interactive.Button, tertiaryStyles);
 export const Link = styled(Interactive.A, linkStyles);
+export const UnstyledLink = styled(Interactive.A, unstyledLinkStyles);

@@ -32,7 +32,7 @@ export const Tagline = ({
 
   const loadTagline = useCallback(() => {
     axiosPublic
-      .get(`user/tagline/${uid}`)
+      .get(`user/tagline/${uid}`, { id: `user-tagline-${uid}` })
       .then((response) => setTagline(response.data?.tagline ?? ""))
       .catch(() => setTagline(""));
   }, [uid]);
@@ -77,6 +77,7 @@ export const Tagline = ({
               if (response.data?.success == "false") {
                 actions.setFieldError("tagline", "Oops, something went wrong");
               } else {
+                await axiosPublic.storage.remove(`user-tagline-${uid}`);
                 toggleEdit();
               }
             })

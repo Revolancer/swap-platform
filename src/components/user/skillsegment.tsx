@@ -27,7 +27,7 @@ export const SkillSegment = ({
 
   const loadTagsForUser = useCallback(async () => {
     axiosPublic
-      .get(`user/skills/${uid}`)
+      .get(`user/skills/${uid}`, { id: `user-skills-${uid}` })
       .then((response) => setTags(response.data?.skills ?? []))
       .catch(() => setTags([]));
   }, [uid]);
@@ -74,6 +74,7 @@ export const SkillSegment = ({
               if (response.data?.success == "false") {
                 actions.setFieldError("skills", "Oops, something went wrong");
               } else {
+                await axiosPublic.storage.remove(`user-skills-${uid}`);
                 await loadTagsForUser();
                 toggleEdit();
               }

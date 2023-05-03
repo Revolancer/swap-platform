@@ -46,3 +46,16 @@ export interface FeedPostData {
   type: "portfolio" | "need";
   data: PostData;
 }
+
+export interface Message {
+  id: string;
+  body: string;
+  read: boolean;
+  read_at: string;
+  admin_hidden: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+  sender: string;
+  reciever: string;
+}
