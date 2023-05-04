@@ -19,6 +19,7 @@ import { useEffect, useMemo, useRef } from "react";
 import debounce from "lodash.debounce";
 import { refreshToken } from "@/lib/user/auth";
 import store from "@/redux/store";
+import { useRouter } from "next/router";
 
 const OnboardingSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -71,6 +72,7 @@ const validateUsernameAsync = async (username: string) => {
 };
 
 export default function GetStarted() {
+  const router = useRouter();
   const formik = useRef<any>();
   const debouncedValidate = useMemo(
     () => debounce(() => formik.current?.validateForm, 500),
@@ -142,7 +144,7 @@ export default function GetStarted() {
                         );
                       } else {
                         await store?.dispatch(refreshToken());
-                        window.location.href = "/get-started/2";
+                        router.replace("/get-started/2");
                       }
                     })
                     .catch((reason) => {

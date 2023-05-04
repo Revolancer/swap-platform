@@ -110,7 +110,7 @@ export default function NeedEditorPage() {
                       const self =
                         store?.getState()?.userData?.user?.id ?? "guest";
                       await axiosPublic.storage.remove(`user-needs-${self}`);
-                      window.location.href = `/n/${response?.data ?? ""}`;
+                      router.replace(`/n/${response?.data ?? ""}`);
                     }
                   })
                   .catch((reason) => {
@@ -140,7 +140,7 @@ export default function NeedEditorPage() {
                         "Oops, something went wrong"
                       );
                     } else {
-                      window.location.href = `/n/${id}`;
+                      router.replace(`/n/${id}`);
                     }
                   })
                   .catch((reason) => {

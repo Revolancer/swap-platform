@@ -17,6 +17,7 @@ import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
 import { Button, TertiaryButton } from "@/components/navigation/button";
 import { refreshToken } from "@/lib/user/auth";
 import store from "@/redux/store";
+import { useRouter } from "next/router";
 
 const OnboardingSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
@@ -37,6 +38,7 @@ const OnboardingSchema = Yup.object().shape({
 });
 
 export default function GetStarted() {
+  const router = useRouter();
   return (
     <>
       <Title>Get Started</Title>
@@ -95,7 +97,7 @@ export default function GetStarted() {
                         );
                       } else {
                         await store?.dispatch(refreshToken());
-                        window.location.href = "/get-started/3";
+                        router.replace("/get-started/3");
                       }
                     })
                     .catch((reason) => {

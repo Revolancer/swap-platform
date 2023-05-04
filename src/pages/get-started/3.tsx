@@ -17,6 +17,7 @@ import { TagField } from "@/components/forms/taginput";
 import { UploadField } from "@/components/forms/upload";
 import { refreshToken } from "@/lib/user/auth";
 import store from "@/redux/store";
+import { useRouter } from "next/router";
 
 const OnboardingSchema = Yup.object().shape({
   timezone: Yup.string()
@@ -39,6 +40,7 @@ const OnboardingSchema = Yup.object().shape({
 });
 
 export default function GetStarted() {
+  const router = useRouter();
   return (
     <>
       <Title>Get Started</Title>
@@ -97,7 +99,7 @@ export default function GetStarted() {
                         );
                       } else {
                         await store?.dispatch(refreshToken());
-                        window.location.href = "/u/profile";
+                        router.replace("/u/profile");
                       }
                     })
                     .catch((reason) => {

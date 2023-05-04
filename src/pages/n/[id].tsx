@@ -5,15 +5,15 @@ import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { PostData } from "@/lib/types";
-import Blocks, { DataProp } from "editorjs-blocks-react-renderer";
-import { H1, H2, H3 } from "@/components/text/headings";
+import Blocks from "editorjs-blocks-react-renderer";
+import { H1, H3 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
 import { Flex } from "@/components/layout/flex";
 import { Author } from "@/components/user-posts/author";
 import { styled } from "stitches.config";
 import store from "@/redux/store";
-import { Button } from "@/components/navigation/button";
 import FourOhFour from "../404";
+import { P } from "@/components/text/text";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -140,20 +140,12 @@ export default function UserProfile() {
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
-            {/*own && (
-              //No editing for now
-              <Button
-                role="secondary"
-                href={`/need/${postData?.id ?? ""}`}
-              >
-                Edit
-              </Button>
-            )*/}
             {postData?.data && (
               <StyledBlocksContainer>
                 <Blocks data={cleanData} />
               </StyledBlocksContainer>
             )}
+            {own && <P css={{ color: "$neutral600" }}></P>}
           </Flex>
         </FullWidth>
       </PrimaryLayout>

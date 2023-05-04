@@ -24,6 +24,7 @@ import { afterRegister, updateEmail, updatePassword } from "@/lib/user/auth";
 import { Yup } from "@/lib/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
+import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
 
 const RegistrationSchema = Yup.object().shape({
@@ -41,6 +42,7 @@ const RegistrationSchema = Yup.object().shape({
 });
 
 export default function Register() {
+  const router = useRouter();
   const [pwType, setPwType] = useState("password");
   const [turnstileResponse, setTurnstileResponse] = useState("");
 
@@ -52,7 +54,7 @@ export default function Register() {
   );
 
   if (authed) {
-    window.location.href = "/";
+    router.replace("/");
   }
 
   return (

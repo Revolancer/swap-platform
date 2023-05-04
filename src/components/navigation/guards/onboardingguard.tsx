@@ -1,8 +1,10 @@
 import { FullWidth } from "@/components/layout/columns";
 import { useAppSelector } from "@/redux/store";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/router";
 
 export const OnboardingGuard = ({ children }: { children?: any }) => {
+  const router = useRouter();
   const [didMount, setDidMount] = useState(false);
   useEffect(() => {
     setDidMount(true);
@@ -14,11 +16,17 @@ export const OnboardingGuard = ({ children }: { children?: any }) => {
     return <FullWidth placeholder />;
   }
   const target = `/get-started/${onboarding}`;
-  if (onboarding <= 3 && window.location.pathname != target) {
-    if (typeof window != "undefined") {
-      window.location.href = target;
-    }
+  console.log(router.pathname);
+  console.log(router.basePath);
+  console.log(onboarding);
+  if (onboarding <= 3 && router.pathname != target) {
+    router.replace(target);
     return <FullWidth placeholder />;
+  } else if (
+    onboarding > 3 &&
+    router.pathname.substring(0, 12) == "/get-started"
+  ) {
+    router.replace("/");
   } else {
     return <>{children}</>;
   }

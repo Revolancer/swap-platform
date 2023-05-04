@@ -107,7 +107,7 @@ export default function PortfolioEditorPage() {
                       await axiosPublic.storage.remove(
                         `user-portfolio-${self}`
                       );
-                      window.location.href = `/p/${response?.data ?? ""}`;
+                      router.replace(`/p/${response?.data ?? ""}`);
                     }
                   })
                   .catch((reason) => {
@@ -137,7 +137,7 @@ export default function PortfolioEditorPage() {
                         "Oops, something went wrong"
                       );
                     } else {
-                      window.location.href = `/p/${id}`;
+                      router.replace(`/p/${id}`);
                     }
                   })
                   .catch((reason) => {
