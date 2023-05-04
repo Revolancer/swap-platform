@@ -27,6 +27,7 @@ export const OnboardingGuard = ({ children }: { children?: any }) => {
     router.pathname.substring(0, 12) == "/get-started"
   ) {
     router.replace("/");
+    return <FullWidth placeholder />;
   } else {
     return <>{children}</>;
   }
