@@ -11,6 +11,30 @@ import { DateTime } from "luxon";
 import { UnstyledLink } from "../navigation/button";
 import { Div } from "../layout/utils";
 
+const UnreadIndicator = () => {
+  const Container = styled("div", {
+    display: "inline-block",
+    width: "1rem",
+    height: "1rem",
+    padding: "0.2rem",
+    paddingTop: "0.4rem",
+    paddingBottom: "0",
+  });
+
+  const Dot = styled("div", {
+    width: "100%",
+    height: "100%",
+    backgroundColor: "$pink500",
+    borderRadius: "100%",
+  });
+
+  return (
+    <Container>
+      <Dot />
+    </Container>
+  );
+};
+
 export const ThreadListEntry = ({
   message,
   activeThread,
@@ -20,6 +44,7 @@ export const ThreadListEntry = ({
 }) => {
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState("");
+  const [unread, setUnread] = useState(false);
 
   const ProfileImageContainer = styled("div", {
     backgroundColor: "$neutral300",
@@ -54,6 +79,7 @@ export const ThreadListEntry = ({
     let id;
     if ((message.reciever as any as string) == self) {
       id = message.sender as any as string;
+      if (!message.read) setUnread(true);
     } else {
       id = message.reciever as any as string;
     }
@@ -98,9 +124,10 @@ export const ThreadListEntry = ({
             </ProfileImageContainer>
             <Flex column css={{ flexGrow: "1" }}>
               <Flex css={{ justifyContent: "space-between" }}>
-                <P
-                  css={{ fontWeight: "bold" }}
-                >{`${threadProfile?.first_name} ${threadProfile?.last_name}`}</P>
+                <P css={{ fontWeight: "bold" }}>
+                  {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
+                  {unread && <UnreadIndicator />}
+                </P>
                 <P css={{ color: "$neutral600" }}>{timeStr}</P>
               </Flex>
               <P css={{ color: "$neutral600" }}>
