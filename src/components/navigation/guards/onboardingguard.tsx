@@ -16,9 +16,6 @@ export const OnboardingGuard = ({ children }: { children?: any }) => {
     return <FullWidth placeholder />;
   }
   const target = `/get-started/${onboarding}`;
-  console.log(router.pathname);
-  console.log(router.basePath);
-  console.log(onboarding);
   if (onboarding <= 3 && router.pathname != target) {
     router.replace(target);
     return <FullWidth placeholder />;
