@@ -139,11 +139,8 @@ export default function UserProfile() {
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
-            {own && (
-              <Button
-                role="secondary"
-                href={`/portfolio/${postData?.id ?? ""}`}
-              >
+            {own && postData?.id && (
+              <Button role="secondary" href={`/portfolio/${postData.id}`}>
                 Edit
               </Button>
             )}

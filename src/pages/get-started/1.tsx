@@ -300,6 +300,7 @@ export default function GetStarted() {
                       </Flex>
                       <Flex css={{ flexDirection: "row-reverse" }}>
                         <Button
+                          href=""
                           onClick={() => {
                             props.submitForm();
                           }}

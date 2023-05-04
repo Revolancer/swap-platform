@@ -101,10 +101,10 @@ export default function UserProfile() {
                     ? `${userProfile?.first_name} ${userProfile?.last_name}`
                     : "User Profile"}
                 </H1>
-                {!own && (
+                {!own && userProfile?.user?.id && (
                   <Button
                     role="secondary"
-                    href={`/message/${userProfile?.user?.id ?? ""}`}
+                    href={`/message/${userProfile.user.id}`}
                   >
                     <FontAwesomeIcon icon={faMessage} /> Message
                   </Button>

@@ -20,11 +20,6 @@ const styles = {
           backgroundColor: "$pink800",
           borderColor: "$pink800",
         },
-        "&.disabled": {
-          opacity: "$opacity$700",
-          backgroundColor: "$pink200",
-          borderColor: "$pink200",
-        },
       },
       secondary: {
         backgroundColor: "$white",
@@ -39,9 +34,6 @@ const styles = {
         "&.active": {
           backgroundColor: "$neutral300",
         },
-        "&.disabled": {
-          opacity: "$opacity$500",
-        },
 
         [`.${darkTheme} &`]: {
           backgroundColor: "$neutral900",
@@ -55,9 +47,6 @@ const styles = {
           "&.active": {
             borderColor: "$neutral600",
             backgroundColor: "$neutral700",
-          },
-          "&.disabled": {
-            opacity: "$opacity$500",
           },
         },
       },
@@ -76,6 +65,12 @@ const styles = {
         paddingInline: "$7",
       },
     },
+    disabled: {
+      true: {
+        pointerEvents: "none",
+        cursor: "inherit",
+      },
+    },
   },
   display: "inline-block",
   borderRadius: "$1",
@@ -86,9 +81,31 @@ const styles = {
   width: "max-content",
   boxShadow: "$2",
   textTransform: "capitalize",
+  compoundVariants: [
+    {
+      role: "primary",
+      disabled: true,
+      css: {
+        opacity: "$opacity$700",
+        backgroundColor: "$pink200",
+        borderColor: "$pink200",
+      },
+    },
+    {
+      role: "secondary",
+      disabled: true,
+      css: {
+        opacity: "$opacity$500",
+        [`.${darkTheme} &`]: {
+          opacity: "$opacity$500",
+        },
+      },
+    },
+  ],
   defaultVariants: {
     role: "primary",
     size: "medium",
+    disabled: false,
   },
 };
 
@@ -170,9 +187,9 @@ const unstyledLinkStyles = {
   color: "inherit",
 };
 
-export const Button = styled(Interactive.A, styles);
+export const Button = styled(NextLink, styles);
 export const FormButton = styled(Interactive.Button, styles);
-export const TertiaryButton = styled(Interactive.A, tertiaryStyles);
+export const TertiaryButton = styled(NextLink, tertiaryStyles);
 export const TertiaryFormButton = styled(Interactive.Button, tertiaryStyles);
-export const Link = styled(Interactive.A, linkStyles);
+export const Link = styled(NextLink, linkStyles);
 export const UnstyledLink = styled(NextLink, unstyledLinkStyles);

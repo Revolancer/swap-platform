@@ -117,6 +117,7 @@ const UploadField = ({
                 >
                   <span>{fileName}</span>
                   <Button
+                    href=""
                     onClick={triggerFileField}
                     size="small"
                     disabled={uploading}

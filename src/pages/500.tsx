@@ -23,7 +23,9 @@ export default function FourOhFour() {
               height={314}
             />
             <P>Oh no! Something went wrong.</P>
-            <Button href="/">Take me back</Button>
+            <Button href="/" replace>
+              Take me back
+            </Button>
           </Flex>
         </FullWidth>
       </PrimaryLayout>

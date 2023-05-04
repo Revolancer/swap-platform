@@ -146,6 +146,7 @@ export default function GetStarted() {
                           onClick={() => {
                             props.submitForm();
                           }}
+                          href=""
                           disabled={props.isSubmitting}
                         >
                           Next

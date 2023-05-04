@@ -189,15 +189,24 @@ export default function PortfolioEditorPage() {
                   </MainContentWithSideBar>
                   <SideBar>
                     <Flex>
-                      <Button onClick={props.submitForm}>Save</Button>
-                      <Button
-                        role="secondary"
-                        href={
-                          isNew ? "/u/profile" : `/p/${loadedData?.id ?? ""}`
-                        }
-                      >
-                        Cancel
+                      <Button href="" onClick={props.submitForm}>
+                        Save
                       </Button>
+                      {isNew ? (
+                        <Button role="secondary" href="/u/profile" replace>
+                          Cancel
+                        </Button>
+                      ) : (
+                        loadedData?.id && (
+                          <Button
+                            role="secondary"
+                            href={`/p/${loadedData.id}`}
+                            replace
+                          >
+                            Cancel
+                          </Button>
+                        )
+                      )}
                     </Flex>
                   </SideBar>
                 </>

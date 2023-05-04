@@ -102,6 +102,7 @@ export default function Settings() {
                       <TD>
                         <a id={tag.id} />
                         <Button
+                          href=""
                           onClick={() => {
                             setParent(tag.id);
                           }}
@@ -119,6 +120,7 @@ export default function Settings() {
                       </TD>
                       <TD>
                         <Button
+                          href=""
                           onClick={() => {
                             deleteTag(tag.id);
                           }}
@@ -174,6 +176,7 @@ export default function Settings() {
                     </Flex>
                     <Flex css={{ flexDirection: "row-reverse" }}>
                       <Button
+                        href=""
                         onClick={() => {
                           props.submitForm();
                         }}

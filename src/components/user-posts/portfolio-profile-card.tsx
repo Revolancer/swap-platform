@@ -121,9 +121,9 @@ export const PortfolioProfileCard = ({
             <Tags tags={data?.tags ?? []} />
             {summary && <ParagraphBlock data={summary} />}
             <Flex gap={6} css={{ alignItems: "center" }}>
-              <Button href={`/p/${data?.id ?? ""}`}>Read More</Button>
-              {own && (
-                <TertiaryButton href={`/portfolio/${data?.id ?? ""}`}>
+              {data?.id && <Button href={`/p/${data.id}`}>Read More</Button>}
+              {own && data?.id && (
+                <TertiaryButton href={`/portfolio/${data.id}`}>
                   Edit
                 </TertiaryButton>
               )}

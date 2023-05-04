@@ -71,9 +71,11 @@ export const NeedProfileCard = ({
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary && <ParagraphBlock data={summary} />}
-            <Flex gap={6} css={{ alignItems: "center" }}>
-              <Button href={`/n/${data?.id ?? ""}`}>View Need</Button>
-            </Flex>
+            {data?.id && (
+              <Flex gap={6} css={{ alignItems: "center" }}>
+                <Button href={`/n/${data.id}`}>View Need</Button>
+              </Flex>
+            )}
           </>
         )}
       </Flex>

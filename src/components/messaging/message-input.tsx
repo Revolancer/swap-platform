@@ -72,7 +72,9 @@ export const MessageInput = ({
               <Feedback state="error">{props.errors.body}</Feedback>
             )}
             <Flex>
-              <Button onClick={props.submitForm}>Send</Button>
+              <Button href="" onClick={props.submitForm}>
+                Send
+              </Button>
             </Flex>
           </Form>
         );

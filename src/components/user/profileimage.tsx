@@ -137,10 +137,10 @@ export const ProfileImage = ({
             <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
               <UploadField name="profileImage" type="image" />
               <Flex css={{ flexDirection: "row-reverse" }}>
-                <Button role="secondary" onClick={toggleEdit}>
+                <Button href="" role="secondary" onClick={toggleEdit}>
                   Cancel
                 </Button>
-                <Button role="secondary" onClick={props.submitForm}>
+                <Button href="" role="secondary" onClick={props.submitForm}>
                   Save
                 </Button>
               </Flex>
