@@ -13,7 +13,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
         .get("message", {
           id: `message-threads`,
           cache: {
-            ttl: 5 * 1000,
+            ttl: 20 * 1000,
           },
         })
         .then((res) => res.data)
@@ -21,7 +21,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
         .catch((err) => setThreads([]));
     };
     loadThreads();
-    const refreshThreads = setInterval(loadThreads, 10 * 1000);
+    const refreshThreads = setInterval(loadThreads, 20 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
