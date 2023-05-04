@@ -110,7 +110,7 @@ export const ThreadListEntry = ({
           paddingInline: "$2",
         }}
       >
-        <UnstyledLink href={`/message/${id}`}>
+        <UnstyledLink href={`/message/${id}`} replace>
           <Flex>
             <ProfileImageContainer>
               {threadProfile?.profile_image && (

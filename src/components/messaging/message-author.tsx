@@ -2,9 +2,7 @@ import { styled } from "stitches.config";
 import Image from "next/image";
 import { Flex } from "../layout/flex";
 import { UserProfileData } from "@/lib/types";
-import NextLink from "next/link";
 import { P } from "../text/text";
-import { UnstyledLink } from "../navigation/button";
 import { DateTime } from "luxon";
 
 export const MessageAuthor = ({

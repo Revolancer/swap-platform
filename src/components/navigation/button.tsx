@@ -1,5 +1,6 @@
 import { Interactive } from "react-interactive";
 import { darkTheme, styled } from "stitches.config";
+import NextLink from "next/link";
 
 const styles = {
   variants: {
@@ -174,4 +175,4 @@ export const FormButton = styled(Interactive.Button, styles);
 export const TertiaryButton = styled(Interactive.A, tertiaryStyles);
 export const TertiaryFormButton = styled(Interactive.Button, tertiaryStyles);
 export const Link = styled(Interactive.A, linkStyles);
-export const UnstyledLink = styled(Interactive.A, unstyledLinkStyles);
+export const UnstyledLink = styled(NextLink, unstyledLinkStyles);
