@@ -17,14 +17,14 @@ export const SidebarMessagesIndicator = ({
       await axiosPrivate
         .get("message/unread", {
           id: "unread-message-count",
-          cache: { ttl: 5 * 60 },
+          cache: { ttl: 30 * 60 },
         })
         .then((res) => res.data)
         .then((data) => setCountUnread((data as number) ?? 0))
         .catch((err) => {});
     };
     checkUnreadMessageCount();
-    const timer = setInterval(checkUnreadMessageCount, 10 * 1000);
+    const timer = setInterval(checkUnreadMessageCount, 60 * 1000);
     return () => {
       clearInterval(timer);
     };
