@@ -21,7 +21,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
         .catch((err) => setThreads([]));
     };
     loadThreads();
-    const refreshThreads = setInterval(loadThreads, 20 * 1000);
+    const refreshThreads = setInterval(loadThreads, 40 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
