@@ -40,6 +40,7 @@ export interface PostData {
   title?: string;
   tags?: Tag[];
   data?: string;
+  unpublish_at?: string;
 }
 
 export interface FeedPostData {

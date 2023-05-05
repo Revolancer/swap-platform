@@ -13,10 +13,11 @@ import { Feedback } from "@/components/forms/feedback";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { PostData } from "@/lib/types";
-import { H1 } from "@/components/text/headings";
+import { H1, H5 } from "@/components/text/headings";
 import { Flex } from "@/components/layout/flex";
 import store from "@/redux/store";
 import FourOhFour from "../404";
+import { DateTime } from "luxon";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -31,6 +32,19 @@ const NeedSchema = Yup.object().shape({
     .max(
       6,
       "Please provide up to 6 skills or tools associated with this project"
+    ),
+  unpublish_at: Yup.string()
+    .required("Please provide a date you need this by")
+    .matches(
+      /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/,
+      "Please enter the date to delist this need in the format yyyy-mm-dd, for example 2024-05-20"
+    )
+    .test(
+      "one_week_future",
+      "Please give people at least a week to respond to this need",
+      (value) => {
+        return DateTime.fromISO(value ?? "") > DateTime.now().plus({ week: 1 });
+      }
     ),
 });
 
@@ -93,6 +107,7 @@ export default function NeedEditorPage() {
               ),
               tags: loadedData?.tags ?? [],
               title: loadedData?.title ?? "",
+              unpublish_at: DateTime.now().plus({ week: 2 }).toISODate(),
             }}
             validationSchema={NeedSchema}
             onSubmit={async (values, actions) => {
@@ -110,7 +125,11 @@ export default function NeedEditorPage() {
                       const self =
                         store?.getState()?.userData?.user?.id ?? "guest";
                       await axiosPublic.storage.remove(`user-needs-${self}`);
-                      router.replace(`/n/${response?.data ?? ""}`);
+                      if (response?.data && typeof response.data == "string") {
+                        router.replace(`/n/${response.data}`);
+                      } else {
+                        router.replace(`/u/profile`);
+                      }
                     }
                   })
                   .catch((reason) => {
@@ -170,24 +189,59 @@ export default function NeedEditorPage() {
                   <MainContentWithSideBar>
                     <H1>I need...</H1>
                     <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
-                      <InputOuter
-                        error={props.touched.title && !!props.errors.title}
-                      >
-                        <InputInner
-                          type="text"
-                          name="title"
-                          id="title"
-                          placeholder="Title"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values.title}
-                        />
-                      </InputOuter>
-                      {props.touched.title && props.errors.title && (
-                        <Feedback state="error">{props.errors.title}</Feedback>
-                      )}
-                      <TagField name="tags" />
-                      <NeedEditorJs name="data" data={props.values.data} />
+                      <Flex column>
+                        <H5>Title</H5>
+                        <InputOuter
+                          error={props.touched.title && !!props.errors.title}
+                        >
+                          <InputInner
+                            type="text"
+                            name="title"
+                            id="title"
+                            placeholder="Title"
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            value={props.values.title}
+                          />
+                        </InputOuter>
+                        {props.touched.title && props.errors.title && (
+                          <Feedback state="error">
+                            {props.errors.title}
+                          </Feedback>
+                        )}
+                      </Flex>
+                      <Flex column>
+                        <H5>Tags</H5>
+                        <TagField name="tags" />
+                      </Flex>
+                      <Flex column>
+                        <H5>I need this by</H5>
+                        <InputOuter
+                          error={
+                            props.touched.unpublish_at &&
+                            !!props.errors.unpublish_at
+                          }
+                        >
+                          <InputInner
+                            type="date"
+                            name="unpublish_at"
+                            id="unpublish_at"
+                            onChange={props.handleChange}
+                            onBlur={props.handleBlur}
+                            value={props.values.unpublish_at}
+                          ></InputInner>
+                        </InputOuter>
+                        {props.touched.unpublish_at &&
+                          props.errors.unpublish_at && (
+                            <Feedback state="error">
+                              {props.errors.unpublish_at}
+                            </Feedback>
+                          )}
+                      </Flex>
+                      <Flex column>
+                        <H5>Describe what you need</H5>
+                        <NeedEditorJs name="data" data={props.values.data} />
+                      </Flex>
                     </Form>
                   </MainContentWithSideBar>
                   <SideBar>

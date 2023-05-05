@@ -7,6 +7,7 @@ import { Tags } from "./tags";
 import { Button, TertiaryButton } from "../navigation/button";
 import { Author } from "./author";
 import { useMemo } from "react";
+import { NeedDialog } from "../need/need-dialog";
 export const NeedProfileCard = ({
   data = {},
   placeholder = false,
@@ -73,7 +74,10 @@ export const NeedProfileCard = ({
             {summary && <ParagraphBlock data={summary} />}
             {data?.id && (
               <Flex gap={6} css={{ alignItems: "center" }}>
-                <Button href={`/n/${data.id}`}>View Need</Button>
+                <NeedDialog id={data.id} />
+                <TertiaryButton href={`/n/${data.id}`}>
+                  Read More
+                </TertiaryButton>
               </Flex>
             )}
           </>
