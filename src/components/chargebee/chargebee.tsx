@@ -42,7 +42,7 @@ export const ChargeBeePortalButton = () => {
         src="https://js.chargebee.com/v2/chargebee.js"
         onLoad={initChargeBee}
       />
-      <Button href="" onClick={openChargeBeePortal}>
+      <Button href="#" onClick={openChargeBeePortal}>
         Manage Subscription
       </Button>
     </>
