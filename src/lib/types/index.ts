@@ -60,3 +60,15 @@ export interface Message {
   sender: string;
   reciever: string;
 }
+
+export interface Proposal {
+  id: string;
+  user: User;
+  need: PostData;
+  message: string;
+  estimated_hours: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+}

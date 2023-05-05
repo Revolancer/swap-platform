@@ -1,10 +1,10 @@
 import { FullWidth } from "@/components/layout/columns";
 import { PrimaryLayout } from "@/components/layout/layouts";
-import { axiosPublic } from "@/lib/axios";
+import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { PostData } from "@/lib/types";
+import { PostData, Proposal } from "@/lib/types";
 import Blocks from "editorjs-blocks-react-renderer";
 import { H1, H3 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
@@ -26,6 +26,7 @@ export default function UserProfile() {
   const [postData, setPostData] = useState<PostData>({});
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
+  const [proposals, setProposals] = useState<Proposal[]>([]);
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -47,7 +48,23 @@ export default function UserProfile() {
           .catch((err) => setNotFound(true));
       }
     };
+    const getProposals = async () => {
+      if (id != null) {
+        await axiosPrivate
+          .get(`need/proposals/${id}`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if ((response?.data?.length ?? 0) > 0) {
+                setProposals(response.data);
+                console.log(response.data);
+              }
+            }
+          })
+          .catch((err) => {});
+      }
+    };
     getUserProfileData();
+    getProposals();
   }, [id]);
 
   if (isNotFound) {
