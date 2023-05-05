@@ -9,6 +9,8 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@bugsnag/js": "^7.20.2",
+    "@bugsnag/plugin-react": "^7.19.0",
     "@editorjs/checklist": "^1.5.0",
     "@editorjs/code": "^2.8.0",
     "@editorjs/editorjs": "^2.26.5",
