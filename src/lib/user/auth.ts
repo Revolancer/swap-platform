@@ -21,10 +21,19 @@ export const login = createAsyncThunk(
   async (_, { getState }) => {
     const state = getState() as RootState;
 
-    const res = await axiosPublic.post("auth/login", {
-      email: state.userData.email,
-      password: state.userData.password,
-    });
+    const res = await axiosPublic.post(
+      "auth/login",
+      {
+        email: state.userData.email,
+        password: state.userData.password,
+      },
+      {
+        id: "login",
+        cache: {
+          ttl: 1,
+        },
+      }
+    );
 
     return res.data;
   }
@@ -49,6 +58,10 @@ export const refreshToken = createAsyncThunk(
     const state = getState() as RootState;
 
     const res = await axiosPublic.get(`auth/refresh`, {
+      id: "auth-token-refresh",
+      cache: {
+        ttl: 1,
+      },
       headers: {
         Authorization: `Bearer ${state.userData.user?.refreshToken}`,
       },
