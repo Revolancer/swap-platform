@@ -39,6 +39,7 @@ import {
 } from "../user-posts/styledblockscontainer";
 import Blocks from "editorjs-blocks-react-renderer";
 import { TwoCols } from "../layout/columns";
+import { useRouter } from "next/router";
 
 const styles = styleconfig.theme;
 
@@ -83,6 +84,8 @@ export const NeedDialog = ({ id }: { id: string }) => {
   const [isOwn, setIsOwn] = useState(false);
   const [profile, setProfile] = useState<UserProfileData>({});
   const [myRate, setMyRate] = useState(20);
+
+  const router = useRouter();
 
   Modal.setAppElement("#__next");
 
@@ -216,7 +219,7 @@ export const NeedDialog = ({ id }: { id: string }) => {
               onSubmit={async (values, actions) => {
                 actions.setSubmitting(true);
                 await axiosPrivate
-                  .put(`need/apply/${id}`, values)
+                  .put(`need/proposal/${id}`, values)
                   .then(async (response) => {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
@@ -226,6 +229,7 @@ export const NeedDialog = ({ id }: { id: string }) => {
                     } else {
                       actions.resetForm();
                       closeModal();
+                      router.reload();
                     }
                   })
                   .catch((reason) => {
@@ -339,7 +343,7 @@ export const NeedDialog = ({ id }: { id: string }) => {
                       <Feedback state="error">{props.errors.price}</Feedback>
                     )}
                     <Flex>
-                      <Button href="" onClick={props.submitForm}>
+                      <Button href="#" onClick={props.submitForm}>
                         Send
                       </Button>
                     </Flex>
