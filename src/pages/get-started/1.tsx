@@ -46,7 +46,12 @@ const OnboardingSchema = Yup.object().shape({
           DateTime.fromISO(value ?? "") < DateTime.now().minus({ year: 13 })
         );
       }
-    ),
+    )
+    .test("DOBTooOld", "Are you sure that's right?", (value) => {
+      return (
+        DateTime.fromISO(value ?? "") > DateTime.now().minus({ year: 130 })
+      );
+    }),
   userName: Yup.string()
     .required("Please provide a username")
     .ensure()
