@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
 import { PostData, Proposal } from "@/lib/types";
 import Blocks from "editorjs-blocks-react-renderer";
-import { H1, H3 } from "@/components/text/headings";
+import { H1, H3, H5 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
 import { Flex } from "@/components/layout/flex";
 import { Author } from "@/components/user-posts/author";
@@ -14,11 +14,13 @@ import store from "@/redux/store";
 import FourOhFour from "../404";
 import { P } from "@/components/text/text";
 import { DateTime } from "luxon";
-import { NeedDialog } from "@/components/need/need-dialog";
+import { ProposalDialog } from "@/components/need/proposal-dialog";
 import {
   StyledBlocksContainer,
   cleanBlockData,
 } from "@/components/user-posts/styledblockscontainer";
+import { Masonry } from "masonic";
+import { ProposalCard } from "@/components/need/proposal-card";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -89,7 +91,7 @@ export default function UserProfile() {
                 )}
               </P>
             )}
-            {postData?.id && <NeedDialog id={postData.id} />}
+            {postData?.id && <ProposalDialog id={postData.id} />}
             {postData?.data && (
               <StyledBlocksContainer>
                 <Blocks data={cleanBlockData(postData.data)} />
@@ -97,6 +99,19 @@ export default function UserProfile() {
             )}
             {own && <P css={{ color: "$neutral600" }}></P>}
           </Flex>
+          <H5>Proposals</H5>
+          {proposals.length > 0 ? (
+            <Masonry
+              items={proposals}
+              render={ProposalCard}
+              columnGutter={16}
+              maxColumnCount={3}
+            />
+          ) : own ? (
+            <P>There are no proposals yet</P>
+          ) : (
+            <P>You haven&rsquo;t submitted a proposal yet</P>
+          )}
         </FullWidth>
       </PrimaryLayout>
     </>

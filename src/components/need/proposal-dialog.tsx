@@ -65,6 +65,7 @@ const ProposalSchema = Yup.object().shape({
     .required("Please provide a message with your proposal")
     .ensure(),
   estHours: Yup.number()
+    .integer("Must be a whole number of hours")
     .min(1, "Minimum recommended time is 1 hour")
     .max(
       100,
@@ -72,12 +73,13 @@ const ProposalSchema = Yup.object().shape({
     )
     .required(),
   price: Yup.number()
+    .integer("Must be a whole number of credits")
     .min(10, "We don't recommend charging less than 10 credits")
     .max(10000, "We do not recommend charging more than 10000 credits")
     .required(),
 });
 
-export const NeedDialog = ({ id }: { id: string }) => {
+export const ProposalDialog = ({ id }: { id: string }) => {
   const [postData, setPostData] = useState<PostData>({});
   const [isNotFound, setNotFound] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
