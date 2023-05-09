@@ -18,12 +18,21 @@ export const ProposalCard = ({
   data: Proposal;
 }) => {
   const router = useRouter();
-  const own = store?.getState().userData.user?.id ?? "guest" == data.user.id;
+  const own = (store?.getState().userData.user?.id ?? "guest") == data.user.id;
 
   const deleteProposal = async (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
     await axiosPrivate.delete(`need/proposal/${data.id}`).catch((err) => {});
     router.reload();
+  };
+
+  const acceptProposal = async (e: MouseEvent<HTMLElement>) => {
+    e.preventDefault();
+    await axiosPrivate
+      .put(`projects`, { need: data.need.id, proposal: data.id })
+      .then((res) => res.data)
+      .then((data) => router.push(`projects/${data}`))
+      .catch((err) => {});
   };
 
   return (
@@ -57,6 +66,13 @@ export const ProposalCard = ({
             <Flex gap={6} css={{ alignItems: "center" }}>
               <Button href="#" onClick={deleteProposal}>
                 Delete
+              </Button>
+            </Flex>
+          )}
+          {!own && (
+            <Flex gap={6} css={{ alignItems: "center" }}>
+              <Button href="#" onClick={acceptProposal}>
+                Accept
               </Button>
             </Flex>
           )}
