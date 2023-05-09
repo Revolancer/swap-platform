@@ -20,8 +20,7 @@ export const ChargeBeePortalButton = () => {
     }
   };
 
-  const openChargeBeePortal = (event: MouseEvent) => {
-    event.preventDefault();
+  const openChargeBeePortal = () => {
     if (typeof window !== "undefined") {
       if (cbInstance) {
         (cbInstance as any).setPortalSession(async () => {
@@ -43,7 +42,13 @@ export const ChargeBeePortalButton = () => {
         src="https://js.chargebee.com/v2/chargebee.js"
         onLoad={initChargeBee}
       />
-      <Button href="#" onClick={openChargeBeePortal}>
+      <Button
+        href="#"
+        onClick={(e) => {
+          e.preventDefault();
+          openChargeBeePortal();
+        }}
+      >
         Manage Subscription
       </Button>
     </>
