@@ -72,3 +72,14 @@ export interface Proposal {
   updated_at: string;
   deleted_at: string;
 }
+
+export interface CreditLogEntry {
+  id: string;
+  user: User;
+  reason?: string;
+  change: number;
+  resultant_amount: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+}
