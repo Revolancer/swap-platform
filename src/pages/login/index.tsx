@@ -17,11 +17,19 @@ import {
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
 import { login, updatePassword, updateEmail } from "@/lib/user/auth";
+import { Yup } from "@/lib/yup";
 import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
 import { useCallback, useState } from "react";
 
-export default function Register() {
+const LoginSchema = Yup.object().shape({
+  email: Yup.string()
+    .email("Please provide a valid email address")
+    .required("Please provide a valid email address"),
+  password: Yup.string().required("Please provide your password"),
+});
+
+export default function Login() {
   const [pwType, setPwType] = useState("password");
 
   const email = useAppSelector((state) => state.userData.email);
@@ -39,7 +47,10 @@ export default function Register() {
     [dispatch]
   );
 
-  const handleLogin = useCallback(() => dispatch(login()), [dispatch]);
+  const handleLogin = useCallback(
+    async () => console.log(await dispatch(login())),
+    [dispatch]
+  );
 
   return (
     <>
@@ -57,13 +68,20 @@ export default function Register() {
         >
           <H4 css={{ textAlign: "center" }}>Welcome back 👋</H4>
           <Formik
+            validationSchema={LoginSchema}
             initialValues={{
               email: "",
               password: "",
             }}
             onSubmit={async (_, actions) => {
               actions.setSubmitting(true);
-              await handleLogin();
+              const result = await dispatch(login());
+              if (result.meta.requestStatus == "rejected") {
+                actions.setFieldError(
+                  "password",
+                  "The provided email address or password is incorrect."
+                );
+              }
               actions.setSubmitting(false);
             }}
           >
@@ -80,10 +98,16 @@ export default function Register() {
                         id="email"
                         placeholder="Email"
                         aria-label="Email"
-                        onChange={(e) => handleEmailChange(e.target.value)}
+                        onChange={(e) => {
+                          props.handleChange(e);
+                          handleEmailChange(e.target.value);
+                        }}
                         value={email}
                       ></InputInner>
                     </InputOuter>
+                    {props.touched.email && props.errors.email && (
+                      <Feedback state="error">{props.errors.email}</Feedback>
+                    )}
                     <InputOuter
                       error={props.touched.password && !!props.errors.password}
                     >
@@ -93,7 +117,10 @@ export default function Register() {
                         id="password"
                         placeholder="Password"
                         aria-label="Password"
-                        onChange={(e) => handlePasswordChange(e.target.value)}
+                        onChange={(e) => {
+                          props.handleChange(e);
+                          handlePasswordChange(e.target.value);
+                        }}
                         value={password}
                       ></InputInner>
                       <PasswordReveal
