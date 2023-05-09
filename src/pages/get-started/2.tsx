@@ -220,8 +220,9 @@ export default function GetStarted() {
                       </Feedback>
                       <Flex css={{ flexDirection: "row-reverse" }}>
                         <Button
-                          href=""
-                          onClick={() => {
+                          href="e"
+                          onClick={(e) => {
+                            e.preventDefault();
                             props.submitForm();
                           }}
                           disabled={props.isSubmitting}
