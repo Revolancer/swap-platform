@@ -149,7 +149,7 @@ export const MainNav = () => {
       })
       .catch((e) => setOwnProfile({}));
     axiosPrivate
-      .get("user/credits")
+      .get("credits")
       .then((response) => {
         setCredits(response.data);
       })
