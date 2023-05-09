@@ -2,8 +2,6 @@ import { Field, FieldProps } from "formik";
 import { Feedback } from "./feedback";
 import { InputOuter } from "./input";
 import { ChangeEvent, useState } from "react";
-import { axiosPrivate } from "@/lib/axios";
-import axios from "axios";
 import { Button } from "../navigation/button";
 import { Flex } from "../layout/flex";
 import { RoundedSquareImage } from "../user/roundedsquareimage";
@@ -113,12 +111,20 @@ const UploadField = ({
                     width: "100%",
                     cursor: uploading ? "progress" : "pointer",
                   }}
-                  onClick={triggerFileField}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    triggerFileField();
+                  }}
                 >
                   <span>{fileName}</span>
                   <Button
-                    href=""
-                    onClick={triggerFileField}
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      e.stopPropagation();
+                      triggerFileField();
+                    }}
                     size="small"
                     disabled={uploading}
                   >

@@ -192,7 +192,13 @@ export default function NeedEditorPage() {
                   </MainContentWithSideBar>
                   <SideBar>
                     <Flex>
-                      <Button href="" onClick={props.submitForm}>
+                      <Button
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          props.submitForm();
+                        }}
+                      >
                         Save
                       </Button>
                       {isNew ? (
