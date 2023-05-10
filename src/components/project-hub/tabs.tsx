@@ -38,12 +38,13 @@ export const ProjectTabs = () => {
       >
         Active Projects
       </TabLink>
+      {/*
       <TabLink
         active={router.pathname == "/projects/requests"}
         href="/projects/requests"
       >
         Project Requests
-      </TabLink>
+  </TabLink>*/}
       <TabLink
         active={router.pathname == "/projects/needs"}
         href="/projects/needs"
