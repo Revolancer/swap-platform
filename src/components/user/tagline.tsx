@@ -119,10 +119,24 @@ export const Tagline = ({
                 <Feedback state="error">{props.errors.tagline}</Feedback>
               )}
               <Flex css={{ flexDirection: "row-reverse" }}>
-                <Button href="#" role="secondary" onClick={toggleEdit}>
+                <Button
+                  href="#"
+                  role="secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    toggleEdit();
+                  }}
+                >
                   Cancel
                 </Button>
-                <Button href="#" role="secondary" onClick={props.submitForm}>
+                <Button
+                  href="#"
+                  role="secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.submitForm();
+                  }}
+                >
                   Save
                 </Button>
               </Flex>

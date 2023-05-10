@@ -101,7 +101,14 @@ export const SkillSegment = ({
             <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
               <TagField name="skills" />
               <Flex css={{ flexDirection: "row-reverse" }}>
-                <Button href="#" role="secondary" onClick={props.submitForm}>
+                <Button
+                  href="#"
+                  role="secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.submitForm();
+                  }}
+                >
                   Save
                 </Button>
               </Flex>

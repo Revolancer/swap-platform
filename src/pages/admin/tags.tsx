@@ -103,7 +103,8 @@ export default function Settings() {
                         <a id={tag.id} />
                         <Button
                           href="#"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             setParent(tag.id);
                           }}
                         >
@@ -121,7 +122,8 @@ export default function Settings() {
                       <TD>
                         <Button
                           href="#"
-                          onClick={() => {
+                          onClick={(e) => {
+                            e.preventDefault();
                             deleteTag(tag.id);
                           }}
                         >
@@ -177,7 +179,8 @@ export default function Settings() {
                     <Flex css={{ flexDirection: "row-reverse" }}>
                       <Button
                         href="#"
-                        onClick={() => {
+                        onClick={(e) => {
+                          e.preventDefault();
                           props.submitForm();
                         }}
                         disabled={props.isSubmitting}

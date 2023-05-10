@@ -8,7 +8,7 @@ import { Button } from "@/components/navigation/button";
 import Image from "next/image";
 import { Flex } from "@/components/layout/flex";
 
-export default function FourOhFour() {
+export default function FiveHundred() {
   return (
     <>
       <Title>Uh-Oh</Title>

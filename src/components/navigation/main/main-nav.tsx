@@ -254,11 +254,11 @@ export const MainNav = () => {
       <DesktopItemContainer
         expanded={expanded}
         id="container-111"
-        onClick={(e) => {
-          const id = (e.target as HTMLElement).id;
-          if (id == "container-111" || id == "container-112") {
-            if (!expanded) dispatch(expand());
-          }
+        onMouseEnter={(e) => {
+          if (!expanded) dispatch(expand());
+        }}
+        onMouseLeave={(e) => {
+          if (expanded) dispatch(contract());
         }}
       >
         <Flex
