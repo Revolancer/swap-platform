@@ -1,6 +1,6 @@
 import { FullWidth } from "@/components/layout/columns";
 import { PrimaryLayout } from "@/components/layout/layouts";
-import { axiosPublic } from "@/lib/axios";
+import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
@@ -14,6 +14,7 @@ import { styled } from "stitches.config";
 import store from "@/redux/store";
 import { Button } from "@/components/navigation/button";
 import FourOhFour from "../404";
+import { ConfirmationDialog } from "@/components/navigation/confirmation-dialog";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -130,6 +131,11 @@ export default function UserProfile() {
     return <FourOhFour />;
   }
 
+  const deletePost = () => {
+    axiosPrivate.delete(`portfolio/${postData?.id}`).catch((err) => {});
+    //router.reload();
+  };
+
   return (
     <>
       <Title>{postData?.title ? postData?.title : "Portfolio Post"}</Title>
@@ -144,15 +150,13 @@ export default function UserProfile() {
                 <Button role="secondary" href={`/portfolio/${postData.id}`}>
                   Edit
                 </Button>
-                <Button
-                  role="dangerous"
-                  href="#"
-                  onClick={(e) => {
-                    e.preventDefault();
-                  }}
-                >
-                  Delete
-                </Button>
+                <ConfirmationDialog
+                  dangerous
+                  onAccept={deletePost}
+                  label="Delete"
+                  title="Deleting Portfolio Article"
+                  labelAccept="Delete"
+                />
               </Flex>
             )}
             {postData?.data && (
