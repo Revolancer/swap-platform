@@ -11,6 +11,7 @@ import { ProposalDialog } from "../need/proposal-dialog";
 import { axiosPrivate } from "@/lib/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 export const NeedProfileCard = ({
   data = {},
   own = false,
@@ -22,6 +23,7 @@ export const NeedProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
+  const router = useRouter();
   const [proposalCount, setProposalCount] = useState(0);
   const cleanData = useMemo(() => {
     try {
@@ -58,6 +60,10 @@ export const NeedProfileCard = ({
       .catch((err) => {});
   }, [data]);
 
+  const deleteNeed = () => {
+    axiosPrivate.delete(`need/${data.id}`).then(() => router);
+  };
+
   return (
     <Flex
       column
@@ -89,9 +95,21 @@ export const NeedProfileCard = ({
               <Flex gap={6} css={{ alignItems: "center" }}>
                 <ProposalDialog id={data.id} />
                 {own && (
-                  <Button href={`/n/${data.id}`}>
-                    View Proposals ({proposalCount})
-                  </Button>
+                  <>
+                    <Button href={`/n/${data.id}`}>
+                      View Proposals ({proposalCount})
+                    </Button>
+                    <Button
+                      role="secondary"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        deleteNeed();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </>
                 )}
                 {!own && (
                   <>
