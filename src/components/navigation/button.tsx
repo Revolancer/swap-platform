@@ -12,11 +12,11 @@ const styles = {
         borderStyle: "$solid",
         borderColor: "$pink500",
 
-        "&.hover": {
+        "&:hover": {
           backgroundColor: "$pink700",
           borderColor: "$pink700",
         },
-        "&.active": {
+        "&:active": {
           backgroundColor: "$pink800",
           borderColor: "$pink800",
         },
@@ -28,10 +28,10 @@ const styles = {
         borderStyle: "$solid",
         borderColor: "$neutral400",
 
-        "&.hover": {
+        "&:hover": {
           backgroundColor: "$neutral100",
         },
-        "&.active": {
+        "&:active": {
           backgroundColor: "$neutral300",
         },
 
@@ -40,14 +40,30 @@ const styles = {
           color: "$neutral100",
           borderColor: "$neutral800",
 
-          "&.hover": {
+          "&:hover": {
             borderColor: "$neutral700",
             backgroundColor: "$neutral800",
           },
-          "&.active": {
+          "&:active": {
             borderColor: "$neutral600",
             backgroundColor: "$neutral700",
           },
+        },
+      },
+      dangerous: {
+        backgroundColor: "$red500",
+        color: "$white",
+        borderWidth: "$1",
+        borderStyle: "$solid",
+        borderColor: "$red500",
+
+        "&:hover": {
+          backgroundColor: "$red700",
+          borderColor: "$red700",
+        },
+        "&:active": {
+          backgroundColor: "$red800",
+          borderColor: "$red800",
         },
       },
     },
@@ -92,6 +108,15 @@ const styles = {
       },
     },
     {
+      role: "dangerous",
+      disabled: true,
+      css: {
+        opacity: "$opacity$700",
+        backgroundColor: "$red200",
+        borderColor: "$red200",
+      },
+    },
+    {
       role: "secondary",
       disabled: true,
       css: {
@@ -123,33 +148,39 @@ const tertiaryStyles = {
   textTransform: "capitalize",
   padding: 0,
 
-  "&.hover": {
+  "&:hover": {
     color: "$navy500",
   },
-  "&.active": {
+  "&:active": {
     color: "$navy500",
     fontWeight: "$semibold",
     textDecoration: "underline",
-  },
-  "&.disabled": {
-    color: "$neutral900",
-    opacity: "$opacity$500",
   },
 
   [`.${darkTheme} &`]: {
     color: "$white",
 
-    "&.hover": {
+    "&:hover": {
       color: "$navy500",
     },
-    "&.active": {
+    "&:active": {
       color: "$navy500",
       fontWeight: "$semibold",
       textDecoration: "underline",
     },
-    "&.disabled": {
-      color: "$neutral100",
-      opacity: "$opacity$500",
+  },
+  variants: {
+    disabled: {
+      true: {
+        color: "$neutral900",
+        opacity: "$opacity$500",
+        pointerEvents: "none",
+        cursor: "inherit",
+        [`.${darkTheme} &`]: {
+          color: "$neutral100",
+          opacity: "$opacity$500",
+        },
+      },
     },
   },
 };
@@ -167,24 +198,38 @@ const linkStyles = {
   transition: "none",
   padding: 0,
 
-  "&.hover": {
+  "&:hover": {
     color: "$pink600",
     textDecoration: "underline",
   },
-  "&.active": {
+  "&:active": {
     color: "$pink600",
     fontWeight: "$semibold",
     textDecoration: "underline",
   },
-  "&.disabled": {
-    color: "$neutral900",
-    opacity: "$opacity$500",
+  variants: {
+    disabled: {
+      true: {
+        color: "$neutral900",
+        opacity: "$opacity$500",
+        pointerEvents: "none",
+        cursor: "inherit",
+      },
+    },
   },
 };
 
 const unstyledLinkStyles = {
   textDecoration: "none",
   color: "inherit",
+  variants: {
+    disabled: {
+      true: {
+        pointerEvents: "none",
+        cursor: "inherit",
+      },
+    },
+  },
 };
 
 export const Button = styled(NextLink, styles);

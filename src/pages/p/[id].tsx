@@ -140,9 +140,20 @@ export default function UserProfile() {
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
             {own && postData?.id && (
-              <Button role="secondary" href={`/portfolio/${postData.id}`}>
-                Edit
-              </Button>
+              <Flex>
+                <Button role="secondary" href={`/portfolio/${postData.id}`}>
+                  Edit
+                </Button>
+                <Button
+                  role="dangerous"
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                  }}
+                >
+                  Delete
+                </Button>
+              </Flex>
             )}
             {postData?.data && (
               <StyledBlocksContainer>
