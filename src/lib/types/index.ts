@@ -83,3 +83,44 @@ export interface CreditLogEntry {
   updated_at: string;
   deleted_at: string;
 }
+
+export interface ProjectMessage {
+  id: string;
+  user: User;
+  message: string;
+  attachment?: File;
+  read: boolean;
+  read_at?: string;
+  admin_hidden: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
+
+export interface Project {
+  id: string;
+  client: User;
+  contractor: User;
+  status: "active" | "complete";
+  outcome?: "success" | "cancelled";
+  credits: number;
+  credits_released: boolean;
+  need: PostData;
+  proposal: Proposal;
+  client_approval: boolean;
+  contractor_approval: boolean;
+  messages: ProjectMessage[];
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
+
+export interface File {
+  id: string;
+  user: User;
+  url: string;
+  filename: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
