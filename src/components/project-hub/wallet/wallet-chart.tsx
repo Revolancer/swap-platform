@@ -46,18 +46,20 @@ export const WalletChart = () => {
       animate={{ duration: 300 }}
       width={
         typeof window !== "undefined"
-          ? (window.visualViewport?.width ?? 0) > 800
-            ? 800
-            : 400
-          : 400
+          ? (window.visualViewport?.width ?? 0) > 1200
+            ? 1200
+            : 600
+          : 600
       }
       containerComponent={
-        <VictoryContainer style={{ width: "100%", maxHeight: "400px" }} />
+        <VictoryContainer
+          style={{ width: "100%", maxHeight: "400px", overflowY: "auto" }}
+        />
       }
     >
       <VictoryLine
         height={400}
-        data={logEntries}
+        data={logEntries.slice(-20)}
         interpolation="catmullRom"
         x={(d) => DateTime.fromISO(d.updated_at).toFormat("yyyy-LL-dd HH:mm")}
         y="resultant_amount"
@@ -66,7 +68,7 @@ export const WalletChart = () => {
       />
       <VictoryScatter
         height={400}
-        data={logEntries}
+        data={logEntries.slice(-20)}
         x={(d) => DateTime.fromISO(d.updated_at).toFormat("yyyy-LL-dd HH:mm")}
         y="resultant_amount"
         style={{ data: { fill: styleConfig.theme.colors.pink500 } }}
