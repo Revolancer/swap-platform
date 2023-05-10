@@ -40,6 +40,11 @@ export default function UserProfile() {
               if ((response?.data?.id ?? "") == "") {
                 setNotFound(true);
               }
+              const now = DateTime.now();
+              const unpublish = DateTime.fromISO(response?.data?.unpublish_at);
+              if (unpublish && now > unpublish) {
+                setNotFound(true);
+              }
               setPostData(response.data);
               const self = store?.getState()?.userData?.user?.id ?? "guest";
               if ((response.data?.user?.id ?? "") == self) {
