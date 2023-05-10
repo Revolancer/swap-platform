@@ -31,7 +31,7 @@ export const ProposalCard = ({
     await axiosPrivate
       .put(`projects`, { need: data.need.id, proposal: data.id })
       .then((res) => res.data)
-      .then((data) => router.push(`projects/${data}`))
+      .then((data) => router.push(`project/${data}`))
       .catch((err) => {});
   };
 
