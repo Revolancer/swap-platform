@@ -12,16 +12,11 @@ import { ProjectTabs } from "@/components/project-hub/tabs";
 import { Flex } from "@/components/layout/flex";
 import { BalanceTile } from "@/components/project-hub/wallet/balance-tile";
 import { ActiveProjectsTile } from "@/components/project-hub/active-projects-tile";
+import { NeedsSegment } from "@/components/user/needssegment";
+import store from "@/redux/store";
 
 export default function CreditDashboard() {
-  const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
-  useEffect(() => {
-    axiosPrivate
-      .get("credits/log")
-      .then((res) => res.data)
-      .then((data) => setLogEntries(data))
-      .catch((err) => setLogEntries([]));
-  }, []);
+  const self = store?.getState()?.userData?.user?.id ?? "";
 
   return (
     <>
@@ -31,16 +26,7 @@ export default function CreditDashboard() {
           <Flex column>
             <H1>Project Hub</H1>
             <ProjectTabs />
-            <TwoCols>
-              <BalanceTile />
-              <ActiveProjectsTile />
-            </TwoCols>
-            <H5>Transaction History</H5>
-            <P css={{ color: "$neutral800" }}>
-              This is an overview of your transactions
-            </P>
-            <WalletChart />
-            <WalletTable />
+            <NeedsSegment uid={self} own />
           </Flex>
         </FullWidth>
       </PrimaryLayout>

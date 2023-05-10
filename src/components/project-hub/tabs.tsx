@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { styled } from "stitches.config";
 import { Flex } from "../layout/flex";
+import { useRouter } from "next/router";
 
 const TabLink = styled(Link, {
   fontSize: "$body2",
@@ -24,16 +25,37 @@ const TabLink = styled(Link, {
   },
 });
 
-export const ProjectTabs = ({ active = 1 }: { active: number }) => {
+export const ProjectTabs = () => {
+  const router = useRouter();
   return (
     <Flex wrap gap={0}>
-      <TabLink active href="/projects">
+      <TabLink active={router.pathname == "/projects"} href="/projects">
         Dashboard
       </TabLink>
-      <TabLink href="/projects/active">Active Projects</TabLink>
-      <TabLink href="/projects/requests">Project Requests</TabLink>
-      <TabLink href="/projects/needs">My Needs</TabLink>
-      <TabLink href="/projects/completed">Active Projects</TabLink>
+      <TabLink
+        active={router.pathname == "/projects/active"}
+        href="/projects/active"
+      >
+        Active Projects
+      </TabLink>
+      <TabLink
+        active={router.pathname == "/projects/requests"}
+        href="/projects/requests"
+      >
+        Project Requests
+      </TabLink>
+      <TabLink
+        active={router.pathname == "/projects/needs"}
+        href="/projects/needs"
+      >
+        My Needs
+      </TabLink>
+      <TabLink
+        active={router.pathname == "/projects/completed"}
+        href="/projects/completed"
+      >
+        Completed Projects
+      </TabLink>
     </Flex>
   );
 };

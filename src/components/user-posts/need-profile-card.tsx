@@ -6,10 +6,14 @@ import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
 import { Button, TertiaryButton } from "../navigation/button";
 import { Author } from "./author";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProposalDialog } from "../need/proposal-dialog";
+import { axiosPrivate } from "@/lib/axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
 export const NeedProfileCard = ({
   data = {},
+  own = false,
   placeholder = false,
   withAuthor = false,
 }: {
@@ -18,6 +22,7 @@ export const NeedProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
+  const [proposalCount, setProposalCount] = useState(0);
   const cleanData = useMemo(() => {
     try {
       return JSON.parse(data?.data ?? "{}")?.version ?? false
@@ -44,6 +49,14 @@ export const NeedProfileCard = ({
     }
   };
   const summary = getSummary(cleanData);
+
+  useEffect(() => {
+    axiosPrivate
+      .get(`need/proposals/count/${data.id}`)
+      .then((res) => res.data)
+      .then((count) => setProposalCount(count))
+      .catch((err) => {});
+  }, [data]);
 
   return (
     <Flex
@@ -75,9 +88,24 @@ export const NeedProfileCard = ({
             {data?.id && (
               <Flex gap={6} css={{ alignItems: "center" }}>
                 <ProposalDialog id={data.id} />
-                <TertiaryButton href={`/n/${data.id}`}>
-                  Read More
-                </TertiaryButton>
+                {own && (
+                  <Button href={`/n/${data.id}`}>
+                    View Proposals ({proposalCount})
+                  </Button>
+                )}
+                {!own && (
+                  <>
+                    <TertiaryButton href={`/n/${data.id}`}>
+                      Read More
+                    </TertiaryButton>
+                    {proposalCount > 0 && (
+                      <P css={{ color: "$neutral600" }}>
+                        <FontAwesomeIcon icon={faCheck} />
+                        You have submitted a proposal
+                      </P>
+                    )}
+                  </>
+                )}
               </Flex>
             )}
           </>
