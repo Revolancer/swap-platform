@@ -12,6 +12,7 @@ import { ProjectTabs } from "@/components/project-hub/tabs";
 import { Flex } from "@/components/layout/flex";
 import { BalanceTile } from "@/components/project-hub/wallet/balance-tile";
 import { ActiveProjectsTile } from "@/components/project-hub/active-projects-tile";
+import { ActiveProjectsTable } from "@/components/project-hub/active/active-projects-table";
 
 export default function CreditDashboard() {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
@@ -31,16 +32,8 @@ export default function CreditDashboard() {
           <Flex column>
             <H1>Project Hub</H1>
             <ProjectTabs />
-            <TwoCols>
-              <BalanceTile />
-              <ActiveProjectsTile />
-            </TwoCols>
-            <H5>Transaction History</H5>
-            <P css={{ color: "$neutral800" }}>
-              This is an overview of your transactions
-            </P>
-            <WalletChart />
-            <WalletTable />
+            <H5>Active Projects</H5>
+            <ActiveProjectsTable />
           </Flex>
         </FullWidth>
       </PrimaryLayout>

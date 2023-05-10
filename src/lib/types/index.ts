@@ -109,7 +109,6 @@ export interface Project {
   proposal: Proposal;
   client_approval: boolean;
   contractor_approval: boolean;
-  messages: ProjectMessage[];
   created_at: string;
   updated_at: string;
   deleted_at?: string;
