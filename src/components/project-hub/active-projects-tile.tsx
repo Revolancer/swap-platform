@@ -41,7 +41,7 @@ export const ActiveProjectsTile = () => {
       <Flex css={{ alignItems: "center" }}>
         <FontAwesomeIcon icon={faBarsStaggered} />
         <Flex css={{ alignItems: "baseline" }}>
-          <Price>{activeProjects}/4</Price>
+          <Price>{activeProjects}</Price>
         </Flex>
       </Flex>
     </Div>
