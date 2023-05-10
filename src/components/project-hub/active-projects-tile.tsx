@@ -11,7 +11,7 @@ export const ActiveProjectsTile = () => {
   const [activeProjects, setActiveProjects] = useState(0);
   useEffect(() => {
     axiosPrivate
-      .get("projects/count/active")
+      .get("projects/active/count")
       .then((response) => {
         setActiveProjects(response.data);
       })

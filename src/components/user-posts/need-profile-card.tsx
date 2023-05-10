@@ -53,11 +53,13 @@ export const NeedProfileCard = ({
   const summary = getSummary(cleanData);
 
   useEffect(() => {
-    axiosPrivate
-      .get(`need/proposals/count/${data.id}`)
-      .then((res) => res.data)
-      .then((count) => setProposalCount(count))
-      .catch((err) => {});
+    if (data.id) {
+      axiosPrivate
+        .get(`need/proposals/count/${data.id}`)
+        .then((res) => res.data)
+        .then((count) => setProposalCount(count))
+        .catch((err) => {});
+    }
   }, [data]);
 
   const deleteNeed = () => {
