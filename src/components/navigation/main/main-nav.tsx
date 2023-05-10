@@ -200,12 +200,13 @@ export const MainNav = () => {
             </Flex>
             <Flex column gap={4}>
               <WalletNavigable credits={credits} expanded={expanded} />
+              {/*
               <Navigable
                 label="Settings"
                 icon={faCog}
                 expanded={expanded}
                 href="/settings"
-              />
+          />*/}
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? "flex-start" : "center" }}
