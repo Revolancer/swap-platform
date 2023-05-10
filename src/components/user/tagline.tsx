@@ -130,7 +130,7 @@ export const Tagline = ({
                   Cancel
                 </Button>
                 <Button
-                  href=""
+                  href="#"
                   role="secondary"
                   onClick={(e) => {
                     e.preventDefault();

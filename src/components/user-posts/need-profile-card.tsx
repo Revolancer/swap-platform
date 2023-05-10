@@ -6,9 +6,15 @@ import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
 import { Button, TertiaryButton } from "../navigation/button";
 import { Author } from "./author";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
+import { ProposalDialog } from "../need/proposal-dialog";
+import { axiosPrivate } from "@/lib/axios";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCheck } from "@fortawesome/free-solid-svg-icons";
+import { useRouter } from "next/router";
 export const NeedProfileCard = ({
   data = {},
+  own = false,
   placeholder = false,
   withAuthor = false,
 }: {
@@ -17,6 +23,8 @@ export const NeedProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
+  const router = useRouter();
+  const [proposalCount, setProposalCount] = useState(0);
   const cleanData = useMemo(() => {
     try {
       return JSON.parse(data?.data ?? "{}")?.version ?? false
@@ -43,6 +51,20 @@ export const NeedProfileCard = ({
     }
   };
   const summary = getSummary(cleanData);
+
+  useEffect(() => {
+    if (data.id) {
+      axiosPrivate
+        .get(`need/proposals/count/${data.id}`)
+        .then((res) => res.data)
+        .then((count) => setProposalCount(count))
+        .catch((err) => {});
+    }
+  }, [data]);
+
+  const deleteNeed = () => {
+    axiosPrivate.delete(`need/${data.id}`).then(() => router);
+  };
 
   return (
     <Flex
@@ -73,7 +95,37 @@ export const NeedProfileCard = ({
             {summary && <ParagraphBlock data={summary} />}
             {data?.id && (
               <Flex gap={6} css={{ alignItems: "center" }}>
-                <Button href={`/n/${data.id}`}>View Need</Button>
+                <ProposalDialog id={data.id} />
+                {own && (
+                  <>
+                    <Button href={`/n/${data.id}`}>
+                      View Proposals ({proposalCount})
+                    </Button>
+                    <Button
+                      role="secondary"
+                      href="#"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        deleteNeed();
+                      }}
+                    >
+                      Delete
+                    </Button>
+                  </>
+                )}
+                {!own && (
+                  <>
+                    <TertiaryButton href={`/n/${data.id}`}>
+                      Read More
+                    </TertiaryButton>
+                    {proposalCount > 0 && (
+                      <P css={{ color: "$neutral600" }}>
+                        <FontAwesomeIcon icon={faCheck} />
+                        You have submitted a proposal
+                      </P>
+                    )}
+                  </>
+                )}
               </Flex>
             )}
           </>

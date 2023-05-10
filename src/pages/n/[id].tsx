@@ -1,19 +1,26 @@
 import { FullWidth } from "@/components/layout/columns";
 import { PrimaryLayout } from "@/components/layout/layouts";
-import { axiosPublic } from "@/lib/axios";
+import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { PostData } from "@/lib/types";
+import { PostData, Proposal } from "@/lib/types";
 import Blocks from "editorjs-blocks-react-renderer";
-import { H1, H3 } from "@/components/text/headings";
+import { H1, H3, H5 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
 import { Flex } from "@/components/layout/flex";
 import { Author } from "@/components/user-posts/author";
-import { styled } from "stitches.config";
 import store from "@/redux/store";
 import FourOhFour from "../404";
 import { P } from "@/components/text/text";
+import { DateTime } from "luxon";
+import { ProposalDialog } from "@/components/need/proposal-dialog";
+import {
+  StyledBlocksContainer,
+  cleanBlockData,
+} from "@/components/user-posts/styledblockscontainer";
+import { Masonry } from "masonic";
+import { ProposalCard } from "@/components/need/proposal-card";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -21,6 +28,7 @@ export default function UserProfile() {
   const [postData, setPostData] = useState<PostData>({});
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
+  const [proposals, setProposals] = useState<Proposal[]>([]);
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -42,90 +50,25 @@ export default function UserProfile() {
           .catch((err) => setNotFound(true));
       }
     };
+    const getProposals = async () => {
+      if (id != null) {
+        await axiosPrivate
+          .get(`need/proposals/${id}`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if ((response?.data?.length ?? 0) > 0) {
+                setProposals(response.data);
+                console.log(response.data);
+              }
+            }
+          })
+          .catch((err) => {});
+      }
+    };
     getUserProfileData();
+    getProposals();
   }, [id]);
 
-  const cleanData = useMemo(() => {
-    try {
-      return JSON.parse(postData?.data ?? "{}")?.version ?? false
-        ? JSON.parse(postData?.data ?? "{}")
-        : {
-            time: 1682956618189,
-            blocks: [],
-            version: "2.26.5",
-          };
-    } catch (err) {
-      return {
-        time: 1682956618189,
-        blocks: [],
-        version: "2.26.5",
-      };
-    }
-  }, [postData]);
-
-  const StyledBlocksContainer = styled("div", {
-    "& .image-block--stretched": {
-      "& img": {
-        width: "100%",
-      },
-    },
-    "& figcaption": {
-      color: "$neutral700",
-      fontStyle: "italic",
-      textAlign: "end",
-    },
-    "& ul": {
-      marginBlock: "$3",
-    },
-    "& ol": {
-      marginBlock: "$3",
-    },
-    "& p": {
-      marginBlock: "$3",
-    },
-    "& table": {
-      width: "100%",
-      borderSpacing: "0",
-      borderCollapse: "collapse",
-      marginBlock: "$3",
-    },
-    "& th": {
-      border: "1px solid black",
-      textAlign: "center",
-    },
-    "& td": {
-      border: "1px solid black",
-      textAlign: "center",
-    },
-    "& pre": {
-      backgroundColor: "$neutral800",
-      color: "$neutral100",
-      padding: "$3",
-    },
-    "& blockquote": {
-      background: "$neutral100",
-      borderLeft: "10px solid $neutral600",
-      margin: "1.5em 10px",
-      padding: "0.5em 10px",
-      quotes: "“”‘’",
-    },
-    "& blockquote:before": {
-      color: "$neutral800",
-      content: "open-quote",
-      fontSize: "4em",
-      lineHeight: "0.1em",
-      marginRight: "0.25em",
-      verticalAlign: "-0.4em",
-    },
-    "& blockquote p": {
-      display: "inline",
-    },
-    "& iframe": {
-      display: "block",
-      maxWidth: "100%",
-      marginInline: "auto",
-    },
-  });
   if (isNotFound) {
     return <FourOhFour />;
   }
@@ -140,13 +83,35 @@ export default function UserProfile() {
             <H1>{postData?.title ?? "Loading..."}</H1>
             {postData?.user && <Author uid={postData.user?.id ?? ""} />}
             {postData?.tags && <Tags tags={postData.tags} />}
+            {postData?.unpublish_at && (
+              <P css={{ color: "$neutral600" }}>
+                Respond by{" "}
+                {DateTime.fromISO(postData.unpublish_at).toFormat(
+                  "cccc, LLLL d"
+                )}
+              </P>
+            )}
+            {postData?.id && <ProposalDialog id={postData.id} />}
             {postData?.data && (
               <StyledBlocksContainer>
-                <Blocks data={cleanData} />
+                <Blocks data={cleanBlockData(postData.data)} />
               </StyledBlocksContainer>
             )}
             {own && <P css={{ color: "$neutral600" }}></P>}
           </Flex>
+          <H5>Proposals</H5>
+          {proposals.length > 0 ? (
+            <Masonry
+              items={proposals}
+              render={ProposalCard}
+              columnGutter={16}
+              maxColumnCount={3}
+            />
+          ) : own ? (
+            <P>There are no proposals yet</P>
+          ) : (
+            <P>You haven&rsquo;t submitted a proposal yet</P>
+          )}
         </FullWidth>
       </PrimaryLayout>
     </>

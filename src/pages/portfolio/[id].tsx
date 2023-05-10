@@ -189,7 +189,7 @@ export default function PortfolioEditorPage() {
                   </MainContentWithSideBar>
                   <SideBar>
                     <Flex>
-                      <Button href="" onClick={props.submitForm}>
+                      <Button href="#" onClick={props.submitForm}>
                         Save
                       </Button>
                       {isNew ? (

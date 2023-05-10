@@ -14,6 +14,7 @@ import {
   faHouse,
   faLayerGroup,
   faRightFromBracket,
+  faTicket,
   faWallet,
 } from "@fortawesome/free-solid-svg-icons";
 import { useEffect, useState } from "react";
@@ -109,12 +110,36 @@ const Navigable = ({
   );
 };
 
+const WalletNavigable = ({
+  credits,
+  expanded,
+}: {
+  credits: number;
+  expanded: boolean;
+}) => {
+  return (
+    <NavLink href="/projects" expanded={expanded}>
+      <FontAwesomeIcon icon={faWallet} style={{ fontSize: "1.4rem" }} />{" "}
+      {expanded && (
+        <>
+          <span>Wallet</span>
+          <span>
+            {" ("}
+            <FontAwesomeIcon icon={faTicket} /> {credits})
+          </span>
+        </>
+      )}
+    </NavLink>
+  );
+};
+
 export const MainNav = () => {
   const expanded = useAppSelector((state) => state.navigation.toggle.expanded);
   const loggedIn = useAppSelector((state) => state.userData.user != null);
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
+  const [credits, setCredits] = useState(0);
   useEffect(() => {
     setDidMount(true);
     axiosPrivate
@@ -123,6 +148,12 @@ export const MainNav = () => {
         setOwnProfile(response.data);
       })
       .catch((e) => setOwnProfile({}));
+    axiosPrivate
+      .get("credits")
+      .then((response) => {
+        setCredits(response.data);
+      })
+      .catch((e) => setCredits(0));
   }, []);
 
   const navItems = (expanded: boolean) => {
@@ -168,18 +199,14 @@ export const MainNav = () => {
               />
             </Flex>
             <Flex column gap={4}>
-              <Navigable
-                label="Wallet"
-                icon={faWallet}
-                expanded={expanded}
-                href="/projects"
-              />
+              <WalletNavigable credits={credits} expanded={expanded} />
+              {/*
               <Navigable
                 label="Settings"
                 icon={faCog}
                 expanded={expanded}
                 href="/settings"
-              />
+          />*/}
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? "flex-start" : "center" }}

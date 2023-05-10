@@ -40,6 +40,7 @@ export interface PostData {
   title?: string;
   tags?: Tag[];
   data?: string;
+  unpublish_at?: string;
 }
 
 export interface FeedPostData {
@@ -58,4 +59,67 @@ export interface Message {
   deleted_at: string;
   sender: string;
   reciever: string;
+}
+
+export interface Proposal {
+  id: string;
+  user: User;
+  need: PostData;
+  message: string;
+  estimated_hours: number;
+  price: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+}
+
+export interface CreditLogEntry {
+  id: string;
+  user: User;
+  reason?: string;
+  change: number;
+  resultant_amount: number;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
+}
+
+export interface ProjectMessage {
+  id: string;
+  user: User;
+  message: string;
+  attachment?: File;
+  read: boolean;
+  read_at?: string;
+  admin_hidden: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
+
+export interface Project {
+  id: string;
+  client: User;
+  contractor: User;
+  status: "active" | "complete";
+  outcome?: "success" | "cancelled";
+  credits: number;
+  credits_released: boolean;
+  need: PostData;
+  proposal: Proposal;
+  client_approval: boolean;
+  contractor_approval: boolean;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
+
+export interface File {
+  id: string;
+  user: User;
+  url: string;
+  filename: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
 }
