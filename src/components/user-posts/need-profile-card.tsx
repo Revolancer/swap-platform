@@ -118,12 +118,6 @@ export const NeedProfileCard = ({
                     <TertiaryButton href={`/n/${data.id}`}>
                       Read More
                     </TertiaryButton>
-                    {proposalCount > 0 && (
-                      <P css={{ color: "$neutral600" }}>
-                        <FontAwesomeIcon icon={faCheck} />
-                        You have submitted a proposal
-                      </P>
-                    )}
                   </>
                 )}
               </Flex>

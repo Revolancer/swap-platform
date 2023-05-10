@@ -13,6 +13,7 @@ import { Flex } from "../layout/flex";
 import { H4, H5 } from "../text/headings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCheck,
   faClose,
   faCoins,
   faTicket,
@@ -86,6 +87,7 @@ export const ProposalDialog = ({ id }: { id: string }) => {
   const [isOwn, setIsOwn] = useState(false);
   const [profile, setProfile] = useState<UserProfileData>({});
   const [myRate, setMyRate] = useState(20);
+  const [proposalCount, setProposalCount] = useState(0);
 
   const router = useRouter();
 
@@ -140,6 +142,17 @@ export const ProposalDialog = ({ id }: { id: string }) => {
     };
 
     getMyRate();
+
+    const getProposalCount = async () => {
+      if (id != null) {
+        axiosPrivate
+          .get(`need/proposals/count/${id}`)
+          .then((res) => res.data)
+          .then((count) => setProposalCount(count))
+          .catch((err) => {});
+      }
+    };
+    getProposalCount();
   }, [id]);
 
   const openModal = (e: MouseEvent<HTMLAnchorElement>) => {
@@ -170,9 +183,17 @@ export const ProposalDialog = ({ id }: { id: string }) => {
     <>
       {!isNotFound && !isOwn && (
         <>
-          <Button href="#" onClick={openModal}>
-            Apply
-          </Button>
+          {proposalCount == 0 && (
+            <Button href="#" onClick={openModal}>
+              Apply
+            </Button>
+          )}
+          {proposalCount > 0 && (
+            <P css={{ color: "$neutral600" }}>
+              <FontAwesomeIcon icon={faCheck} />
+              You have submitted a proposal
+            </P>
+          )}
 
           <Modal
             isOpen={modalIsOpen}
