@@ -25,7 +25,7 @@ import { ProposalCard } from "@/components/need/proposal-card";
 export default function UserProfile() {
   const router = useRouter();
   const { id } = router.query;
-  const [postData, setPostData] = useState<PostData>({});
+  const [postData, setPostData] = useState<PostData>();
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [proposals, setProposals] = useState<Proposal[]>([]);
@@ -38,6 +38,11 @@ export default function UserProfile() {
           .then((response) => {
             if ((response?.data ?? null) != null) {
               if ((response?.data?.id ?? "") == "") {
+                setNotFound(true);
+              }
+              const now = DateTime.now();
+              const unpublish = DateTime.fromISO(response?.data?.unpublish_at);
+              if (unpublish && now > unpublish) {
                 setNotFound(true);
               }
               setPostData(response.data);
