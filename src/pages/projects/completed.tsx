@@ -13,6 +13,7 @@ import { Flex } from "@/components/layout/flex";
 import { BalanceTile } from "@/components/project-hub/wallet/balance-tile";
 import { ActiveProjectsTile } from "@/components/project-hub/active-projects-tile";
 import { ActiveProjectsTable } from "@/components/project-hub/active/active-projects-table";
+import { CompletedProjectsTable } from "@/components/project-hub/active/completed-projects-table";
 
 export default function CreditDashboard() {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
@@ -26,14 +27,14 @@ export default function CreditDashboard() {
 
   return (
     <>
-      <Title>Active Projects</Title>
+      <Title>Completed Projects</Title>
       <PrimaryLayout>
         <FullWidth>
           <Flex column>
             <H1>Project Hub</H1>
             <ProjectTabs />
-            <H5>Active Projects</H5>
-            <ActiveProjectsTable />
+            <H5>Completed Projects</H5>
+            <CompletedProjectsTable />
           </Flex>
         </FullWidth>
       </PrimaryLayout>
