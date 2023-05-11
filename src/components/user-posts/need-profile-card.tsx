@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 export const NeedProfileCard = ({
-  data = {},
+  data,
   own = false,
   placeholder = false,
   withAuthor = false,
@@ -53,7 +53,7 @@ export const NeedProfileCard = ({
   const summary = getSummary(cleanData);
 
   useEffect(() => {
-    if (data.id) {
+    if (data?.id) {
       axiosPrivate
         .get(`need/proposals/count/${data.id}`)
         .then((res) => res.data)
@@ -63,7 +63,9 @@ export const NeedProfileCard = ({
   }, [data]);
 
   const deleteNeed = () => {
-    axiosPrivate.delete(`need/${data.id}`).then(() => router);
+    if (data?.id) {
+      axiosPrivate.delete(`need/${data.id}`).then(() => router.reload());
+    }
   };
 
   return (
@@ -89,7 +91,7 @@ export const NeedProfileCard = ({
           </>
         ) : (
           <>
-            <P css={{ fontWeight: "$bold" }}>{data.title}</P>
+            <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary && <ParagraphBlock data={summary} />}

@@ -25,7 +25,7 @@ import { ProposalCard } from "@/components/need/proposal-card";
 export default function UserProfile() {
   const router = useRouter();
   const { id } = router.query;
-  const [postData, setPostData] = useState<PostData>({});
+  const [postData, setPostData] = useState<PostData>();
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [proposals, setProposals] = useState<Proposal[]>([]);

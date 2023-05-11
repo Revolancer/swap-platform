@@ -12,7 +12,7 @@ import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { Author } from "./author";
 import { useMemo } from "react";
 export const PortfolioProfileCard = ({
-  data = {},
+  data,
   own = false,
   placeholder = false,
   withAuthor = false,
@@ -116,7 +116,7 @@ export const PortfolioProfileCard = ({
           </>
         ) : (
           <>
-            <P css={{ fontWeight: "$bold" }}>{data.title}</P>
+            <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary && <ParagraphBlock data={summary} />}
