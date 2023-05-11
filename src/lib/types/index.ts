@@ -14,7 +14,7 @@ export interface AppState {
 }
 
 export interface User {
-  id?: string;
+  id: string;
 }
 
 export interface Tag {
@@ -35,7 +35,7 @@ export interface UserProfileData {
 }
 
 export interface PostData {
-  id?: string;
+  id: string;
   user?: User;
   title?: string;
   tags?: Tag[];
