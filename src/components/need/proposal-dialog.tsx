@@ -81,7 +81,7 @@ const ProposalSchema = Yup.object().shape({
 });
 
 export const ProposalDialog = ({ id }: { id: string }) => {
-  const [postData, setPostData] = useState<PostData>({});
+  const [postData, setPostData] = useState<PostData>();
   const [isNotFound, setNotFound] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
   const [isOwn, setIsOwn] = useState(false);
