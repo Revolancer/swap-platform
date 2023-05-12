@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import { Divider } from "@/components/layout/divider";
 import { ProjectThread } from "@/components/messaging/project-messaging/project-thread";
+import { ParagraphBlock } from "editorjs-blocks-react-renderer";
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -113,7 +114,7 @@ export default function ProjectPage() {
                   )}
                 </Flex>
                 <Tags tags={loadedData?.need?.tags ?? []} />
-                <P css={{ color: "$neutral600" }}>{summary}</P>
+                {summary && <ParagraphBlock data={summary} />}
                 <P css={{ color: "$neutral600" }}>
                   <strong>
                     Price: <FontAwesomeIcon icon={faTicket} />
