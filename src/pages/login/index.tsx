@@ -48,7 +48,7 @@ export default function Login() {
   );
 
   const handleLogin = useCallback(
-    async () => console.log(await dispatch(login())),
+    async () => await dispatch(login()),
     [dispatch]
   );
 

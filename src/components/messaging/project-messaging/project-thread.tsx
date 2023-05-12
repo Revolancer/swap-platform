@@ -8,6 +8,9 @@ import { DateTime } from "luxon";
 import store from "@/redux/store";
 import { MessageAuthor } from "../message-author";
 import { P } from "@/components/text/text";
+import { TertiaryButton } from "@/components/navigation/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
 export const ProjectThread = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<Project>();
@@ -35,7 +38,6 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
   const loadActiveThread = useCallback(() => {
     if (projectId == "") return;
-    console.log("reloaded");
     axiosPrivate
       .get(`projects/${projectId}/messages`, {
         id: `project-threads-${projectId}`,
@@ -225,6 +227,23 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
           );
         })
       );
+
+      //attachments
+      if (message.attachment) {
+        rendered.push(
+          <P>
+            <TertiaryButton
+              key={message.attachment.id}
+              href={message.attachment.url}
+              target="_blank"
+              download={message.attachment.filename}
+            >
+              <FontAwesomeIcon icon={faPaperclip} />
+              {message.attachment.filename}
+            </TertiaryButton>
+          </P>
+        );
+      }
 
       lastTime = thisTime;
       lastSender = message.user.id;

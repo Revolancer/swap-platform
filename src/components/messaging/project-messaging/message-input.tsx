@@ -5,10 +5,15 @@ import { Form } from "../../forms/form";
 import { InputOuter, TextAreaInner } from "../../forms/input";
 import { Feedback } from "../../forms/feedback";
 import { Flex } from "../../layout/flex";
-import { Button } from "../../navigation/button";
+import { Button, TertiaryButton } from "../../navigation/button";
+import { StoredUploadField } from "@/components/forms/stored-upload";
+import { useState } from "react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
 const MessageSchema = Yup.object().shape({
-  body: Yup.string().optional().ensure(),
+  message: Yup.string().required("You cannot send an empty message").ensure(),
+  attachment: Yup.string().optional().ensure(),
 });
 
 export const ProjectMessageInput = ({
@@ -18,10 +23,12 @@ export const ProjectMessageInput = ({
   projectId: string;
   refresh?: () => void;
 }) => {
+  const [showAttachmentField, setShowAttachmentField] = useState(false);
   return (
     <Formik
       initialValues={{
         message: "",
+        attachment: "",
       }}
       validationSchema={MessageSchema}
       onSubmit={async (values, actions) => {
@@ -71,7 +78,8 @@ export const ProjectMessageInput = ({
             {props.touched.message && props.errors.message && (
               <Feedback state="error">{props.errors.message}</Feedback>
             )}
-            <Flex>
+            {showAttachmentField && <StoredUploadField name="attachment" />}
+            <Flex css={{ alignItems: "center" }}>
               <Button
                 href="#"
                 onClick={(e) => {
@@ -81,6 +89,16 @@ export const ProjectMessageInput = ({
               >
                 Send
               </Button>
+              <TertiaryButton
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowAttachmentField(!showAttachmentField);
+                }}
+              >
+                <FontAwesomeIcon icon={faPaperclip} />{" "}
+                {!showAttachmentField ? "Add" : "Remove"} Attachment
+              </TertiaryButton>
             </Flex>
           </Form>
         );

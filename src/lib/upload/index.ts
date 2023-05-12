@@ -20,6 +20,15 @@ export const uploadFile = async (file: File) => {
   }
 };
 
+export const storeFile = async (url: string) => {
+  return axiosPrivate
+    .put("upload/store", { fileName: url })
+    .then((res) => res.data)
+    .catch(() => {
+      throw new Error("Error uploading file");
+    });
+};
+
 export const uploadForEditorJs = async (
   file: File
 ): Promise<{ success: number; file: { url: string } }> => {
