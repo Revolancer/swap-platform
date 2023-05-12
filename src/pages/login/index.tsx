@@ -162,6 +162,14 @@ export default function Login() {
                     Don&rsquo;t have an account?{" "}
                     <Link href="/register">Register Now!</Link>
                   </P>
+                  <P css={{ textAlign: "center", color: "$neutral600" }}>
+                    <strong>Please Note</strong> If you are already a member of
+                    Revolancer Classic,
+                    <br />
+                    you&rsquo;ll need to{" "}
+                    <Link href="/register">create an account</Link> to use the
+                    beta experience.
+                  </P>
                 </Form>
               );
             }}
