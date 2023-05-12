@@ -26,6 +26,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
         if ((response?.data ?? null) != null) {
           if ((response?.data?.id ?? "") !== "") {
             setProject(response.data);
+            console.log(response.data);
           }
         }
       })
@@ -108,6 +109,60 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
     let lastSender = "";
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
+    if (project?.proposal) {
+      //Insert proposal as first message
+      const proposalTime = DateTime.fromISO(project.proposal.created_at ?? "");
+      if (proposalTime.plus({ days: 180 }) < now) {
+        rendered.push(
+          <LabelledDivider
+            label={proposalTime
+              .toLocal()
+              .startOf("day")
+              .toFormat("cccc, LLLL d yyyy")}
+            key={`divider-${project.proposal.id}`}
+          />
+        );
+      } else {
+        rendered.push(
+          <LabelledDivider
+            label={proposalTime
+              .toLocal()
+              .startOf("day")
+              .toFormat("cccc, LLLL d")}
+            key={`divider-${project.proposal.id}`}
+          />
+        );
+      }
+      if (theirProfile && theirProfile.user?.id == project.contractor.id) {
+        rendered.push(
+          <MessageAuthor
+            profile={theirProfile}
+            time={proposalTime}
+            key={`authorchip-${project.proposal.id}`}
+          />
+        );
+      } else if (myProfile && myProfile.user?.id == project.contractor.id) {
+        rendered.push(
+          <MessageAuthor
+            profile={myProfile}
+            time={proposalTime}
+            key={`authorchip-${project.proposal.id}`}
+          />
+        );
+      }
+      lastTime = proposalTime;
+      //Actual proposal body
+      rendered.push(
+        project.proposal.message.split("\n").map(function (item, idx) {
+          return (
+            <span key={`${project.proposal.id}-${idx}`}>
+              {item}
+              <br />
+            </span>
+          );
+        })
+      );
+    }
     for (const message of messages) {
       if (!message.read) {
         sendReadReceipt(message.id);
