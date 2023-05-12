@@ -13,7 +13,7 @@ export default function Stats() {
 
   const load = async () => {
     await axiosPrivate
-      .get("admin/stats/users")
+      .get("admin/stats/count_users")
       .then((response) => setUserCount(response.data ?? 0))
       .catch((err) => setUserCount(0));
   };
