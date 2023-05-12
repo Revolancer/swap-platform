@@ -96,7 +96,7 @@ export default function UserProfile() {
                 }}
               >
                 <ProfileImage uid={userProfile?.user?.id ?? ""} own={own} />
-                <H1 style={{ fontSize: "32px" }}>
+                <H1 css={{ fontSize: "$h4", lineHeight: "$h4" }}>
                   {userProfile?.first_name
                     ? `${userProfile?.first_name} ${userProfile?.last_name}`
                     : "User Profile"}
