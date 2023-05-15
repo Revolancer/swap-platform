@@ -75,6 +75,10 @@ export default function NeedEditorPage() {
               if ((response?.data?.id ?? "") == "") {
                 setNotFound(true);
               }
+              const self = store?.getState()?.userData?.user?.id ?? "";
+              if (response.data?.user?.id !== self) {
+                setNotFound(true);
+              }
               setLoadedData(response.data);
               setHasLoaded(true);
             }
