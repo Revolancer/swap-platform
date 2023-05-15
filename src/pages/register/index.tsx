@@ -26,6 +26,7 @@ import { useAppDispatch, useAppSelector } from "@/redux/store";
 import { Formik } from "formik";
 import { useRouter } from "next/router";
 import { useCallback, useState } from "react";
+import { hasCookie, getCookie } from "cookies-next";
 
 const RegistrationSchema = Yup.object().shape({
   email: Yup.string()
@@ -57,6 +58,11 @@ export default function Register() {
     router.replace("/");
   }
 
+  let referrer = "";
+  if (hasCookie("referrer")) {
+    referrer = getCookie("referrer")?.toString() ?? "";
+  }
+
   return (
     <>
       <Title>Register</Title>
@@ -77,6 +83,7 @@ export default function Register() {
               email: "",
               password: "",
               repeatpassword: "",
+              referrer: referrer,
               terms: false,
               marketingfirstparty: false,
               marketingthirdparty: false,
@@ -287,6 +294,11 @@ export default function Register() {
                       }}
                     />
                   </Flex>
+                  <input
+                    type="hidden"
+                    name="referrer"
+                    value={props.values.referrer}
+                  />
                   <FormButton type="submit" disabled={props.isSubmitting}>
                     Register
                   </FormButton>
