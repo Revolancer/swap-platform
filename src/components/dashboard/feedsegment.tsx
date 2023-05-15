@@ -2,8 +2,24 @@ import { useCallback, useEffect, useState } from "react";
 import { FeedPostData } from "@/lib/types";
 import { axiosPrivate } from "@/lib/axios";
 import { PortfolioProfileCard } from "../user-posts/portfolio-profile-card";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
+import { Masonry } from "masonic";
 import { NeedProfileCard } from "../user-posts/need-profile-card";
+
+const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
+  if (data.type == "need") {
+    return (
+      <NeedProfileCard data={data.data} key={data.data?.id ?? ""} withAuthor />
+    );
+  } else {
+    return (
+      <PortfolioProfileCard
+        data={data.data}
+        key={data.data?.id ?? ""}
+        withAuthor
+      />
+    );
+  }
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
@@ -36,29 +52,14 @@ export const FeedSegment = () => {
       clearInterval(interval);
     };
   }, [loadPostsForUser]);
-  const staticPosts = [];
-  for (const post of posts) {
-    if (post.type == "need") {
-      staticPosts.push(
-        <NeedProfileCard
-          data={post.data}
-          key={post.data?.id ?? ""}
-          withAuthor
-        />
-      );
-    } else {
-      staticPosts.push(
-        <PortfolioProfileCard
-          data={post.data}
-          key={post.data?.id ?? ""}
-          withAuthor
-        />
-      );
-    }
-  }
+
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-      <Masonry gutter="0.8rem">{staticPosts}</Masonry>
-    </ResponsiveMasonry>
+    <Masonry
+      items={posts}
+      render={FeedEntry}
+      columnGutter={16}
+      maxColumnCount={3}
+      overscanBy={3}
+    />
   );
 };
