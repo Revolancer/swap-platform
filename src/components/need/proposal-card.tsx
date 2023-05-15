@@ -8,7 +8,7 @@ import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import store from "@/redux/store";
 import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
-import { MouseEvent } from "react";
+import { MouseEvent, useEffect, useState } from "react";
 
 export const ProposalCard = ({
   index,
@@ -19,6 +19,19 @@ export const ProposalCard = ({
 }) => {
   const router = useRouter();
   const own = (store?.getState().userData.user?.id ?? "guest") == data.user.id;
+
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [balance, setBalance] = useState(0);
+
+  useEffect(() => {
+    axiosPrivate
+      .get("credits")
+      .then((response) => {
+        setBalance(response.data);
+        setHasLoaded(true);
+      })
+      .catch((e) => setBalance(0));
+  }, []);
 
   const deleteProposal = async (e: MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -69,11 +82,23 @@ export const ProposalCard = ({
               </Button>
             </Flex>
           )}
-          {!own && (
+          {!own && hasLoaded && (
             <Flex gap={6} css={{ alignItems: "center" }}>
-              <Button href="#" onClick={acceptProposal}>
-                Accept
-              </Button>
+              {balance >= data.price ? (
+                <Button href="#" onClick={acceptProposal}>
+                  Accept
+                </Button>
+              ) : (
+                <Flex column>
+                  <Button href="#" disabled>
+                    Accept
+                  </Button>
+                  <P css={{ color: "$neutral600" }}>
+                    You do not have enough credits for this. Please complete
+                    work for other users to earn more.
+                  </P>
+                </Flex>
+              )}
             </Flex>
           )}
         </>
