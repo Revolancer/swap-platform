@@ -9,8 +9,17 @@ import BugsnagPluginReact, {
 } from "@bugsnag/plugin-react";
 import React from "react";
 import FiveHundred from "./500";
+import { useRouter } from "next/router";
+import { setCookie } from "cookies-next";
 
 export default function App({ Component, pageProps }: AppProps) {
+  const router = useRouter();
+  if (router.query?.ref) {
+    setCookie("referrer", router.query.ref, {
+      domain:
+        process.env.NODE_ENV == "production" ? "revolancer.com" : undefined,
+    });
+  }
   const WrapInErrorBoundary = ({ children }: { children: any }) => {
     if (process.env.NEXT_PUBLIC_BUGSNAG_KEY) {
       Bugsnag.start({
