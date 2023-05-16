@@ -12,6 +12,7 @@ import { axiosPrivate } from "@/lib/axios";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
+import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 export const NeedProfileCard = ({
   data,
   own = false,
@@ -103,16 +104,13 @@ export const NeedProfileCard = ({
                     <Button href={`/n/${data.id}`}>
                       View Proposals ({proposalCount})
                     </Button>
-                    <Button
-                      role="secondary"
-                      href="#"
-                      onClick={(e) => {
-                        e.preventDefault();
-                        deleteNeed();
-                      }}
-                    >
-                      Delete
-                    </Button>
+                    <ConfirmationDialog
+                      dangerous
+                      onAccept={deleteNeed}
+                      label="Delete"
+                      title="Deleting A Need"
+                      labelAccept="Delete"
+                    />
                   </>
                 )}
                 {!own && (

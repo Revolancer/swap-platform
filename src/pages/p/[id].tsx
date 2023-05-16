@@ -133,7 +133,7 @@ export default function UserProfile() {
 
   const deletePost = () => {
     axiosPrivate.delete(`portfolio/${postData?.id}`).catch((err) => {});
-    //router.reload();
+    router.push("/u/profile");
   };
 
   return (

@@ -11,6 +11,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { Author } from "./author";
 import { useMemo } from "react";
+import { ConfirmationDialog } from "../navigation/confirmation-dialog";
+import { axiosPrivate } from "@/lib/axios";
+import { useRouter } from "next/router";
 export const PortfolioProfileCard = ({
   data,
   own = false,
@@ -70,6 +73,15 @@ export const PortfolioProfileCard = ({
     width: "100%",
   });
 
+  const router = useRouter();
+
+  const deletePost = async () => {
+    if (data) {
+      await axiosPrivate.delete(`portfolio/${data.id}`).catch((err) => {});
+    }
+    router.reload();
+  };
+
   return (
     <Flex
       column
@@ -123,9 +135,18 @@ export const PortfolioProfileCard = ({
             <Flex gap={6} css={{ alignItems: "center" }}>
               {data?.id && <Button href={`/p/${data.id}`}>Read More</Button>}
               {own && data?.id && (
-                <TertiaryButton href={`/portfolio/${data.id}`}>
-                  Edit
-                </TertiaryButton>
+                <>
+                  <ConfirmationDialog
+                    dangerous
+                    onAccept={deletePost}
+                    label="Delete"
+                    title="Deleting Portfolio Article"
+                    labelAccept="Delete"
+                  />
+                  <TertiaryButton href={`/portfolio/${data.id}`}>
+                    Edit
+                  </TertiaryButton>
+                </>
               )}
             </Flex>
           </>

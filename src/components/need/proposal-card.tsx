@@ -9,6 +9,7 @@ import store from "@/redux/store";
 import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { MouseEvent, useEffect, useState } from "react";
+import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 
 export const ProposalCard = ({
   index,
@@ -33,8 +34,7 @@ export const ProposalCard = ({
       .catch((e) => setBalance(0));
   }, []);
 
-  const deleteProposal = async (e: MouseEvent<HTMLElement>) => {
-    e.preventDefault();
+  const deleteProposal = async () => {
     await axiosPrivate.delete(`need/proposal/${data.id}`).catch((err) => {});
     router.reload();
   };
@@ -77,9 +77,13 @@ export const ProposalCard = ({
           </P>
           {own && (
             <Flex gap={6} css={{ alignItems: "center" }}>
-              <Button href="#" onClick={deleteProposal}>
-                Delete
-              </Button>
+              <ConfirmationDialog
+                dangerous
+                onAccept={deleteProposal}
+                label="Delete"
+                title="Deleting Proposal"
+                labelAccept="Delete"
+              />
             </Flex>
           )}
           {!own && hasLoaded && (
