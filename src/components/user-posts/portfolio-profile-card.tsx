@@ -15,7 +15,6 @@ import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
 import axios from "axios";
-import { ParagraphBlockData } from "editorjs-blocks-react-renderer/dist/renderers/paragraph";
 export const PortfolioProfileCard = ({
   data,
   own = false,
@@ -29,6 +28,7 @@ export const PortfolioProfileCard = ({
 }) => {
   const [firstImage, setFirstImage] = useState<string>();
   const [imageUnoptimised, setImageUnoptimised] = useState(false);
+  const [hasContent, setHasContent] = useState(false);
   const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState("");
 
@@ -90,6 +90,9 @@ export const PortfolioProfileCard = ({
       const maxLength = 200;
       if (placeholder) return "";
       let summary = "";
+      if (data.blocks.length) {
+        setHasContent(true);
+      }
       for (const block of data.blocks) {
         if (summary.length >= maxLength) {
           return summary;
@@ -205,7 +208,7 @@ export const PortfolioProfileCard = ({
               <P css={{ color: "$neutral600" }}>{summary}</P>
             )}
             <Flex gap={6} css={{ alignItems: "center" }}>
-              {summary.length > 0 && data?.id && (
+              {hasContent && data?.id && (
                 <Button href={`/p/${data.id}`}>Read More</Button>
               )}
               {own && data?.id && (
