@@ -10,11 +10,10 @@ import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faImage } from "@fortawesome/free-solid-svg-icons";
 import { Author } from "./author";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
-import axios from "axios";
 export const PortfolioProfileCard = ({
   data,
   own = false,
@@ -26,8 +25,6 @@ export const PortfolioProfileCard = ({
   placeholder?: boolean;
   withAuthor?: boolean;
 }) => {
-  const [firstImage, setFirstImage] = useState("");
-  const [imageUnoptimised, setImageUnoptimised] = useState(false);
   const cleanData = useMemo(() => {
     try {
       return JSON.parse(data?.data ?? "{}")?.version ?? false
@@ -45,43 +42,15 @@ export const PortfolioProfileCard = ({
       };
     }
   }, [data]);
-
-  const getVimeoThumbnail = async (url: string): Promise<string> => {
-    const id = url.replace("https://vimeo.com/", "");
-    return await axios
-      .get(`https://vimeo.com/api/v2/video/${id}.json`)
-      .then((res) => res.data)
-      .then((data) => data[0]?.thumbnail_large ?? "")
-      .catch(() => "");
-  };
-
-  const getYoutubeThumbnail = (url: string): string => {
-    const id = url.replace("https://www.youtube.com/embed/", "");
-    return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
-  };
-
-  const getFirstImage = async (data: OutputData) => {
+  const getFirstImage = (data: OutputData) => {
     if (placeholder) return "";
     for (const block of data.blocks) {
       if (block.type == "image") {
-        setFirstImage(block.data.file.url);
-        return;
-      }
-      if (block.type == "embed") {
-        if (block.data.service == "vimeo") {
-          setFirstImage(await getVimeoThumbnail(block.data.source));
-          setImageUnoptimised(true);
-          return;
-        }
-        if (block.data.service == "youtube") {
-          setFirstImage(await getYoutubeThumbnail(block.data.embed));
-          setImageUnoptimised(true);
-          return;
-        }
+        return block.data.file.url;
       }
     }
   };
-  getFirstImage(cleanData);
+  const firstImage = getFirstImage(cleanData);
   const getSummary = (data: OutputData) => {
     if (placeholder) return {};
     for (const block of data.blocks) {
@@ -124,7 +93,7 @@ export const PortfolioProfileCard = ({
         overflow: "hidden",
       }}
     >
-      {(placeholder || firstImage != "") && (
+      {(placeholder || firstImage) && (
         <PostImageContainer>
           {placeholder && (
             <Flex
@@ -146,7 +115,6 @@ export const PortfolioProfileCard = ({
               alt="Cover Image for this post"
               width={360}
               height={200}
-              unoptimized={imageUnoptimised}
             />
           )}
         </PostImageContainer>
