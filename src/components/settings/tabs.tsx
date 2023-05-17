@@ -9,12 +9,13 @@ export const SettingsTabs = () => {
       <TabLink active={router.pathname == "/settings"} href="/settings">
         Account Details
       </TabLink>
+      {/*
       <TabLink
         active={router.pathname == "/settings/email"}
         href="/settings/email"
       >
         Email Preferences
-      </TabLink>
+  </TabLink>*/}
     </Flex>
   );
 };
