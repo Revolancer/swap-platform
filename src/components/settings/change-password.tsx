@@ -14,6 +14,7 @@ import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { P } from "../text/text";
 import { useState } from "react";
+import { SuccessModal } from "../navigation/success-modal";
 
 const UpdatePasswordSchema = Yup.object().shape({
   password: Yup.string().required("Please provide your current password"),
@@ -29,6 +30,7 @@ const UpdatePasswordSchema = Yup.object().shape({
 
 export const ChangePassword = () => {
   const [pwType, setPwType] = useState("password");
+  const [success, setSuccess] = useState(false);
   return (
     <Formik
       initialValues={{
@@ -41,7 +43,10 @@ export const ChangePassword = () => {
         actions.setSubmitting(true);
         await axiosPrivate
           .post("user/password", values)
-          .then(() => actions.resetForm())
+          .then(() => {
+            actions.resetForm();
+            setSuccess(true);
+          })
           .catch((reason) => {
             if (reason.code == "ERR_NETWORK") {
               actions.setFieldError("password", "Oops, something went wrong");
@@ -155,6 +160,14 @@ export const ChangePassword = () => {
             >
               Save
             </Button>
+            {success && (
+              <SuccessModal
+                successMessage="Your password has been changed"
+                onClose={() => {
+                  setSuccess(false);
+                }}
+              />
+            )}
           </Form>
         );
       }}

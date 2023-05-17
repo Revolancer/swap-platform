@@ -8,6 +8,8 @@ import { InputInner, InputOuter, TextAreaInner } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { P } from "../text/text";
+import { SuccessModal } from "../navigation/success-modal";
+import { useState } from "react";
 
 const UpdateEmailSchema = Yup.object().shape({
   email: Yup.string()
@@ -16,6 +18,7 @@ const UpdateEmailSchema = Yup.object().shape({
 });
 
 export const ChangeEmail = () => {
+  const [success, setSuccess] = useState(false);
   return (
     <Formik
       initialValues={{
@@ -26,7 +29,10 @@ export const ChangeEmail = () => {
         actions.setSubmitting(true);
         await axiosPrivate
           .post("user/email", values)
-          .then(() => actions.resetForm())
+          .then(() => {
+            actions.resetForm();
+            setSuccess(true);
+          })
           .catch((reason) => {
             //TODO - error handling
             if (reason.code == "ERR_NETWORK") {
@@ -82,6 +88,14 @@ export const ChangeEmail = () => {
             </Flex>
             {props.touched.email && props.errors.email && (
               <Feedback state="error">{props.errors.email}</Feedback>
+            )}
+            {success && (
+              <SuccessModal
+                successMessage="Your email address has been changed"
+                onClose={() => {
+                  setSuccess(false);
+                }}
+              />
             )}
           </Form>
         );
