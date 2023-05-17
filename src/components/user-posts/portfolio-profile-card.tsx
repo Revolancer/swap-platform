@@ -30,7 +30,7 @@ export const PortfolioProfileCard = ({
   const [firstImage, setFirstImage] = useState<string>();
   const [imageUnoptimised, setImageUnoptimised] = useState(false);
   const [loading, setLoading] = useState(true);
-  const [summary, setSummary] = useState<ParagraphBlockData>();
+  const [summary, setSummary] = useState("");
 
   useEffect(() => {
     const cleanData = () => {
@@ -86,13 +86,29 @@ export const PortfolioProfileCard = ({
       }
     };
     getFirstImage(cleanData());
-    const getSummary = (data: OutputData) => {
-      if (placeholder) return {};
+    const getSummary = (data: OutputData): string => {
+      const maxLength = 200;
+      if (placeholder) return "";
+      let summary = "";
       for (const block of data.blocks) {
+        if (summary.length >= maxLength) {
+          return summary;
+        }
         if (block.type == "paragraph") {
-          return block.data;
+          if (summary.length) {
+            summary += " ";
+          }
+          const lengthToAdd = maxLength - summary.length;
+          summary += (block.data.text as string).substring(
+            0,
+            maxLength - summary.length
+          );
+          if (lengthToAdd < (block.data.text as string).length) {
+            summary += "...";
+          }
         }
       }
+      return summary;
     };
     setSummary(getSummary(cleanData()));
     setLoading(false);
@@ -185,9 +201,13 @@ export const PortfolioProfileCard = ({
             <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
-            {summary && <ParagraphBlock data={summary} />}
+            {summary.length > 0 && (
+              <P css={{ color: "$neutral600" }}>{summary}</P>
+            )}
             <Flex gap={6} css={{ alignItems: "center" }}>
-              {data?.id && <Button href={`/p/${data.id}`}>Read More</Button>}
+              {summary.length > 0 && data?.id && (
+                <Button href={`/p/${data.id}`}>Read More</Button>
+              )}
               {own && data?.id && (
                 <>
                   <ConfirmationDialog
