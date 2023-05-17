@@ -168,6 +168,7 @@ export const PortfolioProfileCard = ({
               alt="Cover Image for this post"
               width={360}
               height={200}
+              unoptimized={imageUnoptimised}
             />
           )}
         </PostImageContainer>
