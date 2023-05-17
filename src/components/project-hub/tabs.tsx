@@ -2,28 +2,7 @@ import Link from "next/link";
 import { styled } from "stitches.config";
 import { Flex } from "../layout/flex";
 import { useRouter } from "next/router";
-
-const TabLink = styled(Link, {
-  fontSize: "$body2",
-  color: "$neutral600",
-  textDecoration: "none",
-  display: "block",
-  paddingInline: "$5",
-  paddingBlock: "$3",
-
-  variants: {
-    active: {
-      true: {
-        color: "$black",
-        fontWeight: "$medium",
-        borderStyle: "none",
-        borderWidth: "$2",
-        borderColor: "$black",
-        borderBlockEndStyle: "solid",
-      },
-    },
-  },
-});
+import { TabLink } from "../navigation/tablink";
 
 export const ProjectTabs = () => {
   const router = useRouter();
