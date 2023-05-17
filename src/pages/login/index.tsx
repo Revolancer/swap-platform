@@ -159,6 +159,9 @@ export default function Login() {
                     Login
                   </FormButton>
                   <P css={{ textAlign: "center" }}>
+                    <Link href="/forgot-password">Forgot Password</Link>
+                  </P>
+                  <P css={{ textAlign: "center" }}>
                     Don&rsquo;t have an account?{" "}
                     <Link href="/register">Register Now!</Link>
                   </P>
