@@ -6,7 +6,7 @@ import { SettingsTabs } from "@/components/settings/tabs";
 import { H1 } from "@/components/text/headings";
 import Head from "next/head";
 
-export default function Settings() {
+export default function EmailSettings() {
   return (
     <>
       <Title>Settings</Title>
