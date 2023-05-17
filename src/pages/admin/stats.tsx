@@ -11,8 +11,11 @@ import { P } from "@/components/text/text";
 export default function Stats() {
   const [userCount, setUserCount] = useState(0);
   const [dau, setDau] = useState(0);
+  const [wau, setWau] = useState(0);
   const [mau, setMau] = useState(0);
   const [dauOverMau, setDauOverMau] = useState(0);
+  const [dauOverWau, setDauOverWau] = useState(0);
+  const [wauOverMau, setWauOverMau] = useState(0);
 
   const load = async () => {
     await axiosPrivate
@@ -22,10 +25,14 @@ export default function Stats() {
     await axiosPrivate
       .get("admin/stats/count_active_users")
       .then((response) => {
-        const { dau, mau, dauOverMau } = response.data;
+        const { dau, wau, mau, dauOverMau, dauOverWau, wauOverMau } =
+          response.data;
         setDau(dau);
+        setWau(wau);
         setMau(mau);
         setDauOverMau(dauOverMau);
+        setDauOverWau(dauOverWau);
+        setWauOverMau(wauOverMau);
       })
       .catch(() => {});
   };
@@ -43,7 +50,10 @@ export default function Stats() {
           <P>Total Users: {userCount}</P>
           <H5>User Activity</H5>
           <P>DAU: {dau}</P>
+          <P>WAU: {wau}</P>
           <P>MAU: {mau}</P>
+          <P>DAU/WAU: {dauOverWau}</P>
+          <P>WAU/MAU: {wauOverMau}</P>
           <P>DAU/MAU: {dauOverMau}</P>
         </FullWidth>
       </AdminLayout>
