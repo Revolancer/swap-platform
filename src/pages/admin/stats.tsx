@@ -106,15 +106,15 @@ export default function Stats() {
           <P css={{ fontWeight: "$bold" }}>Weekly</P>
           <P>
             Portfolios: {weeklyPortfolios} (
-            {(weeklyPortfolios / Math.max(1, wau)).toFixed(2)} of @AU)
+            {(weeklyPortfolios / Math.max(1, wau)).toFixed(2)} of WAU)
           </P>
           <P>
             Needs: {weeklyNeeds} ({(weeklyNeeds / Math.max(1, wau)).toFixed(2)}{" "}
-            of @AU)
+            of WAU)
           </P>
           <P>
             Proposals: {weeklyProposals} (
-            {(weeklyProposals / Math.max(1, wau)).toFixed(2)} of @AU)
+            {(weeklyProposals / Math.max(1, wau)).toFixed(2)} of WAU)
           </P>
           <P css={{ fontWeight: "$bold" }}>Monthly</P>
           <P>
