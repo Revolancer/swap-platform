@@ -25,6 +25,9 @@ export default function Stats() {
   const [dailyProposals, setDailyProposals] = useState(0);
   const [weeklyProposals, setWeeklyProposals] = useState(0);
   const [monthlyProposals, setMonthlyProposals] = useState(0);
+  const [dailyNewUsers, setDailyNewUsers] = useState(0);
+  const [weeklyNewUsers, setWeeklyNewUsers] = useState(0);
+  const [monthlyNewUsers, setMonthlyNewUsers] = useState(0);
 
   const load = async () => {
     await axiosPrivate
@@ -67,6 +70,15 @@ export default function Stats() {
         setDailyProposals(dailyProposals);
         setWeeklyProposals(weeklyProposals);
         setMonthlyProposals(monthlyProposals);
+      })
+      .catch(() => {});
+    await axiosPrivate
+      .get("admin/stats/count_new_users")
+      .then((response) => {
+        const { daily, weekly, monthly } = response.data;
+        setDailyNewUsers(daily);
+        setWeeklyNewUsers(weekly);
+        setMonthlyNewUsers(monthly);
       })
       .catch(() => {});
   };
@@ -129,6 +141,10 @@ export default function Stats() {
             Proposals: {monthlyProposals} (
             {(monthlyProposals / Math.max(1, mau)).toFixed(2)} of MAU)
           </P>
+          <H5>New Users</H5>
+          <P>Daily: {dailyNewUsers}</P>
+          <P>Weekly: {weeklyNewUsers}</P>
+          <P>Monthly: {monthlyNewUsers}</P>
         </FullWidth>
       </AdminLayout>
     </>
