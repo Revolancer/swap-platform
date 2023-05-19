@@ -28,6 +28,8 @@ export default function Stats() {
   const [dailyNewUsers, setDailyNewUsers] = useState(0);
   const [weeklyNewUsers, setWeeklyNewUsers] = useState(0);
   const [monthlyNewUsers, setMonthlyNewUsers] = useState(0);
+  const [referrers, setReferrers] =
+    useState<{ referrer: string; count: number }[]>();
 
   const load = async () => {
     await axiosPrivate
@@ -79,6 +81,12 @@ export default function Stats() {
         setDailyNewUsers(daily);
         setWeeklyNewUsers(weekly);
         setMonthlyNewUsers(monthly);
+      })
+      .catch(() => {});
+    await axiosPrivate
+      .get("admin/stats/referrers")
+      .then((response) => {
+        setReferrers(response.data);
       })
       .catch(() => {});
   };
@@ -145,6 +153,16 @@ export default function Stats() {
           <P>Daily: {dailyNewUsers}</P>
           <P>Weekly: {weeklyNewUsers}</P>
           <P>Monthly: {monthlyNewUsers}</P>
+          {referrers && (
+            <>
+              <H5>Referrers</H5>
+              {referrers.map((referrer) => (
+                <P key={referrer.referrer}>
+                  {referrer.referrer}: {referrer.count}
+                </P>
+              ))}
+            </>
+          )}
         </FullWidth>
       </AdminLayout>
     </>
