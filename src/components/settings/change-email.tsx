@@ -9,7 +9,7 @@ import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { P } from "../text/text";
 import { SuccessModal } from "../navigation/success-modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const UpdateEmailSchema = Yup.object().shape({
   email: Yup.string()
@@ -19,10 +19,25 @@ const UpdateEmailSchema = Yup.object().shape({
 
 export const ChangeEmail = () => {
   const [success, setSuccess] = useState(false);
+  const [email, setEmail] = useState<string>();
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    axiosPrivate
+      .get("user/email")
+      .then((res) => res.data)
+      .then((data) => {
+        setEmail(data.email);
+        setLoaded(true);
+      })
+      .catch((e) => setLoaded(true));
+  }, []);
+
+  if (!loaded) return <></>;
   return (
     <Formik
       initialValues={{
-        email: "",
+        email: email,
       }}
       validationSchema={UpdateEmailSchema}
       onSubmit={async (values, actions) => {
