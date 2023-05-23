@@ -209,7 +209,9 @@ export const PortfolioProfileCard = ({
             )}
             <Flex gap={6} css={{ alignItems: "center" }}>
               {hasContent && data?.id && (
-                <Button href={`/p/${data.id}`}>Read More</Button>
+                <TertiaryButton href={`/p/${data.id}`}>
+                  Read More
+                </TertiaryButton>
               )}
               {own && data?.id && (
                 <>
