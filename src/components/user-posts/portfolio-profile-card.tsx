@@ -4,7 +4,7 @@ import { OutputData } from "@editorjs/editorjs";
 import { P } from "../text/text";
 import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
-import { Button, TertiaryButton } from "../navigation/button";
+import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
 import { styled } from "stitches.config";
 import Image from "next/image";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -187,14 +187,16 @@ export const PortfolioProfileCard = ({
               <FontAwesomeIcon icon={faImage} />
             </Flex>
           )}
-          {firstImage && (
-            <PostImage
-              src={firstImage}
-              alt="Cover Image for this post"
-              width={360}
-              height={200}
-              unoptimized={imageUnoptimised}
-            />
+          {firstImage && hasContent && data?.id && (
+            <UnstyledLink href={`/p/${data.id}`}>
+              <PostImage
+                src={firstImage}
+                alt="Cover Image for this post"
+                width={360}
+                height={200}
+                unoptimized={imageUnoptimised}
+              />
+            </UnstyledLink>
           )}
         </PostImageContainer>
       )}
@@ -207,7 +209,12 @@ export const PortfolioProfileCard = ({
           </>
         ) : (
           <>
-            <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
+            {hasContent && data?.id && (
+              <UnstyledLink href={`/p/${data.id}`}>
+                <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
+              </UnstyledLink>
+            )}
+            {!hasContent && <P css={{ fontWeight: "$bold" }}>{data?.title}</P>}
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary.length > 0 && (

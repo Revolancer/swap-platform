@@ -4,7 +4,7 @@ import { OutputData } from "@editorjs/editorjs";
 import { P } from "../text/text";
 import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
-import { Button, TertiaryButton } from "../navigation/button";
+import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
 import { Author } from "./author";
 import { useEffect, useMemo, useState } from "react";
 import { ProposalDialog } from "../need/proposal-dialog";
@@ -136,7 +136,11 @@ export const NeedProfileCard = ({
           </>
         ) : (
           <>
-            <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
+            {data?.id && (
+              <UnstyledLink href={`/n/${data.id}`}>
+                <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
+              </UnstyledLink>
+            )}
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary.length > 0 && (
