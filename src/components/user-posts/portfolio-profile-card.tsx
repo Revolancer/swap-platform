@@ -20,11 +20,13 @@ export const PortfolioProfileCard = ({
   own = false,
   placeholder = false,
   withAuthor = false,
+  hideIfEmpty = false,
 }: {
   data?: PostData;
   own?: boolean;
   placeholder?: boolean;
   withAuthor?: boolean;
+  hideIfEmpty?: boolean;
 }) => {
   const [firstImage, setFirstImage] = useState<string>();
   const [imageUnoptimised, setImageUnoptimised] = useState(false);
@@ -153,6 +155,10 @@ export const PortfolioProfileCard = ({
         <PostImageContainer />
       </Flex>
     );
+  }
+
+  if (hideIfEmpty && !hasContent) {
+    return <></>;
   }
   return (
     <Flex

@@ -52,6 +52,7 @@ export const FeedSegment = () => {
           data={post.data}
           key={post.data?.id ?? ""}
           withAuthor
+          hideIfEmpty
         />
       );
     }
