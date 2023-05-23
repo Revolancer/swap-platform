@@ -96,7 +96,7 @@ export const NeedProfileCard = ({
     height: `200px`,
   });
 
-  if (loading) {
+  if (loading && !placeholder) {
     return (
       <Flex
         column
