@@ -102,10 +102,10 @@ export const PortfolioProfileCard = ({
             summary += " ";
           }
           const lengthToAdd = maxLength - summary.length;
-          summary += (block.data.text as string).substring(
-            0,
-            maxLength - summary.length
-          );
+          summary += (block.data.text as string)
+            .substring(0, maxLength - summary.length)
+            .replace(/(<([^>]+)>)/gi, "")
+            .replace(/(&([^>]+);)/gi, "");
           if (lengthToAdd < (block.data.text as string).length) {
             summary += "...";
           }

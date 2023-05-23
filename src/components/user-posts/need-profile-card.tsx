@@ -13,6 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { ConfirmationDialog } from "../navigation/confirmation-dialog";
+import { styled } from "stitches.config";
 export const NeedProfileCard = ({
   data,
   own = false,
@@ -26,48 +27,91 @@ export const NeedProfileCard = ({
 }) => {
   const router = useRouter();
   const [proposalCount, setProposalCount] = useState(0);
-  const cleanData = useMemo(() => {
-    try {
-      return JSON.parse(data?.data ?? "{}")?.version ?? false
-        ? JSON.parse(data?.data ?? "{}")
-        : {
-            time: 1682956618189,
-            blocks: [],
-            version: "2.26.5",
-          };
-    } catch (err) {
-      return {
-        time: 1682956618189,
-        blocks: [],
-        version: "2.26.5",
-      };
-    }
-  }, [data]);
-  const getSummary = (data: OutputData) => {
-    if (placeholder) return {};
-    for (const block of data.blocks) {
-      if (block.type == "paragraph") {
-        return block.data;
-      }
-    }
-  };
-  const summary = getSummary(cleanData);
+  const [loading, setLoading] = useState(true);
+  const [summary, setSummary] = useState("");
 
   useEffect(() => {
+    const cleanData = () => {
+      try {
+        return JSON.parse(data?.data ?? "{}")?.version ?? false
+          ? JSON.parse(data?.data ?? "{}")
+          : {
+              time: 1682956618189,
+              blocks: [],
+              version: "2.26.5",
+            };
+      } catch (err) {
+        return {
+          time: 1682956618189,
+          blocks: [],
+          version: "2.26.5",
+        };
+      }
+    };
     if (data?.id) {
       axiosPrivate
         .get(`need/proposals/count/${data.id}`)
         .then((res) => res.data)
         .then((count) => setProposalCount(count))
         .catch((err) => {});
+      const getSummary = (data: OutputData): string => {
+        const maxLength = 200;
+        if (placeholder) return "";
+        let summary = "";
+        for (const block of data.blocks) {
+          if (summary.length >= maxLength) {
+            return summary;
+          }
+          if (block.type == "paragraph") {
+            if (summary.length) {
+              summary += " ";
+            }
+            const lengthToAdd = maxLength - summary.length;
+            summary += (block.data.text as string)
+              .substring(0, maxLength - summary.length)
+              .replace(/(<([^>]+)>)/gi, "")
+              .replace(/(&([^>]+);)/gi, "");
+            if (lengthToAdd < (block.data.text as string).length) {
+              summary += "...";
+            }
+          }
+        }
+        return summary;
+      };
+      setSummary(getSummary(cleanData()));
+      setLoading(false);
     }
-  }, [data]);
+  }, [data, placeholder]);
 
   const deleteNeed = () => {
     if (data?.id) {
       axiosPrivate.delete(`need/${data.id}`).then(() => router.reload());
     }
   };
+
+  const PostImageContainer = styled("div", {
+    backgroundColor: "$neutral300",
+    overflow: "hidden",
+    width: `100%`,
+    height: `200px`,
+  });
+
+  if (loading) {
+    return (
+      <Flex
+        column
+        css={{
+          borderColor: "$neutral200",
+          borderStyle: "$solid",
+          borderWidth: "$1",
+          borderRadius: "$2",
+          overflow: "hidden",
+        }}
+      >
+        <PostImageContainer />
+      </Flex>
+    );
+  }
 
   return (
     <Flex
@@ -95,7 +139,9 @@ export const NeedProfileCard = ({
             <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
-            {summary && <ParagraphBlock data={summary} />}
+            {summary.length > 0 && (
+              <P css={{ color: "$neutral600" }}>{summary}</P>
+            )}
             {data?.id && (
               <Flex gap={6} css={{ alignItems: "center" }}>
                 <ProposalDialog id={data.id} />
