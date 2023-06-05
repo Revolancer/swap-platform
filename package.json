@@ -34,7 +34,7 @@
     "@marsidev/react-turnstile": "^0.0.7",
     "@radix-ui/react-checkbox": "1.0.3",
     "@radix-ui/react-select": "^1.2.2",
-    "@radix-ui/react-slider": "^1.1.0",
+    "@radix-ui/react-slider": "^1.1.2",
     "@reduxjs/toolkit": "^1.9.5",
     "@stitches/react": "^1.2.8",
     "@types/node": "20.1.4",
