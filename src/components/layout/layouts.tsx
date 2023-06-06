@@ -130,7 +130,6 @@ export const AdminLayout = ({
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
-          <CrumbBar />
           <ColumnLayout>
             <AuthGuard>
               <AdminGuard>{children}</AdminGuard>
