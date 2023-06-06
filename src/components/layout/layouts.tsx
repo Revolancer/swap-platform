@@ -103,8 +103,6 @@ export const PrimaryLayout = ({
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
-          {/**<TrialNagBar />**/}
-          <CrumbBar />
           <ColumnLayout>{inner}</ColumnLayout>
         </MainGridInner>
       </MainGridOuter>
