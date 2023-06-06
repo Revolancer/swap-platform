@@ -15,10 +15,18 @@ export const CrumbBar = ({ children }: { children?: any }) => {
     crumbs.push(children);
   } else {
     let i = 0;
+    let hasRenderedCrumb = false;
     while (i < children.length) {
       crumbs.push(children[i]);
+      if (typeof children[i] == "object") {
+        hasRenderedCrumb = true;
+      }
       i++;
-      if (i < children.length) {
+      if (
+        i < children.length &&
+        typeof children[i] == "object" &&
+        hasRenderedCrumb
+      ) {
         crumbs.push(<CrumbDivider />);
       }
     }
