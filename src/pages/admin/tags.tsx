@@ -14,6 +14,8 @@ import { Div } from "@/components/layout/utils";
 import { FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
 import { Tag } from "@/lib/types";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 const NewTagSchema = Yup.object().shape({
   text: Yup.string().required(),
@@ -41,6 +43,12 @@ export default function Settings() {
     <>
       <Title>Tags</Title>
       <AdminLayout>
+        <CrumbBar>
+          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="/admin/tags" active>
+            Manage Tags
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <Formik
             initialValues={{

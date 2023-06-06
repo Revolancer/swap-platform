@@ -9,12 +9,20 @@ import { ProjectTabs } from "@/components/project-hub/tabs";
 import { Flex } from "@/components/layout/flex";
 import { BalanceTile } from "@/components/project-hub/wallet/balance-tile";
 import { ActiveProjectsTile } from "@/components/project-hub/active-projects-tile";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function CreditDashboard() {
   return (
     <>
       <Title>Your Wallet</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/projects">Project Hub</Crumb>
+          <Crumb href="/projects" active>
+            Dashboard
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <Flex column>
             <H1>Project Hub</H1>

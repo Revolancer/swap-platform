@@ -17,6 +17,8 @@ import { H1 } from "@/components/text/headings";
 import { Flex } from "@/components/layout/flex";
 import store from "@/redux/store";
 import FourOhFour from "../404";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -82,6 +84,14 @@ export default function PortfolioEditorPage() {
     <>
       <Title>{`${isNew ? "New" : "Edit"} Portfolio Post`}</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/">Discovery</Crumb>
+          {hasLoaded && (
+            <Crumb href={`/portfolio/${id}`} active>
+              {`${isNew ? "New" : "Edit"} Portfolio Article`}
+            </Crumb>
+          )}
+        </CrumbBar>
         {!hasLoaded && <H1>Loading...</H1>}
         {hasLoaded && (
           <Formik

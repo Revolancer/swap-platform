@@ -21,12 +21,15 @@ import {
 } from "@/components/user-posts/styledblockscontainer";
 import { Masonry } from "masonic";
 import { ProposalCard } from "@/components/need/proposal-card";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function UserProfile() {
   const router = useRouter();
   const { id } = router.query;
   const [postData, setPostData] = useState<PostData>();
   const [own, setOwn] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [proposals, setProposals] = useState<Proposal[]>([]);
 
@@ -50,6 +53,7 @@ export default function UserProfile() {
               if ((response.data?.user?.id ?? "") == self) {
                 setOwn(true);
               }
+              setHasLoaded(true);
             }
           })
           .catch((err) => setNotFound(true));
@@ -82,6 +86,17 @@ export default function UserProfile() {
     <>
       <Title>{postData?.title ? postData?.title : "Need"}</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          {!hasLoaded && <Crumb href="/">Discovery</Crumb>}
+          {hasLoaded && !own && <Crumb href="/">Discovery</Crumb>}
+          {hasLoaded && own && <Crumb href="/projects">Project Hub</Crumb>}
+          {hasLoaded && own && <Crumb href="/projects/needs">My Needs</Crumb>}
+          {hasLoaded && (
+            <Crumb href={`/n/${id}`} active>
+              {postData?.title ?? "Loading..."}
+            </Crumb>
+          )}
+        </CrumbBar>
         <FullWidth>
           <Flex column gap={3}>
             {postData?.title && <H3>I Need...</H3>}

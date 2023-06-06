@@ -19,6 +19,8 @@ import { faTicket } from "@fortawesome/free-solid-svg-icons";
 import { Divider } from "@/components/layout/divider";
 import { ProjectThread } from "@/components/messaging/project-messaging/project-thread";
 import { ParagraphBlock } from "editorjs-blocks-react-renderer";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -92,6 +94,20 @@ export default function ProjectPage() {
         {hasLoaded ? loadedData?.need?.title ?? "Your Project" : "Your Project"}
       </Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/projects">Project Hub</Crumb>
+          {hasLoaded && loadedData?.status == "complete" && (
+            <Crumb href="/projects/completed">Completed Projects</Crumb>
+          )}
+          {hasLoaded && loadedData?.status != "complete" && (
+            <Crumb href="/projects/active">Active Projects</Crumb>
+          )}
+          {hasLoaded && (
+            <Crumb href={`/project/${id}`} active>
+              {loadedData?.need?.title ?? "Untitled Project"}
+            </Crumb>
+          )}
+        </CrumbBar>
         <FullWidth>
           <Div
             css={{

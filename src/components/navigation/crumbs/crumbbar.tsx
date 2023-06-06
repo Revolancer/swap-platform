@@ -1,14 +1,39 @@
-import { ColumnLayout } from "@/components/layout/columns";
+import { ColumnLayout, FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
+import { CrumbDivider } from "./crumbdivider";
 
 const CrumbBarContainer = styled("div", {
-  height: "$15",
+  display: "flex",
+  gap: "$4",
+  padding: "$6",
+  paddingBottom: "0",
 });
 
-export const CrumbBar = () => {
+export const CrumbBar = ({ children }: { children?: any }) => {
+  const crumbs = [];
+  if (!Array.isArray(children)) {
+    crumbs.push(children);
+  } else {
+    let i = 0;
+    let hasRenderedCrumb = false;
+    while (i < children.length) {
+      crumbs.push(children[i]);
+      if (typeof children[i] == "object") {
+        hasRenderedCrumb = true;
+      }
+      i++;
+      if (
+        i < children.length &&
+        typeof children[i] == "object" &&
+        hasRenderedCrumb
+      ) {
+        crumbs.push(<CrumbDivider />);
+      }
+    }
+  }
   return (
-    <CrumbBarContainer>
-      <ColumnLayout></ColumnLayout>
-    </CrumbBarContainer>
+    <FullWidth>
+      <CrumbBarContainer>{crumbs}</CrumbBarContainer>
+    </FullWidth>
   );
 };

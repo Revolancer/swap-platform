@@ -7,12 +7,20 @@ import { P } from "@/components/text/text";
 import { Button } from "@/components/navigation/button";
 import Image from "next/image";
 import { Flex } from "@/components/layout/flex";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function FiveHundred() {
   return (
     <>
       <Title>Uh-Oh</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/">Discovery</Crumb>
+          <Crumb href="/" active>
+            Oops!
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <Flex column gap={3} css={{ width: "100%", alignItems: "center" }}>
             <H1>500</H1>

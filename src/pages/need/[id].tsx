@@ -18,6 +18,8 @@ import { Flex } from "@/components/layout/flex";
 import store from "@/redux/store";
 import FourOhFour from "../404";
 import { DateTime } from "luxon";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -101,6 +103,14 @@ export default function NeedEditorPage() {
     <>
       <Title>{`${isNew ? "New" : "Edit"} Need`}</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/">Discovery</Crumb>
+          {hasLoaded && (
+            <Crumb href={`/need/${id}`} active>
+              {`${isNew ? "New" : "Edit"} Need`}
+            </Crumb>
+          )}
+        </CrumbBar>
         {!hasLoaded && <H1>Loading...</H1>}
         {hasLoaded && (
           <Formik

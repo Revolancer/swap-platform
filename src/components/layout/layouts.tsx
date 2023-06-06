@@ -103,8 +103,6 @@ export const PrimaryLayout = ({
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
-          {/**<TrialNagBar />**/}
-          <CrumbBar />
           <ColumnLayout>{inner}</ColumnLayout>
         </MainGridInner>
       </MainGridOuter>
@@ -132,7 +130,6 @@ export const AdminLayout = ({
       />
       <MainGridOuter>
         <MainGridInner expanded={expanded}>
-          <CrumbBar />
           <ColumnLayout>
             <AuthGuard>
               <AdminGuard>{children}</AdminGuard>
