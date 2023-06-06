@@ -9,6 +9,8 @@ import { styled } from "stitches.config";
 import { P } from "@/components/text/text";
 import { Link } from "@/components/navigation/button";
 import { DateTime } from "luxon";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function Stats() {
   const [users, setUsers] = useState<{ slug: string; created_at: string }[]>(
@@ -30,6 +32,12 @@ export default function Stats() {
     <>
       <Title>Stats</Title>
       <AdminLayout>
+        <CrumbBar>
+          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="/admin/users" active>
+            List of Users
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <H1>All Users</H1>
           {users.map((user) => {

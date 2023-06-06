@@ -13,6 +13,8 @@ import { Feedback } from "@/components/forms/feedback";
 import { FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
 import { SuccessModal } from "@/components/navigation/success-modal";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 const CreditsSchema = Yup.object().shape({
   recipient: Yup.string().required(),
@@ -26,6 +28,12 @@ export default function Settings() {
     <>
       <Title>Add or Remove Credits</Title>
       <AdminLayout>
+        <CrumbBar>
+          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="/admin/credits" active>
+            Credits
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <Formik
             initialValues={{

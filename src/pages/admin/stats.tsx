@@ -7,6 +7,8 @@ import { useEffect, useState } from "react";
 import { FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
 import { P } from "@/components/text/text";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function Stats() {
   const [userCount, setUserCount] = useState(0);
@@ -99,6 +101,12 @@ export default function Stats() {
     <>
       <Title>Stats</Title>
       <AdminLayout>
+        <CrumbBar>
+          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="/admin/stats" active>
+            Stats
+          </Crumb>
+        </CrumbBar>
         <FullWidth>
           <H1>Stats</H1>
           <P>Total Users: {userCount}</P>

@@ -20,6 +20,8 @@ import FourOhFour from "../404";
 import { Button } from "@/components/navigation/button";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -77,6 +79,14 @@ export default function UserProfile() {
           : "User Profile"}
       </Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/">Discovery</Crumb>
+          <Crumb href={`/u/${slug}`} active>
+            {userProfile?.first_name
+              ? `${userProfile?.first_name} ${userProfile?.last_name}`
+              : "User Profile"}
+          </Crumb>
+        </CrumbBar>
         <SideBar>
           <Div
             css={{

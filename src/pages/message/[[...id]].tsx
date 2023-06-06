@@ -12,6 +12,8 @@ import { Flex } from "@/components/layout/flex";
 import { CurrentThread } from "@/components/messaging/current-thread";
 import { ThreadList } from "@/components/messaging/thread-list";
 import { P } from "@/components/text/text";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -58,11 +60,25 @@ export default function MessageCenter() {
       } catch (err) {}
     }
   }, [id]);
+  console.log(typeof activeThreadProfile);
 
   return (
     <>
       <Title>Messages</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb
+            href="/message"
+            active={typeof activeThreadProfile == "undefined"}
+          >
+            Messages
+          </Crumb>
+          {typeof activeThreadProfile != "undefined" && (
+            <Crumb href={`/message/${id}`} active>
+              {activeThreadProfile.first_name} {activeThreadProfile.last_name}
+            </Crumb>
+          )}
+        </CrumbBar>
         <SideBar>
           <ThreadList activeThread={activeThread} />
         </SideBar>

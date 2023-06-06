@@ -15,6 +15,8 @@ import store from "@/redux/store";
 import { Button } from "@/components/navigation/button";
 import FourOhFour from "../404";
 import { ConfirmationDialog } from "@/components/navigation/confirmation-dialog";
+import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
+import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -140,6 +142,14 @@ export default function UserProfile() {
     <>
       <Title>{postData?.title ? postData?.title : "Portfolio Post"}</Title>
       <PrimaryLayout>
+        <CrumbBar>
+          <Crumb href="/">Discovery</Crumb>
+          {!!postData && (
+            <Crumb href={`/p/${id}`} active>
+              {postData?.title ?? "Loading..."}
+            </Crumb>
+          )}
+        </CrumbBar>
         <FullWidth>
           <Flex column gap={3}>
             <H1>{postData?.title ?? "Loading..."}</H1>
