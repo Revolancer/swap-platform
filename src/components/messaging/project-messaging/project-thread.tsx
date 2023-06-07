@@ -16,6 +16,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<Project>();
   const [messages, setMessages] = useState<ProjectMessage[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
+  const [myId, setMyId] = useState("");
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
   const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
   const scrollToBottom = useCallback(() => {
@@ -59,6 +60,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
     if (!project) return;
     const self = store?.getState()?.userData?.user?.id ?? "";
     if (self == "") return;
+    setMyId(self);
     const otherId =
       project?.contractor.id == self
         ? project.client.id
@@ -166,7 +168,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       );
     }
     for (const message of messages) {
-      if (!message.read) {
+      if (!message.read && myId && message.user.id != myId) {
         sendReadReceipt(message.id);
       }
       const thisTime = DateTime.fromISO(message.created_at);
