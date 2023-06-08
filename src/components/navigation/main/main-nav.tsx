@@ -24,6 +24,7 @@ import { UserProfileData } from "@/lib/types";
 import { RoundedSquareImage } from "@/components/user/roundedsquareimage";
 import { Divider } from "@/components/layout/divider";
 import { SidebarMessagesIndicator } from "@/components/messaging/sidebar-messages-indicator";
+import { SidebarNotificationIndicator } from "@/components/notifications/sidebar-notification-indicator";
 
 const Container = styled("div", {
   backgroundColor: "$navy900",
@@ -170,6 +171,7 @@ export const MainNav = () => {
             id="container-112"
           >
             <Flex column css={{ marginBlockStart: "$10" }} gap={4}>
+              <SidebarNotificationIndicator expanded={expanded} />
               <SidebarMessagesIndicator expanded={expanded} />
               <Divider color="white" />
               <Navigable
