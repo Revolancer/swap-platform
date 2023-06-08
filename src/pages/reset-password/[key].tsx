@@ -15,10 +15,11 @@ import {
   PasswordReveal,
 } from "@/components/forms/input";
 import { Feedback } from "@/components/forms/feedback";
-import { FormButton, Link } from "@/components/navigation/button";
+import { Button, FormButton, Link } from "@/components/navigation/button";
 import { SuccessModal } from "@/components/navigation/success-modal";
 import { Form } from "@/components/forms/form";
 import { Turnstile } from "@/components/forms/turnstile";
+import Image from "next/image";
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string()
@@ -46,7 +47,35 @@ export default function ResetPassword() {
   }, [key]);
 
   if (isNotFound) {
-    return <P>Invalid Key</P>;
+    return (
+      <>
+        <Title>Reset Password</Title>
+        <LoginLayout>
+          <Card
+            css={{
+              gridColumn: "1 / 5",
+              "@sm": { gridColumn: "2 / 8" },
+              "@md": { gridColumn: "3 / 11" },
+              "@xl": { gridColumn: "4 / 10" },
+              gap: "$7",
+              padding: "$7",
+            }}
+          >
+            <H4 css={{ textAlign: "center" }}>Resetting your password</H4>
+            <Flex column gap={4} css={{ alignItems: "center" }}>
+              <Image
+                src="/img/revy/happy.png"
+                alt="Revy, happy to guide you back to safety"
+                width={210}
+                height={314}
+              />
+              <P>Sorry, it looks like your password reset link has expired.</P>
+              <Button href="/forgot-password">Request a new link</Button>
+            </Flex>
+          </Card>
+        </LoginLayout>
+      </>
+    );
   }
 
   return (
