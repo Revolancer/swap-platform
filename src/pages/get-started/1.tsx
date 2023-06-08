@@ -59,7 +59,7 @@ const OnboardingSchema = Yup.object().shape({
     .max(20, "Your username may not be longer than 20 characters")
     .matches(
       /^[0-9a-z][0-9a-z\-]{1,18}[0-9a-z]$/,
-      "Usernames may only contain the characters 0-9 and a-z, as well as the hyphen character (-). Additionally, they must start and end with either a number or a letter."
+      "Usernames may only contain the characters 0-9 and lowercase a-z, as well as the hyphen character (-). Additionally, they must start and end with either a number or a letter."
     ),
 });
 
