@@ -123,3 +123,16 @@ export interface File {
   updated_at: string;
   deleted_at?: string;
 }
+
+export interface Notification {
+  id: string;
+  user: User;
+  message: string;
+  key: string;
+  url: string;
+  read: boolean;
+  read_at?: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at?: string;
+}
