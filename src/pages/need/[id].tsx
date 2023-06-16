@@ -267,7 +267,7 @@ export default function NeedEditorPage() {
                           props.submitForm();
                         }}
                       >
-                        Save
+                        Publish
                       </Button>
                       {isNew ? (
                         <Button role="secondary" href="/u/profile" replace>

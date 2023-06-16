@@ -204,7 +204,7 @@ export default function PortfolioEditorPage() {
                   <SideBar>
                     <Flex>
                       <Button href="#" onClick={props.submitForm}>
-                        Save
+                        Publish
                       </Button>
                       {isNew ? (
                         <Button role="secondary" href="/u/profile" replace>
