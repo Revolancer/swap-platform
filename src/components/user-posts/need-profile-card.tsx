@@ -99,14 +99,14 @@ export const NeedProfileCard = ({
 
   if (loading && !placeholder) {
     return (
-      <Card flat unpadded>
+      <Card unpadded>
         <PostImageContainer />
       </Card>
     );
   }
 
   return (
-    <Card flat unpadded>
+    <Card unpadded>
       <Flex column gap={4} css={{ padding: "$6" }}>
         {placeholder ? (
           <>

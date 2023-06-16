@@ -6,11 +6,40 @@ import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { NeedProfileCard } from "../user-posts/need-profile-card";
 import { Card } from "../layout/cards";
 import { H1 } from "../text/headings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { P } from "../text/text";
+import { Flex } from "../layout/flex";
+import { Button } from "../navigation/button";
 
 const AddSomething = () => {
   return (
-    <Card flat>
-      <H1>Add Something</H1>
+    <Card>
+      <Flex
+        column
+        gap={3}
+        css={{
+          borderWidth: "$2",
+          borderColor: "$neutral500",
+          borderStyle: "dashed",
+          borderRadius: "$2",
+          alignItems: "center",
+          padding: "$4",
+        }}
+      >
+        <FontAwesomeIcon icon={faPlus} />
+        <P>
+          <strong>Add something</strong>
+        </P>
+        <Flex gap={4}>
+          <Button href="/portfolio/new" size="small">
+            New Post
+          </Button>
+          <Button href="/need/new" size="small">
+            I need...
+          </Button>
+        </Flex>
+      </Flex>
     </Card>
   );
 };

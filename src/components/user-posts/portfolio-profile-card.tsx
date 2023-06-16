@@ -143,7 +143,7 @@ export const PortfolioProfileCard = ({
 
   if (loading) {
     return (
-      <Card flat unpadded>
+      <Card unpadded>
         <PostImageContainer />
       </Card>
     );
@@ -153,7 +153,7 @@ export const PortfolioProfileCard = ({
     return <></>;
   }
   return (
-    <Card flat unpadded>
+    <Card unpadded>
       {(placeholder || firstImage) && (
         <PostImageContainer>
           {placeholder && (
