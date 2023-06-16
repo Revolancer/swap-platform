@@ -271,13 +271,6 @@ export const MainNav = () => {
           <Link href="/" aria-label="Revolancer">
             <Logo expanded={expanded} />
           </Link>
-          {expanded && (
-            <FontAwesomeIcon
-              icon={faAnglesLeft}
-              style={{ fontSize: "1.4rem", cursor: "pointer" }}
-              onClick={() => dispatch(contract())}
-            />
-          )}
         </Flex>
         {navItems(expanded)}
       </DesktopItemContainer>
