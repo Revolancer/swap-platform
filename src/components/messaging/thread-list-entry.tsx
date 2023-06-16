@@ -111,7 +111,14 @@ export const ThreadListEntry = ({
         }}
       >
         <UnstyledLink href={`/message/${id}`} replace>
-          <Flex>
+          <Div
+            css={{
+              display: "grid",
+              gridTemplateColumns: "auto 1fr",
+              gap: "$4",
+              alignItems: "center",
+            }}
+          >
             <ProfileImageContainer>
               {threadProfile?.profile_image && (
                 <ProfileImage
@@ -130,11 +137,19 @@ export const ThreadListEntry = ({
                 </P>
                 <P css={{ color: "$neutral600" }}>{timeStr}</P>
               </Flex>
-              <P css={{ color: "$neutral600" }}>
-                {message.body.substring(0, 60).replaceAll("\n", " ")}
+              <P
+                css={{
+                  color: "$neutral600",
+                  textOverflow: "ellipsis",
+                  maxWidth: "26ch",
+                  overflow: "hidden",
+                  whiteSpace: "nowrap",
+                }}
+              >
+                {message.body.substring(0, 30).replaceAll("\n", " ")}
               </P>
             </Flex>
-          </Flex>
+          </Div>
         </UnstyledLink>
       </Div>
     </>
