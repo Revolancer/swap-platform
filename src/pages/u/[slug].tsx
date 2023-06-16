@@ -22,6 +22,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { Card } from "@/components/layout/cards";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -88,43 +89,33 @@ export default function UserProfile() {
           </Crumb>
         </CrumbBar>
         <SideBar>
-          <Div
-            css={{
-              padding: "$6",
-              borderWidth: "$1",
-              borderColor: "$neutral200",
-              borderRadius: "$2",
-              borderStyle: "$solid",
-            }}
-          >
-            <Flex column gap={3}>
-              <Flex
-                column
-                gap={3}
-                css={{
-                  alignItems: "center",
-                }}
-              >
-                <ProfileImage uid={userProfile?.user?.id ?? ""} own={own} />
-                <H1 css={{ fontSize: "$h4", lineHeight: "$h4" }}>
-                  {userProfile?.first_name
-                    ? `${userProfile?.first_name} ${userProfile?.last_name}`
-                    : "User Profile"}
-                </H1>
-                {!own && userProfile?.user?.id && (
-                  <Button
-                    role="secondary"
-                    href={`/message/${userProfile.user.id}`}
-                  >
-                    <FontAwesomeIcon icon={faMessage} /> Message
-                  </Button>
-                )}
-              </Flex>
-              <AboutSegment uid={userProfile?.user?.id ?? ""} own={own} />
-              <Timezone uid={userProfile?.user?.id ?? ""} own={own} />
-              <SkillSegment uid={userProfile?.user?.id ?? ""} own={own} />
+          <Card>
+            <Flex
+              column
+              gap={3}
+              css={{
+                alignItems: "center",
+              }}
+            >
+              <ProfileImage uid={userProfile?.user?.id ?? ""} own={own} />
+              <H1 css={{ fontSize: "$h4", lineHeight: "$h4" }}>
+                {userProfile?.first_name
+                  ? `${userProfile?.first_name} ${userProfile?.last_name}`
+                  : "User Profile"}
+              </H1>
+              {!own && userProfile?.user?.id && (
+                <Button
+                  role="secondary"
+                  href={`/message/${userProfile.user.id}`}
+                >
+                  <FontAwesomeIcon icon={faMessage} /> Message
+                </Button>
+              )}
             </Flex>
-          </Div>
+            <AboutSegment uid={userProfile?.user?.id ?? ""} own={own} />
+            <Timezone uid={userProfile?.user?.id ?? ""} own={own} />
+            <SkillSegment uid={userProfile?.user?.id ?? ""} own={own} />
+          </Card>
         </SideBar>
         <MainContentWithSideBar>
           <Flex column gap={8}>

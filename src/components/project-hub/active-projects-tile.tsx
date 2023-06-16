@@ -6,6 +6,7 @@ import { faBarsStaggered, faTicket } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import { styled } from "stitches.config";
+import { Card } from "../layout/cards";
 
 export const ActiveProjectsTile = () => {
   const [activeProjects, setActiveProjects] = useState(0);
@@ -25,25 +26,14 @@ export const ActiveProjectsTile = () => {
   });
 
   return (
-    <Div
-      css={{
-        borderRadius: "$2",
-        borderStyle: "$solid",
-        borderWidth: "$1",
-        borderColor: "$neutral400",
-        fontSize: "$h2",
-        paddingBlock: "$3",
-        paddingInline: "$6",
-        boxShadow: "$2",
-      }}
-    >
+    <Card>
       <H5>Active Projects</H5>
-      <Flex css={{ alignItems: "center" }}>
+      <Flex css={{ alignItems: "center", fontSize: "$h2" }}>
         <FontAwesomeIcon icon={faBarsStaggered} />
         <Flex css={{ alignItems: "baseline" }}>
           <Price>{activeProjects}</Price>
         </Flex>
       </Flex>
-    </Div>
+    </Card>
   );
 };

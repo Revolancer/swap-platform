@@ -10,6 +10,7 @@ import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
 import { MouseEvent, useEffect, useState } from "react";
 import { ConfirmationDialog } from "../navigation/confirmation-dialog";
+import { Card } from "../layout/cards";
 
 export const ProposalCard = ({
   index,
@@ -49,64 +50,51 @@ export const ProposalCard = ({
   };
 
   return (
-    <Flex
-      column
-      css={{
-        borderColor: "$neutral200",
-        borderStyle: "$solid",
-        borderWidth: "$1",
-        borderRadius: "$2",
-        overflow: "hidden",
-      }}
-    >
-      <Flex column gap={4} css={{ padding: "$6" }}>
-        <>
-          <Author uid={data.user.id ?? ""} />
-          <P css={{ fontSize: "$h5", fontWeight: "$bold" }}>
-            <FontAwesomeIcon icon={faTicket} /> {data.price}
-          </P>
-          <P>
-            {data.message.split("\n").map(function (item, idx) {
-              return (
-                <span key={`${data.id}-${idx}`}>
-                  {item}
-                  <br />
-                </span>
-              );
-            })}
-          </P>
-          {own && (
-            <Flex gap={6} css={{ alignItems: "center" }}>
-              <ConfirmationDialog
-                dangerous
-                onAccept={deleteProposal}
-                label="Delete"
-                title="Deleting Proposal"
-                labelAccept="Delete"
-              />
+    <Card>
+      <Author uid={data.user.id ?? ""} />
+      <P css={{ fontSize: "$h5", fontWeight: "$bold" }}>
+        <FontAwesomeIcon icon={faTicket} /> {data.price}
+      </P>
+      <P>
+        {data.message.split("\n").map(function (item, idx) {
+          return (
+            <span key={`${data.id}-${idx}`}>
+              {item}
+              <br />
+            </span>
+          );
+        })}
+      </P>
+      {own && (
+        <Flex gap={6} css={{ alignItems: "center" }}>
+          <ConfirmationDialog
+            dangerous
+            onAccept={deleteProposal}
+            label="Delete"
+            title="Deleting Proposal"
+            labelAccept="Delete"
+          />
+        </Flex>
+      )}
+      {!own && hasLoaded && (
+        <Flex gap={6} css={{ alignItems: "center" }}>
+          {balance >= data.price ? (
+            <Button href="#" onClick={acceptProposal}>
+              Accept
+            </Button>
+          ) : (
+            <Flex column>
+              <Button href="#" disabled>
+                Accept
+              </Button>
+              <P css={{ color: "$neutral600" }}>
+                You do not have enough credits for this. Please complete work
+                for other users to earn more.
+              </P>
             </Flex>
           )}
-          {!own && hasLoaded && (
-            <Flex gap={6} css={{ alignItems: "center" }}>
-              {balance >= data.price ? (
-                <Button href="#" onClick={acceptProposal}>
-                  Accept
-                </Button>
-              ) : (
-                <Flex column>
-                  <Button href="#" disabled>
-                    Accept
-                  </Button>
-                  <P css={{ color: "$neutral600" }}>
-                    You do not have enough credits for this. Please complete
-                    work for other users to earn more.
-                  </P>
-                </Flex>
-              )}
-            </Flex>
-          )}
-        </>
-      </Flex>
-    </Flex>
+        </Flex>
+      )}
+    </Card>
   );
 };

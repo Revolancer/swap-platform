@@ -1,3 +1,4 @@
+import { Card } from "@/components/layout/cards";
 import { Flex } from "@/components/layout/flex";
 import { Div } from "@/components/layout/utils";
 import { H5 } from "@/components/text/headings";
@@ -30,26 +31,15 @@ export const BalanceTile = () => {
   });
 
   return (
-    <Div
-      css={{
-        borderRadius: "$2",
-        borderStyle: "$solid",
-        borderWidth: "$1",
-        borderColor: "$neutral400",
-        fontSize: "$h2",
-        paddingBlock: "$3",
-        paddingInline: "$6",
-        boxShadow: "$2",
-      }}
-    >
+    <Card>
       <H5>Current Balance</H5>
-      <Flex css={{ alignItems: "center" }}>
+      <Flex css={{ alignItems: "center", fontSize: "$h2" }}>
         <FontAwesomeIcon icon={faTicket} />
         <Flex css={{ alignItems: "baseline" }}>
           <Price>{credits}</Price>
           <CreditLabel>credits</CreditLabel>
         </Flex>
       </Flex>
-    </Div>
+    </Card>
   );
 };
