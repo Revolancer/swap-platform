@@ -15,6 +15,7 @@ import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 import { axiosPrivate } from "@/lib/axios";
 import { useRouter } from "next/router";
 import axios from "axios";
+import { Card } from "../layout/cards";
 export const PortfolioProfileCard = ({
   data,
   own = false,
@@ -142,18 +143,9 @@ export const PortfolioProfileCard = ({
 
   if (loading) {
     return (
-      <Flex
-        column
-        css={{
-          borderColor: "$neutral200",
-          borderStyle: "$solid",
-          borderWidth: "$1",
-          borderRadius: "$2",
-          overflow: "hidden",
-        }}
-      >
+      <Card flat unpadded>
         <PostImageContainer />
-      </Flex>
+      </Card>
     );
   }
 
@@ -161,16 +153,7 @@ export const PortfolioProfileCard = ({
     return <></>;
   }
   return (
-    <Flex
-      column
-      css={{
-        borderColor: "$neutral200",
-        borderStyle: "$solid",
-        borderWidth: "$1",
-        borderRadius: "$2",
-        overflow: "hidden",
-      }}
-    >
+    <Card flat unpadded>
       {(placeholder || firstImage) && (
         <PostImageContainer>
           {placeholder && (
@@ -244,6 +227,6 @@ export const PortfolioProfileCard = ({
           </>
         )}
       </Flex>
-    </Flex>
+    </Card>
   );
 };

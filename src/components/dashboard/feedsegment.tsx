@@ -4,6 +4,16 @@ import { axiosPrivate } from "@/lib/axios";
 import { PortfolioProfileCard } from "../user-posts/portfolio-profile-card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { NeedProfileCard } from "../user-posts/need-profile-card";
+import { Card } from "../layout/cards";
+import { H1 } from "../text/headings";
+
+const AddSomething = () => {
+  return (
+    <Card flat>
+      <H1>Add Something</H1>
+    </Card>
+  );
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
@@ -59,7 +69,10 @@ export const FeedSegment = () => {
   }
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-      <Masonry gutter="0.8rem">{staticPosts}</Masonry>
+      <Masonry gutter="0.8rem">
+        <AddSomething />
+        {staticPosts}
+      </Masonry>
     </ResponsiveMasonry>
   );
 };

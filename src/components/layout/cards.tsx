@@ -6,9 +6,23 @@ export const Card = styled("div", {
   borderColor: "$borders",
   borderRadius: "$2",
   backgroundColor: "$background",
-  boxShadow: "$1",
   padding: "$4",
   display: "flex",
   gap: "$3",
   flexDirection: "column",
+  boxShadow: "$2",
+  overflow: "hidden",
+
+  variants: {
+    flat: {
+      true: {
+        boxShadow: "none",
+      },
+    },
+    unpadded: {
+      true: {
+        padding: "0",
+      },
+    },
+  },
 });
