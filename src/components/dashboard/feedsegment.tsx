@@ -4,6 +4,45 @@ import { axiosPrivate } from "@/lib/axios";
 import { PortfolioProfileCard } from "../user-posts/portfolio-profile-card";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { NeedProfileCard } from "../user-posts/need-profile-card";
+import { Card } from "../layout/cards";
+import { H1 } from "../text/headings";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { P } from "../text/text";
+import { Flex } from "../layout/flex";
+import { Button } from "../navigation/button";
+
+const AddSomething = () => {
+  return (
+    <Card>
+      <Flex
+        column
+        gap={3}
+        css={{
+          borderWidth: "$2",
+          borderColor: "$neutral500",
+          borderStyle: "dashed",
+          borderRadius: "$2",
+          alignItems: "center",
+          padding: "$4",
+        }}
+      >
+        <FontAwesomeIcon icon={faPlus} />
+        <P>
+          <strong>Add something</strong>
+        </P>
+        <Flex gap={4}>
+          <Button href="/portfolio/new" size="small">
+            New Post
+          </Button>
+          <Button href="/need/new" size="small">
+            I need...
+          </Button>
+        </Flex>
+      </Flex>
+    </Card>
+  );
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
@@ -59,7 +98,10 @@ export const FeedSegment = () => {
   }
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-      <Masonry gutter="0.8rem">{staticPosts}</Masonry>
+      <Masonry gutter="0.8rem">
+        <AddSomething />
+        {staticPosts}
+      </Masonry>
     </ResponsiveMasonry>
   );
 };

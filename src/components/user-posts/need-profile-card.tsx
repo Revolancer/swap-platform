@@ -14,6 +14,7 @@ import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 import { styled } from "stitches.config";
+import { Card } from "../layout/cards";
 export const NeedProfileCard = ({
   data,
   own = false,
@@ -98,32 +99,14 @@ export const NeedProfileCard = ({
 
   if (loading && !placeholder) {
     return (
-      <Flex
-        column
-        css={{
-          borderColor: "$neutral200",
-          borderStyle: "$solid",
-          borderWidth: "$1",
-          borderRadius: "$2",
-          overflow: "hidden",
-        }}
-      >
+      <Card unpadded>
         <PostImageContainer />
-      </Flex>
+      </Card>
     );
   }
 
   return (
-    <Flex
-      column
-      css={{
-        borderColor: "$neutral200",
-        borderStyle: "$solid",
-        borderWidth: "$1",
-        borderRadius: "$2",
-        overflow: "hidden",
-      }}
-    >
+    <Card unpadded>
       <Flex column gap={4} css={{ padding: "$6" }}>
         {placeholder ? (
           <>
@@ -175,6 +158,6 @@ export const NeedProfileCard = ({
           </>
         )}
       </Flex>
-    </Flex>
+    </Card>
   );
 };
