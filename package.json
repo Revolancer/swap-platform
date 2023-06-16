@@ -82,7 +82,7 @@
     "@types/react-modal": "^3.16.0",
     "@types/react-responsive-masonry": "^2.1.0",
     "@types/react-tag-input": "^6.6.1",
-    "@types/uuid": "^9.0.1",
+    "@types/uuid": "^9.0.2",
     "typescript": "^5.1.3"
   }
 }
