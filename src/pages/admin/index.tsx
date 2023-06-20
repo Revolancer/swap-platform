@@ -51,6 +51,9 @@ export default function Stats() {
           <P>
             <Link href={`/admin/credits`}>Add Credits</Link>
           </P>
+          <P>
+            <Link href={`/admin/import-users`}>Import Users</Link>
+          </P>
         </FullWidth>
       </AdminLayout>
     </>
