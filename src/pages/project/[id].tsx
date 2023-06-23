@@ -21,6 +21,8 @@ import { ProjectThread } from "@/components/messaging/project-messaging/project-
 import { ParagraphBlock } from "editorjs-blocks-react-renderer";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { Card } from "@/components/layout/cards";
+import { ProjectOtherUserProfile } from "@/components/messaging/project-messaging/project-other-user-profile";
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -109,22 +111,22 @@ export default function ProjectPage() {
           )}
         </CrumbBar>
         <FullWidth>
-          <Div
-            css={{
-              borderWidth: "$1",
-              borderStyle: "$solid",
-              borderColor: "$neutral300",
-              borderRadius: "$2",
-              padding: "$5",
-            }}
-          >
+          <Card>
             {!hasLoaded && <H1>Loading...</H1>}
             {hasLoaded && (
               <Flex column>
-                <Flex css={{ justifyContent: "space-between" }}>
-                  <H1 css={{ fontSize: "$body1", lineHeight: "$body1" }}>
-                    {loadedData?.need?.title ?? "Untitled Project"}
-                  </H1>
+                <Flex
+                  css={{
+                    justifyContent: "space-between",
+                    alignItems: "flex-start",
+                  }}
+                >
+                  <Flex column>
+                    <ProjectOtherUserProfile projectId={loadedData?.id ?? ""} />
+                    <H1 css={{ fontSize: "$body1", lineHeight: "$body1" }}>
+                      {loadedData?.need?.title ?? "Untitled Project"}
+                    </H1>
+                  </Flex>
                   {loadedData && (
                     <ProjectCompletionToggle project={loadedData} />
                   )}
@@ -141,7 +143,7 @@ export default function ProjectPage() {
                 <ProjectThread projectId={loadedData?.id ?? ""} />
               </Flex>
             )}
-          </Div>
+          </Card>
         </FullWidth>
       </PrimaryLayout>
     </>
