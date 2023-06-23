@@ -255,7 +255,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
   return (
     <>
-      <Div css={{ flexGrow: "1", overflowY: "auto" }}>
+      <Div css={{ flexGrow: "1", overflowY: "auto", maxHeight: "50vh" }}>
         {renderMessageArray()}
         <div style={{ position: "relative" }}>
           <div
