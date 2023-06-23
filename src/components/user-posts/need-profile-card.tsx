@@ -121,7 +121,15 @@ export const NeedProfileCard = ({
           <>
             {data?.id && (
               <UnstyledLink href={`/n/${data.id}`}>
-                <P css={{ fontWeight: "$bold" }}>{data?.title}</P>
+                <P
+                  css={{
+                    fontWeight: "$bold",
+                    fontSize: "$body1",
+                    lineHeight: "$body1",
+                  }}
+                >
+                  {data?.title}
+                </P>
               </UnstyledLink>
             )}
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
