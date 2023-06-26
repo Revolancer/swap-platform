@@ -15,26 +15,33 @@ type EditorReason = "portfolio" | "need";
 export const editorTools = (reason: EditorReason = "portfolio") => {
   if (reason == "need") {
     return {
-      paragraph: Paragraph,
+      header: Header,
+      paragraph: { class: Paragraph, inlineToolbar: true },
+      embed: Embed,
       image: {
         class: Image,
         config: { uploader: { uploadByFile: uploadForEditorJs } },
+        inlineToolbar: true,
       },
+      marker: Marker,
+      underline: Underline,
+      list: { class: List, inlineToolbar: true },
     };
   }
   return {
     header: Header,
-    paragraph: Paragraph,
+    paragraph: { class: Paragraph, inlineToolbar: true },
     embed: Embed,
-    table: Table,
+    table: { class: Table, inlineToolbar: true },
     code: Code,
     image: {
       class: Image,
       config: { uploader: { uploadByFile: uploadForEditorJs } },
+      inlineToolbar: true,
     },
     quote: Quote,
     marker: Marker,
     underline: Underline,
-    list: List,
+    list: { class: List, inlineToolbar: true },
   };
 };
