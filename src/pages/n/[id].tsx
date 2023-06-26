@@ -4,7 +4,7 @@ import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { PostData, Proposal } from "@/lib/types";
+import { PostData, Proposal, UserProfileData } from "@/lib/types";
 import Blocks from "editorjs-blocks-react-renderer";
 import { H1, H3, H5 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
@@ -32,6 +32,7 @@ export default function UserProfile() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [proposals, setProposals] = useState<Proposal[]>([]);
+  const [profile, setProfile] = useState<UserProfileData>({});
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -53,6 +54,10 @@ export default function UserProfile() {
               if ((response.data?.user?.id ?? "") == self) {
                 setOwn(true);
               }
+              axiosPublic
+                .get(`user/profile/by_id/${response.data?.user?.id}`)
+                .then((response) => setProfile(response.data ?? {}))
+                .catch(() => setProfile({}));
               setHasLoaded(true);
             }
           })
@@ -91,6 +96,11 @@ export default function UserProfile() {
           {hasLoaded && !own && <Crumb href="/">Discovery</Crumb>}
           {hasLoaded && own && <Crumb href="/projects">Project Hub</Crumb>}
           {hasLoaded && own && <Crumb href="/projects/needs">My Needs</Crumb>}
+          {hasLoaded && !own && (
+            <Crumb href={`/u/${profile?.slug ?? ""}`}>
+              {`${profile?.first_name} ${profile?.last_name}`}
+            </Crumb>
+          )}
           {hasLoaded && (
             <Crumb href={`/n/${id}`} active>
               {postData?.title ?? "Loading..."}

@@ -4,7 +4,7 @@ import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
 import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/router";
-import { PostData } from "@/lib/types";
+import { PostData, UserProfileData } from "@/lib/types";
 import Blocks, { DataProp } from "editorjs-blocks-react-renderer";
 import { H1 } from "@/components/text/headings";
 import { Tags } from "@/components/user-posts/tags";
@@ -24,6 +24,7 @@ export default function UserProfile() {
   const [postData, setPostData] = useState<PostData>();
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
+  const [profile, setProfile] = useState<UserProfileData>({});
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -40,6 +41,10 @@ export default function UserProfile() {
               if ((response.data?.user?.id ?? "") == self) {
                 setOwn(true);
               }
+              axiosPublic
+                .get(`user/profile/by_id/${response.data?.user?.id}`)
+                .then((response) => setProfile(response.data ?? {}))
+                .catch(() => setProfile({}));
             }
           })
           .catch((err) => setNotFound(true));
@@ -144,6 +149,11 @@ export default function UserProfile() {
       <PrimaryLayout>
         <CrumbBar>
           <Crumb href="/">Discovery</Crumb>
+          {!!profile && (
+            <Crumb href={`/u/${profile?.slug ?? ""}`}>
+              {`${profile?.first_name} ${profile?.last_name}`}
+            </Crumb>
+          )}
           {!!postData && (
             <Crumb href={`/p/${id}`} active>
               {postData?.title ?? "Loading..."}
