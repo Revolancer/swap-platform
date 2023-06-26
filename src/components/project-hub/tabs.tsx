@@ -31,6 +31,12 @@ export const ProjectTabs = () => {
         My Needs
       </TabLink>
       <TabLink
+        active={router.pathname == "/projects/proposals"}
+        href="/projects/proposals"
+      >
+        Outgoing Proposals
+      </TabLink>
+      <TabLink
         active={router.pathname == "/projects/completed"}
         href="/projects/completed"
       >
