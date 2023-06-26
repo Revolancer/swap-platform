@@ -69,7 +69,7 @@
     "react-responsive-masonry": "^2.1.7",
     "react-tag-input": "^6.8.1",
     "uuid": "^9.0.0",
-    "victory": "^36.6.10",
+    "victory": "^36.6.11",
     "yup": "^1.1.1",
     "yup-password": "^0.2.2"
   },
