@@ -52,3 +52,8 @@ declare module "@editorjs/paragraph" {
   import Paragraph from "@editorjs/paragraph";
   export = Paragraph;
 }
+
+declare module "editorjs-hyperlink" {
+  import Hyperlink from "editorjs-hyperlink";
+  export = Hyperlink;
+}
