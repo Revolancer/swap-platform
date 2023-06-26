@@ -1,22 +1,25 @@
 import { useCallback, useEffect, useState } from "react";
-import { PostData } from "@/lib/types";
-import { axiosPublic } from "@/lib/axios";
+import { Proposal } from "@/lib/types";
+import { axiosPrivate } from "@/lib/axios";
 import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
 import { Flex } from "../layout/flex";
 import { H5 } from "../text/headings";
 import { NeedProfileCard } from "../user-posts/need-profile-card";
+import Image from "next/image";
+import { P } from "../text/text";
+import { Button } from "../navigation/button";
 
 export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
-  const [posts, setPosts] = useState<PostData[]>([]);
+  const [posts, setPosts] = useState<Proposal[]>([]);
 
   const loadPostsForUser = useCallback(async () => {
-    axiosPublic
-      .get(`proposal/for_user/${uid}`, {
-        id: `user-proposals-${uid}`,
+    axiosPrivate
+      .get(`need/proposals/own`, {
+        id: `user-proposals-own`,
       })
       .then((response) => setPosts(response.data ?? []))
       .catch(() => setPosts([]));
-  }, [uid]);
+  }, []);
 
   useEffect(() => {
     if (uid != "") {
@@ -25,9 +28,11 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
   }, [uid, loadPostsForUser]);
   const staticPosts = [];
   for (const post of posts) {
-    staticPosts.push(<NeedProfileCard data={post} key={post?.id ?? ""} />);
+    staticPosts.push(
+      <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ""} />
+    );
   }
-  return staticPosts.length > 0 ? (
+  return staticPosts.length > 999 ? (
     <Flex column gap={4}>
       <H5>My Proposals</H5>
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
@@ -35,6 +40,22 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
       </ResponsiveMasonry>
     </Flex>
   ) : (
-    <>No proposals yet buddy</>
+    <>
+      <Flex
+        column
+        gap={3}
+        css={{ width: "100%", alignItems: "center", marginBlock: "$8" }}
+      >
+        <P>You don&rsquo;t currently have any outgoing proposals</P>
+        <Image
+          src="/img/revy/happy.png"
+          alt="Revy, happy to guide you back to safety"
+          width={210}
+          height={314}
+        />
+        <P>Get started by finding needs that match your skills</P>
+        <Button href="/">Get Started</Button>
+      </Flex>
+    </>
   );
 };
