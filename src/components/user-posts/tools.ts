@@ -8,6 +8,7 @@ import Quote from "@editorjs/quote";
 import Marker from "@editorjs/marker";
 import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
+import Hyperlink from "editorjs-hyperlink";
 import { uploadForEditorJs } from "@/lib/upload";
 
 type EditorReason = "portfolio" | "need";
@@ -26,6 +27,17 @@ export const editorTools = (reason: EditorReason = "portfolio") => {
       marker: Marker,
       underline: Underline,
       list: { class: List, inlineToolbar: true },
+      link: {
+        class: Hyperlink,
+        config: {
+          shortcut: "CMD+L",
+          target: "_blank",
+          rel: "nofollow noreferrer noopener",
+          availableTargets: ["_blank"],
+          availableRels: ["nofollow noreferrer noopener"],
+          validate: false,
+        },
+      },
     };
   }
   return {
@@ -43,5 +55,16 @@ export const editorTools = (reason: EditorReason = "portfolio") => {
     marker: Marker,
     underline: Underline,
     list: { class: List, inlineToolbar: true },
+    link: {
+      class: Hyperlink,
+      config: {
+        shortcut: "CMD+L",
+        target: "_blank",
+        rel: "nofollow noreferrer noopener",
+        availableTargets: ["_blank"],
+        availableRels: ["nofollow noreferrer noopener"],
+        validate: false,
+      },
+    },
   };
 };
