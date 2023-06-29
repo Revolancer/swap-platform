@@ -1,4 +1,5 @@
 import { Html, Head, Main, NextScript } from "next/document";
+import Script from "next/script";
 import { getCssText, globalStyles } from "stitches.config";
 
 export default function Document() {
@@ -57,6 +58,25 @@ export default function Document() {
           href="https://api.revolancer.com"
           crossOrigin="anonymous"
         />
+        <Script
+          id="cookieyes"
+          type="text/javascript"
+          src="https://cdn-cookieyes.com/client_data/c9eed3aaa2a251a8a7a60268/script.js"
+          strategy="beforeInteractive"
+        ></Script>
+        <Script
+          async
+          strategy="beforeInteractive"
+          src="https://www.googletagmanager.com/gtag/js?id=G-BLW5MQDTX5"
+        ></Script>
+        <Script id="googleAnalytics" strategy="afterInteractive">
+          {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-BLW5MQDTX5');
+          `}
+        </Script>
       </Head>
       <body>
         <Main />
