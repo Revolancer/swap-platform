@@ -52,7 +52,7 @@ export default function Stats() {
             <Link href={`/admin/credits`}>Add Credits</Link>
           </P>
           <P>
-            <Link href={`/admin/import-users`}>Import Users</Link>
+            <Link href={`/admin/delete`}>Delete User</Link>
           </P>
         </FullWidth>
       </AdminLayout>
