@@ -242,7 +242,7 @@ export default function NeedEditorPage() {
                             id="unpublish_at"
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
-                            value={props.values.unpublish_at}
+                            value={props.values.unpublish_at ?? ""}
                           ></InputInner>
                         </InputOuter>
                         {props.touched.unpublish_at &&
