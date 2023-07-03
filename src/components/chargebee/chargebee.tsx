@@ -9,6 +9,7 @@ export const ChargeBeePortalButton = () => {
   const [cbInstance, setCbInstance] = useState(null);
 
   const initChargeBee = () => {
+    /*
     if (typeof window !== "undefined") {
       if (!cbInstance && window.Chargebee) {
         setCbInstance(
@@ -17,7 +18,7 @@ export const ChargeBeePortalButton = () => {
           })
         );
       }
-    }
+    }*/
   };
 
   const openChargeBeePortal = () => {
