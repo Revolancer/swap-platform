@@ -1,13 +1,13 @@
 import { createStitches } from "@stitches/react";
 import { Montserrat } from "next/font/google";
-import { Source_Sans_Pro } from "next/font/google";
+import { Source_Sans_3 } from "next/font/google";
 
 const headfont = Montserrat({
   style: ["normal", "italic"],
   subsets: ["latin"],
 });
 
-const bodyfont = Source_Sans_Pro({
+const bodyfont = Source_Sans_3({
   weight: ["400", "600", "700"],
   style: ["normal", "italic"],
   subsets: ["latin", "latin-ext"],
