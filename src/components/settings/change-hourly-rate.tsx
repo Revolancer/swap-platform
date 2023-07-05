@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { SuccessModal } from "../navigation/success-modal";
 import { Select, SelectGroup, SelectItem } from "../forms/select";
 import { Div } from "../layout/utils";
+import { Span } from "../text/text";
 
 const HourlyRateSchema = Yup.object().shape({
   currency: Yup.string()
@@ -82,9 +83,9 @@ export const ChangeHourlyRate = () => {
           <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
             <Flex column>
               <H5>Hourly Rate</H5>
-              <span>
+              <Span css={{ color: "$neutral700" }}>
                 How much do you typically charge per hour for your services?
-              </span>
+              </Span>
               <Div
                 css={{
                   display: "grid",

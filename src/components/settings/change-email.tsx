@@ -7,7 +7,7 @@ import { Button } from "../navigation/button";
 import { InputInner, InputOuter, TextAreaInner } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
-import { P } from "../text/text";
+import { P, Span } from "../text/text";
 import { SuccessModal } from "../navigation/success-modal";
 import { useEffect, useState } from "react";
 
@@ -74,10 +74,10 @@ export const ChangeEmail = () => {
         return (
           <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
             <H5>Change Email</H5>
-            <P css={{ color: "$neutral600" }}>
+            <Span css={{ color: "$neutral700" }}>
               Type your new email address in the box below and click the Save
               button to change your email address.
-            </P>
+            </Span>
             <Flex>
               <InputOuter error={props.touched.email && !!props.errors.email}>
                 <InputInner

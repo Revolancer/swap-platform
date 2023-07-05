@@ -11,6 +11,7 @@ import { useEffect, useState } from "react";
 import { SuccessModal } from "../navigation/success-modal";
 import { Select, SelectGroup, SelectItem } from "../forms/select";
 import { Div } from "../layout/utils";
+import { P, Span } from "../text/text";
 
 const ExperenceSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
@@ -66,9 +67,9 @@ export const ChangeExperience = () => {
           <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
             <Flex column>
               <H5>Experience</H5>
-              <span>
+              <Span css={{ color: "$neutral700" }}>
                 How many years of experience do you have in your field of work?
-              </span>
+              </Span>
               <Slider name="experience" max={10} />
               <Flex
                 css={{
@@ -77,8 +78,8 @@ export const ChangeExperience = () => {
                   paddingInlineEnd: "4px",
                 }}
               >
-                <span>0</span>
-                <span>10+</span>
+                <Span css={{ color: "$neutral700" }}>0</Span>
+                <Span css={{ color: "$neutral700" }}>10+</Span>
               </Flex>
               {props.touched.experience && props.errors.experience && (
                 <Feedback state="error">{props.errors.experience}</Feedback>

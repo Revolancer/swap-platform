@@ -96,7 +96,7 @@ export const ChangeEmailPreferences = () => {
                   </Feedback>
                 )}
             </Flex>
-            <P css={{ color: "$neutral600", fontStyle: "italic" }}>
+            <P css={{ color: "$neutral700", fontStyle: "italic" }}>
               Please note, some emails are required for the functionality of the
               site and cannot be disabled without closing your Revolancer
               account.
