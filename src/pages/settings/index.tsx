@@ -8,6 +8,7 @@ import { ChangeEmail } from "@/components/settings/change-email";
 import { ChangeExperience } from "@/components/settings/change-experience";
 import { ChangeHourlyRate } from "@/components/settings/change-hourly-rate";
 import { ChangePassword } from "@/components/settings/change-password";
+import { DeleteAccount } from "@/components/settings/delete-account";
 import { SettingsTabs } from "@/components/settings/tabs";
 import { H1 } from "@/components/text/headings";
 
@@ -30,6 +31,7 @@ export default function Settings() {
             <ChangePassword />
             <ChangeHourlyRate />
             <ChangeExperience />
+            <DeleteAccount />
           </Flex>
         </FullWidth>
       </PrimaryLayout>

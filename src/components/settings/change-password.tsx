@@ -12,7 +12,7 @@ import {
 } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
-import { P } from "../text/text";
+import { P, Span } from "../text/text";
 import { useState } from "react";
 import { SuccessModal } from "../navigation/success-modal";
 
@@ -78,10 +78,10 @@ export const ChangePassword = () => {
         return (
           <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
             <H5>Change Password</H5>
-            <P css={{ color: "$neutral600" }}>
+            <Span css={{ color: "$neutral700" }}>
               Provide your current password, type in the new one and click the
               Save button to change your password.
-            </P>
+            </Span>
             <InputOuter
               error={props.touched.password && !!props.errors.password}
             >
