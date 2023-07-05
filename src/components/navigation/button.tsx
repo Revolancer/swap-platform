@@ -182,6 +182,11 @@ const tertiaryStyles = {
         },
       },
     },
+    normalCase: {
+      true: {
+        textTransform: "none",
+      },
+    },
   },
 };
 

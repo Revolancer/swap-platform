@@ -5,10 +5,15 @@ import { Form } from "../forms/form";
 import { InputOuter, TextAreaInner } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { Flex } from "../layout/flex";
-import { Button } from "../navigation/button";
+import { Button, TertiaryButton } from "../navigation/button";
+import { useState } from "react";
+import { StoredUploadField } from "../forms/stored-upload";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
 const MessageSchema = Yup.object().shape({
   body: Yup.string().optional().ensure(),
+  attachment: Yup.string().optional().ensure(),
 });
 
 export const MessageInput = ({
@@ -18,10 +23,12 @@ export const MessageInput = ({
   uid: string;
   refresh?: () => void;
 }) => {
+  const [showAttachmentField, setShowAttachmentField] = useState(false);
   return (
     <Formik
       initialValues={{
         body: "",
+        attachment: "",
       }}
       validationSchema={MessageSchema}
       onSubmit={async (values, actions) => {
@@ -71,7 +78,8 @@ export const MessageInput = ({
             {props.touched.body && props.errors.body && (
               <Feedback state="error">{props.errors.body}</Feedback>
             )}
-            <Flex>
+            {showAttachmentField && <StoredUploadField name="attachment" />}
+            <Flex css={{ alignItems: "center" }}>
               <Button
                 href="#"
                 onClick={(e) => {
@@ -81,6 +89,16 @@ export const MessageInput = ({
               >
                 Send
               </Button>
+              <TertiaryButton
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setShowAttachmentField(!showAttachmentField);
+                }}
+              >
+                <FontAwesomeIcon icon={faPaperclip} />{" "}
+                {!showAttachmentField ? "Add" : "Remove"} Attachment
+              </TertiaryButton>
             </Flex>
           </Form>
         );
