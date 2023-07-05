@@ -59,6 +59,7 @@ export interface Message {
   deleted_at: string;
   sender: string;
   reciever: string;
+  attachment?: File;
 }
 
 export interface Proposal {

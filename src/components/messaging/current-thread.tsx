@@ -8,6 +8,10 @@ import { DateTime } from "luxon";
 import store from "@/redux/store";
 import { MessageAuthor } from "./message-author";
 import { relative } from "path";
+import { P } from "../text/text";
+import { TertiaryButton } from "../navigation/button";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
 
 export const CurrentThread = ({ uid }: { uid: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -149,6 +153,24 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
           );
         })
       );
+
+      //attachments
+      if (message.attachment) {
+        rendered.push(
+          <P>
+            <TertiaryButton
+              key={message.attachment.id}
+              href={message.attachment.url}
+              target="_blank"
+              download={message.attachment.filename}
+              normalCase
+            >
+              <FontAwesomeIcon icon={faPaperclip} />
+              {message.attachment.filename}
+            </TertiaryButton>
+          </P>
+        );
+      }
 
       lastTime = thisTime;
       lastSender = message.sender;

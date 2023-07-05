@@ -239,6 +239,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               href={message.attachment.url}
               target="_blank"
               download={message.attachment.filename}
+              normalCase
             >
               <FontAwesomeIcon icon={faPaperclip} />
               {message.attachment.filename}
