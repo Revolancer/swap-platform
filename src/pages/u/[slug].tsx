@@ -13,7 +13,6 @@ import { Timezone } from "@/components/user/timezone";
 import { Tagline } from "@/components/user/tagline";
 import { AboutSegment } from "@/components/user/aboutsegment";
 import { PortfolioSegment } from "@/components/user/portfoliosegment";
-import { Div } from "@/components/layout/utils";
 import store from "@/redux/store";
 import { NeedsSegment } from "@/components/user/needssegment";
 import FourOhFour from "../404";
@@ -23,6 +22,7 @@ import { faMessage } from "@fortawesome/free-regular-svg-icons";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
 import { Card } from "@/components/layout/cards";
+import { ProfileProgress } from "@/components/collapsible/profile-progress";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -120,6 +120,7 @@ export default function UserProfile() {
         <MainContentWithSideBar>
           <Flex column gap={8}>
             <Tagline uid={userProfile?.user?.id ?? ""} own={own} />
+            {own && <ProfileProgress />}
             <NeedsSegment
               name={userProfile?.first_name ?? ""}
               uid={userProfile?.user?.id ?? ""}
