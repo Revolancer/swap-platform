@@ -8,7 +8,7 @@ import { styled } from "stitches.config";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
 import { CheckedProgressItem } from "../forms/checked-progress-item";
-import { axiosPublic } from "@/lib/axios";
+import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import store from "@/redux/store";
 
 const Expander = styled("div", {
@@ -60,8 +60,17 @@ export const ProfileProgress = () => {
 
   const uid = store?.getState()?.userData?.user?.id ?? "";
 
+  const markChecklistComplete = useCallback(async () => {
+    return await axiosPrivate
+      .put(`user/checklist_complete`, {
+        id: `checklist-complete`,
+      })
+      .catch(() => {});
+  }, []);
+
   const emoji = useMemo(() => {
     if (percent >= 100) {
+      markChecklistComplete();
       return "✅";
     }
     if (percent >= 70) {
@@ -71,7 +80,7 @@ export const ProfileProgress = () => {
       return "🟠";
     }
     return "🚨";
-  }, [percent]);
+  }, [markChecklistComplete, percent]);
 
   const toggle = useCallback(() => {
     setExpanded(!expanded);
@@ -111,11 +120,24 @@ export const ProfileProgress = () => {
       .then((response) => setPostCount((response.data ?? []).length))
       .catch(() => setPostCount(0));
   }, [uid]);
+  const isChecklistComplete = useCallback(async (): Promise<boolean> => {
+    return await axiosPrivate
+      .get(`user/checklist_complete`, {
+        id: `checklist-complete`,
+      })
+      .then((response) => response.data)
+      .catch(() => false);
+  }, []);
 
   const loadEverything = useCallback(async () => {
+    const complete = await isChecklistComplete();
+    if (complete) {
+      return;
+    }
+    console.log("complete", complete);
     await Promise.all([loadPosts(), loadNeeds(), loadTagline(), loadAbout()]);
     setLoading(false);
-  }, [loadAbout, loadNeeds, loadPosts, loadTagline, setLoading]);
+  }, [isChecklistComplete, loadAbout, loadNeeds, loadPosts, loadTagline]);
 
   useEffect(() => {
     loadEverything();
