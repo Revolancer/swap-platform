@@ -38,7 +38,11 @@ const CheckColumns = styled("div", {
   },
 });
 
-export const ProfileProgress = () => {
+export const ProfileProgress = ({
+  position = "desktop",
+}: {
+  position?: string;
+}) => {
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState(false);
 
@@ -134,7 +138,6 @@ export const ProfileProgress = () => {
     if (complete) {
       return;
     }
-    console.log("complete", complete);
     await Promise.all([loadPosts(), loadNeeds(), loadTagline(), loadAbout()]);
     setLoading(false);
   }, [isChecklistComplete, loadAbout, loadNeeds, loadPosts, loadTagline]);
@@ -146,11 +149,18 @@ export const ProfileProgress = () => {
   if (loading) return <></>;
 
   return (
-    <Card>
+    <Card
+      css={{
+        display: position == "desktop" ? "none" : "flex",
+        marginBottom: position == "desktop" ? "0" : "$7",
+        "@md": { display: position == "desktop" ? "flex" : "none" },
+      }}
+    >
       <P
         css={{ fontSize: "$body1", lineHeight: "$body1", fontWeight: "$bold" }}
       >
-        {emoji} Your profile is {percent}% complete.
+        {emoji} Complete your profile to unlock 50 bonus credits. ({percent}%
+        complete)
       </P>
       <P css={{ color: "$neutral600" }}>
         Completed profiles on Revolancer get more views, messages and requests!

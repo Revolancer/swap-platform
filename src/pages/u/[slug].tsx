@@ -89,6 +89,7 @@ export default function UserProfile() {
           </Crumb>
         </CrumbBar>
         <SideBar>
+          {own && <ProfileProgress position="mobile" />}
           <Card>
             <Flex
               column
