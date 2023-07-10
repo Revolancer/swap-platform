@@ -30,6 +30,9 @@ export default function Stats() {
   const [dailyNewUsers, setDailyNewUsers] = useState(0);
   const [weeklyNewUsers, setWeeklyNewUsers] = useState(0);
   const [monthlyNewUsers, setMonthlyNewUsers] = useState(0);
+  const [dailyProjects, setDailyProjects] = useState(0);
+  const [weeklyProjects, setWeeklyProjects] = useState(0);
+  const [monthlyProjects, setMonthlyProjects] = useState(0);
   const [referrers, setReferrers] =
     useState<{ referrer: string; count: number }[]>();
 
@@ -58,12 +61,15 @@ export default function Stats() {
           dailyPortfolios,
           dailyNeeds,
           dailyProposals,
+          dailyProjects,
           weeklyPortfolios,
           weeklyNeeds,
           weeklyProposals,
+          weeklyProjects,
           monthlyPortfolios,
           monthlyNeeds,
           monthlyProposals,
+          monthlyProjects,
         } = response.data;
         setDailyPortfolios(dailyPortfolios);
         setWeeklyPortfolios(weeklyPortfolios);
@@ -74,6 +80,9 @@ export default function Stats() {
         setDailyProposals(dailyProposals);
         setWeeklyProposals(weeklyProposals);
         setMonthlyProposals(monthlyProposals);
+        setDailyProjects(dailyProjects);
+        setWeeklyProjects(weeklyProjects);
+        setMonthlyProjects(monthlyProjects);
       })
       .catch(() => {});
     await axiosPrivate
@@ -131,6 +140,10 @@ export default function Stats() {
             Proposals: {dailyProposals} (
             {(dailyProposals / Math.max(1, dau)).toFixed(2)} of DAU)
           </P>
+          <P>
+            Projects: {dailyProjects} (
+            {(dailyProjects / Math.max(1, dau)).toFixed(2)} of DAU)
+          </P>
           <P css={{ fontWeight: "$bold" }}>Weekly</P>
           <P>
             Portfolios: {weeklyPortfolios} (
@@ -144,6 +157,10 @@ export default function Stats() {
             Proposals: {weeklyProposals} (
             {(weeklyProposals / Math.max(1, wau)).toFixed(2)} of WAU)
           </P>
+          <P>
+            Projects: {weeklyProjects} (
+            {(weeklyProjects / Math.max(1, wau)).toFixed(2)} of WAU)
+          </P>
           <P css={{ fontWeight: "$bold" }}>Monthly</P>
           <P>
             Portfolios: {monthlyPortfolios} (
@@ -156,6 +173,10 @@ export default function Stats() {
           <P>
             Proposals: {monthlyProposals} (
             {(monthlyProposals / Math.max(1, mau)).toFixed(2)} of MAU)
+          </P>
+          <P>
+            Projects: {monthlyProjects} (
+            {(monthlyProjects / Math.max(1, mau)).toFixed(2)} of MAU)
           </P>
           <H5>New Users</H5>
           <P>Daily: {dailyNewUsers}</P>
