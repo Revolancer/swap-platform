@@ -56,7 +56,7 @@
     "luxon": "^3.3.0",
     "masonic": "^3.7.0",
     "match-sorter": "^6.3.1",
-    "next": "^13.4.7",
+    "next": "^13.4.9",
     "osm-api": "^1.0.5",
     "react": "^18.2.0",
     "react-datepicker": "^4.15.0",
