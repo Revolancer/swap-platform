@@ -21,6 +21,7 @@ import { DateTime } from "luxon";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
 import { P } from "@/components/text/text";
+import { NeedExplainer } from "@/components/collapsible/need-explainer";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -265,6 +266,7 @@ export default function NeedEditorPage() {
                       </Flex>
                       <Flex column>
                         <H5>Describe what you need</H5>
+                        <NeedExplainer />
                         <NeedEditorJs name="data" data={props.values.data} />
                       </Flex>
                     </Form>
