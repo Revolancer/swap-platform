@@ -20,6 +20,7 @@ import FourOhFour from "../404";
 import { DateTime } from "luxon";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { P } from "@/components/text/text";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -201,7 +202,17 @@ export default function NeedEditorPage() {
               return (
                 <>
                   <MainContentWithSideBar>
-                    <H1>I need...</H1>
+                    <H1>Find a Pro</H1>
+                    <P
+                      css={{
+                        color: "$neutral700",
+                        fontSize: "$body1",
+                        lineHeight: "$body1",
+                      }}
+                    >
+                      Describe the services or assistance you need from fellow
+                      digital professionals
+                    </P>
                     <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
                       <Flex column>
                         <H5>Title</H5>

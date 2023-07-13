@@ -34,7 +34,8 @@ const NeedEditor = ({
         data: cleanData,
         holder: "editorjs",
         tools: editorTools("need") as any,
-        placeholder: "Let us know what you need!",
+        placeholder:
+          "Let us know what services or assistance you need from other digital professionals",
         onChange: async (api) => {
           setOutput(await api.saver.save());
         },
