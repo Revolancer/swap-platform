@@ -14,7 +14,7 @@ import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { P, Span } from "../text/text";
 import { useState } from "react";
-import { SuccessModal } from "../navigation/success-modal";
+import { SuccessModal } from "../modals/success-modal";
 
 const UpdatePasswordSchema = Yup.object().shape({
   password: Yup.string().required("Please provide your current password"),

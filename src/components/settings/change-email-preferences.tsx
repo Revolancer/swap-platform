@@ -8,7 +8,7 @@ import { Checkbox, InputInner, InputOuter } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { useEffect, useState } from "react";
-import { SuccessModal } from "../navigation/success-modal";
+import { SuccessModal } from "../modals/success-modal";
 import { P } from "../text/text";
 
 export const ChangeEmailPreferences = () => {
