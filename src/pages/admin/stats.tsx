@@ -12,6 +12,8 @@ import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function Stats() {
   const [userCount, setUserCount] = useState(0);
+  const [userCountAllTime, setUserCountAllTime] = useState(0);
+  const [userCountDeleted, setUserCountDeleted] = useState(0);
   const [dau, setDau] = useState(0);
   const [wau, setWau] = useState(0);
   const [mau, setMau] = useState(0);
@@ -39,8 +41,13 @@ export default function Stats() {
   const load = async () => {
     await axiosPrivate
       .get("admin/stats/count_users")
-      .then((response) => setUserCount(response.data ?? 0))
-      .catch((err) => setUserCount(0));
+      .then((response) => {
+        const { count, deleted, allTime } = response.data;
+        setUserCount(count);
+        setUserCountAllTime(allTime);
+        setUserCountDeleted(deleted);
+      })
+      .catch((err) => {});
     await axiosPrivate
       .get("admin/stats/count_active_users")
       .then((response) => {
@@ -192,6 +199,9 @@ export default function Stats() {
               ))}
             </>
           )}
+          <H5>Other Stats</H5>
+          <P>All time accounts created: {userCountAllTime}</P>
+          <P>Deleted users: {userCountDeleted}</P>
         </FullWidth>
       </AdminLayout>
     </>
