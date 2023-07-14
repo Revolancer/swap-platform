@@ -3,8 +3,6 @@ import {
   MouseEvent,
   KeyboardEvent,
   useEffect,
-  useMemo,
-  useCallback,
   ChangeEvent,
 } from "react";
 import Modal from "react-modal";
@@ -12,14 +10,7 @@ import { Button, UnstyledLink } from "../navigation/button";
 import { Flex } from "../layout/flex";
 import { H4, H5 } from "../text/headings";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faCheck,
-  faClose,
-  faCoins,
-  faTicket,
-  faTicketAlt,
-  faTicketSimple,
-} from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faClose, faTicket } from "@fortawesome/free-solid-svg-icons";
 import { config as styleconfig } from "stitches.config";
 import { PostData, UserProfileData } from "@/lib/types";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
@@ -80,7 +71,13 @@ const ProposalSchema = Yup.object().shape({
     .required(),
 });
 
-export const ProposalDialog = ({ id }: { id: string }) => {
+export const ProposalDialog = ({
+  id,
+  setSuccess = (success: boolean) => {},
+}: {
+  id: string;
+  setSuccess?: (success: boolean) => void;
+}) => {
   const [postData, setPostData] = useState<PostData>();
   const [isNotFound, setNotFound] = useState(false);
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -252,7 +249,7 @@ export const ProposalDialog = ({ id }: { id: string }) => {
                     } else {
                       actions.resetForm();
                       closeModal();
-                      router.reload();
+                      setSuccess(true);
                     }
                   })
                   .catch((reason) => {
@@ -366,7 +363,13 @@ export const ProposalDialog = ({ id }: { id: string }) => {
                       <Feedback state="error">{props.errors.price}</Feedback>
                     )}
                     <Flex>
-                      <Button href="#" onClick={props.submitForm}>
+                      <Button
+                        href="#"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          props.submitForm();
+                        }}
+                      >
                         Send
                       </Button>
                     </Flex>

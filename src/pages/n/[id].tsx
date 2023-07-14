@@ -2,7 +2,7 @@ import { FullWidth } from "@/components/layout/columns";
 import { PrimaryLayout } from "@/components/layout/layouts";
 import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { Title } from "@/components/head/title";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { PostData, Proposal, UserProfileData } from "@/lib/types";
 import Blocks from "editorjs-blocks-react-renderer";
@@ -14,7 +14,6 @@ import store from "@/redux/store";
 import FourOhFour from "../404";
 import { P } from "@/components/text/text";
 import { DateTime } from "luxon";
-import { ProposalDialog } from "@/components/need/proposal-dialog";
 import {
   StyledBlocksContainer,
   cleanBlockData,
@@ -23,6 +22,7 @@ import { Masonry } from "masonic";
 import { ProposalCard } from "@/components/need/proposal-card";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { ProposalDialogWrap } from "@/components/need/proposal-dialog-wrap";
 
 export default function UserProfile() {
   const router = useRouter();
@@ -121,7 +121,7 @@ export default function UserProfile() {
                 )}
               </P>
             )}
-            {postData?.id && <ProposalDialog id={postData.id} />}
+            {postData?.id && <ProposalDialogWrap id={postData.id} />}
             {postData?.data && (
               <StyledBlocksContainer>
                 <Blocks data={cleanBlockData(postData.data)} />
