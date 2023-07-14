@@ -22,6 +22,7 @@ import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
 import { P } from "@/components/text/text";
 import { NeedExplainer } from "@/components/collapsible/need-explainer";
+import { NeedLoopModal } from "@/components/modals/need-loop-modal";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -58,6 +59,8 @@ export default function NeedEditorPage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedData, setLoadedData] = useState<PostData | undefined>(undefined);
   const [isNotFound, setNotFound] = useState(false);
+  const [nextUrl, setNextUrl] = useState("/u/profile");
+  const [success, setSuccess] = useState(false);
   const { id } = router.query;
 
   const NeedEditorJs = dynamic(
@@ -103,6 +106,7 @@ export default function NeedEditorPage() {
 
   return (
     <>
+      {success && isNew && <NeedLoopModal nextUrl={nextUrl} />}
       <Title>{`${isNew ? "New" : "Edit"} Need`}</Title>
       <PrimaryLayout>
         <CrumbBar>
@@ -142,10 +146,9 @@ export default function NeedEditorPage() {
                         store?.getState()?.userData?.user?.id ?? "guest";
                       await axiosPublic.storage.remove(`user-needs-${self}`);
                       if (response?.data && typeof response.data == "string") {
-                        router.replace(`/n/${response.data}`);
-                      } else {
-                        router.replace(`/u/profile`);
+                        setNextUrl(`/n/${response.data}`);
                       }
+                      setSuccess(true);
                     }
                   })
                   .catch((reason) => {
@@ -175,7 +178,8 @@ export default function NeedEditorPage() {
                         "Oops, something went wrong"
                       );
                     } else {
-                      router.replace(`/n/${id}`);
+                      setNextUrl(`/n/${response.data}`);
+                      setSuccess(true);
                     }
                   })
                   .catch((reason) => {
