@@ -16,7 +16,7 @@ import {
 } from "@/components/forms/input";
 import { Feedback } from "@/components/forms/feedback";
 import { Button, FormButton, Link } from "@/components/navigation/button";
-import { SuccessModal } from "@/components/navigation/success-modal";
+import { SuccessModal } from "@/components/modals/success-modal";
 import { Form } from "@/components/forms/form";
 import { Turnstile } from "@/components/forms/turnstile";
 import Image from "next/image";

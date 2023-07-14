@@ -8,7 +8,7 @@ import { Flex } from "../layout/flex";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faClose } from "@fortawesome/free-solid-svg-icons";
 import { Feedback } from "../forms/feedback";
-import { SuccessModal } from "../navigation/success-modal";
+import { SuccessModal } from "../modals/success-modal";
 import { Formik } from "formik";
 import { Yup } from "@/lib/yup";
 import { Form } from "../forms/form";

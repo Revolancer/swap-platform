@@ -12,7 +12,7 @@ import { InputInner, InputOuter } from "@/components/forms/input";
 import { Feedback } from "@/components/forms/feedback";
 import { FullWidth } from "@/components/layout/columns";
 import { styled } from "stitches.config";
-import { SuccessModal } from "@/components/navigation/success-modal";
+import { SuccessModal } from "@/components/modals/success-modal";
 import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
 import { Crumb } from "@/components/navigation/crumbs/crumb";
 import { ConfirmationDialog } from "@/components/navigation/confirmation-dialog";

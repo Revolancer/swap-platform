@@ -16,7 +16,7 @@ import {
   Link,
   TertiaryButton,
 } from "@/components/navigation/button";
-import { SuccessModal } from "@/components/navigation/success-modal";
+import { SuccessModal } from "@/components/modals/success-modal";
 import { H4 } from "@/components/text/headings";
 import { P } from "@/components/text/text";
 import { axiosPublic } from "@/lib/axios";

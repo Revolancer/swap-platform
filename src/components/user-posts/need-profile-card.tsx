@@ -1,20 +1,17 @@
 import { PostData } from "@/lib/types";
-import { ParagraphBlock } from "editorjs-blocks-react-renderer";
 import { OutputData } from "@editorjs/editorjs";
 import { P } from "../text/text";
 import { Flex } from "../layout/flex";
 import { Tags } from "./tags";
 import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
 import { Author } from "./author";
-import { useEffect, useMemo, useState } from "react";
-import { ProposalDialog } from "../need/proposal-dialog";
+import { useEffect, useState } from "react";
 import { axiosPrivate } from "@/lib/axios";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck } from "@fortawesome/free-solid-svg-icons";
 import { useRouter } from "next/router";
 import { ConfirmationDialog } from "../navigation/confirmation-dialog";
 import { styled } from "stitches.config";
 import { Card } from "../layout/cards";
+import { ProposalDialogWrap } from "../need/proposal-dialog-wrap";
 export const NeedProfileCard = ({
   data,
   own = false,
@@ -139,7 +136,7 @@ export const NeedProfileCard = ({
             )}
             {data?.id && (
               <Flex gap={6} css={{ alignItems: "center" }}>
-                <ProposalDialog id={data.id} />
+                <ProposalDialogWrap id={data.id} />
                 {own && (
                   <>
                     <Button href={`/n/${data.id}`}>

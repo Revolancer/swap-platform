@@ -8,7 +8,7 @@ import { InputInner, InputOuter, TextAreaInner } from "../forms/input";
 import { Feedback } from "../forms/feedback";
 import { H5 } from "../text/headings";
 import { P, Span } from "../text/text";
-import { SuccessModal } from "../navigation/success-modal";
+import { SuccessModal } from "../modals/success-modal";
 import { useEffect, useState } from "react";
 
 const UpdateEmailSchema = Yup.object().shape({

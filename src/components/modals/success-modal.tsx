@@ -1,6 +1,6 @@
 import { config as styleconfig } from "stitches.config";
 import Modal from "react-modal";
-import { Button, UnstyledLink } from "./button";
+import { Button, UnstyledLink } from "../navigation/button";
 import { useEffect, useState } from "react";
 import { Flex } from "../layout/flex";
 import { H4 } from "../text/headings";
