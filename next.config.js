@@ -30,6 +30,10 @@ const nextConfig = {
       },
     ],
   },
+  generateBuildId: () => gitCommitInfo().shortHash,
+  env: {
+    BUILD_ID_ENV: gitCommitInfo().shortHash,
+  },
   webpack: (
     /** @type { import('webpack').Configuration } */
     config,
