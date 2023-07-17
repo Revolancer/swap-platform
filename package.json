@@ -84,6 +84,8 @@
     "@types/react-tag-input": "^6.6.1",
     "@types/uuid": "^9.0.2",
     "editorjs-hyperlink": "^1.0.6",
-    "typescript": "^5.1.6"
+    "git-commit-info": "^2.0.2",
+    "typescript": "^5.1.6",
+    "webpack-bugsnag-plugins": "^1.8.0"
   }
 }

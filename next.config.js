@@ -1,3 +1,9 @@
+const gitCommitInfo = require("git-commit-info");
+const {
+  BugsnagBuildReporterPlugin,
+  BugsnagSourceMapUploaderPlugin,
+} = require("webpack-bugsnag-plugins");
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   transpilePackages: [
@@ -23,6 +29,34 @@ const nextConfig = {
         pathname: "/**",
       },
     ],
+  },
+  webpack: (
+    /** @type { import('webpack').Configuration } */
+    config,
+    { buildId, dev, isServer, nextRuntime }
+  ) => {
+    // Important: return the modified config
+    if (!dev && isServer) {
+      config.plugins.push(
+        new BugsnagBuildReporterPlugin({
+          apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
+          appVersion: gitCommitInfo().shortHash,
+          releaseStage: process.env.NODE_ENV,
+        })
+      );
+      new BugsnagSourceMapUploaderPlugin({
+        apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
+        appVersion: gitCommitInfo().shortHash,
+        releaseStage: process.env.NODE_ENV,
+        metadata: {
+          buildId: buildId,
+          dev: dev,
+          isServer: isServer,
+          nextRuntime: nextRuntime,
+        },
+      });
+    }
+    return config;
   },
 };
 
