@@ -79,7 +79,7 @@ export default function UserProfile() {
     lineHeight: "$body1",
     display: "flex",
     flexDirection: "column",
-    gap: "$1",
+    gap: "$3",
     "& .image-block--stretched": {
       "& img": {
         width: "100%",
@@ -90,20 +90,10 @@ export default function UserProfile() {
       fontStyle: "italic",
       textAlign: "end",
     },
-    "& ul": {
-      marginBlock: "$3",
-    },
-    "& ol": {
-      marginBlock: "$3",
-    },
-    "& p": {
-      marginBlock: "$3",
-    },
     "& table": {
       width: "100%",
       borderSpacing: "0",
       borderCollapse: "collapse",
-      marginBlock: "$3",
     },
     "& th": {
       border: "1px solid black",
@@ -121,7 +111,7 @@ export default function UserProfile() {
     "& blockquote": {
       background: "$neutral100",
       borderLeft: "10px solid $neutral600",
-      margin: "1.5em 10px",
+      marginInline: "10px",
       padding: "0.5em 10px",
       quotes: "“”‘’",
     },
@@ -138,7 +128,8 @@ export default function UserProfile() {
     },
     "& iframe": {
       display: "block",
-      maxWidth: "100%",
+      width: "100%",
+      maxHeight: "560px",
       marginInline: "auto",
     },
   });
