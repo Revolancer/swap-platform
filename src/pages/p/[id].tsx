@@ -77,6 +77,9 @@ export default function UserProfile() {
     marginInline: "auto",
     fontSize: "$body1",
     lineHeight: "$body1",
+    display: "flex",
+    flexDirection: "column",
+    gap: "$1",
     "& .image-block--stretched": {
       "& img": {
         width: "100%",
