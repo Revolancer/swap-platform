@@ -72,6 +72,11 @@ export default function UserProfile() {
   }, [postData]);
 
   const StyledBlocksContainer = styled("div", {
+    width: "100%",
+    maxWidth: "800px",
+    marginInline: "auto",
+    fontSize: "$body1",
+    lineHeight: "$body1",
     "& .image-block--stretched": {
       "& img": {
         width: "100%",
