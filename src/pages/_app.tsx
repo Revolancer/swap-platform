@@ -30,6 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
         plugins: [new BugsnagPluginReact()],
         releaseStage:
           process.env.NEXT_PUBLIC_BUGSNAG_RELEASE_STAGE ?? "development",
+        appVersion: process.env.BUILD_ID_ENV,
       });
       const plugin = Bugsnag.getPlugin("react") as BugsnagPluginReactResult;
       const ErrorBoundary = plugin.createErrorBoundary(React);
