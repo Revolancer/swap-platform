@@ -54,7 +54,7 @@ export const PortfolioProfileCard = ({
       }
     };
     const getVimeoThumbnail = async (url: string): Promise<string> => {
-      const id = url.replace("https://vimeo.com/", "");
+      const id = url.replace("https://vimeo.com/", "").split("?")[0];
       return await axios
         .get(`https://vimeo.com/api/v2/video/${id}.json`)
         .then((res) => res.data)
@@ -63,7 +63,9 @@ export const PortfolioProfileCard = ({
     };
 
     const getYoutubeThumbnail = (url: string): string => {
-      const id = url.replace("https://www.youtube.com/embed/", "");
+      const id = url
+        .replace("https://www.youtube.com/embed/", "")
+        .split("?")[0];
       return `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
     };
 
