@@ -21,7 +21,10 @@ export default function App({ Component, pageProps }: AppProps) {
     });
   }
   const WrapInErrorBoundary = ({ children }: { children: any }) => {
-    if (process.env.NEXT_PUBLIC_BUGSNAG_KEY) {
+    if (
+      process.env.NEXT_PUBLIC_BUGSNAG_KEY &&
+      process.env.NODE_ENV != "development"
+    ) {
       Bugsnag.start({
         apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY ?? "",
         plugins: [new BugsnagPluginReact()],
