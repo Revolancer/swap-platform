@@ -203,11 +203,20 @@ export default function PortfolioEditorPage() {
                   </MainContentWithSideBar>
                   <SideBar>
                     <Flex>
-                      <Button href="#" onClick={props.submitForm}>
+                      <Button
+                        href="#"
+                        onClick={props.submitForm}
+                        disabled={props.isSubmitting}
+                      >
                         Publish
                       </Button>
                       {isNew ? (
-                        <Button role="secondary" href="/u/profile" replace>
+                        <Button
+                          role="secondary"
+                          href="/u/profile"
+                          replace
+                          disabled={props.isSubmitting}
+                        >
                           Cancel
                         </Button>
                       ) : (
@@ -216,6 +225,7 @@ export default function PortfolioEditorPage() {
                             role="secondary"
                             href={`/p/${loadedData.id}`}
                             replace
+                            disabled={props.isSubmitting}
                           >
                             Cancel
                           </Button>

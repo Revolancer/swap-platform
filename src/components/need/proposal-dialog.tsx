@@ -369,6 +369,7 @@ export const ProposalDialog = ({
                           e.preventDefault();
                           props.submitForm();
                         }}
+                        disabled={props.isSubmitting}
                       >
                         Send
                       </Button>
