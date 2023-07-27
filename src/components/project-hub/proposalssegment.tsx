@@ -32,7 +32,7 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
       <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ""} />
     );
   }
-  return staticPosts.length > 999 ? (
+  return staticPosts.length > 0 ? (
     <Flex column gap={4}>
       <H5>My Proposals</H5>
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
