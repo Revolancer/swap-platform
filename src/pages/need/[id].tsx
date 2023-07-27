@@ -287,9 +287,12 @@ export default function NeedEditorPage() {
                       <Button
                         href="#"
                         onClick={(e) => {
-                          e.preventDefault();
-                          props.submitForm();
+                          if (!props.isSubmitting) {
+                            e.preventDefault();
+                            props.submitForm();
+                          }
                         }}
+                        disabled={props.isSubmitting}
                       >
                         Publish
                       </Button>
@@ -303,6 +306,7 @@ export default function NeedEditorPage() {
                             role="secondary"
                             href={`/n/${loadedData.id}`}
                             replace
+                            disabled={props.isSubmitting}
                           >
                             Cancel
                           </Button>

@@ -86,6 +86,7 @@ export const ProjectMessageInput = ({
                   e.preventDefault();
                   props.submitForm();
                 }}
+                disabled={props.isSubmitting}
               >
                 Send
               </Button>
@@ -93,8 +94,12 @@ export const ProjectMessageInput = ({
                 href="#"
                 onClick={(e) => {
                   e.preventDefault();
+                  if (showAttachmentField) {
+                    props.setFieldValue("attachment", "");
+                  }
                   setShowAttachmentField(!showAttachmentField);
                 }}
+                disabled={props.isSubmitting}
               >
                 <FontAwesomeIcon icon={faPaperclip} />{" "}
                 {!showAttachmentField ? "Add" : "Remove"} Attachment
