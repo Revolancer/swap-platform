@@ -11,7 +11,7 @@ import { axiosPrivate, axiosPublic } from "@/lib/axios";
 import { InputInner, InputOuter } from "@/components/forms/input";
 import { Feedback } from "@/components/forms/feedback";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { PostData } from "@/lib/types";
 import { H1, H5 } from "@/components/text/headings";
 import { Flex } from "@/components/layout/flex";
@@ -23,6 +23,7 @@ import { Crumb } from "@/components/navigation/crumbs/crumb";
 import { P } from "@/components/text/text";
 import { NeedExplainer } from "@/components/collapsible/need-explainer";
 import { NeedLoopModal } from "@/components/modals/need-loop-modal";
+import { NeedOrClientModal } from "@/components/modals/need-or-client-modal";
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -56,6 +57,7 @@ const NeedSchema = Yup.object().shape({
 export default function NeedEditorPage() {
   const router = useRouter();
   const [isNew, setNew] = useState(false);
+  const [hasPostedNeed, setHasPostedNeed] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedData, setLoadedData] = useState<PostData | undefined>(undefined);
   const [isNotFound, setNotFound] = useState(false);
@@ -94,6 +96,10 @@ export default function NeedEditorPage() {
             setNotFound(true);
           });*/
       } else if (id == "new") {
+        await axiosPrivate
+          .get(`need/own/all/count`)
+          .then((response) => setHasPostedNeed(response.data > 2))
+          .catch(() => setHasPostedNeed(false));
         setNew(true);
         setHasLoaded(true);
       }
@@ -106,6 +112,7 @@ export default function NeedEditorPage() {
 
   return (
     <>
+      {!hasPostedNeed && isNew && <NeedOrClientModal />}
       {success && isNew && <NeedLoopModal nextUrl={nextUrl} />}
       <Title>{`${isNew ? "New" : "Edit"} Need`}</Title>
       <PrimaryLayout>
