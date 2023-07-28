@@ -18,7 +18,7 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.tab];
 
 export const TagField = ({
   name,
-  placeholder = 'Add some tags: Graphic Design, Web Development, Copywriting...',
+  placeholder = 'Graphic Design, Web Development, Copywriting...',
 }: {
   name: string;
   placeholder?: string;

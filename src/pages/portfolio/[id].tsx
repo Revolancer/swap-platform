@@ -13,7 +13,7 @@ import { Feedback } from '@/components/forms/feedback';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { PostData } from '@/lib/types';
-import { H1 } from '@/components/text/headings';
+import { H1, H5 } from '@/components/text/headings';
 import { Flex } from '@/components/layout/flex';
 import store from '@/redux/store';
 import FourOhFour from '../404';
@@ -181,6 +181,7 @@ export default function PortfolioEditorPage() {
                   <MainContentWithSideBar>
                     <H1>{`${isNew ? 'New' : 'Edit'} Portfolio Article`}</H1>
                     <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
+                      <H5>Title</H5>
                       <InputOuter
                         error={props.touched.title && !!props.errors.title}
                       >
@@ -197,7 +198,9 @@ export default function PortfolioEditorPage() {
                       {props.touched.title && props.errors.title && (
                         <Feedback state="error">{props.errors.title}</Feedback>
                       )}
+                      <H5>Tags</H5>
                       <TagField name="tags" />
+                      <H5>Tell us about your project</H5>
                       <PortfolioEditorJs name="data" data={props.values.data} />
                     </Form>
                   </MainContentWithSideBar>
