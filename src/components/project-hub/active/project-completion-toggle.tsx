@@ -20,10 +20,10 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
     const self = store?.getState()?.userData?.user?.id ?? "";
     const isClient = project.client.id == self;
     setHasApproved(
-      isClient ? project.client_approval : project.contractor_approval
+      isClient ? project.client_approval : project.contractor_approval,
     );
     setOtherHasApproved(
-      !isClient ? project.client_approval : project.contractor_approval
+      !isClient ? project.client_approval : project.contractor_approval,
     );
     const otherUserID = isClient ? project.contractor.id : project.client.id;
     const loadProfile = async (id: string) => {

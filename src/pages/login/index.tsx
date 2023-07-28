@@ -39,17 +39,17 @@ export default function Login() {
 
   const handleEmailChange = useCallback(
     (value: string) => dispatch(updateEmail(value)),
-    [dispatch]
+    [dispatch],
   );
 
   const handlePasswordChange = useCallback(
     (value: string) => dispatch(updatePassword(value)),
-    [dispatch]
+    [dispatch],
   );
 
   const handleLogin = useCallback(
     async () => await dispatch(login()),
-    [dispatch]
+    [dispatch],
   );
 
   return (
@@ -79,7 +79,7 @@ export default function Login() {
               if (result.meta.requestStatus == "rejected") {
                 actions.setFieldError(
                   "password",
-                  "The provided email address or password is incorrect."
+                  "The provided email address or password is incorrect.",
                 );
               }
               actions.setSubmitting(false);

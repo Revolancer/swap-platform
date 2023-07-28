@@ -58,7 +58,7 @@ export const ChangeEmail = () => {
                 case 409:
                   actions.setFieldError(
                     "email",
-                    "That email address is already associated with a Revolancer account"
+                    "That email address is already associated with a Revolancer account",
                   );
                   break;
                 default:

@@ -50,7 +50,7 @@ export default function Settings() {
                   if (response.data?.success == "false") {
                     actions.setFieldError(
                       "parent",
-                      "Oops, something went wrong"
+                      "Oops, something went wrong",
                     );
                   } else {
                     actions.resetForm();
@@ -61,7 +61,7 @@ export default function Settings() {
                   if (reason.code == "ERR_NETWORK") {
                     actions.setFieldError(
                       "amount",
-                      "Oops, something went wrong"
+                      "Oops, something went wrong",
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
@@ -69,7 +69,7 @@ export default function Settings() {
                       default:
                         actions.setFieldError(
                           "amount",
-                          "Oops, something went wrong"
+                          "Oops, something went wrong",
                         );
                     }
                   }

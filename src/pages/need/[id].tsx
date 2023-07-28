@@ -33,24 +33,24 @@ const NeedSchema = Yup.object().shape({
     .required("Please tag this project with some associated skills or tools")
     .min(
       1,
-      "Please select at least one skill or tool associated with this project"
+      "Please select at least one skill or tool associated with this project",
     )
     .max(
       6,
-      "Please provide up to 6 skills or tools associated with this project"
+      "Please provide up to 6 skills or tools associated with this project",
     ),
   unpublish_at: Yup.string()
     .required("Please provide a date you need this by")
     .matches(
       /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/,
-      "Please enter the date to delist this need in the format yyyy-mm-dd, for example 2024-05-20"
+      "Please enter the date to delist this need in the format yyyy-mm-dd, for example 2024-05-20",
     )
     .test(
       "one_week_future",
       "Please give people at least a week to respond to this need",
       (value) => {
         return DateTime.fromISO(value ?? "") > DateTime.now().plus({ week: 1 });
-      }
+      },
     ),
 });
 
@@ -69,7 +69,7 @@ export default function NeedEditorPage() {
     import("@/components/user-posts/need-editor-js"),
     {
       ssr: false,
-    }
+    },
   );
 
   useEffect(() => {
@@ -130,7 +130,7 @@ export default function NeedEditorPage() {
             initialValues={{
               data: JSON.parse(
                 loadedData?.data ??
-                  '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}'
+                  '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}',
               ),
               tags: loadedData?.tags ?? [],
               title: loadedData?.title ?? "",
@@ -146,7 +146,7 @@ export default function NeedEditorPage() {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const self =
@@ -163,7 +163,7 @@ export default function NeedEditorPage() {
                     if (reason.code == "ERR_NETWORK") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);
@@ -182,7 +182,7 @@ export default function NeedEditorPage() {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       setNextUrl(`/n/${response.data}`);
@@ -194,7 +194,7 @@ export default function NeedEditorPage() {
                     if (reason.code == "ERR_NETWORK") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);

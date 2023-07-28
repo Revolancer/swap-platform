@@ -83,7 +83,7 @@ export const FeedSegment = () => {
           data={post.data}
           key={post.data?.id ?? ""}
           withAuthor
-        />
+        />,
       );
     } else {
       staticPosts.push(
@@ -92,7 +92,7 @@ export const FeedSegment = () => {
           key={post.data?.id ?? ""}
           withAuthor
           hideIfEmpty
-        />
+        />,
       );
     }
   }

@@ -10,7 +10,7 @@ export const OnboardingGuard = ({ children }: { children?: any }) => {
     setDidMount(true);
   }, []);
   const onboarding = useAppSelector(
-    (state) => state.userData.user?.onboardingStage ?? 1
+    (state) => state.userData.user?.onboardingStage ?? 1,
   );
   if (!didMount) {
     return <FullWidth placeholder />;

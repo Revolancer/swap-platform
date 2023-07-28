@@ -35,7 +35,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
           message={thread}
           key={thread.id}
           activeThread={activeThread}
-        />
+        />,
       );
     }
     return rendered;

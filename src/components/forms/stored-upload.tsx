@@ -48,7 +48,7 @@ const StoredUploadField = ({
           if (type == "image" && !isImage(file)) {
             setFieldError(
               name,
-              "Please provide a valid image. Supported types are jpg, gif, and png."
+              "Please provide a valid image. Supported types are jpg, gif, and png.",
             );
             setFieldTouched(name, true, false);
             setFieldValue(name, "", false);

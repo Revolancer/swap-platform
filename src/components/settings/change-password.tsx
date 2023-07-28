@@ -56,13 +56,13 @@ export const ChangePassword = () => {
                 case 401:
                   actions.setFieldError(
                     "password",
-                    "Your existing password is incorrect"
+                    "Your existing password is incorrect",
                   );
                   break;
                 case 406:
                   actions.setFieldError(
                     "newPassword2",
-                    "Your new passwords must match"
+                    "Your new passwords must match",
                   );
                   break;
                 default:

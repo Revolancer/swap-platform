@@ -63,7 +63,7 @@ const MobileTopBar = ({ expanded = false }: { expanded: boolean }) => {
 export const MobileNav = ({ items }: { items: any }) => {
   const dispatch = useAppDispatch();
   const expanded = useSelector(
-    (state: RootState) => state.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded,
   );
 
   return (

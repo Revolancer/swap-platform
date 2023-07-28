@@ -7,12 +7,12 @@ import { setupCache } from "axios-cache-interceptor";
 export const axiosPublic = setupCache(
   axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_HOST,
-  })
+  }),
 );
 export const axiosPrivate = setupCache(
   axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_HOST,
-  })
+  }),
 );
 
 axiosPrivate.interceptors.request.use(
@@ -22,7 +22,7 @@ axiosPrivate.interceptors.request.use(
     let currentDate = new Date();
     if (user?.accessToken) {
       const decodedRefreshToken: { exp: number } = jwt_decode(
-        user?.refreshToken
+        user?.refreshToken,
       );
       if (decodedRefreshToken.exp * 1000 < currentDate.getTime()) {
         store?.dispatch(logout());
@@ -33,14 +33,13 @@ axiosPrivate.interceptors.request.use(
         await store?.dispatch(refreshToken());
       }
       if (config?.headers) {
-        config.headers["Authorization"] = `Bearer ${
-          store?.getState()?.userData?.user?.accessToken
-        }`;
+        config.headers["Authorization"] = `Bearer ${store?.getState()?.userData
+          ?.user?.accessToken}`;
       }
     }
     return config;
   },
   (error) => {
     return Promise.reject(error);
-  }
+  },
 );

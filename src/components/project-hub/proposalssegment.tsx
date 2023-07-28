@@ -29,7 +29,7 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
   const staticPosts = [];
   for (const post of posts) {
     staticPosts.push(
-      <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ""} />
+      <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ""} />,
     );
   }
   return staticPosts.length > 0 ? (

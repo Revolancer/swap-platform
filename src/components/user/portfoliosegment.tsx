@@ -34,7 +34,7 @@ export const PortfolioSegment = ({
   const staticPosts = [];
   for (const post of posts) {
     staticPosts.push(
-      <PortfolioProfileCard data={post} own={own} key={post?.id ?? ""} />
+      <PortfolioProfileCard data={post} own={own} key={post?.id ?? ""} />,
     );
   }
   return own || staticPosts.length > 0 ? (

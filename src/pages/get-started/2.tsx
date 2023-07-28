@@ -25,7 +25,7 @@ const OnboardingSchema = Yup.object().shape({
     .required("Please provide your currency")
     .oneOf(
       ["gbp", "eur", "usd"],
-      "Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR"
+      "Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR",
     )
     .ensure(),
   hourlyRate: Yup.number()
@@ -33,7 +33,7 @@ const OnboardingSchema = Yup.object().shape({
     .min(5, "We recommend charging more")
     .max(
       10000,
-      "Your hourly rate is extremely high, we recommend a lower rate"
+      "Your hourly rate is extremely high, we recommend a lower rate",
     ),
 });
 
@@ -93,7 +93,7 @@ export default function GetStarted() {
                       if (response.data?.success == "false") {
                         actions.setFieldError(
                           "hourlyrate",
-                          "Oops, something went wrong"
+                          "Oops, something went wrong",
                         );
                       } else {
                         await store?.dispatch(refreshToken());

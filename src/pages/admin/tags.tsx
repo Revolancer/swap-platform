@@ -64,7 +64,7 @@ export default function Settings() {
                   if (response.data?.success == "false") {
                     actions.setFieldError(
                       "parent",
-                      "Oops, something went wrong"
+                      "Oops, something went wrong",
                     );
                   } else {
                     actions.resetForm();
@@ -76,7 +76,7 @@ export default function Settings() {
                   if (reason.code == "ERR_NETWORK") {
                     actions.setFieldError(
                       "parent",
-                      "Oops, something went wrong"
+                      "Oops, something went wrong",
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
@@ -138,7 +138,7 @@ export default function Settings() {
                           Delete
                         </Button>
                       </TD>
-                    </tr>
+                    </tr>,
                   );
                 }
                 return rendered;

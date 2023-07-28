@@ -105,7 +105,7 @@ export const ProfileImage = ({
               if (response.data?.success == "false") {
                 actions.setFieldError(
                   "profileImage",
-                  "Oops, something went wrong"
+                  "Oops, something went wrong",
                 );
               } else {
                 await axiosPublic.storage.remove(`user-image-${uid}`);
@@ -117,7 +117,7 @@ export const ProfileImage = ({
               if (reason.code == "ERR_NETWORK") {
                 actions.setFieldError(
                   "profileImage",
-                  "Oops, something went wrong"
+                  "Oops, something went wrong",
                 );
               } else {
                 const statuscode = Number(reason?.response?.status);

@@ -78,13 +78,13 @@ export default function ForgotPassword() {
                       case 404:
                         actions.setFieldError(
                           "email",
-                          "We couldn't find an account matching that email address"
+                          "We couldn't find an account matching that email address",
                         );
                         break;
                       case 429:
                         actions.setFieldError(
                           "email",
-                          "Whoa there! You're doing that a lot. Try again later."
+                          "Whoa there! You're doing that a lot. Try again later.",
                         );
                         break;
                       default:

@@ -38,7 +38,7 @@ const RegistrationSchema = Yup.object().shape({
     .oneOf([Yup.ref("password")], "Passwords must match"),
   terms: Yup.bool().oneOf(
     [true],
-    "You need to accept the terms and conditions and privacy policy"
+    "You need to accept the terms and conditions and privacy policy",
   ),
 });
 
@@ -51,7 +51,7 @@ export default function Register() {
   const authed = useAppSelector((state) => state.userData.user != null);
   const handleLogin = useCallback(
     (payload: AppState["user"]) => dispatch(afterRegister(payload)),
-    [dispatch]
+    [dispatch],
   );
 
   if (authed) {
@@ -112,7 +112,7 @@ export default function Register() {
                       case 400:
                         actions.setFieldError(
                           "email",
-                          "Please provide a valid email address"
+                          "Please provide a valid email address",
                         );
                         break;
                       default:

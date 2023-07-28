@@ -32,11 +32,11 @@ export const login = createAsyncThunk(
         cache: {
           ttl: 1,
         },
-      }
+      },
     );
 
     return res.data;
-  }
+  },
 );
 
 export const deleteUser = createAsyncThunk(
@@ -49,7 +49,7 @@ export const deleteUser = createAsyncThunk(
     });
 
     return res.data;
-  }
+  },
 );
 
 export const refreshToken = createAsyncThunk(
@@ -69,7 +69,7 @@ export const refreshToken = createAsyncThunk(
     const newUser = res.data;
 
     return newUser;
-  }
+  },
 );
 
 export const userSlice = createSlice({
@@ -110,11 +110,11 @@ export const userSlice = createSlice({
           if (typeof window !== "undefined") {
             window?.localStorage.setItem(
               "user",
-              JSON.stringify(action.payload)
+              JSON.stringify(action.payload),
             );
           }
           state.user = action.payload;
-        }
+        },
       )
       .addCase(deleteUser.pending, (state) => {
         state.success = false;

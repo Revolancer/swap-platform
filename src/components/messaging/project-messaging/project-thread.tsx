@@ -124,7 +124,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               .startOf("day")
               .toFormat("cccc, LLLL d yyyy")}
             key={`divider-${project.proposal.id}`}
-          />
+          />,
         );
       } else {
         rendered.push(
@@ -134,7 +134,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               .startOf("day")
               .toFormat("cccc, LLLL d")}
             key={`divider-${project.proposal.id}`}
-          />
+          />,
         );
       }
       if (theirProfile && theirProfile.user?.id == project.contractor.id) {
@@ -143,7 +143,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
             profile={theirProfile}
             time={proposalTime}
             key={`authorchip-${project.proposal.id}`}
-          />
+          />,
         );
       } else if (myProfile && myProfile.user?.id == project.contractor.id) {
         rendered.push(
@@ -151,7 +151,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
             profile={myProfile}
             time={proposalTime}
             key={`authorchip-${project.proposal.id}`}
-          />
+          />,
         );
       }
       lastTime = proposalTime;
@@ -164,7 +164,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               <br />
             </span>
           );
-        })
+        }),
       );
     }
     for (const message of messages) {
@@ -182,14 +182,14 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
                 .startOf("day")
                 .toFormat("cccc, LLLL d yyyy")}
               key={`divider-${message.id}`}
-            />
+            />,
           );
         } else {
           rendered.push(
             <LabelledDivider
               label={thisTime.toLocal().startOf("day").toFormat("cccc, LLLL d")}
               key={`divider-${message.id}`}
-            />
+            />,
           );
         }
       }
@@ -205,7 +205,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               profile={theirProfile}
               time={thisTime}
               key={`authorchip-${message.id}`}
-            />
+            />,
           );
         } else if (myProfile?.user?.id == message.user.id) {
           rendered.push(
@@ -213,7 +213,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               profile={myProfile}
               time={thisTime}
               key={`authorchip-${message.id}`}
-            />
+            />,
           );
         }
       }
@@ -227,7 +227,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               <br />
             </span>
           );
-        })
+        }),
       );
 
       //attachments
@@ -244,7 +244,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
               <FontAwesomeIcon icon={faPaperclip} />
               {message.attachment.filename}
             </TertiaryButton>
-          </P>
+          </P>,
         );
       }
 

@@ -117,7 +117,7 @@ export default function UserProfile() {
               <P css={{ color: "$neutral600" }}>
                 Respond by{" "}
                 {DateTime.fromISO(postData.unpublish_at).toFormat(
-                  "cccc, LLLL d"
+                  "cccc, LLLL d",
                 )}
               </P>
             )}

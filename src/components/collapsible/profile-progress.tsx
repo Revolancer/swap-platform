@@ -94,7 +94,7 @@ export const ProfileProgress = ({
     await axiosPublic
       .get(`user/tagline/${uid}`, { id: `user-tagline-${uid}` })
       .then((response) =>
-        setTaglineComplete(response.data?.tagline !== "" ?? false)
+        setTaglineComplete(response.data?.tagline !== "" ?? false),
       )
       .catch(() => setTaglineComplete(false));
   }, [uid]);
@@ -103,8 +103,8 @@ export const ProfileProgress = ({
       .get(`user/about/${uid}`, { id: `user-about-${uid}` })
       .then((response) =>
         setAboutComplete(
-          response.data?.about !== "" && response.data?.about !== null
-        )
+          response.data?.about !== "" && response.data?.about !== null,
+        ),
       )
       .catch(() => setAboutComplete(false));
   }, [uid]);

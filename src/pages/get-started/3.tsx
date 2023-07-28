@@ -30,12 +30,12 @@ const OnboardingSchema = Yup.object().shape({
   skills: Yup.array()
     .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
     .required(
-      "Please select some skills and tools to let us know what you're good at"
+      "Please select some skills and tools to let us know what you're good at",
     )
     .min(3, "Please select at least three skills or tools")
     .max(
       20,
-      "Whoa there! That's a lot of skills! We want to know what you're best at, so please only provide 20 tags."
+      "Whoa there! That's a lot of skills! We want to know what you're best at, so please only provide 20 tags.",
     ),
 });
 
@@ -95,7 +95,7 @@ export default function GetStarted() {
                       if (response.data?.success == "false") {
                         actions.setFieldError(
                           "timezone",
-                          "Oops, something went wrong"
+                          "Oops, something went wrong",
                         );
                       } else {
                         await store?.dispatch(refreshToken());
@@ -107,7 +107,7 @@ export default function GetStarted() {
                       if (reason.code == "ERR_NETWORK") {
                         actions.setFieldError(
                           "timezone",
-                          "Oops, something went wrong"
+                          "Oops, something went wrong",
                         );
                       } else {
                         const statuscode = Number(reason?.response?.status);

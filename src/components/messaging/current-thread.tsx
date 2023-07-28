@@ -106,14 +106,14 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
                 .startOf("day")
                 .toFormat("cccc, LLLL d yyyy")}
               key={`divider-${message.id}`}
-            />
+            />,
           );
         } else {
           rendered.push(
             <LabelledDivider
               label={thisTime.toLocal().startOf("day").toFormat("cccc, LLLL d")}
               key={`divider-${message.id}`}
-            />
+            />,
           );
         }
       }
@@ -129,7 +129,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
               profile={theirProfile}
               time={thisTime}
               key={`authorchip-${message.id}`}
-            />
+            />,
           );
         } else if (myProfile?.user?.id == message.sender) {
           rendered.push(
@@ -137,7 +137,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
               profile={myProfile}
               time={thisTime}
               key={`authorchip-${message.id}`}
-            />
+            />,
           );
         }
       }
@@ -151,7 +151,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
               <br />
             </span>
           );
-        })
+        }),
       );
 
       //attachments
@@ -168,7 +168,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
               <FontAwesomeIcon icon={faPaperclip} />
               {message.attachment.filename}
             </TertiaryButton>
-          </P>
+          </P>,
         );
       }
 
