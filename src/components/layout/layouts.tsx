@@ -78,7 +78,7 @@ export const PrimaryLayout = ({
   children?: ReactNode;
 }) => {
   const expanded = useSelector(
-    (state: RootState) => state.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded,
   );
   const dispatch = useDispatch();
 
@@ -117,7 +117,7 @@ export const AdminLayout = ({
   children?: ReactNode;
 }) => {
   const expanded = useSelector(
-    (state: RootState) => state.navigation.toggle.expanded
+    (state: RootState) => state.navigation.toggle.expanded,
   );
   const dispatch = useDispatch();
 

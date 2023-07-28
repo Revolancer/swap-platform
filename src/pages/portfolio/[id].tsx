@@ -28,7 +28,7 @@ const ArticleSchema = Yup.object().shape({
     .required("Please tag this post with some associated skills or tools")
     .min(
       1,
-      "Please select at least one skill or tool associated with this project"
+      "Please select at least one skill or tool associated with this project",
     )
     .max(6, "Please provide up to 6 skills or tools associated with this post"),
 });
@@ -45,7 +45,7 @@ export default function PortfolioEditorPage() {
     import("@/components/user-posts/portfolio-editor-js"),
     {
       ssr: false,
-    }
+    },
   );
 
   useEffect(() => {
@@ -98,7 +98,7 @@ export default function PortfolioEditorPage() {
             initialValues={{
               data: JSON.parse(
                 loadedData?.data ??
-                  '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}'
+                  '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}',
               ),
               tags: loadedData?.tags ?? [],
               title: loadedData?.title ?? "",
@@ -113,13 +113,13 @@ export default function PortfolioEditorPage() {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const self =
                         store?.getState()?.userData?.user?.id ?? "guest";
                       await axiosPublic.storage.remove(
-                        `user-portfolio-${self}`
+                        `user-portfolio-${self}`,
                       );
                       router.replace(`/p/${response?.data ?? ""}`);
                     }
@@ -129,7 +129,7 @@ export default function PortfolioEditorPage() {
                     if (reason.code == "ERR_NETWORK") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);
@@ -148,7 +148,7 @@ export default function PortfolioEditorPage() {
                     if (response.data?.success == "false") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       router.replace(`/p/${id}`);
@@ -159,7 +159,7 @@ export default function PortfolioEditorPage() {
                     if (reason.code == "ERR_NETWORK") {
                       actions.setFieldError(
                         "title",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);

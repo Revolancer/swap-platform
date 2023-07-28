@@ -42,7 +42,7 @@ export const TagField = ({
         const handleDelete = (i: number) => {
           setFieldValue(
             name,
-            (value as Tag[]).filter((tag, index) => index !== i)
+            (value as Tag[]).filter((tag, index) => index !== i),
           );
         };
 

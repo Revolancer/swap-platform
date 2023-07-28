@@ -30,7 +30,7 @@ export const storeFile = async (url: string) => {
 };
 
 export const uploadForEditorJs = async (
-  file: File
+  file: File,
 ): Promise<{ success: number; file: { url: string } }> => {
   try {
     const url = await uploadFile(file);

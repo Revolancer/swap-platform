@@ -14,7 +14,7 @@ export const AdminGuard = ({
     setDidMount(true);
   }, []);
   const admin = useAppSelector(
-    (state) => state.userData.user?.roles?.includes("admin") ?? false
+    (state) => state.userData.user?.roles?.includes("admin") ?? false,
   );
   if (!didMount) {
     return <FullWidth placeholder />;

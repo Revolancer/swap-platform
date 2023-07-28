@@ -35,7 +35,7 @@ export const NeedsSegment = ({
   const staticPosts = [];
   for (const post of posts) {
     staticPosts.push(
-      <NeedProfileCard data={post} own={own} key={post?.id ?? ""} />
+      <NeedProfileCard data={post} own={own} key={post?.id ?? ""} />,
     );
   }
   return own || staticPosts.length > 0 ? (

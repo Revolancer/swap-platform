@@ -14,7 +14,7 @@ import { Crumb } from "@/components/navigation/crumbs/crumb";
 
 export default function Stats() {
   const [users, setUsers] = useState<{ slug: string; created_at: string }[]>(
-    []
+    [],
   );
 
   const load = async () => {

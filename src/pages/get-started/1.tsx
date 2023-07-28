@@ -36,7 +36,7 @@ const OnboardingSchema = Yup.object().shape({
     .required("Please provide your date of birth")
     .matches(
       /^[0-9]{4}\-[0-9]{2}\-[0-9]{2}$/,
-      "Please enter your date of birth in the format yyyy-mm-dd, for example 2001-12-31"
+      "Please enter your date of birth in the format yyyy-mm-dd, for example 2001-12-31",
     )
     .test(
       "DOB",
@@ -45,7 +45,7 @@ const OnboardingSchema = Yup.object().shape({
         return (
           DateTime.fromISO(value ?? "") < DateTime.now().minus({ year: 13 })
         );
-      }
+      },
     )
     .test("DOBTooOld", "Are you sure that's right?", (value) => {
       return (
@@ -59,7 +59,7 @@ const OnboardingSchema = Yup.object().shape({
     .max(20, "Your username may not be longer than 20 characters")
     .matches(
       /^[0-9a-z][0-9a-z\-]{1,18}[0-9a-z]$/,
-      "Usernames may only contain the characters 0-9 and lowercase a-z, as well as the hyphen character (-). Additionally, they must start and end with either a number or a letter."
+      "Usernames may only contain the characters 0-9 and lowercase a-z, as well as the hyphen character (-). Additionally, they must start and end with either a number or a letter.",
     ),
 });
 
@@ -81,7 +81,7 @@ export default function GetStarted() {
   const formik = useRef<any>();
   const debouncedValidate = useMemo(
     () => debounce(() => formik.current?.validateForm, 500),
-    [formik]
+    [formik],
   );
   useEffect(() => {
     debouncedValidate();
@@ -145,7 +145,7 @@ export default function GetStarted() {
                       if (response.data?.success == "false") {
                         actions.setFieldError(
                           "userName",
-                          "Oops, something went wrong"
+                          "Oops, something went wrong",
                         );
                       } else {
                         await store?.dispatch(refreshToken());

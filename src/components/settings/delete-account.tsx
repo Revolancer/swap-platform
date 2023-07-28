@@ -115,7 +115,7 @@ export const DeleteAccount = () => {
                   if (reason.code == "ERR_NETWORK") {
                     actions.setFieldError(
                       "password",
-                      "Oops, something went wrong"
+                      "Oops, something went wrong",
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
@@ -123,13 +123,13 @@ export const DeleteAccount = () => {
                       case 401:
                         actions.setFieldError(
                           "password",
-                          "Your password is incorrect"
+                          "Your password is incorrect",
                         );
                         break;
                       default:
                         actions.setFieldError(
                           "password",
-                          "Something went wrong"
+                          "Something went wrong",
                         );
                         break;
                     }

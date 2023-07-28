@@ -61,7 +61,7 @@ const ProposalSchema = Yup.object().shape({
     .min(1, "Minimum recommended time is 1 hour")
     .max(
       100,
-      "We do not recommend taking on projects which will require over 100 hours to complete"
+      "We do not recommend taking on projects which will require over 100 hours to complete",
     )
     .required(),
   price: Yup.number()
@@ -168,11 +168,11 @@ export const ProposalDialog = ({
       message: string;
       estHours: number;
       price: number;
-    }>
+    }>,
   ) => {
     props.setFieldValue(
       "price",
-      myRate * (event.target.value as unknown as number)
+      myRate * (event.target.value as unknown as number),
     );
   };
 
@@ -218,7 +218,7 @@ export const ProposalDialog = ({
               <P css={{ color: "$neutral600" }}>
                 Respond by{" "}
                 {DateTime.fromISO(postData.unpublish_at).toFormat(
-                  "cccc, LLLL d"
+                  "cccc, LLLL d",
                 )}
               </P>
             )}
@@ -244,7 +244,7 @@ export const ProposalDialog = ({
                     if (response.data?.success == "false") {
                       actions.setFieldError(
                         "about",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       actions.resetForm();
@@ -257,7 +257,7 @@ export const ProposalDialog = ({
                     if (reason.code == "ERR_NETWORK") {
                       actions.setFieldError(
                         "about",
-                        "Oops, something went wrong"
+                        "Oops, something went wrong",
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);

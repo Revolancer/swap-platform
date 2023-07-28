@@ -47,7 +47,7 @@ export const ChangeEmailPreferences = () => {
             if (reason.code == "ERR_NETWORK") {
               actions.setFieldError(
                 "marketingthirdparty",
-                "Oops, something went wrong"
+                "Oops, something went wrong",
               );
             } else {
               const statuscode = Number(reason?.response?.status);
@@ -55,7 +55,7 @@ export const ChangeEmailPreferences = () => {
                 default:
                   actions.setFieldError(
                     "marketingthirdparty",
-                    "Something went wrong"
+                    "Something went wrong",
                   );
                   break;
               }

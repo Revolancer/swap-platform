@@ -118,7 +118,7 @@ export default function ResetPassword() {
                       default:
                         actions.setFieldError(
                           "password",
-                          "Something went wrong"
+                          "Something went wrong",
                         );
                         break;
                     }

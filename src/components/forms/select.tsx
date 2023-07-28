@@ -225,12 +225,12 @@ const scrollButtonStyles = {
 
 const SelectScrollUpButton = styled(
   RadixSelect.ScrollUpButton,
-  scrollButtonStyles
+  scrollButtonStyles,
 );
 
 const SelectScrollDownButton = styled(
   RadixSelect.ScrollDownButton,
-  scrollButtonStyles
+  scrollButtonStyles,
 );
 
 const SelectGroup = RadixSelect.Group;
@@ -241,7 +241,7 @@ const TzSelect = ({ name }: { name: string }) => {
     setTimezones(
       (Intl as any)
         .supportedValuesOf("timeZone")
-        .filter((tz: string) => DateTime.local().setZone(tz).isValid)
+        .filter((tz: string) => DateTime.local().setZone(tz).isValid),
     );
   }, []);
   return (

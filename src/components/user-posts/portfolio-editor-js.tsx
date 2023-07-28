@@ -47,7 +47,7 @@ const PortfolioEditor = ({
             blocks: [],
             version: "2.26.5",
           },
-    [data]
+    [data],
   );
   const [editor, setEditor] = useState<EditorJS | undefined>(undefined);
   const [output, setOutput] = useState(cleanData);
