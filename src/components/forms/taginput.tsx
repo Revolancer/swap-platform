@@ -1,11 +1,12 @@
 import { Field, FieldProps } from 'formik';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Feedback } from './feedback';
 import { InputOuter } from './input';
 import { type Tag, WithContext as ReactTags } from 'react-tag-input';
 import { styled } from 'stitches.config';
 import { axiosPublic } from '@/lib/axios';
 import { matchSorter } from 'match-sorter';
+import { v4 as uuid } from 'uuid';
 
 const KeyCodes = {
   comma: 188,
@@ -17,13 +18,14 @@ const delimiters = [KeyCodes.comma, KeyCodes.enter, KeyCodes.tab];
 
 export const TagField = ({
   name,
-  placeholder,
+  placeholder = 'Add some tags: Graphic Design, Web Development, Copywriting...',
 }: {
   name: string;
   placeholder?: string;
 }) => {
   const [suggestions, setSuggestions] = useState<Tag[]>([]);
   const [isLoading, setLoading] = useState(false);
+  const id = useMemo(() => `tag-input-${name}-${uuid()}`, [name]);
 
   useEffect(() => {
     setLoading(true);
@@ -70,9 +72,26 @@ export const TagField = ({
           const matches = matchSorter(suggestions, query, { keys: ['text'] });
           return matches.slice(0, 6);
         };
+
+        const focusInput = (e: React.MouseEvent<HTMLDivElement>) => {
+          const targetId = (e.target as HTMLElement)?.id ?? '';
+          if (targetId == id) {
+            e.preventDefault();
+            if (typeof document != 'undefined') {
+              document
+                .getElementById(id)
+                ?.getElementsByTagName('input')[0]
+                .focus();
+            }
+          }
+        };
         return (
           <>
-            <InputOuter error={touched[name] && !!errors[name]}>
+            <InputOuter
+              error={touched[name] && !!errors[name]}
+              onClick={focusInput}
+              id={id}
+            >
               <TagsContainer>
                 {!isLoading && (
                   <ReactTags
@@ -100,6 +119,8 @@ export const TagField = ({
 };
 
 const TagsContainer = styled('div', {
+  width: '100%',
+
   '& .ReactTags__selected': {
     display: 'flex',
     gap: '$3',
@@ -108,6 +129,7 @@ const TagsContainer = styled('div', {
 
     '& input': {
       border: 'none',
+      width: '100%',
 
       '&:focus, &:focus-visible': {
         outline: 'none',
@@ -134,6 +156,7 @@ const TagsContainer = styled('div', {
 
     '& .ReactTags__tagInput': {
       position: 'relative',
+      flexGrow: '1',
     },
 
     '& .ReactTags__suggestions': {
