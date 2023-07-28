@@ -1,36 +1,36 @@
-import { Title } from "@/components/head/title";
-import { Flex } from "@/components/layout/flex";
-import { AdminLayout } from "@/components/layout/layouts";
-import { Button } from "@/components/navigation/button";
-import { H5 } from "@/components/text/headings";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { Formik } from "formik";
-import { Form } from "@/components/forms/form";
-import { useEffect, useState } from "react";
-import { InputInner, InputOuter } from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { Div } from "@/components/layout/utils";
-import { FullWidth } from "@/components/layout/columns";
-import { styled } from "stitches.config";
-import { Tag } from "@/lib/types";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { Title } from '@/components/head/title';
+import { Flex } from '@/components/layout/flex';
+import { AdminLayout } from '@/components/layout/layouts';
+import { Button } from '@/components/navigation/button';
+import { H5 } from '@/components/text/headings';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { Formik } from 'formik';
+import { Form } from '@/components/forms/form';
+import { useEffect, useState } from 'react';
+import { InputInner, InputOuter } from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { Div } from '@/components/layout/utils';
+import { FullWidth } from '@/components/layout/columns';
+import { styled } from 'stitches.config';
+import { Tag } from '@/lib/types';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 const NewTagSchema = Yup.object().shape({
   text: Yup.string().required(),
   parent: Yup.string(),
 });
 
-const TH = styled("th", { border: "1px solid black", padding: "$1" });
-const TD = styled("td", { border: "1px solid black", padding: "$1" });
+const TH = styled('th', { border: '1px solid black', padding: '$1' });
+const TD = styled('td', { border: '1px solid black', padding: '$1' });
 
 export default function Settings() {
   const [tags, setTags] = useState<Tag[]>([]);
 
   const loadTags = async () => {
     await axiosPublic
-      .get("tags/with_parents")
+      .get('tags/with_parents')
       .then((response) => setTags(response.data ?? []))
       .catch((err) => setTags([]));
   };
@@ -52,19 +52,19 @@ export default function Settings() {
         <FullWidth>
           <Formik
             initialValues={{
-              text: "",
-              parent: "",
+              text: '',
+              parent: '',
             }}
             validationSchema={NewTagSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               await axiosPrivate
-                .put("tags", values)
+                .put('tags', values)
                 .then(async (response) => {
-                  if (response.data?.success == "false") {
+                  if (response.data?.success == 'false') {
                     actions.setFieldError(
-                      "parent",
-                      "Oops, something went wrong",
+                      'parent',
+                      'Oops, something went wrong',
                     );
                   } else {
                     actions.resetForm();
@@ -73,10 +73,10 @@ export default function Settings() {
                 })
                 .catch((reason) => {
                   //TODO - error handling
-                  if (reason.code == "ERR_NETWORK") {
+                  if (reason.code == 'ERR_NETWORK') {
                     actions.setFieldError(
-                      "parent",
-                      "Oops, something went wrong",
+                      'parent',
+                      'Oops, something went wrong',
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
@@ -93,7 +93,7 @@ export default function Settings() {
           >
             {(props) => {
               const setParent = (id: string) => {
-                props.setFieldValue("parent", id);
+                props.setFieldValue('parent', id);
               };
 
               const deleteTag = async (id: string) => {
@@ -122,7 +122,7 @@ export default function Settings() {
                       <TD>{tag.id}</TD>
                       <TD>
                         {tag.parent == null ? (
-                          "None"
+                          'None'
                         ) : (
                           <a href={`#${tag.parent.id}`}>{tag.parent?.text}</a>
                         )}
@@ -145,7 +145,7 @@ export default function Settings() {
               };
               return (
                 <>
-                  <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                  <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                     <Flex column>
                       <H5>Tag</H5>
                       <InputOuter
@@ -184,7 +184,7 @@ export default function Settings() {
                         <Feedback state="error">{props.errors.parent}</Feedback>
                       )}
                     </Flex>
-                    <Flex css={{ flexDirection: "row-reverse" }}>
+                    <Flex css={{ flexDirection: 'row-reverse' }}>
                       <Button
                         href="#"
                         onClick={(e) => {

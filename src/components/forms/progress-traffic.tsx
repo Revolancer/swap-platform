@@ -1,33 +1,33 @@
-import { useMemo } from "react";
-import { darkTheme, styled, config } from "stitches.config";
+import { useMemo } from 'react';
+import { darkTheme, styled, config } from 'stitches.config';
 
-const Outer = styled("div", {
-  position: "relative",
-  width: "100%",
-  height: "$5",
-  borderRadius: "$3",
-  overflow: "hidden",
+const Outer = styled('div', {
+  position: 'relative',
+  width: '100%',
+  height: '$5',
+  borderRadius: '$3',
+  overflow: 'hidden',
 });
 
-const BG = styled("div", {
-  position: "absolute",
+const BG = styled('div', {
+  position: 'absolute',
   top: 0,
   left: 0,
-  width: "100%",
-  height: "100%",
-  backgroundColor: "$neutral300",
+  width: '100%',
+  height: '100%',
+  backgroundColor: '$neutral300',
 
   [`.${darkTheme} &`]: {
-    backgroundColor: "$neutral700",
+    backgroundColor: '$neutral700',
   },
 });
 
-const Inner = styled("div", {
-  position: "absolute",
+const Inner = styled('div', {
+  position: 'absolute',
   top: 0,
   left: 0,
-  height: "100%",
-  borderRadius: "$3",
+  height: '100%',
+  borderRadius: '$3',
 });
 
 export const ProgressTraffic = ({ progress = 0 }: { progress?: number }) => {

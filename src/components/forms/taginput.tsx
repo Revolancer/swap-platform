@@ -1,11 +1,11 @@
-import { Field, FieldProps } from "formik";
-import { useEffect, useState } from "react";
-import { Feedback } from "./feedback";
-import { InputOuter } from "./input";
-import { type Tag, WithContext as ReactTags } from "react-tag-input";
-import { styled } from "stitches.config";
-import { axiosPublic } from "@/lib/axios";
-import { matchSorter } from "match-sorter";
+import { Field, FieldProps } from 'formik';
+import { useEffect, useState } from 'react';
+import { Feedback } from './feedback';
+import { InputOuter } from './input';
+import { type Tag, WithContext as ReactTags } from 'react-tag-input';
+import { styled } from 'stitches.config';
+import { axiosPublic } from '@/lib/axios';
+import { matchSorter } from 'match-sorter';
 
 const KeyCodes = {
   comma: 188,
@@ -27,7 +27,7 @@ export const TagField = ({
 
   useEffect(() => {
     setLoading(true);
-    axiosPublic.get("tags").then((response) => {
+    axiosPublic.get('tags').then((response) => {
       setSuggestions(response.data);
     });
     setLoading(false);
@@ -67,7 +67,7 @@ export const TagField = ({
         };
 
         const filterSuggestions = (query: string, suggestions: Tag[]) => {
-          const matches = matchSorter(suggestions, query, { keys: ["text"] });
+          const matches = matchSorter(suggestions, query, { keys: ['text'] });
           return matches.slice(0, 6);
         };
         return (
@@ -99,71 +99,71 @@ export const TagField = ({
   );
 };
 
-const TagsContainer = styled("div", {
-  "& .ReactTags__selected": {
-    display: "flex",
-    gap: "$3",
-    flexWrap: "wrap",
-    alignItems: "center",
+const TagsContainer = styled('div', {
+  '& .ReactTags__selected': {
+    display: 'flex',
+    gap: '$3',
+    flexWrap: 'wrap',
+    alignItems: 'center',
 
-    "& input": {
-      border: "none",
+    '& input': {
+      border: 'none',
 
-      "&:focus, &:focus-visible": {
-        outline: "none",
+      '&:focus, &:focus-visible': {
+        outline: 'none',
       },
     },
 
-    "& .ReactTags__tag": {
-      display: "flex",
-      gap: "$2",
-      color: "$pink500",
-      padding: "$1 $2 $1 $4",
-      borderRadius: "100px",
-      background: "$pink100",
-      cursor: "move",
+    '& .ReactTags__tag': {
+      display: 'flex',
+      gap: '$2',
+      color: '$pink500',
+      padding: '$1 $2 $1 $4',
+      borderRadius: '100px',
+      background: '$pink100',
+      cursor: 'move',
 
-      "& .ReactTags__remove": {
-        backgroundImage: "none",
-        background: "none",
-        border: "none",
-        cursor: "pointer",
-        color: "$pink500",
+      '& .ReactTags__remove': {
+        backgroundImage: 'none',
+        background: 'none',
+        border: 'none',
+        cursor: 'pointer',
+        color: '$pink500',
       },
     },
 
-    "& .ReactTags__tagInput": {
-      position: "relative",
+    '& .ReactTags__tagInput': {
+      position: 'relative',
     },
 
-    "& .ReactTags__suggestions": {
-      position: "absolute",
-      top: "2rem",
-      left: "0",
-      padding: "0 $4",
-      background: "$background",
-      borderRadius: "$2",
-      borderStyle: "solid",
-      borderWidth: "$1",
-      borderColor: "$neutral100",
-      zIndex: "$2",
-      boxShadow: "$2",
+    '& .ReactTags__suggestions': {
+      position: 'absolute',
+      top: '2rem',
+      left: '0',
+      padding: '0 $4',
+      background: '$background',
+      borderRadius: '$2',
+      borderStyle: 'solid',
+      borderWidth: '$1',
+      borderColor: '$neutral100',
+      zIndex: '$2',
+      boxShadow: '$2',
 
-      "& ul": {
-        listStyleType: "none",
-        padding: "0",
+      '& ul': {
+        listStyleType: 'none',
+        padding: '0',
 
-        "& li": {
-          color: "$pink500",
-          padding: "$1 $4",
-          margin: "$2 0",
-          borderRadius: "100px",
-          background: "$pink100",
-          cursor: "pointer",
+        '& li': {
+          color: '$pink500',
+          padding: '$1 $4',
+          margin: '$2 0',
+          borderRadius: '100px',
+          background: '$pink100',
+          cursor: 'pointer',
 
-          "& mark": {
-            background: "none",
-            color: "inherit",
+          '& mark': {
+            background: 'none',
+            color: 'inherit',
           },
         },
       },

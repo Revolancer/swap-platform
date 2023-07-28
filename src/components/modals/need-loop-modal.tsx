@@ -1,25 +1,25 @@
-import Modal from "react-modal";
-import { useEffect, useState } from "react";
-import { P, Span } from "../text/text";
-import { Card } from "../layout/cards";
-import { Flex } from "../layout/flex";
-import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCircleCheck, faClose } from "@fortawesome/free-solid-svg-icons";
-import { useRouter } from "next/router";
+import Modal from 'react-modal';
+import { useEffect, useState } from 'react';
+import { P, Span } from '../text/text';
+import { Card } from '../layout/cards';
+import { Flex } from '../layout/flex';
+import { Button, TertiaryButton, UnstyledLink } from '../navigation/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCircleCheck, faClose } from '@fortawesome/free-solid-svg-icons';
+import { useRouter } from 'next/router';
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    background: "none",
-    border: "none",
-    overflow: "visible",
-    padding: "0",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'none',
+    border: 'none',
+    overflow: 'visible',
+    padding: '0',
   },
 };
 
@@ -35,20 +35,20 @@ export const NeedLoopModal = ({ nextUrl }: { nextUrl: string }) => {
     openModal();
   }, []);
   const router = useRouter();
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <Card css={{ color: "$neutral700", maxWidth: "550px" }}>
-        <Flex css={{ alignItems: "center", justifyContent: "space-between" }}>
+      <Card css={{ color: '$neutral700', maxWidth: '550px' }}>
+        <Flex css={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <P>
             <strong>
-              <Span css={{ color: "$green500" }}>
+              <Span css={{ color: '$green500' }}>
                 <FontAwesomeIcon icon={faCircleCheck} />
-              </Span>{" "}
+              </Span>{' '}
               Need posted!
             </strong>
           </P>
@@ -59,13 +59,13 @@ export const NeedLoopModal = ({ nextUrl }: { nextUrl: string }) => {
               closeModal();
               router.replace(nextUrl);
             }}
-            css={{ color: "$neutral600" }}
+            css={{ color: '$neutral600' }}
           >
             <FontAwesomeIcon icon={faClose} />
           </UnstyledLink>
         </Flex>
         <P>Do you need anything else?</P>
-        <Flex gap="5" css={{ alignItems: "center" }}>
+        <Flex gap="5" css={{ alignItems: 'center' }}>
           <Button href="/need/new">Add Need</Button>
           <TertiaryButton
             href="#"

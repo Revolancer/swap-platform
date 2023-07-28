@@ -1,66 +1,66 @@
-import { Feedback } from "@/components/forms/feedback";
-import { Form } from "@/components/forms/form";
+import { Feedback } from '@/components/forms/feedback';
+import { Form } from '@/components/forms/form';
 import {
   Checkbox,
   InputInner,
   InputOuter,
   PasswordReveal,
-} from "@/components/forms/input";
-import { Turnstile } from "@/components/forms/turnstile";
-import { Title } from "@/components/head/title";
-import { Card } from "@/components/layout/cards";
-import { Flex } from "@/components/layout/flex";
-import { LoginLayout } from "@/components/layout/layouts";
+} from '@/components/forms/input';
+import { Turnstile } from '@/components/forms/turnstile';
+import { Title } from '@/components/head/title';
+import { Card } from '@/components/layout/cards';
+import { Flex } from '@/components/layout/flex';
+import { LoginLayout } from '@/components/layout/layouts';
 import {
   FormButton,
   Link,
   TertiaryButton,
-} from "@/components/navigation/button";
-import { H4 } from "@/components/text/headings";
-import { P } from "@/components/text/text";
-import { axiosPublic } from "@/lib/axios";
-import { AppState } from "@/lib/types";
-import { afterRegister, updateEmail, updatePassword } from "@/lib/user/auth";
-import { Yup } from "@/lib/yup";
-import { useAppDispatch, useAppSelector } from "@/redux/store";
-import { Formik } from "formik";
-import { useRouter } from "next/router";
-import { useCallback, useState } from "react";
-import { hasCookie, getCookie } from "cookies-next";
+} from '@/components/navigation/button';
+import { H4 } from '@/components/text/headings';
+import { P } from '@/components/text/text';
+import { axiosPublic } from '@/lib/axios';
+import { AppState } from '@/lib/types';
+import { afterRegister, updateEmail, updatePassword } from '@/lib/user/auth';
+import { Yup } from '@/lib/yup';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { Formik } from 'formik';
+import { useRouter } from 'next/router';
+import { useCallback, useState } from 'react';
+import { hasCookie, getCookie } from 'cookies-next';
 
 const RegistrationSchema = Yup.object().shape({
   email: Yup.string()
-    .email("Please provide a valid email address")
-    .required("Please provide a valid email address"),
-  password: Yup.string().password().required("Please provide a password"),
+    .email('Please provide a valid email address')
+    .required('Please provide a valid email address'),
+  password: Yup.string().password().required('Please provide a password'),
   repeatpassword: Yup.string()
-    .required("Please confirm your password")
-    .oneOf([Yup.ref("password")], "Passwords must match"),
+    .required('Please confirm your password')
+    .oneOf([Yup.ref('password')], 'Passwords must match'),
   terms: Yup.bool().oneOf(
     [true],
-    "You need to accept the terms and conditions and privacy policy",
+    'You need to accept the terms and conditions and privacy policy',
   ),
 });
 
 export default function Register() {
   const router = useRouter();
-  const [pwType, setPwType] = useState("password");
-  const [turnstileResponse, setTurnstileResponse] = useState("");
+  const [pwType, setPwType] = useState('password');
+  const [turnstileResponse, setTurnstileResponse] = useState('');
 
   const dispatch = useAppDispatch();
   const authed = useAppSelector((state) => state.userData.user != null);
   const handleLogin = useCallback(
-    (payload: AppState["user"]) => dispatch(afterRegister(payload)),
+    (payload: AppState['user']) => dispatch(afterRegister(payload)),
     [dispatch],
   );
 
   if (authed) {
-    router.replace("/");
+    router.replace('/');
   }
 
-  let referrer = "";
-  if (hasCookie("referrer")) {
-    referrer = getCookie("referrer")?.toString() ?? "";
+  let referrer = '';
+  if (hasCookie('referrer')) {
+    referrer = getCookie('referrer')?.toString() ?? '';
   }
 
   return (
@@ -69,20 +69,20 @@ export default function Register() {
       <LoginLayout>
         <Card
           css={{
-            gridColumn: "1 / 5",
-            "@sm": { gridColumn: "2 / 8" },
-            "@md": { gridColumn: "3 / 11" },
-            "@xl": { gridColumn: "4 / 10" },
-            gap: "$7",
-            padding: "$7",
+            gridColumn: '1 / 5',
+            '@sm': { gridColumn: '2 / 8' },
+            '@md': { gridColumn: '3 / 11' },
+            '@xl': { gridColumn: '4 / 10' },
+            gap: '$7',
+            padding: '$7',
           }}
         >
-          <H4 css={{ textAlign: "center" }}>Welcome to Revolancer! 🤩</H4>
+          <H4 css={{ textAlign: 'center' }}>Welcome to Revolancer! 🤩</H4>
           <Formik
             initialValues={{
-              email: "",
-              password: "",
-              repeatpassword: "",
+              email: '',
+              password: '',
+              repeatpassword: '',
               referrer: referrer,
               terms: false,
               marketingfirstparty: false,
@@ -96,23 +96,23 @@ export default function Register() {
               const { repeatpassword: _, ...data } = values;
               (data as any).turnstileResponse = turnstileResponse;
               await axiosPublic
-                .post("auth/register", data)
+                .post('auth/register', data)
                 .then((response) => {
                   handleLogin(response.data);
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
-                    actions.setFieldError("marketingthirdparty", "err_network");
+                  if (reason.code == 'ERR_NETWORK') {
+                    actions.setFieldError('marketingthirdparty', 'err_network');
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       case 409:
-                        actions.setFieldError("email", "exists");
+                        actions.setFieldError('email', 'exists');
                         break;
                       case 400:
                         actions.setFieldError(
-                          "email",
-                          "Please provide a valid email address",
+                          'email',
+                          'Please provide a valid email address',
                         );
                         break;
                       default:
@@ -127,7 +127,7 @@ export default function Register() {
           >
             {(props) => {
               return (
-                <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                   <Flex column gap="3">
                     <InputOuter
                       error={props.touched.email && !!props.errors.email}
@@ -143,13 +143,13 @@ export default function Register() {
                         value={props.values.email}
                       ></InputInner>
                     </InputOuter>
-                    {props.errors.email == "exists" ? (
+                    {props.errors.email == 'exists' ? (
                       <Feedback state="error">
-                        Looks like you already have an account!{" "}
+                        Looks like you already have an account!{' '}
                         <TertiaryButton href="/login">
                           Click here to log in
-                        </TertiaryButton>{" "}
-                        or{" "}
+                        </TertiaryButton>{' '}
+                        or{' '}
                         <TertiaryButton href="/login">
                           Click here to reset your password
                         </TertiaryButton>
@@ -174,11 +174,11 @@ export default function Register() {
                         value={props.values.password}
                       ></InputInner>
                       <PasswordReveal
-                        revealed={pwType == "text"}
+                        revealed={pwType == 'text'}
                         onClick={() => {
-                          pwType == "text"
-                            ? setPwType("password")
-                            : setPwType("text");
+                          pwType == 'text'
+                            ? setPwType('password')
+                            : setPwType('text');
                         }}
                       />
                     </InputOuter>
@@ -202,11 +202,11 @@ export default function Register() {
                         value={props.values.repeatpassword}
                       ></InputInner>
                       <PasswordReveal
-                        revealed={pwType == "text"}
+                        revealed={pwType == 'text'}
                         onClick={() => {
-                          pwType == "text"
-                            ? setPwType("password")
-                            : setPwType("text");
+                          pwType == 'text'
+                            ? setPwType('password')
+                            : setPwType('text');
                         }}
                       />
                     </InputOuter>
@@ -222,15 +222,15 @@ export default function Register() {
                       required
                       checked={props.values.terms}
                     >
-                      I accept the{" "}
+                      I accept the{' '}
                       <Link
                         href="https://revolancer.com/terms-and-conditions"
                         target="_blank"
                         rel="nofollow"
                       >
                         Terms and Conditions
-                      </Link>{" "}
-                      and{" "}
+                      </Link>{' '}
+                      and{' '}
                       <Link
                         href="https://revolancer.com/privacy-policy"
                         target="_blank"
@@ -263,7 +263,7 @@ export default function Register() {
                       I would like to receive updates about Revolancer&rsquo;s
                       partners
                     </Checkbox>
-                    {props.errors.marketingthirdparty == "err_network" ? (
+                    {props.errors.marketingthirdparty == 'err_network' ? (
                       <Feedback state="error">
                         Looks like the site is experiencing heavy traffic right
                         now. Please try again, or if the issue continues, check
@@ -274,7 +274,7 @@ export default function Register() {
                           target="_blank"
                         >
                           status page
-                        </TertiaryButton>{" "}
+                        </TertiaryButton>{' '}
                         for updates.
                       </Feedback>
                     ) : (
@@ -286,11 +286,11 @@ export default function Register() {
                       )
                     )}
                   </Flex>
-                  <Flex css={{ justifyContent: "center" }}>
+                  <Flex css={{ justifyContent: 'center' }}>
                     <Turnstile
                       onSuccess={(token) => setTurnstileResponse(token)}
                       onError={() => {
-                        setTurnstileResponse("");
+                        setTurnstileResponse('');
                       }}
                     />
                   </Flex>
@@ -302,7 +302,7 @@ export default function Register() {
                   <FormButton type="submit" disabled={props.isSubmitting}>
                     Register
                   </FormButton>
-                  <P css={{ textAlign: "center" }}>
+                  <P css={{ textAlign: 'center' }}>
                     Already have an account? <Link href="/login">Log in.</Link>
                   </P>
                 </Form>

@@ -1,28 +1,28 @@
-import { FullWidth } from "@/components/layout/columns";
-import { PrimaryLayout } from "@/components/layout/layouts";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Title } from "@/components/head/title";
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import { PostData, Proposal, UserProfileData } from "@/lib/types";
-import Blocks from "editorjs-blocks-react-renderer";
-import { H1, H3, H5 } from "@/components/text/headings";
-import { Tags } from "@/components/user-posts/tags";
-import { Flex } from "@/components/layout/flex";
-import { Author } from "@/components/user-posts/author";
-import store from "@/redux/store";
-import FourOhFour from "../404";
-import { P } from "@/components/text/text";
-import { DateTime } from "luxon";
+import { FullWidth } from '@/components/layout/columns';
+import { PrimaryLayout } from '@/components/layout/layouts';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Title } from '@/components/head/title';
+import { useEffect, useState } from 'react';
+import { useRouter } from 'next/router';
+import { PostData, Proposal, UserProfileData } from '@/lib/types';
+import Blocks from 'editorjs-blocks-react-renderer';
+import { H1, H3, H5 } from '@/components/text/headings';
+import { Tags } from '@/components/user-posts/tags';
+import { Flex } from '@/components/layout/flex';
+import { Author } from '@/components/user-posts/author';
+import store from '@/redux/store';
+import FourOhFour from '../404';
+import { P } from '@/components/text/text';
+import { DateTime } from 'luxon';
 import {
   StyledBlocksContainer,
   cleanBlockData,
-} from "@/components/user-posts/styledblockscontainer";
-import { Masonry } from "masonic";
-import { ProposalCard } from "@/components/need/proposal-card";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
-import { ProposalDialogWrap } from "@/components/need/proposal-dialog-wrap";
+} from '@/components/user-posts/styledblockscontainer';
+import { Masonry } from 'masonic';
+import { ProposalCard } from '@/components/need/proposal-card';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { ProposalDialogWrap } from '@/components/need/proposal-dialog-wrap';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -41,7 +41,7 @@ export default function UserProfile() {
           .get(`need/${id}`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
-              if ((response?.data?.id ?? "") == "") {
+              if ((response?.data?.id ?? '') == '') {
                 setNotFound(true);
               }
               const now = DateTime.now();
@@ -50,8 +50,8 @@ export default function UserProfile() {
                 setNotFound(true);
               }
               setPostData(response.data);
-              const self = store?.getState()?.userData?.user?.id ?? "guest";
-              if ((response.data?.user?.id ?? "") == self) {
+              const self = store?.getState()?.userData?.user?.id ?? 'guest';
+              if ((response.data?.user?.id ?? '') == self) {
                 setOwn(true);
               }
               axiosPublic
@@ -89,7 +89,7 @@ export default function UserProfile() {
 
   return (
     <>
-      <Title>{postData?.title ? postData?.title : "Need"}</Title>
+      <Title>{postData?.title ? postData?.title : 'Need'}</Title>
       <PrimaryLayout>
         <CrumbBar>
           {!hasLoaded && <Crumb href="/">Discovery</Crumb>}
@@ -97,27 +97,27 @@ export default function UserProfile() {
           {hasLoaded && own && <Crumb href="/projects">Project Hub</Crumb>}
           {hasLoaded && own && <Crumb href="/projects/needs">My Needs</Crumb>}
           {hasLoaded && !own && (
-            <Crumb href={`/u/${profile?.slug ?? ""}`}>
+            <Crumb href={`/u/${profile?.slug ?? ''}`}>
               {`${profile?.first_name} ${profile?.last_name}`}
             </Crumb>
           )}
           {hasLoaded && (
             <Crumb href={`/n/${id}`} active>
-              {postData?.title ?? "Loading..."}
+              {postData?.title ?? 'Loading...'}
             </Crumb>
           )}
         </CrumbBar>
         <FullWidth>
           <Flex column gap={3}>
             {postData?.title && <H3>I Need...</H3>}
-            <H1>{postData?.title ?? "Loading..."}</H1>
-            {postData?.user && <Author uid={postData.user?.id ?? ""} />}
+            <H1>{postData?.title ?? 'Loading...'}</H1>
+            {postData?.user && <Author uid={postData.user?.id ?? ''} />}
             {postData?.tags && <Tags tags={postData.tags} />}
             {postData?.unpublish_at && (
-              <P css={{ color: "$neutral600" }}>
-                Respond by{" "}
+              <P css={{ color: '$neutral600' }}>
+                Respond by{' '}
                 {DateTime.fromISO(postData.unpublish_at).toFormat(
-                  "cccc, LLLL d",
+                  'cccc, LLLL d',
                 )}
               </P>
             )}
@@ -127,7 +127,7 @@ export default function UserProfile() {
                 <Blocks data={cleanBlockData(postData.data)} />
               </StyledBlocksContainer>
             )}
-            {own && <P css={{ color: "$neutral600" }}></P>}
+            {own && <P css={{ color: '$neutral600' }}></P>}
           </Flex>
           <H5>Proposals</H5>
           {proposals.length > 0 ? (

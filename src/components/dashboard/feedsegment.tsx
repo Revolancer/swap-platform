@@ -1,16 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import { FeedPostData } from "@/lib/types";
-import { axiosPrivate } from "@/lib/axios";
-import { PortfolioProfileCard } from "../user-posts/portfolio-profile-card";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { NeedProfileCard } from "../user-posts/need-profile-card";
-import { Card } from "../layout/cards";
-import { H1 } from "../text/headings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { P } from "../text/text";
-import { Flex } from "../layout/flex";
-import { Button } from "../navigation/button";
+import { useCallback, useEffect, useState } from 'react';
+import { FeedPostData } from '@/lib/types';
+import { axiosPrivate } from '@/lib/axios';
+import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { NeedProfileCard } from '../user-posts/need-profile-card';
+import { Card } from '../layout/cards';
+import { H1 } from '../text/headings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { P } from '../text/text';
+import { Flex } from '../layout/flex';
+import { Button } from '../navigation/button';
 
 const AddSomething = () => {
   return (
@@ -19,12 +19,12 @@ const AddSomething = () => {
         column
         gap={3}
         css={{
-          borderWidth: "$2",
-          borderColor: "$neutral500",
-          borderStyle: "dashed",
-          borderRadius: "$2",
-          alignItems: "center",
-          padding: "$4",
+          borderWidth: '$2',
+          borderColor: '$neutral500',
+          borderStyle: 'dashed',
+          borderRadius: '$2',
+          alignItems: 'center',
+          padding: '$4',
         }}
       >
         <FontAwesomeIcon icon={faPlus} />
@@ -50,15 +50,15 @@ export const FeedSegment = () => {
   const loadPostsForUser = useCallback(async () => {
     axiosPrivate
       .get(`feed`, {
-        id: "feed-data",
+        id: 'feed-data',
         cache: {
           ttl: 1000 * 60, // 1 minute.
         },
       })
       .then((response) => {
-        const firstRendered = posts.length > 0 ? posts[0].data.id : "";
+        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
         const firstFetched =
-          response.data.length > 0 ? response.data[0].data.id : "";
+          response.data.length > 0 ? response.data[0].data.id : '';
         if (firstRendered !== firstFetched) {
           setPosts(response.data ?? []);
         }
@@ -77,11 +77,11 @@ export const FeedSegment = () => {
   }, [loadPostsForUser]);
   const staticPosts = [];
   for (const post of posts) {
-    if (post.type == "need") {
+    if (post.type == 'need') {
       staticPosts.push(
         <NeedProfileCard
           data={post.data}
-          key={post.data?.id ?? ""}
+          key={post.data?.id ?? ''}
           withAuthor
         />,
       );
@@ -89,7 +89,7 @@ export const FeedSegment = () => {
       staticPosts.push(
         <PortfolioProfileCard
           data={post.data}
-          key={post.data?.id ?? ""}
+          key={post.data?.id ?? ''}
           withAuthor
           hideIfEmpty
         />,

@@ -1,17 +1,17 @@
-import { PostData } from "@/lib/types";
-import { OutputData } from "@editorjs/editorjs";
-import { P } from "../text/text";
-import { Flex } from "../layout/flex";
-import { Tags } from "./tags";
-import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
-import { Author } from "./author";
-import { useEffect, useState } from "react";
-import { axiosPrivate } from "@/lib/axios";
-import { useRouter } from "next/router";
-import { ConfirmationDialog } from "../navigation/confirmation-dialog";
-import { styled } from "stitches.config";
-import { Card } from "../layout/cards";
-import { ProposalDialogWrap } from "../need/proposal-dialog-wrap";
+import { PostData } from '@/lib/types';
+import { OutputData } from '@editorjs/editorjs';
+import { P } from '../text/text';
+import { Flex } from '../layout/flex';
+import { Tags } from './tags';
+import { Button, TertiaryButton, UnstyledLink } from '../navigation/button';
+import { Author } from './author';
+import { useEffect, useState } from 'react';
+import { axiosPrivate } from '@/lib/axios';
+import { useRouter } from 'next/router';
+import { ConfirmationDialog } from '../navigation/confirmation-dialog';
+import { styled } from 'stitches.config';
+import { Card } from '../layout/cards';
+import { ProposalDialogWrap } from '../need/proposal-dialog-wrap';
 export const NeedProfileCard = ({
   data,
   own = false,
@@ -26,23 +26,23 @@ export const NeedProfileCard = ({
   const router = useRouter();
   const [proposalCount, setProposalCount] = useState(0);
   const [loading, setLoading] = useState(true);
-  const [summary, setSummary] = useState("");
+  const [summary, setSummary] = useState('');
 
   useEffect(() => {
     const cleanData = () => {
       try {
-        return JSON.parse(data?.data ?? "{}")?.version ?? false
-          ? JSON.parse(data?.data ?? "{}")
+        return JSON.parse(data?.data ?? '{}')?.version ?? false
+          ? JSON.parse(data?.data ?? '{}')
           : {
               time: 1682956618189,
               blocks: [],
-              version: "2.26.5",
+              version: '2.26.5',
             };
       } catch (err) {
         return {
           time: 1682956618189,
           blocks: [],
-          version: "2.26.5",
+          version: '2.26.5',
         };
       }
     };
@@ -54,23 +54,23 @@ export const NeedProfileCard = ({
         .catch((err) => {});
       const getSummary = (data: OutputData): string => {
         const maxLength = 200;
-        if (placeholder) return "";
-        let summary = "";
+        if (placeholder) return '';
+        let summary = '';
         for (const block of data.blocks) {
           if (summary.length >= maxLength) {
             return summary;
           }
-          if (block.type == "paragraph") {
+          if (block.type == 'paragraph') {
             if (summary.length) {
-              summary += " ";
+              summary += ' ';
             }
             const lengthToAdd = maxLength - summary.length;
             summary += (block.data.text as string)
               .substring(0, maxLength - summary.length)
-              .replace(/(<([^>]+)>)/gi, "")
-              .replace(/(&([^>]+);)/gi, "");
+              .replace(/(<([^>]+)>)/gi, '')
+              .replace(/(&([^>]+);)/gi, '');
             if (lengthToAdd < (block.data.text as string).length) {
-              summary += "...";
+              summary += '...';
             }
           }
         }
@@ -87,9 +87,9 @@ export const NeedProfileCard = ({
     }
   };
 
-  const PostImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
+  const PostImageContainer = styled('div', {
+    backgroundColor: '$neutral300',
+    overflow: 'hidden',
     width: `100%`,
     height: `200px`,
   });
@@ -104,10 +104,10 @@ export const NeedProfileCard = ({
 
   return (
     <Card unpadded>
-      <Flex column gap={4} css={{ padding: "$6" }}>
+      <Flex column gap={4} css={{ padding: '$6' }}>
         {placeholder ? (
           <>
-            <P css={{ fontWeight: "$bold" }}>Add a need</P>
+            <P css={{ fontWeight: '$bold' }}>Add a need</P>
             <P>
               Do you need to outsource some work? Share your project with the
               community and get help.
@@ -120,9 +120,9 @@ export const NeedProfileCard = ({
               <UnstyledLink href={`/n/${data.id}`}>
                 <P
                   css={{
-                    fontWeight: "$bold",
-                    fontSize: "$body1",
-                    lineHeight: "$body1",
+                    fontWeight: '$bold',
+                    fontSize: '$body1',
+                    lineHeight: '$body1',
                   }}
                 >
                   {data?.title}
@@ -132,10 +132,10 @@ export const NeedProfileCard = ({
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary.length > 0 && (
-              <P css={{ color: "$neutral600" }}>{summary}</P>
+              <P css={{ color: '$neutral600' }}>{summary}</P>
             )}
             {data?.id && (
-              <Flex gap={6} css={{ alignItems: "center" }}>
+              <Flex gap={6} css={{ alignItems: 'center' }}>
                 <ProposalDialogWrap id={data.id} />
                 {own && (
                   <>

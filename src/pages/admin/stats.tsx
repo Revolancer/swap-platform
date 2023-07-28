@@ -1,14 +1,14 @@
-import { Title } from "@/components/head/title";
-import { AdminLayout } from "@/components/layout/layouts";
-import { H1, H5 } from "@/components/text/headings";
-import { axiosPrivate } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { useEffect, useState } from "react";
-import { FullWidth } from "@/components/layout/columns";
-import { styled } from "stitches.config";
-import { P } from "@/components/text/text";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { Title } from '@/components/head/title';
+import { AdminLayout } from '@/components/layout/layouts';
+import { H1, H5 } from '@/components/text/headings';
+import { axiosPrivate } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { useEffect, useState } from 'react';
+import { FullWidth } from '@/components/layout/columns';
+import { styled } from 'stitches.config';
+import { P } from '@/components/text/text';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 export default function Stats() {
   const [userCount, setUserCount] = useState(0);
@@ -40,7 +40,7 @@ export default function Stats() {
 
   const load = async () => {
     await axiosPrivate
-      .get("admin/stats/count_users")
+      .get('admin/stats/count_users')
       .then((response) => {
         const { count, deleted, allTime } = response.data;
         setUserCount(count);
@@ -49,7 +49,7 @@ export default function Stats() {
       })
       .catch((err) => {});
     await axiosPrivate
-      .get("admin/stats/count_active_users")
+      .get('admin/stats/count_active_users')
       .then((response) => {
         const { dau, wau, mau, dauOverMau, dauOverWau, wauOverMau } =
           response.data;
@@ -62,7 +62,7 @@ export default function Stats() {
       })
       .catch(() => {});
     await axiosPrivate
-      .get("admin/stats/count_new_posts")
+      .get('admin/stats/count_new_posts')
       .then((response) => {
         const {
           dailyPortfolios,
@@ -93,7 +93,7 @@ export default function Stats() {
       })
       .catch(() => {});
     await axiosPrivate
-      .get("admin/stats/count_new_users")
+      .get('admin/stats/count_new_users')
       .then((response) => {
         const { daily, weekly, monthly } = response.data;
         setDailyNewUsers(daily);
@@ -102,7 +102,7 @@ export default function Stats() {
       })
       .catch(() => {});
     await axiosPrivate
-      .get("admin/stats/referrers")
+      .get('admin/stats/referrers')
       .then((response) => {
         setReferrers(response.data);
       })
@@ -134,7 +134,7 @@ export default function Stats() {
           <P>WAU/MAU: {wauOverMau}</P>
           <P>DAU/MAU: {dauOverMau}</P>
           <H5>User Content</H5>
-          <P css={{ fontWeight: "$bold" }}>Daily</P>
+          <P css={{ fontWeight: '$bold' }}>Daily</P>
           <P>
             Portfolios: {dailyPortfolios} (
             {(dailyPortfolios / Math.max(1, dau)).toFixed(2)} of DAU)
@@ -151,13 +151,13 @@ export default function Stats() {
             Projects: {dailyProjects} (
             {(dailyProjects / Math.max(1, dau)).toFixed(2)} of DAU)
           </P>
-          <P css={{ fontWeight: "$bold" }}>Weekly</P>
+          <P css={{ fontWeight: '$bold' }}>Weekly</P>
           <P>
             Portfolios: {weeklyPortfolios} (
             {(weeklyPortfolios / Math.max(1, wau)).toFixed(2)} of WAU)
           </P>
           <P>
-            Needs: {weeklyNeeds} ({(weeklyNeeds / Math.max(1, wau)).toFixed(2)}{" "}
+            Needs: {weeklyNeeds} ({(weeklyNeeds / Math.max(1, wau)).toFixed(2)}{' '}
             of WAU)
           </P>
           <P>
@@ -168,7 +168,7 @@ export default function Stats() {
             Projects: {weeklyProjects} (
             {(weeklyProjects / Math.max(1, wau)).toFixed(2)} of WAU)
           </P>
-          <P css={{ fontWeight: "$bold" }}>Monthly</P>
+          <P css={{ fontWeight: '$bold' }}>Monthly</P>
           <P>
             Portfolios: {monthlyPortfolios} (
             {(monthlyPortfolios / Math.max(1, mau)).toFixed(2)} of MAU)

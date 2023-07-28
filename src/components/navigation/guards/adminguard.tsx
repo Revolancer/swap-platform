@@ -1,6 +1,6 @@
-import { FullWidth } from "@/components/layout/columns";
-import { useAppSelector } from "@/redux/store";
-import { useEffect, useState } from "react";
+import { FullWidth } from '@/components/layout/columns';
+import { useAppSelector } from '@/redux/store';
+import { useEffect, useState } from 'react';
 
 export const AdminGuard = ({
   children,
@@ -14,14 +14,14 @@ export const AdminGuard = ({
     setDidMount(true);
   }, []);
   const admin = useAppSelector(
-    (state) => state.userData.user?.roles?.includes("admin") ?? false,
+    (state) => state.userData.user?.roles?.includes('admin') ?? false,
   );
   if (!didMount) {
     return <FullWidth placeholder />;
   }
   if (!admin) {
-    if (typeof window != "undefined") {
-      window.location.href = "/";
+    if (typeof window != 'undefined') {
+      window.location.href = '/';
     }
     return <FullWidth placeholder />;
   } else {

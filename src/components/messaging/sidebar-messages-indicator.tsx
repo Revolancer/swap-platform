@@ -1,10 +1,10 @@
-import { axiosPrivate } from "@/lib/axios";
-import { useEffect, useState } from "react";
-import { Div } from "../layout/utils";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import Link from "next/link";
-import { styled } from "stitches.config";
-import { faMessage } from "@fortawesome/free-regular-svg-icons";
+import { axiosPrivate } from '@/lib/axios';
+import { useEffect, useState } from 'react';
+import { Div } from '../layout/utils';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import Link from 'next/link';
+import { styled } from 'stitches.config';
+import { faMessage } from '@fortawesome/free-regular-svg-icons';
 
 export const SidebarMessagesIndicator = ({
   expanded,
@@ -15,8 +15,8 @@ export const SidebarMessagesIndicator = ({
   useEffect(() => {
     const checkUnreadMessageCount = async () => {
       await axiosPrivate
-        .get("message/unread", {
-          id: "unread-message-count",
+        .get('message/unread', {
+          id: 'unread-message-count',
           cache: { ttl: 30 * 60 },
         })
         .then((res) => res.data)
@@ -31,35 +31,35 @@ export const SidebarMessagesIndicator = ({
   }, []);
 
   const MessageBadgeContainer = styled(Link, {
-    position: "relative",
-    display: "flex",
-    alignItems: "center",
-    justifyContent: expanded ? "flex-start" : "center",
-    fontSize: "$body1",
-    gap: "$4",
-    color: "$white",
-    textDecoration: "none",
+    position: 'relative',
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: expanded ? 'flex-start' : 'center',
+    fontSize: '$body1',
+    gap: '$4',
+    color: '$white',
+    textDecoration: 'none',
   });
   return (
     <MessageBadgeContainer href="/message">
       <Div
         css={{
-          position: "relative",
-          display: "flex",
-          alignItems: "center",
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
         }}
       >
-        <FontAwesomeIcon icon={faMessage} style={{ fontSize: "1.4rem" }} />
+        <FontAwesomeIcon icon={faMessage} style={{ fontSize: '1.4rem' }} />
         {countUnread > 0 && (
           <Div
             css={{
-              position: "absolute",
-              width: "$4",
-              height: "$4",
-              borderRadius: "100%",
-              backgroundColor: "$pink500",
-              top: "-0.4rem",
-              right: "-0.4rem",
+              position: 'absolute',
+              width: '$4',
+              height: '$4',
+              borderRadius: '100%',
+              backgroundColor: '$pink500',
+              top: '-0.4rem',
+              right: '-0.4rem',
             }}
           ></Div>
         )}

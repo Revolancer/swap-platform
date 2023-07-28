@@ -1,10 +1,10 @@
-import { Turnstile as CfTurnstile } from "@marsidev/react-turnstile";
-import { darkTheme } from "stitches.config";
+import { Turnstile as CfTurnstile } from '@marsidev/react-turnstile';
+import { darkTheme } from 'stitches.config';
 
 var isDarkModeTurnstile = false;
 
-if (typeof document != "undefined") {
-  const ctx = document.getElementById("mainctx");
+if (typeof document != 'undefined') {
+  const ctx = document.getElementById('mainctx');
   isDarkModeTurnstile = ctx?.classList.contains(darkTheme) ?? false;
 }
 
@@ -17,8 +17,8 @@ export const Turnstile = ({
 }) => {
   return (
     <CfTurnstile
-      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY ?? ""}
-      options={{ theme: isDarkModeTurnstile ? "dark" : "light" }}
+      siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITEKEY ?? ''}
+      options={{ theme: isDarkModeTurnstile ? 'dark' : 'light' }}
       onSuccess={onSuccess}
       onError={onError}
     />

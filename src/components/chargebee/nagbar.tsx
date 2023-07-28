@@ -1,9 +1,9 @@
-import { useAppSelector } from "@/redux/store";
-import { DateTime } from "luxon";
-import { useEffect, useState } from "react";
-import { NagBar } from "../layout/utils";
-import { Link } from "../navigation/button";
-import { P } from "../text/text";
+import { useAppSelector } from '@/redux/store';
+import { DateTime } from 'luxon';
+import { useEffect, useState } from 'react';
+import { NagBar } from '../layout/utils';
+import { Link } from '../navigation/button';
+import { P } from '../text/text';
 
 export const TrialNagBar = () => {
   /*

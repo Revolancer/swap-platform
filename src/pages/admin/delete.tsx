@@ -1,21 +1,21 @@
-import { Title } from "@/components/head/title";
-import { Flex } from "@/components/layout/flex";
-import { AdminLayout } from "@/components/layout/layouts";
-import { Button } from "@/components/navigation/button";
-import { H5 } from "@/components/text/headings";
-import { axiosPrivate } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { Formik } from "formik";
-import { Form } from "@/components/forms/form";
-import { useState } from "react";
-import { InputInner, InputOuter } from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { FullWidth } from "@/components/layout/columns";
-import { styled } from "stitches.config";
-import { SuccessModal } from "@/components/modals/success-modal";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
-import { ConfirmationDialog } from "@/components/navigation/confirmation-dialog";
+import { Title } from '@/components/head/title';
+import { Flex } from '@/components/layout/flex';
+import { AdminLayout } from '@/components/layout/layouts';
+import { Button } from '@/components/navigation/button';
+import { H5 } from '@/components/text/headings';
+import { axiosPrivate } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { Formik } from 'formik';
+import { Form } from '@/components/forms/form';
+import { useState } from 'react';
+import { InputInner, InputOuter } from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { FullWidth } from '@/components/layout/columns';
+import { styled } from 'stitches.config';
+import { SuccessModal } from '@/components/modals/success-modal';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog';
 
 const CreditsSchema = Yup.object().shape({
   recipient: Yup.string().uuid().required(),
@@ -36,7 +36,7 @@ export default function Settings() {
         <FullWidth>
           <Formik
             initialValues={{
-              recipient: "",
+              recipient: '',
             }}
             validationSchema={CreditsSchema}
             onSubmit={async (values, actions) => {
@@ -44,10 +44,10 @@ export default function Settings() {
               await axiosPrivate
                 .delete(`admin/user/${values.recipient}`)
                 .then(async (response) => {
-                  if (response.data?.success == "false") {
+                  if (response.data?.success == 'false') {
                     actions.setFieldError(
-                      "recipient",
-                      "Oops, something went wrong",
+                      'recipient',
+                      'Oops, something went wrong',
                     );
                   } else {
                     actions.resetForm();
@@ -55,18 +55,18 @@ export default function Settings() {
                   }
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
+                  if (reason.code == 'ERR_NETWORK') {
                     actions.setFieldError(
-                      "recipient",
-                      "Oops, something went wrong",
+                      'recipient',
+                      'Oops, something went wrong',
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       default:
                         actions.setFieldError(
-                          "recipient",
-                          "Oops, something went wrong",
+                          'recipient',
+                          'Oops, something went wrong',
                         );
                     }
                   }
@@ -77,7 +77,7 @@ export default function Settings() {
             {(props) => {
               return (
                 <>
-                  <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                  <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                     <Flex column>
                       <H5>User ID</H5>
                       <InputOuter
@@ -101,7 +101,7 @@ export default function Settings() {
                         </Feedback>
                       )}
                     </Flex>
-                    <Flex css={{ flexDirection: "row-reverse" }}>
+                    <Flex css={{ flexDirection: 'row-reverse' }}>
                       <ConfirmationDialog
                         dangerous
                         onAccept={props.submitForm}

@@ -1,15 +1,15 @@
-import { axiosPrivate } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { Formik } from "formik";
-import { Form } from "../forms/form";
-import { InputOuter, TextAreaInner } from "../forms/input";
-import { Feedback } from "../forms/feedback";
-import { Flex } from "../layout/flex";
-import { Button, TertiaryButton } from "../navigation/button";
-import { useState } from "react";
-import { StoredUploadField } from "../forms/stored-upload";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import { axiosPrivate } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { Formik } from 'formik';
+import { Form } from '../forms/form';
+import { InputOuter, TextAreaInner } from '../forms/input';
+import { Feedback } from '../forms/feedback';
+import { Flex } from '../layout/flex';
+import { Button, TertiaryButton } from '../navigation/button';
+import { useState } from 'react';
+import { StoredUploadField } from '../forms/stored-upload';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
 const MessageSchema = Yup.object().shape({
   body: Yup.string().optional().ensure(),
@@ -27,8 +27,8 @@ export const MessageInput = ({
   return (
     <Formik
       initialValues={{
-        body: "",
-        attachment: "",
+        body: '',
+        attachment: '',
       }}
       validationSchema={MessageSchema}
       onSubmit={async (values, actions) => {
@@ -36,8 +36,8 @@ export const MessageInput = ({
         await axiosPrivate
           .put(`message/${uid}`, values)
           .then(async (response) => {
-            if (response.data?.success == "false") {
-              actions.setFieldError("about", "Oops, something went wrong");
+            if (response.data?.success == 'false') {
+              actions.setFieldError('about', 'Oops, something went wrong');
             } else {
               actions.resetForm();
               await axiosPrivate.storage.remove(`message-threads-${uid}`);
@@ -46,8 +46,8 @@ export const MessageInput = ({
           })
           .catch((reason) => {
             //TODO - error handling
-            if (reason.code == "ERR_NETWORK") {
-              actions.setFieldError("about", "Oops, something went wrong");
+            if (reason.code == 'ERR_NETWORK') {
+              actions.setFieldError('about', 'Oops, something went wrong');
             } else {
               const statuscode = Number(reason?.response?.status);
               switch (statuscode) {
@@ -63,7 +63,7 @@ export const MessageInput = ({
     >
       {(props) => {
         return (
-          <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+          <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
             <InputOuter error={props.touched.body && !!props.errors.body}>
               <TextAreaInner
                 name="body"
@@ -79,7 +79,7 @@ export const MessageInput = ({
               <Feedback state="error">{props.errors.body}</Feedback>
             )}
             {showAttachmentField && <StoredUploadField name="attachment" />}
-            <Flex css={{ alignItems: "center" }}>
+            <Flex css={{ alignItems: 'center' }}>
               <Button
                 href="#"
                 onClick={(e) => {
@@ -95,14 +95,14 @@ export const MessageInput = ({
                 onClick={(e) => {
                   e.preventDefault();
                   if (showAttachmentField) {
-                    props.setFieldValue("attachment", "");
+                    props.setFieldValue('attachment', '');
                   }
                   setShowAttachmentField(!showAttachmentField);
                 }}
                 disabled={props.isSubmitting}
               >
-                <FontAwesomeIcon icon={faPaperclip} />{" "}
-                {!showAttachmentField ? "Add" : "Remove"} Attachment
+                <FontAwesomeIcon icon={faPaperclip} />{' '}
+                {!showAttachmentField ? 'Add' : 'Remove'} Attachment
               </TertiaryButton>
             </Flex>
           </Form>

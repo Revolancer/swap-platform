@@ -1,27 +1,27 @@
-import { styled, darkTheme } from "stitches.config";
+import { styled, darkTheme } from 'stitches.config';
 
-export const Card = styled("div", {
-  borderWidth: "$1",
-  borderStyle: "$solid",
-  borderColor: "$borders",
-  borderRadius: "$2",
-  backgroundColor: "$background",
-  padding: "$4",
-  display: "flex",
-  gap: "$3",
-  flexDirection: "column",
-  boxShadow: "$2",
-  overflow: "hidden",
+export const Card = styled('div', {
+  borderWidth: '$1',
+  borderStyle: '$solid',
+  borderColor: '$borders',
+  borderRadius: '$2',
+  backgroundColor: '$background',
+  padding: '$4',
+  display: 'flex',
+  gap: '$3',
+  flexDirection: 'column',
+  boxShadow: '$2',
+  overflow: 'hidden',
 
   variants: {
     flat: {
       true: {
-        boxShadow: "none",
+        boxShadow: 'none',
       },
     },
     unpadded: {
       true: {
-        padding: "0",
+        padding: '0',
       },
     },
   },

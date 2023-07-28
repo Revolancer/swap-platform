@@ -1,22 +1,22 @@
-import { Field, FieldProps } from "formik";
-import { Feedback } from "./feedback";
-import { InputOuter } from "./input";
-import { ChangeEvent, useState } from "react";
-import { Button } from "../navigation/button";
-import { Flex } from "../layout/flex";
-import { RoundedSquareImage } from "../user/roundedsquareimage";
-import { uploadFile, storeFile } from "@/lib/upload";
+import { Field, FieldProps } from 'formik';
+import { Feedback } from './feedback';
+import { InputOuter } from './input';
+import { ChangeEvent, useState } from 'react';
+import { Button } from '../navigation/button';
+import { Flex } from '../layout/flex';
+import { RoundedSquareImage } from '../user/roundedsquareimage';
+import { uploadFile, storeFile } from '@/lib/upload';
 
 const StoredUploadField = ({
   name,
   placeholder,
-  type = "any",
+  type = 'any',
 }: {
   name: string;
   placeholder?: string;
-  type?: "any" | "image";
+  type?: 'any' | 'image';
 }) => {
-  const [fileName, setFileName] = useState(placeholder ?? "Upload File");
+  const [fileName, setFileName] = useState(placeholder ?? 'Upload File');
   const [uploading, setUploading] = useState(false);
 
   return (
@@ -32,9 +32,9 @@ const StoredUploadField = ({
         },
       }: FieldProps) => {
         const isImage = (file: File) => {
-          const validTypes = ["image/gif", "image/jpeg", "image/png"];
-          const validExtensions = ["gif", "jpg", "jpeg", "png"];
-          const extStart = file.name.lastIndexOf(".");
+          const validTypes = ['image/gif', 'image/jpeg', 'image/png'];
+          const validExtensions = ['gif', 'jpg', 'jpeg', 'png'];
+          const extStart = file.name.lastIndexOf('.');
           const extension = file.name.substring(extStart + 1);
           return (
             validTypes.includes(file.type) &&
@@ -45,20 +45,20 @@ const StoredUploadField = ({
         const uploadFileField = async (file: File) => {
           setFieldError(name, undefined);
           setFileName(file.name);
-          if (type == "image" && !isImage(file)) {
+          if (type == 'image' && !isImage(file)) {
             setFieldError(
               name,
-              "Please provide a valid image. Supported types are jpg, gif, and png.",
+              'Please provide a valid image. Supported types are jpg, gif, and png.',
             );
             setFieldTouched(name, true, false);
-            setFieldValue(name, "", false);
+            setFieldValue(name, '', false);
             return;
           }
           if (file.size > 40000000) {
             //40MB max upload size
-            setFieldError(name, "Maximum file size is 40MB");
+            setFieldError(name, 'Maximum file size is 40MB');
             setFieldTouched(name, true, false);
-            setFieldValue(name, "", false);
+            setFieldValue(name, '', false);
             return;
           }
           try {
@@ -68,7 +68,7 @@ const StoredUploadField = ({
           } catch (err: any) {
             setFieldError(name, `Error uploading file`);
             setFieldTouched(name, true, false);
-            setFieldValue(name, "", false);
+            setFieldValue(name, '', false);
             return;
           }
         };
@@ -91,7 +91,7 @@ const StoredUploadField = ({
         return (
           <>
             <Flex>
-              {type == "image" && (
+              {type == 'image' && (
                 <RoundedSquareImage
                   alt="The uploaded image"
                   size="large"
@@ -103,15 +103,15 @@ const StoredUploadField = ({
                   type="file"
                   id={`upload-${name}`}
                   hidden
-                  style={{ display: "none" }}
+                  style={{ display: 'none' }}
                   onChange={getFile}
                 />
                 <Flex
                   css={{
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    width: "100%",
-                    cursor: uploading ? "progress" : "pointer",
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    width: '100%',
+                    cursor: uploading ? 'progress' : 'pointer',
                   }}
                   onClick={(e) => {
                     e.preventDefault();
@@ -120,7 +120,7 @@ const StoredUploadField = ({
                   }}
                 >
                   <span>
-                    {touched[name] ? fileName : placeholder ?? "Upload File"}
+                    {touched[name] ? fileName : placeholder ?? 'Upload File'}
                   </span>
                   <Button
                     href="#"
@@ -132,7 +132,7 @@ const StoredUploadField = ({
                     size="small"
                     disabled={uploading}
                   >
-                    {uploading ? "Uploading..." : "Upload"}
+                    {uploading ? 'Uploading...' : 'Upload'}
                   </Button>
                 </Flex>
               </InputOuter>

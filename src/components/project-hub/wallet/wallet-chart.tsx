@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
-import { CreditLogEntry } from "@/lib/types";
-import { axiosPrivate } from "@/lib/axios";
-import { Div } from "../../layout/utils";
+import { useEffect, useState } from 'react';
+import { CreditLogEntry } from '@/lib/types';
+import { axiosPrivate } from '@/lib/axios';
+import { Div } from '../../layout/utils';
 import {
   VictoryContainer,
   VictoryChart,
@@ -9,16 +9,16 @@ import {
   VictoryLine,
   VictoryTheme,
   VictoryAxis,
-} from "victory";
-import { DateTime } from "luxon";
-import { config as styleConfig } from "stitches.config";
+} from 'victory';
+import { DateTime } from 'luxon';
+import { config as styleConfig } from 'stitches.config';
 
 export const WalletChart = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     axiosPrivate
-      .get("credits/log/reverse")
+      .get('credits/log/reverse')
       .then((res) => res.data)
       .then((data) => {
         setLogEntries(data);
@@ -31,9 +31,9 @@ export const WalletChart = () => {
     return (
       <Div
         css={{
-          borderRadius: "$3",
-          backgroundColor: "$neutral300",
-          height: "400px",
+          borderRadius: '$3',
+          backgroundColor: '$neutral300',
+          height: '400px',
         }}
       />
     );
@@ -45,7 +45,7 @@ export const WalletChart = () => {
       theme={VictoryTheme.material}
       animate={{ duration: 300 }}
       width={
-        typeof window !== "undefined"
+        typeof window !== 'undefined'
           ? (window.visualViewport?.width ?? 0) > 1200
             ? 1200
             : 600
@@ -53,7 +53,7 @@ export const WalletChart = () => {
       }
       containerComponent={
         <VictoryContainer
-          style={{ width: "100%", maxHeight: "400px", overflowY: "auto" }}
+          style={{ width: '100%', maxHeight: '400px', overflowY: 'auto' }}
         />
       }
     >
@@ -61,7 +61,7 @@ export const WalletChart = () => {
         height={400}
         data={logEntries.slice(-20)}
         interpolation="catmullRom"
-        x={(d) => DateTime.fromISO(d.updated_at).toFormat("yyyy-LL-dd HH:mm")}
+        x={(d) => DateTime.fromISO(d.updated_at).toFormat('yyyy-LL-dd HH:mm')}
         y="resultant_amount"
         style={{ data: { stroke: styleConfig.theme.colors.pink500 } }}
         domainPadding={{ y: 10 }}
@@ -69,12 +69,12 @@ export const WalletChart = () => {
       <VictoryScatter
         height={400}
         data={logEntries.slice(-20)}
-        x={(d) => DateTime.fromISO(d.updated_at).toFormat("yyyy-LL-dd HH:mm")}
+        x={(d) => DateTime.fromISO(d.updated_at).toFormat('yyyy-LL-dd HH:mm')}
         y="resultant_amount"
         style={{ data: { fill: styleConfig.theme.colors.pink500 } }}
         domainPadding={{ y: 10 }}
       />
-      <VictoryAxis dependentAxis style={{ grid: { stroke: "none" } }} />
+      <VictoryAxis dependentAxis style={{ grid: { stroke: 'none' } }} />
     </VictoryChart>
   );
 };

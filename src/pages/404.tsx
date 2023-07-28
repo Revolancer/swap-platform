@@ -1,14 +1,14 @@
-import { PrimaryLayout } from "@/components/layout/layouts";
-import { Title } from "@/components/head/title";
-import { FeedSegment } from "@/components/dashboard/feedsegment";
-import { FullWidth } from "@/components/layout/columns";
-import { H1 } from "@/components/text/headings";
-import { P } from "@/components/text/text";
-import { Button } from "@/components/navigation/button";
-import Image from "next/image";
-import { Flex } from "@/components/layout/flex";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { PrimaryLayout } from '@/components/layout/layouts';
+import { Title } from '@/components/head/title';
+import { FeedSegment } from '@/components/dashboard/feedsegment';
+import { FullWidth } from '@/components/layout/columns';
+import { H1 } from '@/components/text/headings';
+import { P } from '@/components/text/text';
+import { Button } from '@/components/navigation/button';
+import Image from 'next/image';
+import { Flex } from '@/components/layout/flex';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 export default function FourOhFour() {
   return (
@@ -22,7 +22,7 @@ export default function FourOhFour() {
           </Crumb>
         </CrumbBar>
         <FullWidth>
-          <Flex column gap={3} css={{ width: "100%", alignItems: "center" }}>
+          <Flex column gap={3} css={{ width: '100%', alignItems: 'center' }}>
             <H1>404</H1>
             <Image
               src="/img/revy/happy.png"

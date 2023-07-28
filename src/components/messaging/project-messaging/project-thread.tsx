@@ -1,26 +1,26 @@
-import { axiosPrivate } from "@/lib/axios";
-import { Project, ProjectMessage, UserProfileData } from "@/lib/types";
-import { useCallback, useEffect, useState } from "react";
-import { LabelledDivider } from "../../layout/divider";
-import { Div } from "../../layout/utils";
-import { ProjectMessageInput } from "./message-input";
-import { DateTime } from "luxon";
-import store from "@/redux/store";
-import { MessageAuthor } from "../message-author";
-import { P } from "@/components/text/text";
-import { TertiaryButton } from "@/components/navigation/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import { axiosPrivate } from '@/lib/axios';
+import { Project, ProjectMessage, UserProfileData } from '@/lib/types';
+import { useCallback, useEffect, useState } from 'react';
+import { LabelledDivider } from '../../layout/divider';
+import { Div } from '../../layout/utils';
+import { ProjectMessageInput } from './message-input';
+import { DateTime } from 'luxon';
+import store from '@/redux/store';
+import { MessageAuthor } from '../message-author';
+import { P } from '@/components/text/text';
+import { TertiaryButton } from '@/components/navigation/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
 export const ProjectThread = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<Project>();
   const [messages, setMessages] = useState<ProjectMessage[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
-  const [myId, setMyId] = useState("");
+  const [myId, setMyId] = useState('');
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
   const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
   const scrollToBottom = useCallback(() => {
-    if (messagesEnd) messagesEnd.scrollIntoView({ behavior: "smooth" });
+    if (messagesEnd) messagesEnd.scrollIntoView({ behavior: 'smooth' });
   }, [messagesEnd]);
 
   const loadProject = useCallback(() => {
@@ -28,7 +28,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       .get(`projects/${projectId}`)
       .then((response) => {
         if ((response?.data ?? null) != null) {
-          if ((response?.data?.id ?? "") !== "") {
+          if ((response?.data?.id ?? '') !== '') {
             setProject(response.data);
             console.log(response.data);
           }
@@ -38,7 +38,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
   }, [projectId]);
 
   const loadActiveThread = useCallback(() => {
-    if (projectId == "") return;
+    if (projectId == '') return;
     axiosPrivate
       .get(`projects/${projectId}/messages`, {
         id: `project-threads-${projectId}`,
@@ -58,8 +58,8 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
   const loadProfiles = useCallback(() => {
     if (!project) return;
-    const self = store?.getState()?.userData?.user?.id ?? "";
-    if (self == "") return;
+    const self = store?.getState()?.userData?.user?.id ?? '';
+    if (self == '') return;
     setMyId(self);
     const otherId =
       project?.contractor.id == self
@@ -110,19 +110,19 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
   const renderMessageArray = () => {
     const rendered = [];
-    let lastSender = "";
+    let lastSender = '';
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     if (project?.proposal) {
       //Insert proposal as first message
-      const proposalTime = DateTime.fromISO(project.proposal.created_at ?? "");
+      const proposalTime = DateTime.fromISO(project.proposal.created_at ?? '');
       if (proposalTime.plus({ days: 180 }) < now) {
         rendered.push(
           <LabelledDivider
             label={proposalTime
               .toLocal()
-              .startOf("day")
-              .toFormat("cccc, LLLL d yyyy")}
+              .startOf('day')
+              .toFormat('cccc, LLLL d yyyy')}
             key={`divider-${project.proposal.id}`}
           />,
         );
@@ -131,8 +131,8 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
           <LabelledDivider
             label={proposalTime
               .toLocal()
-              .startOf("day")
-              .toFormat("cccc, LLLL d")}
+              .startOf('day')
+              .toFormat('cccc, LLLL d')}
             key={`divider-${project.proposal.id}`}
           />,
         );
@@ -157,7 +157,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       lastTime = proposalTime;
       //Actual proposal body
       rendered.push(
-        project.proposal.message.split("\n").map(function (item, idx) {
+        project.proposal.message.split('\n').map(function (item, idx) {
           return (
             <span key={`${project.proposal.id}-${idx}`}>
               {item}
@@ -173,21 +173,21 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date
-      if (lastTime.startOf("day") < thisTime.startOf("day")) {
+      if (lastTime.startOf('day') < thisTime.startOf('day')) {
         if (thisTime.plus({ days: 180 }) < now) {
           rendered.push(
             <LabelledDivider
               label={thisTime
                 .toLocal()
-                .startOf("day")
-                .toFormat("cccc, LLLL d yyyy")}
+                .startOf('day')
+                .toFormat('cccc, LLLL d yyyy')}
               key={`divider-${message.id}`}
             />,
           );
         } else {
           rendered.push(
             <LabelledDivider
-              label={thisTime.toLocal().startOf("day").toFormat("cccc, LLLL d")}
+              label={thisTime.toLocal().startOf('day').toFormat('cccc, LLLL d')}
               key={`divider-${message.id}`}
             />,
           );
@@ -195,7 +195,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       }
       //Sender chip
       if (
-        lastTime.startOf("day") < thisTime.startOf("day") ||
+        lastTime.startOf('day') < thisTime.startOf('day') ||
         lastTime.plus({ hours: 6 }) < thisTime ||
         lastSender != message.user.id
       ) {
@@ -220,7 +220,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
       //Actual message body
       rendered.push(
-        message.message.split("\n").map(function (item, idx) {
+        message.message.split('\n').map(function (item, idx) {
           return (
             <span key={`${message.id}-${idx}`}>
               {item}
@@ -256,18 +256,18 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
 
   return (
     <>
-      <Div css={{ flexGrow: "1", overflowY: "auto", maxHeight: "50vh" }}>
+      <Div css={{ flexGrow: '1', overflowY: 'auto', maxHeight: '50vh' }}>
         {renderMessageArray()}
-        <div style={{ position: "relative" }}>
+        <div style={{ position: 'relative' }}>
           <div
-            style={{ position: "absolute", top: "0.1rem" }}
+            style={{ position: 'absolute', top: '0.1rem' }}
             ref={(el) => {
               if (el) setMessagesEnd(el);
             }}
           ></div>
         </div>
       </Div>
-      {project?.status !== "complete" && (
+      {project?.status !== 'complete' && (
         <ProjectMessageInput projectId={projectId} refresh={loadActiveThread} />
       )}
     </>

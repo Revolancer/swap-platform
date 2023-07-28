@@ -1,43 +1,43 @@
-import { config as styleconfig } from "stitches.config";
-import Modal from "react-modal";
-import { Button, UnstyledLink } from "../navigation/button";
-import { useEffect, useState } from "react";
-import { Flex } from "../layout/flex";
-import { H4 } from "../text/headings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { P } from "../text/text";
+import { config as styleconfig } from 'stitches.config';
+import Modal from 'react-modal';
+import { Button, UnstyledLink } from '../navigation/button';
+import { useEffect, useState } from 'react';
+import { Flex } from '../layout/flex';
+import { H4 } from '../text/headings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { P } from '../text/text';
 
 const styles = styleconfig.theme;
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
     borderRadius: styles.radii[2],
     paddingInline: styles.sizes[6],
     paddingBlock: styles.sizes[6],
-    maxWidth: "min(500px, 85vw)",
-    minWidth: "200px",
-    width: "100%",
+    maxWidth: 'min(500px, 85vw)',
+    minWidth: '200px',
+    width: '100%',
     backgroundColor: styles.colors.green500,
     color: styles.colors.white,
   },
 };
 
 export const SuccessModal = ({
-  successMessage = "Complete",
+  successMessage = 'Complete',
   timeout = 3000,
-  type = "success",
+  type = 'success',
   onClose = () => {},
 }: {
   successMessage?: string;
   timeout?: number;
-  type?: "success";
+  type?: 'success';
   onClose?: () => void;
 }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -59,7 +59,7 @@ export const SuccessModal = ({
       clearTimeout(timeoutRef);
     };
   }, [timeout, onClose]);
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <Modal
       isOpen={modalIsOpen}

@@ -1,39 +1,39 @@
-import { Flex } from "@/components/layout/flex";
-import { OnboardingLayout } from "@/components/layout/layouts";
-import { H4, H5 } from "@/components/text/headings";
-import { Title } from "@/components/head/title";
-import { Card } from "@/components/layout/cards";
-import Image from "next/image";
-import { Div } from "@/components/layout/utils";
-import { Progress } from "@/components/forms/progress";
-import { Yup } from "@/lib/yup";
-import "react-datepicker/dist/react-datepicker.css";
-import { Formik } from "formik";
-import { axiosPrivate } from "@/lib/axios";
-import { Form } from "@/components/forms/form";
-import { Feedback } from "@/components/forms/feedback";
-import { InputInner, InputOuter, Slider } from "@/components/forms/input";
-import { Select, SelectGroup, SelectItem } from "@/components/forms/select";
-import { Button, TertiaryButton } from "@/components/navigation/button";
-import { refreshToken } from "@/lib/user/auth";
-import store from "@/redux/store";
-import { useRouter } from "next/router";
+import { Flex } from '@/components/layout/flex';
+import { OnboardingLayout } from '@/components/layout/layouts';
+import { H4, H5 } from '@/components/text/headings';
+import { Title } from '@/components/head/title';
+import { Card } from '@/components/layout/cards';
+import Image from 'next/image';
+import { Div } from '@/components/layout/utils';
+import { Progress } from '@/components/forms/progress';
+import { Yup } from '@/lib/yup';
+import 'react-datepicker/dist/react-datepicker.css';
+import { Formik } from 'formik';
+import { axiosPrivate } from '@/lib/axios';
+import { Form } from '@/components/forms/form';
+import { Feedback } from '@/components/forms/feedback';
+import { InputInner, InputOuter, Slider } from '@/components/forms/input';
+import { Select, SelectGroup, SelectItem } from '@/components/forms/select';
+import { Button, TertiaryButton } from '@/components/navigation/button';
+import { refreshToken } from '@/lib/user/auth';
+import store from '@/redux/store';
+import { useRouter } from 'next/router';
 
 const OnboardingSchema = Yup.object().shape({
   experience: Yup.number().min(0).max(10),
   currency: Yup.string()
-    .required("Please provide your currency")
+    .required('Please provide your currency')
     .oneOf(
-      ["gbp", "eur", "usd"],
-      "Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR",
+      ['gbp', 'eur', 'usd'],
+      'Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR',
     )
     .ensure(),
   hourlyRate: Yup.number()
-    .required("Please provide your hourly rate")
-    .min(5, "We recommend charging more")
+    .required('Please provide your hourly rate')
+    .min(5, 'We recommend charging more')
     .max(
       10000,
-      "Your hourly rate is extremely high, we recommend a lower rate",
+      'Your hourly rate is extremely high, we recommend a lower rate',
     ),
 });
 
@@ -45,65 +45,65 @@ export default function GetStarted() {
       <OnboardingLayout>
         <Card
           css={{
-            gridColumn: "1 / 5",
-            "@sm": { gridColumn: "1 / 9" },
-            "@md": { gridColumn: "2 / 12" },
-            "@xl": { gridColumn: "3 / 11" },
-            gap: "$7",
-            padding: "$7",
+            gridColumn: '1 / 5',
+            '@sm': { gridColumn: '1 / 9' },
+            '@md': { gridColumn: '2 / 12' },
+            '@xl': { gridColumn: '3 / 11' },
+            gap: '$7',
+            padding: '$7',
           }}
         >
           <Flex gap={7}>
             <Div
               css={{
-                height: "100%",
-                minHeight: "600px",
-                display: "none",
-                width: "0",
-                position: "relative",
-                borderRadius: "$2",
-                overflow: "hidden",
-                "@md": { display: "block", width: "168px" },
-                flexShrink: "0",
-                flexGrow: "0",
+                height: '100%',
+                minHeight: '600px',
+                display: 'none',
+                width: '0',
+                position: 'relative',
+                borderRadius: '$2',
+                overflow: 'hidden',
+                '@md': { display: 'block', width: '168px' },
+                flexShrink: '0',
+                flexGrow: '0',
               }}
             >
               <Image
                 fill
-                style={{ objectFit: "cover" }}
+                style={{ objectFit: 'cover' }}
                 alt=""
                 src="/img/onboarding/onboarding2.jpg"
               />
             </Div>
-            <Flex column css={{ flexGrow: "1", width: "100%" }}>
+            <Flex column css={{ flexGrow: '1', width: '100%' }}>
               <Progress progress={40} />
               <H4>Professional information</H4>
               <Formik
                 initialValues={{
                   experience: 0,
                   currency: undefined,
-                  hourlyRate: "",
+                  hourlyRate: '',
                 }}
                 validationSchema={OnboardingSchema}
                 onSubmit={async (values, actions) => {
                   actions.setSubmitting(true);
                   await axiosPrivate
-                    .post("user/onboarding/2", values)
+                    .post('user/onboarding/2', values)
                     .then(async (response) => {
-                      if (response.data?.success == "false") {
+                      if (response.data?.success == 'false') {
                         actions.setFieldError(
-                          "hourlyrate",
-                          "Oops, something went wrong",
+                          'hourlyrate',
+                          'Oops, something went wrong',
                         );
                       } else {
                         await store?.dispatch(refreshToken());
-                        router.replace("/get-started/3");
+                        router.replace('/get-started/3');
                       }
                     })
                     .catch((reason) => {
                       //TODO - error handling
-                      if (reason.code == "ERR_NETWORK") {
-                        actions.setFieldError("hourlyrate", "err_network");
+                      if (reason.code == 'ERR_NETWORK') {
+                        actions.setFieldError('hourlyrate', 'err_network');
                       } else {
                         const statuscode = Number(reason?.response?.status);
                         switch (statuscode) {
@@ -119,7 +119,7 @@ export default function GetStarted() {
               >
                 {(props) => {
                   return (
-                    <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                    <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                       <Flex column>
                         <H5>Experience</H5>
                         <span>
@@ -129,9 +129,9 @@ export default function GetStarted() {
                         <Slider name="experience" max={10} />
                         <Flex
                           css={{
-                            justifyContent: "space-between",
-                            paddingInlineStart: "12px",
-                            paddingInlineEnd: "4px",
+                            justifyContent: 'space-between',
+                            paddingInlineStart: '12px',
+                            paddingInlineEnd: '4px',
                           }}
                         >
                           <span>0</span>
@@ -152,12 +152,12 @@ export default function GetStarted() {
                         </span>
                         <Div
                           css={{
-                            display: "grid",
-                            gridTemplateColumns: "1fr",
-                            gap: "$4",
+                            display: 'grid',
+                            gridTemplateColumns: '1fr',
+                            gap: '$4',
 
-                            "@sm": {
-                              gridTemplateColumns: "1fr 3fr",
+                            '@sm': {
+                              gridTemplateColumns: '1fr 3fr',
                             },
                           }}
                         >
@@ -191,7 +191,7 @@ export default function GetStarted() {
                             {props.errors.currency}
                           </Feedback>
                         )}
-                        {props.errors.hourlyRate == "err_network" ? (
+                        {props.errors.hourlyRate == 'err_network' ? (
                           <Feedback state="error">
                             Looks like the site is experiencing heavy traffic
                             right now. Please try again, or if the issue
@@ -202,7 +202,7 @@ export default function GetStarted() {
                               target="_blank"
                             >
                               status page
-                            </TertiaryButton>{" "}
+                            </TertiaryButton>{' '}
                             for updates.
                           </Feedback>
                         ) : (
@@ -218,7 +218,7 @@ export default function GetStarted() {
                         We will never disclose this information - we use it to
                         help you when pricing your services
                       </Feedback>
-                      <Flex css={{ flexDirection: "row-reverse" }}>
+                      <Flex css={{ flexDirection: 'row-reverse' }}>
                         <Button
                           href="#"
                           onClick={(e) => {

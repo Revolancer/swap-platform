@@ -1,29 +1,29 @@
-import { useCallback, useEffect, useState } from "react";
-import { Flex } from "../layout/flex";
-import { P } from "../text/text";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Button } from "../navigation/button";
-import { InputOuter, TextAreaInner } from "../forms/input";
-import { Feedback } from "../forms/feedback";
+import { useCallback, useEffect, useState } from 'react';
+import { Flex } from '../layout/flex';
+import { P } from '../text/text';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Button } from '../navigation/button';
+import { InputOuter, TextAreaInner } from '../forms/input';
+import { Feedback } from '../forms/feedback';
 
 const UpdateAboutSchema = Yup.object().shape({
   about: Yup.string().optional().ensure(),
 });
 
 export const AboutSegment = ({
-  uid = "",
+  uid = '',
   own = false,
 }: {
   uid: string;
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [about, setAbout] = useState("");
+  const [about, setAbout] = useState('');
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
@@ -31,22 +31,22 @@ export const AboutSegment = ({
   const loadAboutForUser = useCallback(async () => {
     axiosPublic
       .get(`user/about/${uid}`, { id: `user-about-${uid}` })
-      .then((response) => setAbout(response.data?.about ?? ""))
-      .catch(() => setAbout(""));
+      .then((response) => setAbout(response.data?.about ?? ''))
+      .catch(() => setAbout(''));
   }, [uid]);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadAboutForUser();
     }
   }, [uid, loadAboutForUser]);
 
   const StaticAbout = () => {
     return (
-      <P css={{ color: `${placeholder() ? "$neutral600" : "$neutral800"}` }}>
+      <P css={{ color: `${placeholder() ? '$neutral600' : '$neutral800'}` }}>
         {placeholder()
-          ? "Tell us a bit about yourself"
-          : about.split("\n").map(function (item, idx) {
+          ? 'Tell us a bit about yourself'
+          : about.split('\n').map(function (item, idx) {
               return (
                 <span key={idx}>
                   {item}
@@ -59,7 +59,7 @@ export const AboutSegment = ({
   };
 
   const placeholder = () => {
-    return own && about == "";
+    return own && about == '';
   };
 
   const EditAbout = () => {
@@ -72,10 +72,10 @@ export const AboutSegment = ({
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/about", values)
+            .post('user/about', values)
             .then(async (response) => {
-              if (response.data?.success == "false") {
-                actions.setFieldError("about", "Oops, something went wrong");
+              if (response.data?.success == 'false') {
+                actions.setFieldError('about', 'Oops, something went wrong');
               } else {
                 await axiosPublic.storage.remove(`user-about-${uid}`);
                 await loadAboutForUser();
@@ -84,8 +84,8 @@ export const AboutSegment = ({
             })
             .catch((reason) => {
               //TODO - error handling
-              if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError("about", "Oops, something went wrong");
+              if (reason.code == 'ERR_NETWORK') {
+                actions.setFieldError('about', 'Oops, something went wrong');
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -101,7 +101,7 @@ export const AboutSegment = ({
       >
         {(props) => {
           return (
-            <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+            <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
               <InputOuter error={props.touched.about && !!props.errors.about}>
                 <TextAreaInner
                   name="about"
@@ -116,7 +116,7 @@ export const AboutSegment = ({
               {props.touched.about && props.errors.about && (
                 <Feedback state="error">{props.errors.about}</Feedback>
               )}
-              <Flex css={{ flexDirection: "row-reverse" }}>
+              <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
                   role="secondary"
@@ -149,16 +149,16 @@ export const AboutSegment = ({
     <>
       <Flex
         style={{
-          justifyContent: own ? "space-between" : "flex-start",
-          width: "100%",
+          justifyContent: own ? 'space-between' : 'flex-start',
+          width: '100%',
         }}
       >
-        <P css={{ color: "$neutral600" }}>About</P>
+        <P css={{ color: '$neutral600' }}>About</P>
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
             icon={faPencil}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
         )}
       </Flex>

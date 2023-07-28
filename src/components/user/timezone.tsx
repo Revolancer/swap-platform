@@ -1,42 +1,42 @@
-import { styled } from "stitches.config";
-import { Div } from "../layout/utils";
-import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Flex } from "../layout/flex";
-import { Button } from "../navigation/button";
-import { Formik } from "formik";
-import { UploadField } from "../forms/upload";
-import { Yup } from "@/lib/yup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faC, faClock, faPencil } from "@fortawesome/free-solid-svg-icons";
-import { TzSelect } from "../forms/select";
-import { P } from "../text/text";
-import { DateTime } from "luxon";
+import { styled } from 'stitches.config';
+import { Div } from '../layout/utils';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Flex } from '../layout/flex';
+import { Button } from '../navigation/button';
+import { Formik } from 'formik';
+import { UploadField } from '../forms/upload';
+import { Yup } from '@/lib/yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faC, faClock, faPencil } from '@fortawesome/free-solid-svg-icons';
+import { TzSelect } from '../forms/select';
+import { P } from '../text/text';
+import { DateTime } from 'luxon';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   timezone: Yup.string()
-    .required("Please select a timezone")
-    .min(1, "Please select a timezone")
+    .required('Please select a timezone')
+    .min(1, 'Please select a timezone')
     .ensure(),
 });
 
 export const Timezone = ({
-  uid = "",
+  uid = '',
   own = false,
 }: {
   uid: string;
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [timezone, setTimezone] = useState("");
+  const [timezone, setTimezone] = useState('');
 
   const zoneOffset = (timezone: string) => {
     const dt = DateTime.now().setZone(timezone);
     const zonename = DateTime.now().setZone(timezone).offsetNameLong;
     const offsetMins = dt.offset;
-    const offset = `${offsetMins >= 0 ? "+" : "-"}${Math.abs(offsetMins) / 60}`;
+    const offset = `${offsetMins >= 0 ? '+' : '-'}${Math.abs(offsetMins) / 60}`;
     return `${zonename} (UTC${offset})`;
   };
 
@@ -48,25 +48,25 @@ export const Timezone = ({
   const loadTimezone = useCallback(async () => {
     axiosPublic
       .get(`user/timezone/${uid}`, { id: `user-timezone-${uid}` })
-      .then((response) => setTimezone(response.data?.timezone ?? ""))
-      .catch(() => setTimezone(""));
+      .then((response) => setTimezone(response.data?.timezone ?? ''))
+      .catch(() => setTimezone(''));
   }, [uid]);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadTimezone();
     }
   }, [uid, loadTimezone]);
 
   const StaticTZ = () => {
     return (
-      <P css={{ color: "$neutral800" }}>
-        <FontAwesomeIcon icon={faClock} /> {zoneOffset(timezone)}{" "}
+      <P css={{ color: '$neutral800' }}>
+        <FontAwesomeIcon icon={faClock} /> {zoneOffset(timezone)}{' '}
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
             icon={faPencil}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
         )}
       </P>
@@ -83,10 +83,10 @@ export const Timezone = ({
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/timezone", values)
+            .post('user/timezone', values)
             .then(async (response) => {
-              if (response.data?.success == "false") {
-                actions.setFieldError("timezone", "Oops, something went wrong");
+              if (response.data?.success == 'false') {
+                actions.setFieldError('timezone', 'Oops, something went wrong');
               } else {
                 await axiosPublic.storage.remove(`user-timezone-${uid}`);
                 toggleEdit();
@@ -94,8 +94,8 @@ export const Timezone = ({
             })
             .catch((reason) => {
               //TODO - error handling
-              if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError("timezone", "Oops, something went wrong");
+              if (reason.code == 'ERR_NETWORK') {
+                actions.setFieldError('timezone', 'Oops, something went wrong');
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -111,9 +111,9 @@ export const Timezone = ({
       >
         {(props) => {
           return (
-            <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+            <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
               <TzSelect name="timezone" />
-              <Flex css={{ flexDirection: "row-reverse" }}>
+              <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
                   role="secondary"

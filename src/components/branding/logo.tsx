@@ -1,13 +1,13 @@
-export const Logo = ({ expanded = false, color = "default" }) => {
-  var variant = "";
+export const Logo = ({ expanded = false, color = 'default' }) => {
+  var variant = '';
   if (!expanded) {
-    variant += "Short";
+    variant += 'Short';
   }
-  if (color == "black") {
-    variant += "Black";
+  if (color == 'black') {
+    variant += 'Black';
   }
-  if (color == "white") {
-    variant += "White";
+  if (color == 'white') {
+    variant += 'White';
   }
   return (
     // eslint-disable-next-line @next/next/no-img-element

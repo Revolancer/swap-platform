@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
-import type { PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from '@reduxjs/toolkit';
+import type { PayloadAction } from '@reduxjs/toolkit';
 
 interface NavigationToggleState {
   expanded: boolean;
@@ -8,7 +8,7 @@ interface NavigationToggleState {
 const initialState = { expanded: false } as NavigationToggleState;
 
 const toggleSlice = createSlice({
-  name: "navigationToggle",
+  name: 'navigationToggle',
   initialState,
   reducers: {
     expand(state) {

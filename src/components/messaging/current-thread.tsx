@@ -1,17 +1,17 @@
-import { axiosPrivate } from "@/lib/axios";
-import { Message, UserProfileData } from "@/lib/types";
-import { LegacyRef, useCallback, useEffect, useState } from "react";
-import { LabelledDivider } from "../layout/divider";
-import { Div } from "../layout/utils";
-import { MessageInput } from "./message-input";
-import { DateTime } from "luxon";
-import store from "@/redux/store";
-import { MessageAuthor } from "./message-author";
-import { relative } from "path";
-import { P } from "../text/text";
-import { TertiaryButton } from "../navigation/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPaperclip } from "@fortawesome/free-solid-svg-icons";
+import { axiosPrivate } from '@/lib/axios';
+import { Message, UserProfileData } from '@/lib/types';
+import { LegacyRef, useCallback, useEffect, useState } from 'react';
+import { LabelledDivider } from '../layout/divider';
+import { Div } from '../layout/utils';
+import { MessageInput } from './message-input';
+import { DateTime } from 'luxon';
+import store from '@/redux/store';
+import { MessageAuthor } from './message-author';
+import { relative } from 'path';
+import { P } from '../text/text';
+import { TertiaryButton } from '../navigation/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
 export const CurrentThread = ({ uid }: { uid: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -19,11 +19,11 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
   const [messagesEnd, setMessagesEnd] = useState<HTMLDivElement>();
   const scrollToBottom = useCallback(() => {
-    if (messagesEnd) messagesEnd.scrollIntoView({ behavior: "smooth" });
+    if (messagesEnd) messagesEnd.scrollIntoView({ behavior: 'smooth' });
   }, [messagesEnd]);
 
   const loadActiveThread = useCallback(() => {
-    if (uid == "") return;
+    if (uid == '') return;
     axiosPrivate
       .get(`message/${uid}`, {
         id: `message-threads-${uid}`,
@@ -43,9 +43,9 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
 
   useEffect(() => {
     const loadProfiles = async () => {
-      if (uid == "") return;
-      const self = store?.getState()?.userData?.user?.id ?? "";
-      if (self == "") return;
+      if (uid == '') return;
+      const self = store?.getState()?.userData?.user?.id ?? '';
+      if (self == '') return;
       await axiosPrivate
         .get(`user/profile/by_id/${uid}`)
         .then((res) => res.data)
@@ -88,7 +88,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
 
   const renderMessageArray = () => {
     const rendered = [];
-    let lastSender = "";
+    let lastSender = '';
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     for (const message of messages) {
@@ -97,21 +97,21 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
       }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date
-      if (lastTime.startOf("day") < thisTime.startOf("day")) {
+      if (lastTime.startOf('day') < thisTime.startOf('day')) {
         if (thisTime.plus({ days: 180 }) < now) {
           rendered.push(
             <LabelledDivider
               label={thisTime
                 .toLocal()
-                .startOf("day")
-                .toFormat("cccc, LLLL d yyyy")}
+                .startOf('day')
+                .toFormat('cccc, LLLL d yyyy')}
               key={`divider-${message.id}`}
             />,
           );
         } else {
           rendered.push(
             <LabelledDivider
-              label={thisTime.toLocal().startOf("day").toFormat("cccc, LLLL d")}
+              label={thisTime.toLocal().startOf('day').toFormat('cccc, LLLL d')}
               key={`divider-${message.id}`}
             />,
           );
@@ -119,7 +119,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
       }
       //Sender chip
       if (
-        lastTime.startOf("day") < thisTime.startOf("day") ||
+        lastTime.startOf('day') < thisTime.startOf('day') ||
         lastTime.plus({ hours: 6 }) < thisTime ||
         lastSender != message.sender
       ) {
@@ -144,7 +144,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
 
       //Actual message body
       rendered.push(
-        message.body.split("\n").map(function (item, idx) {
+        message.body.split('\n').map(function (item, idx) {
           return (
             <span key={`${message.id}-${idx}`}>
               {item}
@@ -180,11 +180,11 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
 
   return (
     <>
-      <Div css={{ flexGrow: "1", overflowY: "auto" }}>
+      <Div css={{ flexGrow: '1', overflowY: 'auto' }}>
         {renderMessageArray()}
-        <div style={{ position: "relative" }}>
+        <div style={{ position: 'relative' }}>
           <div
-            style={{ position: "absolute", top: "0.1rem" }}
+            style={{ position: 'absolute', top: '0.1rem' }}
             ref={(el) => {
               if (el) setMessagesEnd(el);
             }}

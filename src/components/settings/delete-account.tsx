@@ -1,49 +1,49 @@
-import { config as styleconfig } from "stitches.config";
-import { useState } from "react";
-import Modal from "react-modal";
-import { Button, FormButton, UnstyledLink } from "../navigation/button";
-import { H4, H5 } from "../text/headings";
-import { P, Span } from "../text/text";
-import { Flex } from "../layout/flex";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { Feedback } from "../forms/feedback";
-import { SuccessModal } from "../modals/success-modal";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Form } from "../forms/form";
-import { axiosPrivate } from "@/lib/axios";
-import { InputInner, InputOuter, PasswordReveal } from "../forms/input";
-import { logout } from "@/lib/user/auth";
-import { useAppDispatch } from "@/redux/store";
+import { config as styleconfig } from 'stitches.config';
+import { useState } from 'react';
+import Modal from 'react-modal';
+import { Button, FormButton, UnstyledLink } from '../navigation/button';
+import { H4, H5 } from '../text/headings';
+import { P, Span } from '../text/text';
+import { Flex } from '../layout/flex';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { Feedback } from '../forms/feedback';
+import { SuccessModal } from '../modals/success-modal';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Form } from '../forms/form';
+import { axiosPrivate } from '@/lib/axios';
+import { InputInner, InputOuter, PasswordReveal } from '../forms/input';
+import { logout } from '@/lib/user/auth';
+import { useAppDispatch } from '@/redux/store';
 
 const styles = styleconfig.theme;
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
     borderRadius: styles.radii[2],
     paddingInline: styles.sizes[6],
     paddingBlock: styles.sizes[3],
-    maxWidth: "min(640px, 85vw)",
-    minWidth: "340px",
-    width: "100%",
+    maxWidth: 'min(640px, 85vw)',
+    minWidth: '340px',
+    width: '100%',
   },
 };
 
 const DeleteAccountSchema = Yup.object().shape({
-  password: Yup.string().required("Please provide your current password"),
+  password: Yup.string().required('Please provide your current password'),
 });
 
 export const DeleteAccount = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [pwType, setPwType] = useState("password");
+  const [pwType, setPwType] = useState('password');
   const dispatch = useAppDispatch();
 
   const openModal = () => {
@@ -52,11 +52,11 @@ export const DeleteAccount = () => {
   const closeModal = () => {
     setIsOpen(false);
   };
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <>
       <H5>Close Account</H5>
-      <Span css={{ color: "$neutral700" }}>
+      <Span css={{ color: '$neutral700' }}>
         Do you want to permanently close your account?
       </Span>
       <FormButton onClick={openModal} role="dangerous">
@@ -68,10 +68,10 @@ export const DeleteAccount = () => {
           closeModal();
         }}
         style={customStyles}
-        contentLabel={"Are you sure?"}
+        contentLabel={'Are you sure?'}
       >
         <Flex column>
-          <Flex css={{ justifyContent: "space-between" }}>
+          <Flex css={{ justifyContent: 'space-between' }}>
             <H4>Are you sure?</H4>
             <UnstyledLink
               href="#"
@@ -79,7 +79,7 @@ export const DeleteAccount = () => {
                 e.preventDefault();
                 closeModal();
               }}
-              css={{ fontSize: "$h5" }}
+              css={{ fontSize: '$h5' }}
             >
               <FontAwesomeIcon icon={faClose} />
             </UnstyledLink>
@@ -99,37 +99,37 @@ export const DeleteAccount = () => {
           <P>To close your account, please enter your current password:</P>
           <Formik
             initialValues={{
-              password: "",
+              password: '',
             }}
             validationSchema={DeleteAccountSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               await axiosPrivate
-                .post("user/delete", values)
+                .post('user/delete', values)
                 .then(() => {
                   actions.resetForm();
                   setSuccess(true);
                   closeModal();
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
+                  if (reason.code == 'ERR_NETWORK') {
                     actions.setFieldError(
-                      "password",
-                      "Oops, something went wrong",
+                      'password',
+                      'Oops, something went wrong',
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       case 401:
                         actions.setFieldError(
-                          "password",
-                          "Your password is incorrect",
+                          'password',
+                          'Your password is incorrect',
                         );
                         break;
                       default:
                         actions.setFieldError(
-                          "password",
-                          "Something went wrong",
+                          'password',
+                          'Something went wrong',
                         );
                         break;
                     }
@@ -140,7 +140,7 @@ export const DeleteAccount = () => {
           >
             {(props) => {
               return (
-                <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+                <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
                   <InputOuter
                     error={props.touched.password && !!props.errors.password}
                   >
@@ -155,11 +155,11 @@ export const DeleteAccount = () => {
                       value={props.values.password}
                     ></InputInner>
                     <PasswordReveal
-                      revealed={pwType == "text"}
+                      revealed={pwType == 'text'}
                       onClick={() => {
-                        pwType == "text"
-                          ? setPwType("password")
-                          : setPwType("text");
+                        pwType == 'text'
+                          ? setPwType('password')
+                          : setPwType('text');
                       }}
                     />
                   </InputOuter>

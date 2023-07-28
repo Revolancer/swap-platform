@@ -1,15 +1,15 @@
-import { useCallback, useEffect, useState } from "react";
-import { Proposal } from "@/lib/types";
-import { axiosPrivate } from "@/lib/axios";
-import Masonry, { ResponsiveMasonry } from "react-responsive-masonry";
-import { Flex } from "../layout/flex";
-import { H5 } from "../text/headings";
-import { NeedProfileCard } from "../user-posts/need-profile-card";
-import Image from "next/image";
-import { P } from "../text/text";
-import { Button } from "../navigation/button";
+import { useCallback, useEffect, useState } from 'react';
+import { Proposal } from '@/lib/types';
+import { axiosPrivate } from '@/lib/axios';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { Flex } from '../layout/flex';
+import { H5 } from '../text/headings';
+import { NeedProfileCard } from '../user-posts/need-profile-card';
+import Image from 'next/image';
+import { P } from '../text/text';
+import { Button } from '../navigation/button';
 
-export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
+export const ProposalsSegment = ({ uid = '' }: { uid: string }) => {
   const [posts, setPosts] = useState<Proposal[]>([]);
 
   const loadPostsForUser = useCallback(async () => {
@@ -22,14 +22,14 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
   }, []);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadPostsForUser();
     }
   }, [uid, loadPostsForUser]);
   const staticPosts = [];
   for (const post of posts) {
     staticPosts.push(
-      <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ""} />,
+      <NeedProfileCard withAuthor data={post.need} key={post?.id ?? ''} />,
     );
   }
   return staticPosts.length > 0 ? (
@@ -44,7 +44,7 @@ export const ProposalsSegment = ({ uid = "" }: { uid: string }) => {
       <Flex
         column
         gap={3}
-        css={{ width: "100%", alignItems: "center", marginBlock: "$8" }}
+        css={{ width: '100%', alignItems: 'center', marginBlock: '$8' }}
       >
         <P>You don&rsquo;t currently have any outgoing proposals</P>
         <Image

@@ -1,41 +1,41 @@
-import { config as styleconfig } from "stitches.config";
-import Modal from "react-modal";
-import { Button, UnstyledLink } from "./button";
-import { useState } from "react";
-import { Flex } from "../layout/flex";
-import { H4 } from "../text/headings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
-import { P } from "../text/text";
+import { config as styleconfig } from 'stitches.config';
+import Modal from 'react-modal';
+import { Button, UnstyledLink } from './button';
+import { useState } from 'react';
+import { Flex } from '../layout/flex';
+import { H4 } from '../text/headings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
+import { P } from '../text/text';
 
 const styles = styleconfig.theme;
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
     borderRadius: styles.radii[2],
     paddingInline: styles.sizes[6],
     paddingBlock: styles.sizes[3],
-    maxWidth: "min(640px, 85vw)",
-    minWidth: "340px",
-    width: "100%",
+    maxWidth: 'min(640px, 85vw)',
+    minWidth: '340px',
+    width: '100%',
   },
 };
 
 export const ConfirmationDialog = ({
   onAccept,
   onReject,
-  confirmationMessage = "Are you sure you want to do that?",
-  labelAccept = "Confirm",
-  labelReject = "Cancel",
+  confirmationMessage = 'Are you sure you want to do that?',
+  labelAccept = 'Confirm',
+  labelReject = 'Cancel',
   dangerous = false,
   label,
-  title = "Are you sure?",
+  title = 'Are you sure?',
 }: {
   label: string;
   onAccept: () => void;
@@ -61,11 +61,11 @@ export const ConfirmationDialog = ({
   const closeModal = () => {
     setIsOpen(false);
   };
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <>
       <Button
-        role={dangerous ? "dangerous" : "primary"}
+        role={dangerous ? 'dangerous' : 'primary'}
         href="#"
         onClick={(e) => {
           e.preventDefault();
@@ -84,7 +84,7 @@ export const ConfirmationDialog = ({
         contentLabel={title}
       >
         <Flex column>
-          <Flex css={{ justifyContent: "space-between" }}>
+          <Flex css={{ justifyContent: 'space-between' }}>
             <H4>{title}</H4>
             <UnstyledLink
               href="#"
@@ -93,7 +93,7 @@ export const ConfirmationDialog = ({
                 rejectHandler();
                 closeModal();
               }}
-              css={{ fontSize: "$h5" }}
+              css={{ fontSize: '$h5' }}
             >
               <FontAwesomeIcon icon={faClose} />
             </UnstyledLink>
@@ -101,7 +101,7 @@ export const ConfirmationDialog = ({
           <P>{confirmationMessage}</P>
           <Flex>
             <Button
-              role={dangerous ? "dangerous" : "primary"}
+              role={dangerous ? 'dangerous' : 'primary'}
               href="#"
               onClick={(e) => {
                 e.preventDefault();

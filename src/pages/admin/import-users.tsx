@@ -1,27 +1,27 @@
-import { Title } from "@/components/head/title";
-import { Flex } from "@/components/layout/flex";
-import { AdminLayout } from "@/components/layout/layouts";
-import { Button } from "@/components/navigation/button";
-import { H5 } from "@/components/text/headings";
-import { axiosPrivate } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { Formik } from "formik";
-import { Form } from "@/components/forms/form";
-import { useState } from "react";
-import { InputInner, InputOuter } from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { FullWidth } from "@/components/layout/columns";
-import { styled } from "stitches.config";
-import { SuccessModal } from "@/components/modals/success-modal";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
-import { UploadField } from "@/components/forms/upload";
-import { P } from "@/components/text/text";
+import { Title } from '@/components/head/title';
+import { Flex } from '@/components/layout/flex';
+import { AdminLayout } from '@/components/layout/layouts';
+import { Button } from '@/components/navigation/button';
+import { H5 } from '@/components/text/headings';
+import { axiosPrivate } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { Formik } from 'formik';
+import { Form } from '@/components/forms/form';
+import { useState } from 'react';
+import { InputInner, InputOuter } from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { FullWidth } from '@/components/layout/columns';
+import { styled } from 'stitches.config';
+import { SuccessModal } from '@/components/modals/success-modal';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { UploadField } from '@/components/forms/upload';
+import { P } from '@/components/text/text';
 
 const CreditsSchema = Yup.object().shape({
   userCsv: Yup.string()
-    .required("Maximum upload size is 40MB")
-    .min(1, "Maximum upload size is 40MB"),
+    .required('Maximum upload size is 40MB')
+    .min(1, 'Maximum upload size is 40MB'),
 });
 
 export default function ImportUsers() {
@@ -39,18 +39,18 @@ export default function ImportUsers() {
         <FullWidth>
           <Formik
             initialValues={{
-              userCsv: "",
+              userCsv: '',
             }}
             validationSchema={CreditsSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               await axiosPrivate
-                .post("admin/user/import", values)
+                .post('admin/user/import', values)
                 .then(async (response) => {
-                  if (response.data?.success == "false") {
+                  if (response.data?.success == 'false') {
                     actions.setFieldError(
-                      "parent",
-                      "Oops, something went wrong",
+                      'parent',
+                      'Oops, something went wrong',
                     );
                   } else {
                     actions.resetForm();
@@ -58,18 +58,18 @@ export default function ImportUsers() {
                   }
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
+                  if (reason.code == 'ERR_NETWORK') {
                     actions.setFieldError(
-                      "amount",
-                      "Oops, something went wrong",
+                      'amount',
+                      'Oops, something went wrong',
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       default:
                         actions.setFieldError(
-                          "amount",
-                          "Oops, something went wrong",
+                          'amount',
+                          'Oops, something went wrong',
                         );
                     }
                   }
@@ -80,10 +80,10 @@ export default function ImportUsers() {
             {(props) => {
               return (
                 <>
-                  <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                  <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                     <Flex column>
                       <H5>CSV File</H5>
-                      <P css={{ color: "$red500" }}>
+                      <P css={{ color: '$red500' }}>
                         Caution: This is <em>only</em> to be used to import
                         users from Revolancer Classic. Do not use this form if
                         you are unsure of its purpose or function, or without
@@ -96,7 +96,7 @@ export default function ImportUsers() {
                         </Feedback>
                       )}
                     </Flex>
-                    <Flex css={{ flexDirection: "row-reverse" }}>
+                    <Flex css={{ flexDirection: 'row-reverse' }}>
                       <Button
                         href="#"
                         onClick={(e) => {

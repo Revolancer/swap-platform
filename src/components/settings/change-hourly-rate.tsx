@@ -1,32 +1,32 @@
-import { Flex } from "../layout/flex";
-import { axiosPrivate } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Button } from "../navigation/button";
-import { InputInner, InputOuter } from "../forms/input";
-import { Feedback } from "../forms/feedback";
-import { H5 } from "../text/headings";
-import { useEffect, useState } from "react";
-import { SuccessModal } from "../modals/success-modal";
-import { Select, SelectGroup, SelectItem } from "../forms/select";
-import { Div } from "../layout/utils";
-import { Span } from "../text/text";
+import { Flex } from '../layout/flex';
+import { axiosPrivate } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Button } from '../navigation/button';
+import { InputInner, InputOuter } from '../forms/input';
+import { Feedback } from '../forms/feedback';
+import { H5 } from '../text/headings';
+import { useEffect, useState } from 'react';
+import { SuccessModal } from '../modals/success-modal';
+import { Select, SelectGroup, SelectItem } from '../forms/select';
+import { Div } from '../layout/utils';
+import { Span } from '../text/text';
 
 const HourlyRateSchema = Yup.object().shape({
   currency: Yup.string()
-    .required("Please provide your currency")
+    .required('Please provide your currency')
     .oneOf(
-      ["gbp", "eur", "usd"],
-      "Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR",
+      ['gbp', 'eur', 'usd'],
+      'Sorry, we do not currently support that currency. Please provide the equivalent rate in GBP, USD, or EUR',
     )
     .ensure(),
   hourlyRate: Yup.number()
-    .required("Please provide your hourly rate")
-    .min(5, "We recommend charging more")
+    .required('Please provide your hourly rate')
+    .min(5, 'We recommend charging more')
     .max(
       10000,
-      "Your hourly rate is extremely high, we recommend a lower rate",
+      'Your hourly rate is extremely high, we recommend a lower rate',
     ),
 });
 
@@ -38,7 +38,7 @@ export const ChangeHourlyRate = () => {
 
   useEffect(() => {
     axiosPrivate
-      .get("user/rate")
+      .get('user/rate')
       .then((res) => res.data)
       .then((data) => {
         setCurrency(data.currency);
@@ -59,18 +59,18 @@ export const ChangeHourlyRate = () => {
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
         await axiosPrivate
-          .post("user/rate", values)
+          .post('user/rate', values)
           .then(() => {
             setSuccess(true);
           })
           .catch((reason) => {
-            if (reason.code == "ERR_NETWORK") {
-              actions.setFieldError("currency", "Oops, something went wrong");
+            if (reason.code == 'ERR_NETWORK') {
+              actions.setFieldError('currency', 'Oops, something went wrong');
             } else {
               const statuscode = Number(reason?.response?.status);
               switch (statuscode) {
                 default:
-                  actions.setFieldError("currency", "Something went wrong");
+                  actions.setFieldError('currency', 'Something went wrong');
                   break;
               }
             }
@@ -80,20 +80,20 @@ export const ChangeHourlyRate = () => {
     >
       {(props) => {
         return (
-          <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+          <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
             <Flex column>
               <H5>Hourly Rate</H5>
-              <Span css={{ color: "$neutral700" }}>
+              <Span css={{ color: '$neutral700' }}>
                 How much do you typically charge per hour for your services?
               </Span>
               <Div
                 css={{
-                  display: "grid",
-                  gridTemplateColumns: "1fr",
-                  gap: "$4",
+                  display: 'grid',
+                  gridTemplateColumns: '1fr',
+                  gap: '$4',
 
-                  "@sm": {
-                    gridTemplateColumns: "1fr 3fr",
+                  '@sm': {
+                    gridTemplateColumns: '1fr 3fr',
                   },
                 }}
               >

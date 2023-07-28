@@ -1,43 +1,43 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { axiosPublic } from "@/lib/axios";
-import { P } from "@/components/text/text";
-import { Title } from "@/components/head/title";
-import { LoginLayout } from "@/components/layout/layouts";
-import { Card } from "@/components/layout/cards";
-import { H4 } from "@/components/text/headings";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Flex } from "@/components/layout/flex";
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { axiosPublic } from '@/lib/axios';
+import { P } from '@/components/text/text';
+import { Title } from '@/components/head/title';
+import { LoginLayout } from '@/components/layout/layouts';
+import { Card } from '@/components/layout/cards';
+import { H4 } from '@/components/text/headings';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Flex } from '@/components/layout/flex';
 import {
   InputInner,
   InputOuter,
   PasswordReveal,
-} from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { Button, FormButton, Link } from "@/components/navigation/button";
-import { SuccessModal } from "@/components/modals/success-modal";
-import { Form } from "@/components/forms/form";
-import { Turnstile } from "@/components/forms/turnstile";
-import Image from "next/image";
+} from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { Button, FormButton, Link } from '@/components/navigation/button';
+import { SuccessModal } from '@/components/modals/success-modal';
+import { Form } from '@/components/forms/form';
+import { Turnstile } from '@/components/forms/turnstile';
+import Image from 'next/image';
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string()
     .password()
-    .required("Please provide a password")
-    .label("Your new password"),
+    .required('Please provide a password')
+    .label('Your new password'),
   repeatpassword: Yup.string()
-    .required("Please confirm your new password")
-    .oneOf([Yup.ref("password")], "Passwords must match"),
+    .required('Please confirm your new password')
+    .oneOf([Yup.ref('password')], 'Passwords must match'),
 });
 
 export default function ResetPassword() {
   const [success, setSuccess] = useState(false);
-  const [pwType, setPwType] = useState("password");
+  const [pwType, setPwType] = useState('password');
   const router = useRouter();
   const { key } = router.query;
   const [isNotFound, setNotFound] = useState(false);
-  const [turnstileResponse, setTurnstileResponse] = useState("");
+  const [turnstileResponse, setTurnstileResponse] = useState('');
 
   useEffect(() => {
     if (!key) return;
@@ -53,16 +53,16 @@ export default function ResetPassword() {
         <LoginLayout>
           <Card
             css={{
-              gridColumn: "1 / 5",
-              "@sm": { gridColumn: "2 / 8" },
-              "@md": { gridColumn: "3 / 11" },
-              "@xl": { gridColumn: "4 / 10" },
-              gap: "$7",
-              padding: "$7",
+              gridColumn: '1 / 5',
+              '@sm': { gridColumn: '2 / 8' },
+              '@md': { gridColumn: '3 / 11' },
+              '@xl': { gridColumn: '4 / 10' },
+              gap: '$7',
+              padding: '$7',
             }}
           >
-            <H4 css={{ textAlign: "center" }}>Resetting your password</H4>
-            <Flex column gap={4} css={{ alignItems: "center" }}>
+            <H4 css={{ textAlign: 'center' }}>Resetting your password</H4>
+            <Flex column gap={4} css={{ alignItems: 'center' }}>
               <Image
                 src="/img/revy/happy.png"
                 alt="Revy, happy to guide you back to safety"
@@ -84,20 +84,20 @@ export default function ResetPassword() {
       <LoginLayout>
         <Card
           css={{
-            gridColumn: "1 / 5",
-            "@sm": { gridColumn: "2 / 8" },
-            "@md": { gridColumn: "3 / 11" },
-            "@xl": { gridColumn: "4 / 10" },
-            gap: "$7",
-            padding: "$7",
+            gridColumn: '1 / 5',
+            '@sm': { gridColumn: '2 / 8' },
+            '@md': { gridColumn: '3 / 11' },
+            '@xl': { gridColumn: '4 / 10' },
+            gap: '$7',
+            padding: '$7',
           }}
         >
-          <H4 css={{ textAlign: "center" }}>Resetting your password</H4>
+          <H4 css={{ textAlign: 'center' }}>Resetting your password</H4>
           <P>Please select a new password for your account.</P>
           <Formik
             initialValues={{
-              password: "",
-              repeatpassword: "",
+              password: '',
+              repeatpassword: '',
               resetKey: key,
             }}
             validationSchema={ResetPasswordSchema}
@@ -105,20 +105,20 @@ export default function ResetPassword() {
               actions.setSubmitting(true);
               (values as any).turnstileResponse = turnstileResponse;
               await axiosPublic
-                .post("auth/reset_password", values)
+                .post('auth/reset_password', values)
                 .then((response) => {
                   setSuccess(true);
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
-                    actions.setFieldError("password", "Something went wrong");
+                  if (reason.code == 'ERR_NETWORK') {
+                    actions.setFieldError('password', 'Something went wrong');
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       default:
                         actions.setFieldError(
-                          "password",
-                          "Something went wrong",
+                          'password',
+                          'Something went wrong',
                         );
                         break;
                     }
@@ -129,7 +129,7 @@ export default function ResetPassword() {
           >
             {(props) => {
               return (
-                <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                   <Flex column gap="3">
                     <InputOuter
                       error={props.touched.password && !!props.errors.password}
@@ -145,11 +145,11 @@ export default function ResetPassword() {
                         value={props.values.password}
                       ></InputInner>
                       <PasswordReveal
-                        revealed={pwType == "text"}
+                        revealed={pwType == 'text'}
                         onClick={() => {
-                          pwType == "text"
-                            ? setPwType("password")
-                            : setPwType("text");
+                          pwType == 'text'
+                            ? setPwType('password')
+                            : setPwType('text');
                         }}
                       />
                     </InputOuter>
@@ -173,11 +173,11 @@ export default function ResetPassword() {
                         value={props.values.repeatpassword}
                       ></InputInner>
                       <PasswordReveal
-                        revealed={pwType == "text"}
+                        revealed={pwType == 'text'}
                         onClick={() => {
-                          pwType == "text"
-                            ? setPwType("password")
-                            : setPwType("text");
+                          pwType == 'text'
+                            ? setPwType('password')
+                            : setPwType('text');
                         }}
                       />
                     </InputOuter>
@@ -188,11 +188,11 @@ export default function ResetPassword() {
                         </Feedback>
                       )}
                   </Flex>
-                  <Flex css={{ justifyContent: "center" }}>
+                  <Flex css={{ justifyContent: 'center' }}>
                     <Turnstile
                       onSuccess={(token) => setTurnstileResponse(token)}
                       onError={() => {
-                        setTurnstileResponse("");
+                        setTurnstileResponse('');
                       }}
                     />
                   </Flex>
@@ -204,8 +204,8 @@ export default function ResetPassword() {
                   <FormButton type="submit" disabled={props.isSubmitting}>
                     Reset
                   </FormButton>
-                  <P css={{ textAlign: "center", color: "$neutral600" }}>
-                    Don&rsquo;t need to reset your password?{" "}
+                  <P css={{ textAlign: 'center', color: '$neutral600' }}>
+                    Don&rsquo;t need to reset your password?{' '}
                     <Link href="/login">Log in.</Link>
                   </P>
                   {success && (
@@ -213,7 +213,7 @@ export default function ResetPassword() {
                       successMessage="Your password has been reset"
                       onClose={() => {
                         setSuccess(false);
-                        router.replace("/login");
+                        router.replace('/login');
                       }}
                     />
                   )}

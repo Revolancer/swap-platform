@@ -1,59 +1,59 @@
-declare module "@editorjs/header" {
-  import Header from "@editorjs/header";
+declare module '@editorjs/header' {
+  import Header from '@editorjs/header';
   export = Header;
 }
 
-declare module "@editorjs/list" {
-  import List from "@editorjs/list";
+declare module '@editorjs/list' {
+  import List from '@editorjs/list';
   export = List;
 }
 
-declare module "@editorjs/table" {
-  import Table from "@editorjs/table";
+declare module '@editorjs/table' {
+  import Table from '@editorjs/table';
   export = Table;
 }
 
-declare module "@editorjs/embed" {
-  import Embed from "@editorjs/embed";
+declare module '@editorjs/embed' {
+  import Embed from '@editorjs/embed';
   export = Embed;
 }
 
-declare module "@editorjs/code" {
-  import Code from "@editorjs/code";
+declare module '@editorjs/code' {
+  import Code from '@editorjs/code';
   export = Code;
 }
 
-declare module "@editorjs/image" {
-  import Image from "@editorjs/image";
+declare module '@editorjs/image' {
+  import Image from '@editorjs/image';
   export = Image;
 }
 
-declare module "@editorjs/underline" {
-  import Underline from "@editorjs/underline";
+declare module '@editorjs/underline' {
+  import Underline from '@editorjs/underline';
   export = Underline;
 }
 
-declare module "@editorjs/quote" {
-  import Quote from "@editorjs/quote";
+declare module '@editorjs/quote' {
+  import Quote from '@editorjs/quote';
   export = Quote;
 }
 
-declare module "@editorjs/marker" {
-  import Marker from "@editorjs/marker";
+declare module '@editorjs/marker' {
+  import Marker from '@editorjs/marker';
   export = Marker;
 }
 
-declare module "@editorjs/list" {
-  import List from "@editorjs/list";
+declare module '@editorjs/list' {
+  import List from '@editorjs/list';
   export = List;
 }
 
-declare module "@editorjs/paragraph" {
-  import Paragraph from "@editorjs/paragraph";
+declare module '@editorjs/paragraph' {
+  import Paragraph from '@editorjs/paragraph';
   export = Paragraph;
 }
 
-declare module "editorjs-hyperlink" {
-  import Hyperlink from "editorjs-hyperlink";
+declare module 'editorjs-hyperlink' {
+  import Hyperlink from 'editorjs-hyperlink';
   export = Hyperlink;
 }

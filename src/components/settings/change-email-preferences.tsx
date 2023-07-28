@@ -1,15 +1,15 @@
-import { Flex } from "../layout/flex";
-import { axiosPrivate } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Button } from "../navigation/button";
-import { Checkbox, InputInner, InputOuter } from "../forms/input";
-import { Feedback } from "../forms/feedback";
-import { H5 } from "../text/headings";
-import { useEffect, useState } from "react";
-import { SuccessModal } from "../modals/success-modal";
-import { P } from "../text/text";
+import { Flex } from '../layout/flex';
+import { axiosPrivate } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Button } from '../navigation/button';
+import { Checkbox, InputInner, InputOuter } from '../forms/input';
+import { Feedback } from '../forms/feedback';
+import { H5 } from '../text/headings';
+import { useEffect, useState } from 'react';
+import { SuccessModal } from '../modals/success-modal';
+import { P } from '../text/text';
 
 export const ChangeEmailPreferences = () => {
   const [firstParty, setFirstParty] = useState(false);
@@ -19,7 +19,7 @@ export const ChangeEmailPreferences = () => {
 
   useEffect(() => {
     axiosPrivate
-      .get("user/email_prefs")
+      .get('user/email_prefs')
       .then((res) => res.data)
       .then((data) => {
         setFirstParty(data.firstparty);
@@ -39,23 +39,23 @@ export const ChangeEmailPreferences = () => {
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
         await axiosPrivate
-          .post("user/email_prefs", values)
+          .post('user/email_prefs', values)
           .then(() => {
             setSuccess(true);
           })
           .catch((reason) => {
-            if (reason.code == "ERR_NETWORK") {
+            if (reason.code == 'ERR_NETWORK') {
               actions.setFieldError(
-                "marketingthirdparty",
-                "Oops, something went wrong",
+                'marketingthirdparty',
+                'Oops, something went wrong',
               );
             } else {
               const statuscode = Number(reason?.response?.status);
               switch (statuscode) {
                 default:
                   actions.setFieldError(
-                    "marketingthirdparty",
-                    "Something went wrong",
+                    'marketingthirdparty',
+                    'Something went wrong',
                   );
                   break;
               }
@@ -66,7 +66,7 @@ export const ChangeEmailPreferences = () => {
     >
       {(props) => {
         return (
-          <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+          <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
             <Flex column>
               <Checkbox
                 id="marketingfirstparty"
@@ -96,7 +96,7 @@ export const ChangeEmailPreferences = () => {
                   </Feedback>
                 )}
             </Flex>
-            <P css={{ color: "$neutral700", fontStyle: "italic" }}>
+            <P css={{ color: '$neutral700', fontStyle: 'italic' }}>
               Please note, some emails are required for the functionality of the
               site and cannot be disabled without closing your Revolancer
               account.
