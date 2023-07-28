@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
-import { Flex } from "../layout/flex";
-import { axiosPrivate } from "@/lib/axios";
-import { Message } from "@/lib/types";
-import { ThreadListEntry } from "./thread-list-entry";
+import { useEffect, useState } from 'react';
+import { Flex } from '../layout/flex';
+import { axiosPrivate } from '@/lib/axios';
+import { Message } from '@/lib/types';
+import { ThreadListEntry } from './thread-list-entry';
 
 export const ThreadList = ({ activeThread }: { activeThread: string }) => {
   const [threads, setThreads] = useState<Message[]>([]);
@@ -10,7 +10,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
   useEffect(() => {
     const loadThreads = async () => {
       axiosPrivate
-        .get("message", {
+        .get('message', {
           id: `message-threads`,
           cache: {
             ttl: 20 * 1000,
@@ -45,9 +45,9 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
     <Flex
       column
       css={{
-        maxHeight: "200px",
-        overflowY: "auto",
-        "@md": { maxHeight: "85dvh", paddingBlockEnd: "$4" },
+        maxHeight: '200px',
+        overflowY: 'auto',
+        '@md': { maxHeight: '85dvh', paddingBlockEnd: '$4' },
       }}
       gap={0}
     >

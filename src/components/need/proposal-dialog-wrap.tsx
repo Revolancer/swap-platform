@@ -1,18 +1,18 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { ProposalNoPortfolioModal } from "../modals/proposal-no-portfolio-modal";
-import { ProposalDialog } from "./proposal-dialog";
-import { axiosPublic } from "@/lib/axios";
-import store from "@/redux/store";
-import { useRouter } from "next/router";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { ProposalNoPortfolioModal } from '../modals/proposal-no-portfolio-modal';
+import { ProposalDialog } from './proposal-dialog';
+import { axiosPublic } from '@/lib/axios';
+import store from '@/redux/store';
+import { useRouter } from 'next/router';
 
 export const ProposalDialogWrap = ({ id }: { id: string }) => {
   const [success, setSuccess] = useState(false);
   const [hasPortfolio, setHasPortfolio] = useState(false);
   const [loading, setLoading] = useState(true);
-  const self = useMemo(() => store?.getState()?.userData?.user?.id ?? "", []);
+  const self = useMemo(() => store?.getState()?.userData?.user?.id ?? '', []);
 
   const loadPostsForUser = useCallback(async () => {
-    if (self == "") return;
+    if (self == '') return;
     axiosPublic
       .get(`portfolio/for_user/${self}`, {
         id: `user-portfolio-${self}`,

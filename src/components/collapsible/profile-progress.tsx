@@ -1,45 +1,45 @@
-import { useCallback, useEffect, useMemo, useState } from "react";
-import { Card } from "../layout/cards";
-import { P } from "../text/text";
-import { ProgressTraffic } from "../forms/progress-traffic";
-import { Link, UnstyledLink } from "../navigation/button";
-import { Flex } from "../layout/flex";
-import { styled } from "stitches.config";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faAngleDown, faAngleUp } from "@fortawesome/free-solid-svg-icons";
-import { CheckedProgressItem } from "../forms/checked-progress-item";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import store from "@/redux/store";
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { Card } from '../layout/cards';
+import { P } from '../text/text';
+import { ProgressTraffic } from '../forms/progress-traffic';
+import { Link, UnstyledLink } from '../navigation/button';
+import { Flex } from '../layout/flex';
+import { styled } from 'stitches.config';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
+import { CheckedProgressItem } from '../forms/checked-progress-item';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import store from '@/redux/store';
 
-const Expander = styled("div", {
-  borderRadius: "100%",
-  borderStyle: "$solid",
-  borderWidth: "$1",
-  borderColor: "$neutral500",
-  width: "$8",
-  height: "$8",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  color: "$neutral600",
+const Expander = styled('div', {
+  borderRadius: '100%',
+  borderStyle: '$solid',
+  borderWidth: '$1',
+  borderColor: '$neutral500',
+  width: '$8',
+  height: '$8',
+  display: 'flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  color: '$neutral600',
 });
 
-const CheckColumns = styled("div", {
-  display: "grid",
-  gap: "$4",
+const CheckColumns = styled('div', {
+  display: 'grid',
+  gap: '$4',
 
-  "@md": {
-    gridTemplateRows: "1fr 1fr 1fr",
-    gridAutoFlow: "column",
+  '@md': {
+    gridTemplateRows: '1fr 1fr 1fr',
+    gridAutoFlow: 'column',
   },
 
-  "@lg": {
-    gridTemplateRows: "1fr 1fr",
+  '@lg': {
+    gridTemplateRows: '1fr 1fr',
   },
 });
 
 export const ProfileProgress = ({
-  position = "desktop",
+  position = 'desktop',
 }: {
   position?: string;
 }) => {
@@ -62,7 +62,7 @@ export const ProfileProgress = ({
     return pct;
   }, [aboutComplete, needCount, postCount, taglineComplete, loading]);
 
-  const uid = store?.getState()?.userData?.user?.id ?? "";
+  const uid = store?.getState()?.userData?.user?.id ?? '';
 
   const markChecklistComplete = useCallback(async () => {
     return await axiosPrivate
@@ -75,15 +75,15 @@ export const ProfileProgress = ({
   const emoji = useMemo(() => {
     if (percent >= 100) {
       markChecklistComplete();
-      return "✅";
+      return '✅';
     }
     if (percent >= 70) {
-      return "🌤️";
+      return '🌤️';
     }
     if (percent >= 40) {
-      return "🟠";
+      return '🟠';
     }
-    return "🚨";
+    return '🚨';
   }, [markChecklistComplete, percent]);
 
   const toggle = useCallback(() => {
@@ -94,7 +94,7 @@ export const ProfileProgress = ({
     await axiosPublic
       .get(`user/tagline/${uid}`, { id: `user-tagline-${uid}` })
       .then((response) =>
-        setTaglineComplete(response.data?.tagline !== "" ?? false),
+        setTaglineComplete(response.data?.tagline !== '' ?? false),
       )
       .catch(() => setTaglineComplete(false));
   }, [uid]);
@@ -103,7 +103,7 @@ export const ProfileProgress = ({
       .get(`user/about/${uid}`, { id: `user-about-${uid}` })
       .then((response) =>
         setAboutComplete(
-          response.data?.about !== "" && response.data?.about !== null,
+          response.data?.about !== '' && response.data?.about !== null,
         ),
       )
       .catch(() => setAboutComplete(false));
@@ -151,18 +151,18 @@ export const ProfileProgress = ({
   return (
     <Card
       css={{
-        display: position == "desktop" ? "none" : "flex",
-        marginBottom: position == "desktop" ? "0" : "$7",
-        "@md": { display: position == "desktop" ? "flex" : "none" },
+        display: position == 'desktop' ? 'none' : 'flex',
+        marginBottom: position == 'desktop' ? '0' : '$7',
+        '@md': { display: position == 'desktop' ? 'flex' : 'none' },
       }}
     >
       <P
-        css={{ fontSize: "$body1", lineHeight: "$body1", fontWeight: "$bold" }}
+        css={{ fontSize: '$body1', lineHeight: '$body1', fontWeight: '$bold' }}
       >
         {emoji} Complete your profile to unlock 50 bonus credits. ({percent}%
         complete)
       </P>
-      <P css={{ color: "$neutral600" }}>
+      <P css={{ color: '$neutral600' }}>
         Completed profiles on Revolancer get more views, messages and requests!
         ✨
       </P>
@@ -187,14 +187,14 @@ export const ProfileProgress = ({
               Post 3 Needs ({needCount}/3)
             </CheckedProgressItem>
           </CheckColumns>
-          <P css={{ color: "$neutral600" }}>
-            💡 Need some help? Check out our{" "}
+          <P css={{ color: '$neutral600' }}>
+            💡 Need some help? Check out our{' '}
             <Link
               href="https://support.revolancer.com/hc/en-gb/articles/11727086964253-How-to-Complete-your-Profile"
               target="_blank"
             >
               guide
-            </Link>{" "}
+            </Link>{' '}
             on completing your profile.
           </P>
         </>
@@ -206,11 +206,11 @@ export const ProfileProgress = ({
           toggle();
         }}
       >
-        <Flex css={{ alignItems: "center" }}>
+        <Flex css={{ alignItems: 'center' }}>
           <Expander>
             <FontAwesomeIcon icon={expanded ? faAngleUp : faAngleDown} />
           </Expander>
-          <P>{expanded ? "Close" : "Open"} Checklist</P>
+          <P>{expanded ? 'Close' : 'Open'} Checklist</P>
         </Flex>
       </UnstyledLink>
     </Card>

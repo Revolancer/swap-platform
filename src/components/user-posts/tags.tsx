@@ -1,6 +1,6 @@
-import { Flex } from "../layout/flex";
-import { Tag } from "@/lib/types";
-import { TagElement } from "../tags";
+import { Flex } from '../layout/flex';
+import { Tag } from '@/lib/types';
+import { TagElement } from '../tags';
 
 export const Tags = ({ tags = [] }: { tags: Tag[] }) => {
   const staticTags = [];

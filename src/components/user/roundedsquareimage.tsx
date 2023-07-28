@@ -1,62 +1,62 @@
-import { styled } from "stitches.config";
-import { Div } from "../layout/utils";
-import Image from "next/image";
+import { styled } from 'stitches.config';
+import { Div } from '../layout/utils';
+import Image from 'next/image';
 
 export const RoundedSquareImage = ({
-  url = "",
-  size = "xl",
-  alt = "",
+  url = '',
+  size = 'xl',
+  alt = '',
 }: {
   url?: string;
   alt?: string;
-  size?: "small" | "medium" | "large" | "xl";
+  size?: 'small' | 'medium' | 'large' | 'xl';
 }) => {
-  const sizePixels = (size: "small" | "medium" | "large" | "xl") => {
+  const sizePixels = (size: 'small' | 'medium' | 'large' | 'xl') => {
     switch (size) {
-      case "small":
+      case 'small':
         return 36;
-      case "medium":
+      case 'medium':
         return 48;
-      case "large":
+      case 'large':
         return 64;
-      case "xl":
+      case 'xl':
         return 128;
     }
   };
 
   const width = sizePixels(size);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
+  const ProfileImageContainer = styled('div', {
+    backgroundColor: '$neutral300',
+    overflow: 'hidden',
     width: `${width}px`,
     height: `${width}px`,
-    flexShrink: "0",
+    flexShrink: '0',
     variants: {
       size: {
         small: {
-          borderRadius: "$1",
+          borderRadius: '$1',
         },
         medium: {
-          borderRadius: "$1",
+          borderRadius: '$1',
         },
         large: {
-          borderRadius: "$1",
+          borderRadius: '$1',
         },
         xl: {
-          borderRadius: "$2",
+          borderRadius: '$2',
         },
       },
     },
   });
 
   const ProfileImage = styled(Image, {
-    objectFit: "cover",
+    objectFit: 'cover',
   });
 
   return (
     <ProfileImageContainer size={size}>
-      {url && url != "" && (
+      {url && url != '' && (
         <>
           <ProfileImage
             src={url}

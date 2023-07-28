@@ -1,32 +1,32 @@
-import { styled } from "stitches.config";
-import { Div } from "../layout/utils";
-import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Flex } from "../layout/flex";
-import { Button } from "../navigation/button";
-import { Formik } from "formik";
-import { UploadField } from "../forms/upload";
-import { Yup } from "@/lib/yup";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
+import { styled } from 'stitches.config';
+import { Div } from '../layout/utils';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Flex } from '../layout/flex';
+import { Button } from '../navigation/button';
+import { Formik } from 'formik';
+import { UploadField } from '../forms/upload';
+import { Yup } from '@/lib/yup';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
 
 const UpdateImageSchema = Yup.object().shape({
   profileImage: Yup.string()
-    .required("Please provide a profile picture. Maximum upload size is 40MB")
-    .min(1, "Please provide a profile picture. Maximum upload size is 40MB"),
+    .required('Please provide a profile picture. Maximum upload size is 40MB')
+    .min(1, 'Please provide a profile picture. Maximum upload size is 40MB'),
 });
 
 export const ProfileImage = ({
-  uid = "",
+  uid = '',
   own = false,
 }: {
   uid: string;
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [url, setUrl] = useState("");
+  const [url, setUrl] = useState('');
 
   const toggleEdit = () => {
     setEditMode(!editMode);
@@ -36,45 +36,45 @@ export const ProfileImage = ({
   const loadImageForUser = useCallback(() => {
     axiosPublic
       .get(`user/profile_picture/${uid}`, { id: `user-image-${uid}` })
-      .then((response) => setUrl(response.data?.profile_image ?? ""))
-      .catch(() => setUrl(""));
+      .then((response) => setUrl(response.data?.profile_image ?? ''))
+      .catch(() => setUrl(''));
   }, [uid]);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadImageForUser();
     }
   }, [uid, loadImageForUser]);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
+  const ProfileImageContainer = styled('div', {
+    backgroundColor: '$neutral300',
+    overflow: 'hidden',
     width: `128px`,
     height: `128px`,
-    borderRadius: "$2",
+    borderRadius: '$2',
   });
 
   const ProfileImage = styled(Image, {
-    objectFit: "cover",
+    objectFit: 'cover',
   });
 
   const StaticImage = () => {
     return (
       <Flex>
         <ProfileImageContainer>
-          {url != "" && (
+          {url != '' && (
             <>
               <ProfileImage
                 src={url}
                 height={128}
                 width={128}
                 alt={
-                  own ? "Your profile picture" : "This user's profile picture"
+                  own ? 'Your profile picture' : "This user's profile picture"
                 }
                 onClick={() => {
                   if (own) toggleEdit();
                 }}
-                css={{ cursor: `${own && "pointer"}` }}
+                css={{ cursor: `${own && 'pointer'}` }}
               ></ProfileImage>
             </>
           )}
@@ -83,7 +83,7 @@ export const ProfileImage = ({
           <FontAwesomeIcon
             onClick={toggleEdit}
             icon={faPencil}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
         )}
       </Flex>
@@ -94,18 +94,18 @@ export const ProfileImage = ({
     return (
       <Formik
         initialValues={{
-          profileImage: "",
+          profileImage: '',
         }}
         validationSchema={UpdateImageSchema}
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/profile_picture", values)
+            .post('user/profile_picture', values)
             .then(async (response) => {
-              if (response.data?.success == "false") {
+              if (response.data?.success == 'false') {
                 actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong",
+                  'profileImage',
+                  'Oops, something went wrong',
                 );
               } else {
                 await axiosPublic.storage.remove(`user-image-${uid}`);
@@ -114,10 +114,10 @@ export const ProfileImage = ({
             })
             .catch((reason) => {
               //TODO - error handling
-              if (reason.code == "ERR_NETWORK") {
+              if (reason.code == 'ERR_NETWORK') {
                 actions.setFieldError(
-                  "profileImage",
-                  "Oops, something went wrong",
+                  'profileImage',
+                  'Oops, something went wrong',
                 );
               } else {
                 const statuscode = Number(reason?.response?.status);
@@ -134,9 +134,9 @@ export const ProfileImage = ({
       >
         {(props) => {
           return (
-            <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+            <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
               <UploadField name="profileImage" type="image" />
-              <Flex css={{ flexDirection: "row-reverse" }}>
+              <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
                   role="secondary"

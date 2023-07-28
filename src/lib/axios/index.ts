@@ -1,8 +1,8 @@
-import store from "@/redux/store";
-import axios from "axios";
-import jwt_decode from "jwt-decode";
-import { logout, refreshToken } from "../user/auth";
-import { setupCache } from "axios-cache-interceptor";
+import store from '@/redux/store';
+import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { logout, refreshToken } from '../user/auth';
+import { setupCache } from 'axios-cache-interceptor';
 
 export const axiosPublic = setupCache(
   axios.create({
@@ -33,7 +33,7 @@ axiosPrivate.interceptors.request.use(
         await store?.dispatch(refreshToken());
       }
       if (config?.headers) {
-        config.headers["Authorization"] = `Bearer ${store?.getState()?.userData
+        config.headers['Authorization'] = `Bearer ${store?.getState()?.userData
           ?.user?.accessToken}`;
       }
     }

@@ -1,15 +1,15 @@
-import { OutputData } from "@editorjs/editorjs";
-import EditorJS from "@editorjs/editorjs";
-import { editorTools } from "./tools";
-import { useEffect, useMemo, useState } from "react";
-import { Field, FieldProps } from "formik";
+import { OutputData } from '@editorjs/editorjs';
+import EditorJS from '@editorjs/editorjs';
+import { editorTools } from './tools';
+import { useEffect, useMemo, useState } from 'react';
+import { Field, FieldProps } from 'formik';
 
 const NeedEditor = ({
   name,
   data = {
     time: 1682956618189,
     blocks: [],
-    version: "2.26.5",
+    version: '2.26.5',
   },
 }: {
   name: string;
@@ -22,7 +22,7 @@ const NeedEditor = ({
         : {
             time: 1682956618189,
             blocks: [],
-            version: "2.26.5",
+            version: '2.26.5',
           },
     [data],
   );
@@ -32,10 +32,10 @@ const NeedEditor = ({
     if (!editor) {
       let e = new EditorJS({
         data: cleanData,
-        holder: "editorjs",
-        tools: editorTools("need") as any,
+        holder: 'editorjs',
+        tools: editorTools('need') as any,
         placeholder:
-          "Let us know what services or assistance you need from other digital professionals",
+          'Let us know what services or assistance you need from other digital professionals',
         onChange: async (api) => {
           setOutput(await api.saver.save());
         },

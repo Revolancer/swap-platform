@@ -1,12 +1,12 @@
-import { axiosPrivate } from "@/lib/axios";
-import { Project, UserProfileData } from "@/lib/types";
-import { useCallback, useEffect, useState } from "react";
-import store from "@/redux/store";
-import { Flex } from "@/components/layout/flex";
-import { styled } from "stitches.config";
-import Image from "next/image";
-import { P } from "@/components/text/text";
-import { UnstyledLink } from "@/components/navigation/button";
+import { axiosPrivate } from '@/lib/axios';
+import { Project, UserProfileData } from '@/lib/types';
+import { useCallback, useEffect, useState } from 'react';
+import store from '@/redux/store';
+import { Flex } from '@/components/layout/flex';
+import { styled } from 'stitches.config';
+import Image from 'next/image';
+import { P } from '@/components/text/text';
+import { UnstyledLink } from '@/components/navigation/button';
 
 export const ProjectOtherUserProfile = ({
   projectId,
@@ -21,7 +21,7 @@ export const ProjectOtherUserProfile = ({
       .get(`projects/${projectId}`)
       .then((response) => {
         if ((response?.data ?? null) != null) {
-          if ((response?.data?.id ?? "") !== "") {
+          if ((response?.data?.id ?? '') !== '') {
             setProject(response.data);
             console.log(response.data);
           }
@@ -32,8 +32,8 @@ export const ProjectOtherUserProfile = ({
 
   const loadProfile = useCallback(() => {
     if (!project) return;
-    const self = store?.getState()?.userData?.user?.id ?? "";
-    if (self == "") return;
+    const self = store?.getState()?.userData?.user?.id ?? '';
+    if (self == '') return;
     const otherId =
       project?.contractor.id == self
         ? project.client.id
@@ -58,26 +58,26 @@ export const ProjectOtherUserProfile = ({
     loadProfile();
   }, [loadProfile, loadProject, projectId]);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
+  const ProfileImageContainer = styled('div', {
+    backgroundColor: '$neutral300',
+    overflow: 'hidden',
     width: `48px`,
     height: `48px`,
-    borderRadius: "$2",
+    borderRadius: '$2',
   });
 
   const ProfileImage = styled(Image, {
-    objectFit: "cover",
+    objectFit: 'cover',
   });
 
   return (
     <>
-      <Flex css={{ alignItems: "center" }}>
+      <Flex css={{ alignItems: 'center' }}>
         <UnstyledLink href={`/u/${theirProfile?.slug}`}>
           <ProfileImageContainer>
             {theirProfile?.profile_image && (
               <ProfileImage
-                src={theirProfile?.profile_image ?? ""}
+                src={theirProfile?.profile_image ?? ''}
                 height={48}
                 width={48}
                 alt={`${theirProfile?.first_name} ${theirProfile?.last_name}`}
@@ -89,9 +89,9 @@ export const ProjectOtherUserProfile = ({
           <UnstyledLink href={`/u/${theirProfile?.slug}`}>
             <P
               css={{
-                fontWeight: "bold",
-                fontSize: "$body1",
-                lineHeight: "$body1",
+                fontWeight: 'bold',
+                fontSize: '$body1',
+                lineHeight: '$body1',
               }}
             >{`${theirProfile?.first_name} ${theirProfile?.last_name}`}</P>
           </UnstyledLink>

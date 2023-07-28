@@ -1,16 +1,16 @@
-import { styled } from "stitches.config";
-import Image from "next/image";
-import { useCallback, useEffect, useState } from "react";
-import { axiosPublic } from "@/lib/axios";
-import { Flex } from "../layout/flex";
-import { UserProfileData } from "@/lib/types";
-import { H5 } from "../text/headings";
-import NextLink from "next/link";
-import { P } from "../text/text";
-import { Link } from "../navigation/button";
-import { TertiaryButton } from "../navigation/button";
+import { styled } from 'stitches.config';
+import Image from 'next/image';
+import { useCallback, useEffect, useState } from 'react';
+import { axiosPublic } from '@/lib/axios';
+import { Flex } from '../layout/flex';
+import { UserProfileData } from '@/lib/types';
+import { H5 } from '../text/headings';
+import NextLink from 'next/link';
+import { P } from '../text/text';
+import { Link } from '../navigation/button';
+import { TertiaryButton } from '../navigation/button';
 
-export const Author = ({ uid = "" }: { uid: string }) => {
+export const Author = ({ uid = '' }: { uid: string }) => {
   const [profile, setProfile] = useState<UserProfileData>({});
 
   const loadAuthor = useCallback(() => {
@@ -21,30 +21,30 @@ export const Author = ({ uid = "" }: { uid: string }) => {
   }, [uid]);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadAuthor();
     }
   }, [uid, loadAuthor]);
 
-  const ProfileImageContainer = styled("div", {
-    backgroundColor: "$neutral300",
-    overflow: "hidden",
+  const ProfileImageContainer = styled('div', {
+    backgroundColor: '$neutral300',
+    overflow: 'hidden',
     width: `32px`,
     height: `32px`,
-    borderRadius: "$2",
+    borderRadius: '$2',
   });
 
   const ProfileImage = styled(Image, {
-    objectFit: "cover",
+    objectFit: 'cover',
   });
 
   return (
-    <Flex css={{ alignItems: "center" }}>
+    <Flex css={{ alignItems: 'center' }}>
       <ProfileImageContainer>
         {profile?.profile_image && (
-          <NextLink href={`/u/${profile.slug ?? ""}`}>
+          <NextLink href={`/u/${profile.slug ?? ''}`}>
             <ProfileImage
-              src={profile?.profile_image ?? ""}
+              src={profile?.profile_image ?? ''}
               height={32}
               width={32}
               alt={"This user's profile picture"}
@@ -53,7 +53,7 @@ export const Author = ({ uid = "" }: { uid: string }) => {
         )}
       </ProfileImageContainer>
       {profile?.first_name && (
-        <TertiaryButton href={`/u/${profile.slug ?? ""}`}>
+        <TertiaryButton href={`/u/${profile.slug ?? ''}`}>
           <P>{`${profile?.first_name} ${profile?.last_name}`}</P>
         </TertiaryButton>
       )}

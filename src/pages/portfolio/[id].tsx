@@ -1,36 +1,36 @@
-import { MainContentWithSideBar, SideBar } from "@/components/layout/columns";
-import { PrimaryLayout } from "@/components/layout/layouts";
-import { Title } from "@/components/head/title";
-import dynamic from "next/dynamic";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { TagField } from "@/components/forms/taginput";
-import { Form } from "@/components/forms/form";
-import { Button } from "@/components/navigation/button";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { InputInner, InputOuter } from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { PostData } from "@/lib/types";
-import { H1 } from "@/components/text/headings";
-import { Flex } from "@/components/layout/flex";
-import store from "@/redux/store";
-import FourOhFour from "../404";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
+import { PrimaryLayout } from '@/components/layout/layouts';
+import { Title } from '@/components/head/title';
+import dynamic from 'next/dynamic';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { TagField } from '@/components/forms/taginput';
+import { Form } from '@/components/forms/form';
+import { Button } from '@/components/navigation/button';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { InputInner, InputOuter } from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
+import { PostData } from '@/lib/types';
+import { H1 } from '@/components/text/headings';
+import { Flex } from '@/components/layout/flex';
+import store from '@/redux/store';
+import FourOhFour from '../404';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
   title: Yup.string().required().ensure().min(1),
   tags: Yup.array()
     .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
-    .required("Please tag this post with some associated skills or tools")
+    .required('Please tag this post with some associated skills or tools')
     .min(
       1,
-      "Please select at least one skill or tool associated with this project",
+      'Please select at least one skill or tool associated with this project',
     )
-    .max(6, "Please provide up to 6 skills or tools associated with this post"),
+    .max(6, 'Please provide up to 6 skills or tools associated with this post'),
 });
 
 export default function PortfolioEditorPage() {
@@ -42,7 +42,7 @@ export default function PortfolioEditorPage() {
   const { id } = router.query;
 
   const PortfolioEditorJs = dynamic(
-    import("@/components/user-posts/portfolio-editor-js"),
+    import('@/components/user-posts/portfolio-editor-js'),
     {
       ssr: false,
     },
@@ -50,15 +50,15 @@ export default function PortfolioEditorPage() {
 
   useEffect(() => {
     const loadPost = async () => {
-      if (id != null && id != "new") {
+      if (id != null && id != 'new') {
         await axiosPublic
           .get(`portfolio/${id}`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
-              if ((response?.data?.id ?? "") == "") {
+              if ((response?.data?.id ?? '') == '') {
                 setNotFound(true);
               }
-              const self = store?.getState()?.userData?.user?.id ?? "";
+              const self = store?.getState()?.userData?.user?.id ?? '';
               if (response.data?.user?.id !== self) {
                 setNotFound(true);
               }
@@ -69,7 +69,7 @@ export default function PortfolioEditorPage() {
           .catch((err) => {
             setNotFound(true);
           });
-      } else if (id == "new") {
+      } else if (id == 'new') {
         setNew(true);
         setHasLoaded(true);
       }
@@ -82,13 +82,13 @@ export default function PortfolioEditorPage() {
 
   return (
     <>
-      <Title>{`${isNew ? "New" : "Edit"} Portfolio Post`}</Title>
+      <Title>{`${isNew ? 'New' : 'Edit'} Portfolio Post`}</Title>
       <PrimaryLayout>
         <CrumbBar>
           <Crumb href="/">Discovery</Crumb>
           {hasLoaded && (
             <Crumb href={`/portfolio/${id}`} active>
-              {`${isNew ? "New" : "Edit"} Portfolio Article`}
+              {`${isNew ? 'New' : 'Edit'} Portfolio Article`}
             </Crumb>
           )}
         </CrumbBar>
@@ -101,35 +101,35 @@ export default function PortfolioEditorPage() {
                   '{"time": 1682956618189,"blocks": [],"version": "2.26.5"}',
               ),
               tags: loadedData?.tags ?? [],
-              title: loadedData?.title ?? "",
+              title: loadedData?.title ?? '',
             }}
             validationSchema={ArticleSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               if (isNew) {
                 await axiosPrivate
-                  .put("portfolio", values)
+                  .put('portfolio', values)
                   .then(async (response) => {
-                    if (response.data?.success == "false") {
+                    if (response.data?.success == 'false') {
                       actions.setFieldError(
-                        "title",
-                        "Oops, something went wrong",
+                        'title',
+                        'Oops, something went wrong',
                       );
                     } else {
                       const self =
-                        store?.getState()?.userData?.user?.id ?? "guest";
+                        store?.getState()?.userData?.user?.id ?? 'guest';
                       await axiosPublic.storage.remove(
                         `user-portfolio-${self}`,
                       );
-                      router.replace(`/p/${response?.data ?? ""}`);
+                      router.replace(`/p/${response?.data ?? ''}`);
                     }
                   })
                   .catch((reason) => {
                     //TODO - error handling
-                    if (reason.code == "ERR_NETWORK") {
+                    if (reason.code == 'ERR_NETWORK') {
                       actions.setFieldError(
-                        "title",
-                        "Oops, something went wrong",
+                        'title',
+                        'Oops, something went wrong',
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);
@@ -145,10 +145,10 @@ export default function PortfolioEditorPage() {
                 await axiosPrivate
                   .post(`portfolio/${id}`, values)
                   .then(async (response) => {
-                    if (response.data?.success == "false") {
+                    if (response.data?.success == 'false') {
                       actions.setFieldError(
-                        "title",
-                        "Oops, something went wrong",
+                        'title',
+                        'Oops, something went wrong',
                       );
                     } else {
                       router.replace(`/p/${id}`);
@@ -156,10 +156,10 @@ export default function PortfolioEditorPage() {
                   })
                   .catch((reason) => {
                     //TODO - error handling
-                    if (reason.code == "ERR_NETWORK") {
+                    if (reason.code == 'ERR_NETWORK') {
                       actions.setFieldError(
-                        "title",
-                        "Oops, something went wrong",
+                        'title',
+                        'Oops, something went wrong',
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);
@@ -179,8 +179,8 @@ export default function PortfolioEditorPage() {
               return (
                 <>
                   <MainContentWithSideBar>
-                    <H1>{`${isNew ? "New" : "Edit"} Portfolio Article`}</H1>
-                    <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+                    <H1>{`${isNew ? 'New' : 'Edit'} Portfolio Article`}</H1>
+                    <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
                       <InputOuter
                         error={props.touched.title && !!props.errors.title}
                       >

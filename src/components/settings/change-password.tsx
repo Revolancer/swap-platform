@@ -1,72 +1,72 @@
-import { Flex } from "../layout/flex";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { Form } from "../forms/form";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Button } from "../navigation/button";
+import { Flex } from '../layout/flex';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { Form } from '../forms/form';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Button } from '../navigation/button';
 import {
   InputInner,
   InputOuter,
   PasswordReveal,
   TextAreaInner,
-} from "../forms/input";
-import { Feedback } from "../forms/feedback";
-import { H5 } from "../text/headings";
-import { P, Span } from "../text/text";
-import { useState } from "react";
-import { SuccessModal } from "../modals/success-modal";
+} from '../forms/input';
+import { Feedback } from '../forms/feedback';
+import { H5 } from '../text/headings';
+import { P, Span } from '../text/text';
+import { useState } from 'react';
+import { SuccessModal } from '../modals/success-modal';
 
 const UpdatePasswordSchema = Yup.object().shape({
-  password: Yup.string().required("Please provide your current password"),
+  password: Yup.string().required('Please provide your current password'),
   newPassword1: Yup.string()
     .password()
-    .required("Please provide your desired new password")
-    .label("Your new password"),
+    .required('Please provide your desired new password')
+    .label('Your new password'),
   newPassword2: Yup.string()
-    .required("Please confirm your password")
-    .oneOf([Yup.ref("newPassword1")], "Passwords must match")
-    .label("Your new password confirmation"),
+    .required('Please confirm your password')
+    .oneOf([Yup.ref('newPassword1')], 'Passwords must match')
+    .label('Your new password confirmation'),
 });
 
 export const ChangePassword = () => {
-  const [pwType, setPwType] = useState("password");
+  const [pwType, setPwType] = useState('password');
   const [success, setSuccess] = useState(false);
   return (
     <Formik
       initialValues={{
-        password: "",
-        newPassword1: "",
-        newPassword2: "",
+        password: '',
+        newPassword1: '',
+        newPassword2: '',
       }}
       validationSchema={UpdatePasswordSchema}
       onSubmit={async (values, actions) => {
         actions.setSubmitting(true);
         await axiosPrivate
-          .post("user/password", values)
+          .post('user/password', values)
           .then(() => {
             actions.resetForm();
             setSuccess(true);
           })
           .catch((reason) => {
-            if (reason.code == "ERR_NETWORK") {
-              actions.setFieldError("password", "Oops, something went wrong");
+            if (reason.code == 'ERR_NETWORK') {
+              actions.setFieldError('password', 'Oops, something went wrong');
             } else {
               const statuscode = Number(reason?.response?.status);
               switch (statuscode) {
                 case 401:
                   actions.setFieldError(
-                    "password",
-                    "Your existing password is incorrect",
+                    'password',
+                    'Your existing password is incorrect',
                   );
                   break;
                 case 406:
                   actions.setFieldError(
-                    "newPassword2",
-                    "Your new passwords must match",
+                    'newPassword2',
+                    'Your new passwords must match',
                   );
                   break;
                 default:
-                  actions.setFieldError("password", "Something went wrong");
+                  actions.setFieldError('password', 'Something went wrong');
                   break;
               }
             }
@@ -76,9 +76,9 @@ export const ChangePassword = () => {
     >
       {(props) => {
         return (
-          <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+          <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
             <H5>Change Password</H5>
-            <Span css={{ color: "$neutral700" }}>
+            <Span css={{ color: '$neutral700' }}>
               Provide your current password, type in the new one and click the
               Save button to change your password.
             </Span>
@@ -96,9 +96,9 @@ export const ChangePassword = () => {
                 value={props.values.password}
               ></InputInner>
               <PasswordReveal
-                revealed={pwType == "text"}
+                revealed={pwType == 'text'}
                 onClick={() => {
-                  pwType == "text" ? setPwType("password") : setPwType("text");
+                  pwType == 'text' ? setPwType('password') : setPwType('text');
                 }}
               />
             </InputOuter>
@@ -119,9 +119,9 @@ export const ChangePassword = () => {
                 value={props.values.newPassword1}
               ></InputInner>
               <PasswordReveal
-                revealed={pwType == "text"}
+                revealed={pwType == 'text'}
                 onClick={() => {
-                  pwType == "text" ? setPwType("password") : setPwType("text");
+                  pwType == 'text' ? setPwType('password') : setPwType('text');
                 }}
               />
             </InputOuter>
@@ -142,9 +142,9 @@ export const ChangePassword = () => {
                 value={props.values.newPassword2}
               ></InputInner>
               <PasswordReveal
-                revealed={pwType == "text"}
+                revealed={pwType == 'text'}
                 onClick={() => {
-                  pwType == "text" ? setPwType("password") : setPwType("text");
+                  pwType == 'text' ? setPwType('password') : setPwType('text');
                 }}
               />
             </InputOuter>

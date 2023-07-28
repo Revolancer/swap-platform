@@ -1,22 +1,22 @@
-import Modal from "react-modal";
-import { useEffect, useState } from "react";
-import { P } from "../text/text";
-import { Card } from "../layout/cards";
-import { Flex } from "../layout/flex";
-import { Button, Link } from "../navigation/button";
+import Modal from 'react-modal';
+import { useEffect, useState } from 'react';
+import { P } from '../text/text';
+import { Card } from '../layout/cards';
+import { Flex } from '../layout/flex';
+import { Button, Link } from '../navigation/button';
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    background: "none",
-    border: "none",
-    overflow: "visible",
-    padding: "0",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'none',
+    border: 'none',
+    overflow: 'visible',
+    padding: '0',
   },
 };
 
@@ -31,10 +31,10 @@ export const NeedOrClientModal = () => {
   useEffect(() => {
     openModal();
   }, []);
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <Modal isOpen={modalIsOpen} onRequestClose={() => {}} style={customStyles}>
-      <Card css={{ color: "$neutral700", maxWidth: "550px" }}>
+      <Card css={{ color: '$neutral700', maxWidth: '550px' }}>
         <P>
           <strong>✋ Post a Need or Find Clients?</strong>
         </P>
@@ -43,7 +43,7 @@ export const NeedOrClientModal = () => {
           promoting your own services/ looking for work. Do you want to post a
           Need? Or are you looking for a client?
         </P>
-        <Flex gap="5" css={{ alignItems: "center" }}>
+        <Flex gap="5" css={{ alignItems: 'center' }}>
           <Button
             role="secondary"
             href="https://revolancer.com/magazine/get-clients/"
@@ -61,14 +61,14 @@ export const NeedOrClientModal = () => {
             Post a Need
           </Button>
         </Flex>
-        <P css={{ color: "$neutral600" }}>
-          💡 Need some help? Check out our{" "}
+        <P css={{ color: '$neutral600' }}>
+          💡 Need some help? Check out our{' '}
           <Link
             href="https://support.revolancer.com/hc/en-gb/articles/11727216855837-How-to-post-a-Need"
             target="_blank"
           >
             guide
-          </Link>{" "}
+          </Link>{' '}
           on Needs.
         </P>
       </Card>

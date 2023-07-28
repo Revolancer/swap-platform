@@ -1,11 +1,11 @@
-import { Flex } from "@/components/layout/flex";
-import { Button } from "@/components/navigation/button";
-import { P } from "@/components/text/text";
-import { axiosPrivate } from "@/lib/axios";
-import { Project, UserProfileData } from "@/lib/types";
-import store from "@/redux/store";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { Flex } from '@/components/layout/flex';
+import { Button } from '@/components/navigation/button';
+import { P } from '@/components/text/text';
+import { axiosPrivate } from '@/lib/axios';
+import { Project, UserProfileData } from '@/lib/types';
+import store from '@/redux/store';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
   const [otherProfile, setOtherProfile] = useState<UserProfileData>();
@@ -17,7 +17,7 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
   const router = useRouter();
 
   useEffect(() => {
-    const self = store?.getState()?.userData?.user?.id ?? "";
+    const self = store?.getState()?.userData?.user?.id ?? '';
     const isClient = project.client.id == self;
     setHasApproved(
       isClient ? project.client_approval : project.contractor_approval,
@@ -27,7 +27,7 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
     );
     const otherUserID = isClient ? project.contractor.id : project.client.id;
     const loadProfile = async (id: string) => {
-      if (id == "") return;
+      if (id == '') return;
       return await axiosPrivate
         .get(`user/profile/by_id/${id}`)
         .then((res) => res.data)
@@ -42,7 +42,7 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
         });
     };
     loadProfile(otherUserID);
-    if (project.status == "complete") {
+    if (project.status == 'complete') {
       setIsComplete(true);
       setIsLoading(false);
     }
@@ -65,23 +65,23 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
   if (isLoading) return <></>;
   if (isComplete)
     return (
-      <P css={{ color: "$green500", fontWeight: "$bold" }}>
+      <P css={{ color: '$green500', fontWeight: '$bold' }}>
         This project is complete
       </P>
     );
   if (!hasApproved)
     return (
-      <Flex css={{ alignItems: "center" }}>
+      <Flex css={{ alignItems: 'center' }}>
         {otherHasApproved && (
-          <P css={{ color: "$orange500" }}>
-            {otherProfile?.first_name ?? "The other user"} is awaiting your
+          <P css={{ color: '$orange500' }}>
+            {otherProfile?.first_name ?? 'The other user'} is awaiting your
             approval
           </P>
         )}
         <Button
           href="#"
           role="secondary"
-          size={"small"}
+          size={'small'}
           onClick={(e) => {
             e.preventDefault();
             markComplete();
@@ -93,15 +93,15 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
     );
 
   return (
-    <Flex css={{ alignItems: "center" }}>
-      <P css={{ color: "$orange500" }}>
-        Waiting for {otherProfile?.first_name ?? "the other user"} to approve
+    <Flex css={{ alignItems: 'center' }}>
+      <P css={{ color: '$orange500' }}>
+        Waiting for {otherProfile?.first_name ?? 'the other user'} to approve
         this project
       </P>
       <Button
         href="#"
         role="secondary"
-        size={"small"}
+        size={'small'}
         onClick={(e) => {
           e.preventDefault();
           markIncomplete();

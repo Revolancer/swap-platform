@@ -1,17 +1,17 @@
-import { RootState } from "@/redux/store";
-import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { axiosPrivate, axiosPublic } from "../axios";
-import { AppState } from "../types";
+import { RootState } from '@/redux/store';
+import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { axiosPrivate, axiosPublic } from '../axios';
+import { AppState } from '../types';
 
-const modulePrefix = "user";
+const modulePrefix = 'user';
 
 const initialState: AppState = {
   user:
-    typeof window !== "undefined"
-      ? JSON.parse(window?.localStorage?.getItem("user") as string) || null
+    typeof window !== 'undefined'
+      ? JSON.parse(window?.localStorage?.getItem('user') as string) || null
       : null,
-  email: "",
-  password: "",
+  email: '',
+  password: '',
   success: false,
   error: false,
 };
@@ -22,13 +22,13 @@ export const login = createAsyncThunk(
     const state = getState() as RootState;
 
     const res = await axiosPublic.post(
-      "auth/login",
+      'auth/login',
       {
         email: state.userData.email,
         password: state.userData.password,
       },
       {
-        id: "login",
+        id: 'login',
         cache: {
           ttl: 1,
         },
@@ -58,7 +58,7 @@ export const refreshToken = createAsyncThunk(
     const state = getState() as RootState;
 
     const res = await axiosPublic.get(`auth/refresh`, {
-      id: "auth-token-refresh",
+      id: 'auth-token-refresh',
       cache: {
         ttl: 1,
       },
@@ -73,32 +73,32 @@ export const refreshToken = createAsyncThunk(
 );
 
 export const userSlice = createSlice({
-  name: "user",
+  name: 'user',
   initialState,
   reducers: {
-    afterRegister(state, action: PayloadAction<AppState["user"]>) {
-      if (typeof window !== "undefined") {
-        window?.localStorage.setItem("user", JSON.stringify(action.payload));
+    afterRegister(state, action: PayloadAction<AppState['user']>) {
+      if (typeof window !== 'undefined') {
+        window?.localStorage.setItem('user', JSON.stringify(action.payload));
       }
       state.user = action.payload;
     },
-    updateEmail(state, action: PayloadAction<AppState["email"]>) {
+    updateEmail(state, action: PayloadAction<AppState['email']>) {
       state.email = action.payload;
     },
-    updatePassword(state, action: PayloadAction<AppState["password"]>) {
+    updatePassword(state, action: PayloadAction<AppState['password']>) {
       state.password = action.payload;
     },
     logout(state) {
-      if (typeof window !== "undefined") {
-        window?.localStorage.removeItem("user");
+      if (typeof window !== 'undefined') {
+        window?.localStorage.removeItem('user');
       }
       state.user = null;
-      state.email = "";
-      state.password = "";
+      state.email = '';
+      state.password = '';
       state.success = false;
       state.error = false;
-      if (typeof window !== "undefined") {
-        window.location.href = "/login";
+      if (typeof window !== 'undefined') {
+        window.location.href = '/login';
       }
     },
   },
@@ -106,10 +106,10 @@ export const userSlice = createSlice({
     builder
       .addCase(
         login.fulfilled,
-        (state, action: PayloadAction<AppState["user"]>) => {
-          if (typeof window !== "undefined") {
+        (state, action: PayloadAction<AppState['user']>) => {
+          if (typeof window !== 'undefined') {
             window?.localStorage.setItem(
-              "user",
+              'user',
               JSON.stringify(action.payload),
             );
           }
@@ -127,10 +127,10 @@ export const userSlice = createSlice({
         state.error = true;
       })
       .addCase(refreshToken.fulfilled, (state, action) => {
-        if (typeof window !== "undefined") {
-          window?.localStorage.setItem("user", JSON.stringify(action.payload));
+        if (typeof window !== 'undefined') {
+          window?.localStorage.setItem('user', JSON.stringify(action.payload));
         }
-        state.user = action.payload as AppState["user"];
+        state.user = action.payload as AppState['user'];
       });
   },
 });

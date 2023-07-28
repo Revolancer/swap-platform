@@ -1,237 +1,237 @@
-import { Interactive } from "react-interactive";
-import { darkTheme, styled } from "stitches.config";
-import NextLink from "next/link";
+import { Interactive } from 'react-interactive';
+import { darkTheme, styled } from 'stitches.config';
+import NextLink from 'next/link';
 
 const styles = {
   variants: {
     role: {
       primary: {
-        backgroundColor: "$pink500",
-        color: "$white",
-        borderWidth: "$1",
-        borderStyle: "$solid",
-        borderColor: "$pink500",
+        backgroundColor: '$pink500',
+        color: '$white',
+        borderWidth: '$1',
+        borderStyle: '$solid',
+        borderColor: '$pink500',
 
-        "&:hover": {
-          backgroundColor: "$pink700",
-          borderColor: "$pink700",
+        '&:hover': {
+          backgroundColor: '$pink700',
+          borderColor: '$pink700',
         },
-        "&:active": {
-          backgroundColor: "$pink800",
-          borderColor: "$pink800",
+        '&:active': {
+          backgroundColor: '$pink800',
+          borderColor: '$pink800',
         },
       },
       secondary: {
-        backgroundColor: "$white",
-        color: "$neutral900",
-        borderWidth: "$1",
-        borderStyle: "$solid",
-        borderColor: "$neutral400",
+        backgroundColor: '$white',
+        color: '$neutral900',
+        borderWidth: '$1',
+        borderStyle: '$solid',
+        borderColor: '$neutral400',
 
-        "&:hover": {
-          backgroundColor: "$neutral100",
+        '&:hover': {
+          backgroundColor: '$neutral100',
         },
-        "&:active": {
-          backgroundColor: "$neutral300",
+        '&:active': {
+          backgroundColor: '$neutral300',
         },
 
         [`.${darkTheme} &`]: {
-          backgroundColor: "$neutral900",
-          color: "$neutral100",
-          borderColor: "$neutral800",
+          backgroundColor: '$neutral900',
+          color: '$neutral100',
+          borderColor: '$neutral800',
 
-          "&:hover": {
-            borderColor: "$neutral700",
-            backgroundColor: "$neutral800",
+          '&:hover': {
+            borderColor: '$neutral700',
+            backgroundColor: '$neutral800',
           },
-          "&:active": {
-            borderColor: "$neutral600",
-            backgroundColor: "$neutral700",
+          '&:active': {
+            borderColor: '$neutral600',
+            backgroundColor: '$neutral700',
           },
         },
       },
       dangerous: {
-        backgroundColor: "$red500",
-        color: "$white",
-        borderWidth: "$1",
-        borderStyle: "$solid",
-        borderColor: "$red500",
+        backgroundColor: '$red500',
+        color: '$white',
+        borderWidth: '$1',
+        borderStyle: '$solid',
+        borderColor: '$red500',
 
-        "&:hover": {
-          backgroundColor: "$red700",
-          borderColor: "$red700",
+        '&:hover': {
+          backgroundColor: '$red700',
+          borderColor: '$red700',
         },
-        "&:active": {
-          backgroundColor: "$red800",
-          borderColor: "$red800",
+        '&:active': {
+          backgroundColor: '$red800',
+          borderColor: '$red800',
         },
       },
     },
     size: {
       small: {
-        paddingBlock: "$2",
-        paddingInline: "$4",
+        paddingBlock: '$2',
+        paddingInline: '$4',
       },
       medium: {
-        paddingBlock: "$3",
-        paddingInline: "$6",
+        paddingBlock: '$3',
+        paddingInline: '$6',
       },
       large: {
-        paddingBlock: "$4",
-        paddingInline: "$7",
+        paddingBlock: '$4',
+        paddingInline: '$7',
       },
     },
     disabled: {
       true: {
-        pointerEvents: "none",
-        cursor: "inherit",
+        pointerEvents: 'none',
+        cursor: 'inherit',
       },
     },
   },
-  display: "inline-block",
-  borderRadius: "$1",
-  textDecoration: "none",
-  fontSize: "$body1",
-  fontWeight: "$semibold",
-  height: "max-content",
-  width: "max-content",
-  boxShadow: "$2",
-  textTransform: "capitalize",
+  display: 'inline-block',
+  borderRadius: '$1',
+  textDecoration: 'none',
+  fontSize: '$body1',
+  fontWeight: '$semibold',
+  height: 'max-content',
+  width: 'max-content',
+  boxShadow: '$2',
+  textTransform: 'capitalize',
   compoundVariants: [
     {
-      role: "primary",
+      role: 'primary',
       disabled: true,
       css: {
-        opacity: "$opacity$700",
-        backgroundColor: "$pink200",
-        borderColor: "$pink200",
+        opacity: '$opacity$700',
+        backgroundColor: '$pink200',
+        borderColor: '$pink200',
       },
     },
     {
-      role: "dangerous",
+      role: 'dangerous',
       disabled: true,
       css: {
-        opacity: "$opacity$700",
-        backgroundColor: "$red200",
-        borderColor: "$red200",
+        opacity: '$opacity$700',
+        backgroundColor: '$red200',
+        borderColor: '$red200',
       },
     },
     {
-      role: "secondary",
+      role: 'secondary',
       disabled: true,
       css: {
-        opacity: "$opacity$500",
+        opacity: '$opacity$500',
         [`.${darkTheme} &`]: {
-          opacity: "$opacity$500",
+          opacity: '$opacity$500',
         },
       },
     },
   ],
   defaultVariants: {
-    role: "primary",
-    size: "medium",
+    role: 'primary',
+    size: 'medium',
     disabled: false,
   },
 };
 
 const tertiaryStyles = {
-  color: "$neutral700",
-  display: "inline",
-  background: "none",
-  border: "none",
-  textDecoration: "none",
-  fontSize: "$body2",
-  fontWeight: "$normal",
-  height: "max-content",
-  width: "max-content",
-  transition: "none",
-  textTransform: "capitalize",
+  color: '$neutral700',
+  display: 'inline',
+  background: 'none',
+  border: 'none',
+  textDecoration: 'none',
+  fontSize: '$body2',
+  fontWeight: '$normal',
+  height: 'max-content',
+  width: 'max-content',
+  transition: 'none',
+  textTransform: 'capitalize',
   padding: 0,
 
-  "&:hover": {
-    color: "$navy500",
+  '&:hover': {
+    color: '$navy500',
   },
-  "&:active": {
-    color: "$navy500",
-    fontWeight: "$semibold",
-    textDecoration: "underline",
+  '&:active': {
+    color: '$navy500',
+    fontWeight: '$semibold',
+    textDecoration: 'underline',
   },
 
   [`.${darkTheme} &`]: {
-    color: "$white",
+    color: '$white',
 
-    "&:hover": {
-      color: "$navy500",
+    '&:hover': {
+      color: '$navy500',
     },
-    "&:active": {
-      color: "$navy500",
-      fontWeight: "$semibold",
-      textDecoration: "underline",
+    '&:active': {
+      color: '$navy500',
+      fontWeight: '$semibold',
+      textDecoration: 'underline',
     },
   },
   variants: {
     disabled: {
       true: {
-        color: "$neutral900",
-        opacity: "$opacity$500",
-        pointerEvents: "none",
-        cursor: "inherit",
+        color: '$neutral900',
+        opacity: '$opacity$500',
+        pointerEvents: 'none',
+        cursor: 'inherit',
         [`.${darkTheme} &`]: {
-          color: "$neutral100",
-          opacity: "$opacity$500",
+          color: '$neutral100',
+          opacity: '$opacity$500',
         },
       },
     },
     normalCase: {
       true: {
-        textTransform: "none",
+        textTransform: 'none',
       },
     },
   },
 };
 
 const linkStyles = {
-  color: "$pink500",
-  display: "inline",
-  background: "none",
-  border: "none",
-  textDecoration: "none",
-  fontSize: "$body2",
-  fontWeight: "$normal",
-  height: "max-content",
-  width: "max-content",
-  transition: "none",
+  color: '$pink500',
+  display: 'inline',
+  background: 'none',
+  border: 'none',
+  textDecoration: 'none',
+  fontSize: '$body2',
+  fontWeight: '$normal',
+  height: 'max-content',
+  width: 'max-content',
+  transition: 'none',
   padding: 0,
 
-  "&:hover": {
-    color: "$pink600",
-    textDecoration: "underline",
+  '&:hover': {
+    color: '$pink600',
+    textDecoration: 'underline',
   },
-  "&:active": {
-    color: "$pink600",
-    fontWeight: "$semibold",
-    textDecoration: "underline",
+  '&:active': {
+    color: '$pink600',
+    fontWeight: '$semibold',
+    textDecoration: 'underline',
   },
   variants: {
     disabled: {
       true: {
-        color: "$neutral900",
-        opacity: "$opacity$500",
-        pointerEvents: "none",
-        cursor: "inherit",
+        color: '$neutral900',
+        opacity: '$opacity$500',
+        pointerEvents: 'none',
+        cursor: 'inherit',
       },
     },
   },
 };
 
 const unstyledLinkStyles = {
-  textDecoration: "none",
-  color: "inherit",
+  textDecoration: 'none',
+  color: 'inherit',
   variants: {
     disabled: {
       true: {
-        pointerEvents: "none",
-        cursor: "inherit",
+        pointerEvents: 'none',
+        cursor: 'inherit',
       },
     },
   },

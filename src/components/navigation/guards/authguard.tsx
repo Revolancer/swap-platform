@@ -1,7 +1,7 @@
-import { FullWidth } from "@/components/layout/columns";
-import { useAppSelector } from "@/redux/store";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { FullWidth } from '@/components/layout/columns';
+import { useAppSelector } from '@/redux/store';
+import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 
 export const AuthGuard = ({
   redirectTo,
@@ -21,9 +21,9 @@ export const AuthGuard = ({
   if (!didMount) {
     return <FullWidth placeholder />;
   }
-  var defaultRedirect = "/";
+  var defaultRedirect = '/';
   if (!redirectIfAuthed) {
-    defaultRedirect = "/login";
+    defaultRedirect = '/login';
   }
   if ((authed && redirectIfAuthed) || (!authed && !redirectIfAuthed)) {
     router.replace(redirectTo ?? defaultRedirect);

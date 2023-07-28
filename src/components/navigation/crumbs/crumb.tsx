@@ -1,21 +1,21 @@
-import Link from "next/link";
-import { styled } from "stitches.config";
+import Link from 'next/link';
+import { styled } from 'stitches.config';
 
 export const Crumb = styled(Link, {
-  color: "$neutral600",
-  textDecoration: "none",
-  fontSize: "$body2",
-  lineHeight: "$body2",
+  color: '$neutral600',
+  textDecoration: 'none',
+  fontSize: '$body2',
+  lineHeight: '$body2',
 
-  "&:hover": {
-    color: "$black",
+  '&:hover': {
+    color: '$black',
   },
 
   variants: {
     active: {
       true: {
-        color: "$black",
-        fontWeight: "$bold",
+        color: '$black',
+        fontWeight: '$bold',
       },
     },
   },

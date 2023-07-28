@@ -44,7 +44,7 @@ export interface PostData {
 }
 
 export interface FeedPostData {
-  type: "portfolio" | "need";
+  type: 'portfolio' | 'need';
   data: PostData;
 }
 
@@ -102,8 +102,8 @@ export interface Project {
   id: string;
   client: User;
   contractor: User;
-  status: "active" | "complete";
-  outcome?: "success" | "cancelled";
+  status: 'active' | 'complete';
+  outcome?: 'success' | 'cancelled';
   credits: number;
   credits_released: boolean;
   need: PostData;

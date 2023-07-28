@@ -1,20 +1,20 @@
-import { Title } from "@/components/head/title";
-import { Flex } from "@/components/layout/flex";
-import { AdminLayout } from "@/components/layout/layouts";
-import { Button } from "@/components/navigation/button";
-import { H5 } from "@/components/text/headings";
-import { axiosPrivate } from "@/lib/axios";
-import { Yup } from "@/lib/yup";
-import { Formik } from "formik";
-import { Form } from "@/components/forms/form";
-import { useState } from "react";
-import { InputInner, InputOuter } from "@/components/forms/input";
-import { Feedback } from "@/components/forms/feedback";
-import { FullWidth } from "@/components/layout/columns";
-import { styled } from "stitches.config";
-import { SuccessModal } from "@/components/modals/success-modal";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { Title } from '@/components/head/title';
+import { Flex } from '@/components/layout/flex';
+import { AdminLayout } from '@/components/layout/layouts';
+import { Button } from '@/components/navigation/button';
+import { H5 } from '@/components/text/headings';
+import { axiosPrivate } from '@/lib/axios';
+import { Yup } from '@/lib/yup';
+import { Formik } from 'formik';
+import { Form } from '@/components/forms/form';
+import { useState } from 'react';
+import { InputInner, InputOuter } from '@/components/forms/input';
+import { Feedback } from '@/components/forms/feedback';
+import { FullWidth } from '@/components/layout/columns';
+import { styled } from 'stitches.config';
+import { SuccessModal } from '@/components/modals/success-modal';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 const CreditsSchema = Yup.object().shape({
   recipient: Yup.string().required(),
@@ -37,20 +37,20 @@ export default function Settings() {
         <FullWidth>
           <Formik
             initialValues={{
-              recipient: "",
-              reason: "",
+              recipient: '',
+              reason: '',
               amount: 0,
             }}
             validationSchema={CreditsSchema}
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               await axiosPrivate
-                .post("admin/user/credits", values)
+                .post('admin/user/credits', values)
                 .then(async (response) => {
-                  if (response.data?.success == "false") {
+                  if (response.data?.success == 'false') {
                     actions.setFieldError(
-                      "parent",
-                      "Oops, something went wrong",
+                      'parent',
+                      'Oops, something went wrong',
                     );
                   } else {
                     actions.resetForm();
@@ -58,18 +58,18 @@ export default function Settings() {
                   }
                 })
                 .catch((reason) => {
-                  if (reason.code == "ERR_NETWORK") {
+                  if (reason.code == 'ERR_NETWORK') {
                     actions.setFieldError(
-                      "amount",
-                      "Oops, something went wrong",
+                      'amount',
+                      'Oops, something went wrong',
                     );
                   } else {
                     const statuscode = Number(reason?.response?.status);
                     switch (statuscode) {
                       default:
                         actions.setFieldError(
-                          "amount",
-                          "Oops, something went wrong",
+                          'amount',
+                          'Oops, something went wrong',
                         );
                     }
                   }
@@ -80,7 +80,7 @@ export default function Settings() {
             {(props) => {
               return (
                 <>
-                  <Form onSubmit={props.handleSubmit} css={{ gap: "$7" }}>
+                  <Form onSubmit={props.handleSubmit} css={{ gap: '$7' }}>
                     <Flex column>
                       <H5>Recipient username or ID</H5>
                       <InputOuter
@@ -145,7 +145,7 @@ export default function Settings() {
                         <Feedback state="error">{props.errors.amount}</Feedback>
                       )}
                     </Flex>
-                    <Flex css={{ flexDirection: "row-reverse" }}>
+                    <Flex css={{ flexDirection: 'row-reverse' }}>
                       <Button
                         href="#"
                         onClick={(e) => {

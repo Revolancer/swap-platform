@@ -4,70 +4,70 @@ import {
   KeyboardEvent,
   useEffect,
   ChangeEvent,
-} from "react";
-import Modal from "react-modal";
-import { Button, UnstyledLink } from "../navigation/button";
-import { Flex } from "../layout/flex";
-import { H4, H5 } from "../text/headings";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCheck, faClose, faTicket } from "@fortawesome/free-solid-svg-icons";
-import { config as styleconfig } from "stitches.config";
-import { PostData, UserProfileData } from "@/lib/types";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import store from "@/redux/store";
-import { Author } from "../user-posts/author";
-import { Tags } from "../user-posts/tags";
-import { P } from "../text/text";
-import { DateTime } from "luxon";
-import { Divider } from "../layout/divider";
-import { Formik, FormikProps } from "formik";
-import { Yup } from "@/lib/yup";
-import { Form } from "../forms/form";
-import { InputInner, InputOuter, TextAreaInner } from "../forms/input";
-import { Feedback } from "../forms/feedback";
+} from 'react';
+import Modal from 'react-modal';
+import { Button, UnstyledLink } from '../navigation/button';
+import { Flex } from '../layout/flex';
+import { H4, H5 } from '../text/headings';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faCheck, faClose, faTicket } from '@fortawesome/free-solid-svg-icons';
+import { config as styleconfig } from 'stitches.config';
+import { PostData, UserProfileData } from '@/lib/types';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import store from '@/redux/store';
+import { Author } from '../user-posts/author';
+import { Tags } from '../user-posts/tags';
+import { P } from '../text/text';
+import { DateTime } from 'luxon';
+import { Divider } from '../layout/divider';
+import { Formik, FormikProps } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Form } from '../forms/form';
+import { InputInner, InputOuter, TextAreaInner } from '../forms/input';
+import { Feedback } from '../forms/feedback';
 import {
   StyledBlocksContainer,
   cleanBlockData,
-} from "../user-posts/styledblockscontainer";
-import Blocks from "editorjs-blocks-react-renderer";
-import { TwoCols } from "../layout/columns";
-import { useRouter } from "next/router";
+} from '../user-posts/styledblockscontainer';
+import Blocks from 'editorjs-blocks-react-renderer';
+import { TwoCols } from '../layout/columns';
+import { useRouter } from 'next/router';
 
 const styles = styleconfig.theme;
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
     borderRadius: styles.radii[2],
     paddingInline: styles.sizes[6],
     paddingBlock: styles.sizes[3],
-    maxWidth: "min(640px, 85vw)",
-    minWidth: "340px",
-    width: "100%",
+    maxWidth: 'min(640px, 85vw)',
+    minWidth: '340px',
+    width: '100%',
   },
 };
 
 const ProposalSchema = Yup.object().shape({
   message: Yup.string()
-    .required("Please provide a message with your proposal")
+    .required('Please provide a message with your proposal')
     .ensure(),
   estHours: Yup.number()
-    .integer("Must be a whole number of hours")
-    .min(1, "Minimum recommended time is 1 hour")
+    .integer('Must be a whole number of hours')
+    .min(1, 'Minimum recommended time is 1 hour')
     .max(
       100,
-      "We do not recommend taking on projects which will require over 100 hours to complete",
+      'We do not recommend taking on projects which will require over 100 hours to complete',
     )
     .required(),
   price: Yup.number()
-    .integer("Must be a whole number of credits")
+    .integer('Must be a whole number of credits')
     .min(10, "We don't recommend charging less than 10 credits")
-    .max(10000, "We do not recommend charging more than 10000 credits")
+    .max(10000, 'We do not recommend charging more than 10000 credits')
     .required(),
 });
 
@@ -88,11 +88,11 @@ export const ProposalDialog = ({
 
   const router = useRouter();
 
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
 
   useEffect(() => {
     const loadAuthor = async (id: string) => {
-      if (id !== "") {
+      if (id !== '') {
         axiosPublic
           .get(`user/profile/by_id/${id}`)
           .then((response) => setProfile(response.data ?? {}))
@@ -106,13 +106,13 @@ export const ProposalDialog = ({
           .get(`need/${id}`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
-              if ((response?.data?.id ?? "") == "") {
+              if ((response?.data?.id ?? '') == '') {
                 setNotFound(true);
               }
               setPostData(response.data);
-              loadAuthor(response.data?.user?.id ?? "");
-              const self = store?.getState()?.userData?.user?.id ?? "guest";
-              if ((response.data?.user?.id ?? "") == self) {
+              loadAuthor(response.data?.user?.id ?? '');
+              const self = store?.getState()?.userData?.user?.id ?? 'guest';
+              if ((response.data?.user?.id ?? '') == self) {
                 setIsOwn(true);
               }
             }
@@ -129,7 +129,7 @@ export const ProposalDialog = ({
           .get(`user/rate`)
           .then((response) => {
             if ((response?.data ?? null) != null) {
-              if ((response?.data?.id ?? "") !== "") {
+              if ((response?.data?.id ?? '') !== '') {
                 setMyRate(response.data.hourly_rate);
               }
             }
@@ -171,7 +171,7 @@ export const ProposalDialog = ({
     }>,
   ) => {
     props.setFieldValue(
-      "price",
+      'price',
       myRate * (event.target.value as unknown as number),
     );
   };
@@ -186,7 +186,7 @@ export const ProposalDialog = ({
             </Button>
           )}
           {proposalCount > 0 && (
-            <P css={{ color: "$neutral600" }}>
+            <P css={{ color: '$neutral600' }}>
               <FontAwesomeIcon icon={faCheck} />
               You have submitted a proposal
             </P>
@@ -198,27 +198,27 @@ export const ProposalDialog = ({
             style={customStyles}
             contentLabel="New Proposal"
           >
-            <Flex css={{ justifyContent: "space-between" }}>
+            <Flex css={{ justifyContent: 'space-between' }}>
               <H4>New Proposal</H4>
               <UnstyledLink
                 href="#"
                 onClick={closeModal}
-                css={{ fontSize: "$h5" }}
+                css={{ fontSize: '$h5' }}
               >
                 <FontAwesomeIcon icon={faClose} />
               </UnstyledLink>
             </Flex>
 
-            {postData?.user && <Author uid={postData.user?.id ?? ""} />}
-            <P css={{ fontWeight: "$bold" }}>
-              {postData?.title ?? "Loading..."}
+            {postData?.user && <Author uid={postData.user?.id ?? ''} />}
+            <P css={{ fontWeight: '$bold' }}>
+              {postData?.title ?? 'Loading...'}
             </P>
             {postData?.tags && <Tags tags={postData.tags} />}
             {postData?.unpublish_at && (
-              <P css={{ color: "$neutral600" }}>
-                Respond by{" "}
+              <P css={{ color: '$neutral600' }}>
+                Respond by{' '}
                 {DateTime.fromISO(postData.unpublish_at).toFormat(
-                  "cccc, LLLL d",
+                  'cccc, LLLL d',
                 )}
               </P>
             )}
@@ -231,7 +231,7 @@ export const ProposalDialog = ({
             <Divider />
             <Formik
               initialValues={{
-                message: "",
+                message: '',
                 estHours: 2,
                 price: 50,
               }}
@@ -241,10 +241,10 @@ export const ProposalDialog = ({
                 await axiosPrivate
                   .put(`need/proposal/${id}`, values)
                   .then(async (response) => {
-                    if (response.data?.success == "false") {
+                    if (response.data?.success == 'false') {
                       actions.setFieldError(
-                        "about",
-                        "Oops, something went wrong",
+                        'about',
+                        'Oops, something went wrong',
                       );
                     } else {
                       actions.resetForm();
@@ -254,10 +254,10 @@ export const ProposalDialog = ({
                   })
                   .catch((reason) => {
                     //TODO - error handling
-                    if (reason.code == "ERR_NETWORK") {
+                    if (reason.code == 'ERR_NETWORK') {
                       actions.setFieldError(
-                        "about",
-                        "Oops, something went wrong",
+                        'about',
+                        'Oops, something went wrong',
                       );
                     } else {
                       const statuscode = Number(reason?.response?.status);
@@ -274,7 +274,7 @@ export const ProposalDialog = ({
             >
               {(props) => {
                 return (
-                  <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+                  <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
                     <Flex column>
                       <H5>
                         Your Message
@@ -303,10 +303,10 @@ export const ProposalDialog = ({
                       <Flex column>
                         <H5>Estimated hours of work</H5>
                         <P>
-                          We use this to help recommend a price -{" "}
+                          We use this to help recommend a price -{' '}
                           {profile?.first_name
                             ? profile.first_name
-                            : "the client"}{" "}
+                            : 'the client'}{' '}
                           will not see this.
                         </P>
                         <InputOuter
@@ -351,7 +351,7 @@ export const ProposalDialog = ({
                             onChange={props.handleChange}
                             onBlur={props.handleBlur}
                             value={props.values.price}
-                            css={{ marginLeft: "$2" }}
+                            css={{ marginLeft: '$2' }}
                           />
                         </InputOuter>
                       </Flex>

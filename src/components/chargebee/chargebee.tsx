@@ -1,9 +1,9 @@
-import { axiosPrivate } from "@/lib/axios";
-import { refreshToken } from "@/lib/user/auth";
-import store from "@/redux/store";
-import Script from "next/script";
-import { useState } from "react";
-import { Button } from "../navigation/button";
+import { axiosPrivate } from '@/lib/axios';
+import { refreshToken } from '@/lib/user/auth';
+import store from '@/redux/store';
+import Script from 'next/script';
+import { useState } from 'react';
+import { Button } from '../navigation/button';
 
 export const ChargeBeePortalButton = () => {
   const [cbInstance, setCbInstance] = useState(null);
@@ -22,10 +22,10 @@ export const ChargeBeePortalButton = () => {
   };
 
   const openChargeBeePortal = () => {
-    if (typeof window !== "undefined") {
+    if (typeof window !== 'undefined') {
       if (cbInstance) {
         (cbInstance as any).setPortalSession(async () => {
-          const response = await axiosPrivate.get("chargebee/portal_session");
+          const response = await axiosPrivate.get('chargebee/portal_session');
           return response.data;
         });
         (cbInstance as any).createChargebeePortal().open({

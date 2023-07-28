@@ -1,25 +1,25 @@
-import { config as styleconfig } from "stitches.config";
-import Modal from "react-modal";
-import { useEffect, useState } from "react";
-import { P } from "../text/text";
-import { Card } from "../layout/cards";
-import { Flex } from "../layout/flex";
-import { Button, TertiaryButton, UnstyledLink } from "../navigation/button";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faClose } from "@fortawesome/free-solid-svg-icons";
+import { config as styleconfig } from 'stitches.config';
+import Modal from 'react-modal';
+import { useEffect, useState } from 'react';
+import { P } from '../text/text';
+import { Card } from '../layout/cards';
+import { Flex } from '../layout/flex';
+import { Button, TertiaryButton, UnstyledLink } from '../navigation/button';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faClose } from '@fortawesome/free-solid-svg-icons';
 
 const customStyles: Modal.Styles = {
   content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    background: "none",
-    border: "none",
-    overflow: "visible",
-    padding: "0",
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    background: 'none',
+    border: 'none',
+    overflow: 'visible',
+    padding: '0',
   },
 };
 
@@ -39,15 +39,15 @@ export const ProposalNoPortfolioModal = ({
   useEffect(() => {
     openModal();
   }, []);
-  Modal.setAppElement("#__next");
+  Modal.setAppElement('#__next');
   return (
     <Modal
       isOpen={modalIsOpen}
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <Card css={{ color: "$neutral700", maxWidth: "550px" }}>
-        <Flex css={{ alignItems: "center", justifyContent: "space-between" }}>
+      <Card css={{ color: '$neutral700', maxWidth: '550px' }}>
+        <Flex css={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <P>
             <strong>🚀 Increase your chances of landing this project</strong>
           </P>
@@ -57,7 +57,7 @@ export const ProposalNoPortfolioModal = ({
               e.preventDefault();
               closeModal();
             }}
-            css={{ color: "$neutral600" }}
+            css={{ color: '$neutral600' }}
           >
             <FontAwesomeIcon icon={faClose} />
           </UnstyledLink>
@@ -72,10 +72,10 @@ export const ProposalNoPortfolioModal = ({
           <strong>
             Users who add examples of their work to their portfolios have a 30%
             higher chance of landing projects.
-          </strong>{" "}
+          </strong>{' '}
           Add yours now!
         </P>
-        <Flex gap="5" css={{ alignItems: "center" }}>
+        <Flex gap="5" css={{ alignItems: 'center' }}>
           <Button href="/portfolio/new">Add Portfolio Post</Button>
           <TertiaryButton
             href="#"

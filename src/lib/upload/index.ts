@@ -1,20 +1,20 @@
-import axios from "axios";
-import { axiosPrivate } from "../axios";
+import axios from 'axios';
+import { axiosPrivate } from '../axios';
 
 export const uploadFile = async (file: File) => {
-  const options = { headers: { "Content-Type": file.type } };
+  const options = { headers: { 'Content-Type': file.type } };
   const urls = await axiosPrivate
     .get(`upload/url?filename=${file.name}&size=${file.size}`)
     .then((response) => response.data)
     .catch((err) => {
-      throw new Error("Error uploading file");
+      throw new Error('Error uploading file');
     });
 
   if (!urls.signedUrl) {
-    throw new Error("Error uploading file");
+    throw new Error('Error uploading file');
   } else {
     await axios.put(urls.signedUrl, file, options).catch((err) => {
-      throw new Error("Error uploading file");
+      throw new Error('Error uploading file');
     });
     return urls.publicUrl;
   }
@@ -22,10 +22,10 @@ export const uploadFile = async (file: File) => {
 
 export const storeFile = async (url: string) => {
   return axiosPrivate
-    .put("upload/store", { fileName: url })
+    .put('upload/store', { fileName: url })
     .then((res) => res.data)
     .catch(() => {
-      throw new Error("Error uploading file");
+      throw new Error('Error uploading file');
     });
 };
 
@@ -36,6 +36,6 @@ export const uploadForEditorJs = async (
     const url = await uploadFile(file);
     return { success: 1, file: { url: url } };
   } catch (err) {
-    return { success: 0, file: { url: "" } };
+    return { success: 0, file: { url: '' } };
   }
 };

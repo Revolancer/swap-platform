@@ -1,12 +1,12 @@
-import { PrimaryLayout } from "@/components/layout/layouts";
-import { Title } from "@/components/head/title";
-import { FullWidth } from "@/components/layout/columns";
-import { H1, H5 } from "@/components/text/headings";
-import { ProjectTabs } from "@/components/project-hub/tabs";
-import { Flex } from "@/components/layout/flex";
-import { CompletedProjectsTable } from "@/components/project-hub/active/completed-projects-table";
-import { CrumbBar } from "@/components/navigation/crumbs/crumbbar";
-import { Crumb } from "@/components/navigation/crumbs/crumb";
+import { PrimaryLayout } from '@/components/layout/layouts';
+import { Title } from '@/components/head/title';
+import { FullWidth } from '@/components/layout/columns';
+import { H1, H5 } from '@/components/text/headings';
+import { ProjectTabs } from '@/components/project-hub/tabs';
+import { Flex } from '@/components/layout/flex';
+import { CompletedProjectsTable } from '@/components/project-hub/active/completed-projects-table';
+import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+import { Crumb } from '@/components/navigation/crumbs/crumb';
 
 export default function CreditDashboard() {
   return (

@@ -1,19 +1,19 @@
-import { useCallback, useEffect, useState } from "react";
-import { Flex } from "../layout/flex";
-import { P } from "../text/text";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faPencil } from "@fortawesome/free-solid-svg-icons";
-import { Tag } from "@/lib/types";
-import { axiosPrivate, axiosPublic } from "@/lib/axios";
-import { TagElement } from "../tags";
-import { TagField } from "../forms/taginput";
-import { Form } from "../forms/form";
-import { Formik } from "formik";
-import { Yup } from "@/lib/yup";
-import { Button } from "../navigation/button";
+import { useCallback, useEffect, useState } from 'react';
+import { Flex } from '../layout/flex';
+import { P } from '../text/text';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPencil } from '@fortawesome/free-solid-svg-icons';
+import { Tag } from '@/lib/types';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { TagElement } from '../tags';
+import { TagField } from '../forms/taginput';
+import { Form } from '../forms/form';
+import { Formik } from 'formik';
+import { Yup } from '@/lib/yup';
+import { Button } from '../navigation/button';
 
 export const SkillSegment = ({
-  uid = "",
+  uid = '',
   own = false,
 }: {
   uid: string;
@@ -33,7 +33,7 @@ export const SkillSegment = ({
   }, [uid]);
 
   useEffect(() => {
-    if (uid != "") {
+    if (uid != '') {
       loadTagsForUser();
     }
   }, [uid, loadTagsForUser]);
@@ -52,7 +52,7 @@ export const SkillSegment = ({
       .required(
         "Please select some skills and tools to let us know what you're good at",
       )
-      .min(3, "Please select at least three skills or tools")
+      .min(3, 'Please select at least three skills or tools')
       .max(
         20,
         "Whoa there! That's a lot of skills! We want to know what you're best at, so please only provide 20 tags.",
@@ -69,10 +69,10 @@ export const SkillSegment = ({
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post("user/skills", values)
+            .post('user/skills', values)
             .then(async (response) => {
-              if (response.data?.success == "false") {
-                actions.setFieldError("skills", "Oops, something went wrong");
+              if (response.data?.success == 'false') {
+                actions.setFieldError('skills', 'Oops, something went wrong');
               } else {
                 await axiosPublic.storage.remove(`user-skills-${uid}`);
                 await loadTagsForUser();
@@ -81,8 +81,8 @@ export const SkillSegment = ({
             })
             .catch((reason) => {
               //TODO - error handling
-              if (reason.code == "ERR_NETWORK") {
-                actions.setFieldError("skills", "Oops, something went wrong");
+              if (reason.code == 'ERR_NETWORK') {
+                actions.setFieldError('skills', 'Oops, something went wrong');
               } else {
                 const statuscode = Number(reason?.response?.status);
                 switch (statuscode) {
@@ -98,9 +98,9 @@ export const SkillSegment = ({
       >
         {(props) => {
           return (
-            <Form onSubmit={props.handleSubmit} css={{ gap: "$3" }}>
+            <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
               <TagField name="skills" />
-              <Flex css={{ flexDirection: "row-reverse" }}>
+              <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
                   role="secondary"
@@ -123,16 +123,16 @@ export const SkillSegment = ({
     <>
       <Flex
         style={{
-          justifyContent: own ? "space-between" : "flex-start",
-          width: "100%",
+          justifyContent: own ? 'space-between' : 'flex-start',
+          width: '100%',
         }}
       >
-        <P css={{ color: "$neutral600" }}>Skills</P>
+        <P css={{ color: '$neutral600' }}>Skills</P>
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
             icon={faPencil}
-            style={{ cursor: "pointer" }}
+            style={{ cursor: 'pointer' }}
           />
         )}
       </Flex>
