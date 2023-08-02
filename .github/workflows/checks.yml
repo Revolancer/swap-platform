@@ -1,7 +1,7 @@
 name: Checks
 on: pull_request
 jobs:
-  build:
+  code_quality:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
