@@ -15,7 +15,36 @@ const nextConfig = {
     "@react-dnd/shallowequal",
   ],
   images: {
-    remotePatterns: [
+    remotePatterns: 
+    process.env.NODE_ENV == 'development' ?
+    [
+      {
+        protocol: "https",
+        hostname: "uploads.revolancer.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "app.revolancer.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "uploads.rvdevel.com",
+        port: "",
+        pathname: "/**",
+      },
+      {
+        protocol: "https",
+        hostname: "loremflickr.com",
+        port: "",
+        pathname: "/**",
+      },
+    ]
+    :
+    [
       {
         protocol: "https",
         hostname: "uploads.revolancer.com",
