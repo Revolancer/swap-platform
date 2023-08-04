@@ -16,7 +16,7 @@ const nextConfig = {
   ],
   images: {
     remotePatterns:
-      process.env.NODE_ENV == 'production'
+      process.env.VERCEL_ENV == 'production'
         ? [
             {
               protocol: 'https',
@@ -73,13 +73,13 @@ const nextConfig = {
         new BugsnagBuildReporterPlugin({
           apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
           appVersion: gitCommitInfo().shortHash,
-          releaseStage: process.env.NODE_ENV,
+          releaseStage: process.env.VERCEL_ENV,
         }),
       );
       new BugsnagSourceMapUploaderPlugin({
         apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
         appVersion: gitCommitInfo().shortHash,
-        releaseStage: process.env.NODE_ENV,
+        releaseStage: process.env.VERCEL_ENV,
         metadata: {
           buildId: buildId,
           dev: dev,
