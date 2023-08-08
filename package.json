@@ -85,7 +85,7 @@
     "@types/react-tag-input": "^6.6.1",
     "@types/uuid": "^9.0.2",
     "editorjs-hyperlink": "^1.0.6",
-    "eslint-config-prettier": "^8.9.0",
+    "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
     "git-commit-info": "^2.0.2",
     "prettier": "^3.0.1",
