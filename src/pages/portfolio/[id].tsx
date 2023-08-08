@@ -19,6 +19,7 @@ import store from '@/redux/store';
 import FourOhFour from '../404';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { SuccessModal } from '@/components/modals/success-modal';
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -39,6 +40,8 @@ export default function PortfolioEditorPage() {
   const [hasLoaded, setHasLoaded] = useState(false);
   const [loadedData, setLoadedData] = useState<PostData | undefined>(undefined);
   const [isNotFound, setNotFound] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [nextUrl, setNextUrl] = useState('/u/profile');
   const { id } = router.query;
 
   const PortfolioEditorJs = dynamic(
@@ -121,7 +124,8 @@ export default function PortfolioEditorPage() {
                       await axiosPublic.storage.remove(
                         `user-portfolio-${self}`,
                       );
-                      router.replace(`/p/${response?.data ?? ''}`);
+                      setNextUrl(`/p/${response?.data ?? ''}`);
+                      setSuccess(true);
                     }
                   })
                   .catch((reason) => {
@@ -151,7 +155,8 @@ export default function PortfolioEditorPage() {
                         'Oops, something went wrong',
                       );
                     } else {
-                      router.replace(`/p/${id}`);
+                      setNextUrl(`/p/${id}`);
+                      setSuccess(true);
                     }
                   })
                   .catch((reason) => {
@@ -208,7 +213,10 @@ export default function PortfolioEditorPage() {
                     <Flex>
                       <Button
                         href="#"
-                        onClick={props.submitForm}
+                        onClick={(e) => {
+                          e.preventDefault();
+                          props.submitForm();
+                        }}
                         disabled={props.isSubmitting}
                       >
                         Publish
@@ -240,6 +248,15 @@ export default function PortfolioEditorPage() {
               );
             }}
           </Formik>
+        )}
+        {success && (
+          <SuccessModal
+            successMessage="Your post has been published"
+            onClose={() => {
+              setSuccess(false);
+              router.replace(nextUrl);
+            }}
+          />
         )}
       </PrimaryLayout>
     </>
