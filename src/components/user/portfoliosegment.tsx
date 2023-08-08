@@ -5,6 +5,9 @@ import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Flex } from '../layout/flex';
 import { H5 } from '../text/headings';
+import { Card } from '../layout/cards';
+import { P } from '../text/text';
+import { Button } from '../navigation/button';
 
 export const PortfolioSegment = ({
   name = '',
@@ -16,13 +19,17 @@ export const PortfolioSegment = ({
   own?: boolean;
 }) => {
   const [posts, setPosts] = useState<PostData[]>([]);
+  const [loading, setLoading] = useState(true);
 
   const loadPostsForUser = useCallback(async () => {
     axiosPublic
       .get(`portfolio/for_user/${uid}`, {
         id: `user-portfolio-${uid}`,
       })
-      .then((response) => setPosts(response.data ?? []))
+      .then((response) => {
+        setLoading(false);
+        setPosts(response.data ?? []);
+      })
       .catch(() => setPosts([]));
   }, [uid]);
 
@@ -37,6 +44,9 @@ export const PortfolioSegment = ({
       <PortfolioProfileCard data={post} own={own} key={post?.id ?? ''} />,
     );
   }
+
+  if (loading) return <></>;
+
   return own || staticPosts.length > 0 ? (
     <Flex column gap={4}>
       <H5>{name != '' ? `${name}'s` : 'My'} Portfolio</H5>
@@ -48,6 +58,20 @@ export const PortfolioSegment = ({
       </ResponsiveMasonry>
     </Flex>
   ) : (
-    <></>
+    <Flex column gap={4}>
+      <H5>{name}&rsquo;s Portfolio</H5>
+      <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
+        <Masonry gutter="0.8rem">
+          <Card>
+            <H5>Nothing to see here</H5>
+            <P>
+              {name} has no portfolio yet. Send them a message if you would like
+              to see examples of their previous work.
+            </P>
+            <Button href={`/message/${uid}`}>Message {name}</Button>
+          </Card>
+        </Masonry>
+      </ResponsiveMasonry>
+    </Flex>
   );
 };
