@@ -1,5 +1,5 @@
 import { Turnstile as CfTurnstile } from '@marsidev/react-turnstile';
-import { darkTheme } from 'stitches.config';
+import { darkTheme } from '@revolancer/ui';
 
 var isDarkModeTurnstile = false;
 

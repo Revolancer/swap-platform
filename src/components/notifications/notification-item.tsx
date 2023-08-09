@@ -2,7 +2,8 @@ import { Notification } from '@/lib/types';
 import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { UnstyledLink } = Buttons;
 import { Div } from '../layout/utils';
 import { axiosPrivate } from '@/lib/axios';
 

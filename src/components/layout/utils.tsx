@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { ColumnLayout, FullWidth } from './columns';
 
 export const Div = styled('div', {});

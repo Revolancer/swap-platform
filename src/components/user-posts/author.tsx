@@ -1,14 +1,13 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPublic } from '@/lib/axios';
 import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
-import { H5 } from '../text/headings';
 import NextLink from 'next/link';
 import { P } from '../text/text';
-import { Link } from '../navigation/button';
-import { TertiaryButton } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { TertiaryButton } = Buttons;
 
 export const Author = ({ uid = '' }: { uid: string }) => {
   const [profile, setProfile] = useState<UserProfileData>({});

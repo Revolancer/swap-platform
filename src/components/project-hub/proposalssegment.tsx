@@ -7,7 +7,8 @@ import { H5 } from '../text/headings';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
 import Image from 'next/image';
 import { P } from '../text/text';
-import { Button } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const Button = Buttons.Button;
 
 export const ProposalsSegment = ({ uid = '' }: { uid: string }) => {
   const [posts, setPosts] = useState<Proposal[]>([]);

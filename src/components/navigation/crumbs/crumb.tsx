@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 export const Crumb = styled(Link, {
   color: '$neutral600',

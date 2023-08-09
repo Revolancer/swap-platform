@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import * as RadixSelect from '@radix-ui/react-select';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 import {
   faCheck,
   faChevronDown,

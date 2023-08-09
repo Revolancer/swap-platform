@@ -6,12 +6,13 @@ import {
   ChangeEvent,
 } from 'react';
 import Modal from 'react-modal';
-import { Button, UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { Button, UnstyledLink } = Buttons;
 import { Flex } from '../layout/flex';
 import { H4, H5 } from '../text/headings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faClose, faTicket } from '@fortawesome/free-solid-svg-icons';
-import { config as styleconfig } from 'stitches.config';
+import { config as styleconfig } from '@revolancer/ui';
 import { PostData, UserProfileData } from '@/lib/types';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import store from '@/redux/store';

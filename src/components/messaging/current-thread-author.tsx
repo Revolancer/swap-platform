@@ -1,10 +1,11 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
 import NextLink from 'next/link';
 import { P } from '../text/text';
-import { UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { UnstyledLink } = Buttons;
 
 export const CurrentThreadAuthor = ({ data }: { data: UserProfileData }) => {
   const ProfileImageContainer = styled('div', {

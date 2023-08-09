@@ -4,7 +4,7 @@ import { axiosPrivate } from '@/lib/axios';
 import { Div } from '../../layout/utils';
 import { VictoryChart, VictoryStack, VictoryArea, VictoryTheme } from 'victory';
 import { DateTime } from 'luxon';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { P } from '@/components/text/text';
 
 const Table = styled('table', {

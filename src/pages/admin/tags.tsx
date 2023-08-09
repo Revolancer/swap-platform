@@ -1,7 +1,8 @@
 import { Title } from '@/components/head/title';
 import { Flex } from '@/components/layout/flex';
 import { AdminLayout } from '@/components/layout/layouts';
-import { Button } from '@/components/navigation/button';
+import { Buttons } from '@revolancer/ui';
+const Button = Buttons.Button;
 import { H5 } from '@/components/text/headings';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
@@ -12,7 +13,7 @@ import { InputInner, InputOuter } from '@/components/forms/input';
 import { Feedback } from '@/components/forms/feedback';
 import { Div } from '@/components/layout/utils';
 import { FullWidth } from '@/components/layout/columns';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Tag } from '@/lib/types';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';

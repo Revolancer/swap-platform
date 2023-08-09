@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { darkTheme, styled, config } from 'stitches.config';
+import { darkTheme, styled, config } from '@revolancer/ui';
 
 const Outer = styled('div', {
   position: 'relative',

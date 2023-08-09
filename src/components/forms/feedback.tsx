@@ -4,7 +4,7 @@ import {
   faTriangleExclamation,
 } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 const FeedbackText = styled('span', {
   fontSize: '$body2',

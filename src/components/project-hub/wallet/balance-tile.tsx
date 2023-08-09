@@ -6,7 +6,7 @@ import { axiosPrivate } from '@/lib/axios';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 export const BalanceTile = () => {
   const [credits, setCredits] = useState(0);

@@ -1,10 +1,11 @@
-import { config as styleconfig } from 'stitches.config';
+import { config as styleconfig } from '@revolancer/ui';
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
 import { P } from '../text/text';
 import { Card } from '../layout/cards';
 import { Flex } from '../layout/flex';
-import { Button, TertiaryButton, UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { Button, TertiaryButton, UnstyledLink } = Buttons;
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 

@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';

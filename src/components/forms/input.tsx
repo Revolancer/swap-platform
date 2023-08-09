@@ -1,4 +1,4 @@
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 import * as RadixCheckbox from '@radix-ui/react-checkbox';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';

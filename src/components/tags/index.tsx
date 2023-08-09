@@ -1,5 +1,5 @@
 import { Tag } from '@/lib/types';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 const TagContainer = styled('div', {
   color: '$pink500',

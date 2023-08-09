@@ -11,11 +11,8 @@ import { Title } from '@/components/head/title';
 import { Card } from '@/components/layout/cards';
 import { Flex } from '@/components/layout/flex';
 import { LoginLayout } from '@/components/layout/layouts';
-import {
-  FormButton,
-  Link,
-  TertiaryButton,
-} from '@/components/navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { FormButton, Link, TertiaryButton } = Buttons;
 import { H4 } from '@/components/text/headings';
 import { P } from '@/components/text/text';
 import { axiosPublic } from '@/lib/axios';

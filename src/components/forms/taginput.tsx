@@ -3,7 +3,7 @@ import React, { useEffect, useMemo, useState } from 'react';
 import { Feedback } from './feedback';
 import { InputOuter } from './input';
 import { type Tag, WithContext as ReactTags } from 'react-tag-input';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { axiosPublic } from '@/lib/axios';
 import { matchSorter } from 'match-sorter';
 import { v4 as uuid } from 'uuid';

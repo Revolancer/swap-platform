@@ -1,6 +1,6 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Flex } from '../layout/flex';
 
 const CheckText = styled('p', {

@@ -1,4 +1,4 @@
-import { styled, darkTheme } from 'stitches.config';
+import { styled, darkTheme } from '@revolancer/ui';
 
 export const Card = styled('div', {
   borderWidth: '$1',

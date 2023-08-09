@@ -3,13 +3,14 @@ import { OutputData } from '@editorjs/editorjs';
 import { P } from '../text/text';
 import { Flex } from '../layout/flex';
 import { Tags } from './tags';
-import { Button, TertiaryButton, UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { Button, TertiaryButton, UnstyledLink } = Buttons;
 import { Author } from './author';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { ConfirmationDialog } from '../navigation/confirmation-dialog';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Card } from '../layout/cards';
 import { ProposalDialogWrap } from '../need/proposal-dialog-wrap';
 export const NeedProfileCard = ({

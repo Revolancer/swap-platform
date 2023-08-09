@@ -1,6 +1,7 @@
-import { config as styleconfig } from 'stitches.config';
+import { config as styleconfig } from '@revolancer/ui';
 import Modal from 'react-modal';
-import { Button, UnstyledLink } from './button';
+import { Buttons } from '@revolancer/ui';
+const { Button, UnstyledLink } = Buttons;
 import { useState } from 'react';
 import { Flex } from '../layout/flex';
 import { H4 } from '../text/headings';

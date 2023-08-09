@@ -5,7 +5,7 @@ import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { useEffect, useState } from 'react';
 import { FullWidth } from '@/components/layout/columns';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { P } from '@/components/text/text';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
