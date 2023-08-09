@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 export const H1 = styled('h1', {
   fontSize: '$h1m',

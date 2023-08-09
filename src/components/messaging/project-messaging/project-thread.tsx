@@ -8,7 +8,8 @@ import { DateTime } from 'luxon';
 import store from '@/redux/store';
 import { MessageAuthor } from '../message-author';
 import { P } from '@/components/text/text';
-import { TertiaryButton } from '@/components/navigation/button';
+import { Buttons } from '@revolancer/ui';
+const TertiaryButton = Buttons.TertiaryButton;
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 

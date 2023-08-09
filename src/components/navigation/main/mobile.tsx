@@ -1,7 +1,7 @@
 import { Logo } from '@/components/branding/logo';
 import { RootState, useAppDispatch } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 import { contract, expand, toggle } from './nav-toggle';
 import { Div } from '@/components/layout/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

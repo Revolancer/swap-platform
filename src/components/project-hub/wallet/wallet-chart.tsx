@@ -11,7 +11,7 @@ import {
   VictoryAxis,
 } from 'victory';
 import { DateTime } from 'luxon';
-import { config as styleConfig } from 'stitches.config';
+import { config as styleConfig } from '@revolancer/ui';
 
 export const WalletChart = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);

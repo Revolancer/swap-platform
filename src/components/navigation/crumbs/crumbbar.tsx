@@ -1,5 +1,5 @@
 import { ColumnLayout, FullWidth } from '@/components/layout/columns';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { CrumbDivider } from './crumbdivider';
 
 const CrumbBarContainer = styled('div', {

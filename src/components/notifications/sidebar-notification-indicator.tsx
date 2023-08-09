@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { Div } from '../layout/utils';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { faBell, faMessage } from '@fortawesome/free-regular-svg-icons';
 
 export const SidebarNotificationIndicator = ({

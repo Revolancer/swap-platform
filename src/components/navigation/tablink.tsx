@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import Link from 'next/link';
 
 export const TabLink = styled(Link, {

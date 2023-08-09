@@ -3,7 +3,7 @@ import EditorJS from '@editorjs/editorjs';
 import { editorTools } from './tools';
 import { useEffect, useMemo, useState } from 'react';
 import { Field, FieldProps } from 'formik';
-import { css } from 'stitches.config';
+import { css } from '@revolancer/ui';
 
 const styles = css({
   '& .ce-inline-tool-hyperlink--select-target': {

@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Flex } from '../layout/flex';
 import { useRouter } from 'next/router';
 import { TabLink } from '../navigation/tablink';

@@ -3,7 +3,8 @@ import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Button } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const Button = Buttons.Button;
 import {
   InputInner,
   InputOuter,

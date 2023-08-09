@@ -1,11 +1,12 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Div } from '../layout/utils';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Form } from '../forms/form';
 import { Flex } from '../layout/flex';
-import { Button } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const Button = Buttons.Button;
 import { Formik } from 'formik';
 import { UploadField } from '../forms/upload';
 import { Yup } from '@/lib/yup';

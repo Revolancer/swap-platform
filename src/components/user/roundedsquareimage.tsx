@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { Div } from '../layout/utils';
 import Image from 'next/image';
 

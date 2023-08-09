@@ -1,6 +1,6 @@
 import { Html, Head, Main, NextScript } from 'next/document';
 import Script from 'next/script';
-import { getCssText, globalStyles } from 'stitches.config';
+import { getCssText, globalStyles } from '@revolancer/ui';
 
 export default function Document() {
   globalStyles();

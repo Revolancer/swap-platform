@@ -1,4 +1,4 @@
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 
 export const FullWidth = styled('div', {
   gridColumn: 'auto / span 4',

@@ -15,7 +15,8 @@ import {
   PasswordReveal,
 } from '@/components/forms/input';
 import { Feedback } from '@/components/forms/feedback';
-import { Button, FormButton, Link } from '@/components/navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { Button, FormButton, Link } = Buttons;
 import { SuccessModal } from '@/components/modals/success-modal';
 import { Form } from '@/components/forms/form';
 import { Turnstile } from '@/components/forms/turnstile';

@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { Div } from '../../layout/utils';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import { P } from '@/components/text/text';
 import store from '@/redux/store';
-import { Button } from '@/components/navigation/button';
+import { Buttons } from '@revolancer/ui';
+const Button = Buttons.Button;
 
 const Table = styled('table', {
   borderCollapse: 'collapse',

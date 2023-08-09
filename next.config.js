@@ -13,6 +13,7 @@ const nextConfig = {
     '@react-dnd/invariant',
     '@react-dnd/asap',
     '@react-dnd/shallowequal',
+    '@revolancer/ui',
   ],
   images: {
     remotePatterns:

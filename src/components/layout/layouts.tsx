@@ -1,7 +1,7 @@
 import { RootState } from '@/redux/store';
 import { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../branding/logo';
 import { CrumbBar } from '../navigation/crumbs/crumbbar';
 import { AuthGuard } from '../navigation/guards/authguard';

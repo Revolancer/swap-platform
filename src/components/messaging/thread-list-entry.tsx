@@ -1,6 +1,6 @@
 import { Message, UserProfileData } from '@/lib/types';
 import { Flex } from '../layout/flex';
-import { styled } from 'stitches.config';
+import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
@@ -8,7 +8,8 @@ import store from '@/redux/store';
 import { P } from '../text/text';
 import { Divider } from '../layout/divider';
 import { DateTime } from 'luxon';
-import { UnstyledLink } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { UnstyledLink } = Buttons;
 import { Div } from '../layout/utils';
 
 const UnreadIndicator = () => {

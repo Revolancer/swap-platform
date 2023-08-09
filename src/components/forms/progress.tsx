@@ -1,4 +1,4 @@
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 
 const Outer = styled('div', {
   position: 'relative',

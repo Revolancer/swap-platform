@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { darkTheme, styled } from 'stitches.config';
+import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../../branding/logo';
 import { MobileNav } from './mobile';
 import { contract, expand } from './nav-toggle';

@@ -9,7 +9,8 @@ import store from '@/redux/store';
 import { MessageAuthor } from './message-author';
 import { relative } from 'path';
 import { P } from '../text/text';
-import { TertiaryButton } from '../navigation/button';
+import { Buttons } from '@revolancer/ui';
+const { TertiaryButton } = Buttons;
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 
