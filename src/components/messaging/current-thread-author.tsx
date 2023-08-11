@@ -4,8 +4,7 @@ import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
 import NextLink from 'next/link';
 import { P } from '../text/text';
-import { Buttons } from '@revolancer/ui';
-const { UnstyledLink } = Buttons;
+import { UnstyledLink } from '@revolancer/ui/buttons';
 
 export const CurrentThreadAuthor = ({ data }: { data: UserProfileData }) => {
   const ProfileImageContainer = styled('div', {

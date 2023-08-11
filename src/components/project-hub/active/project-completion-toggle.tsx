@@ -1,6 +1,5 @@
 import { Flex } from '@/components/layout/flex';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 import { P } from '@/components/text/text';
 import { axiosPrivate } from '@/lib/axios';
 import { Project, UserProfileData } from '@/lib/types';

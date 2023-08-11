@@ -6,8 +6,7 @@ import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
 import NextLink from 'next/link';
 import { P } from '../text/text';
-import { Buttons } from '@revolancer/ui';
-const { TertiaryButton } = Buttons;
+import { TertiaryButton } from '@revolancer/ui/buttons';
 
 export const Author = ({ uid = '' }: { uid: string }) => {
   const [profile, setProfile] = useState<UserProfileData>({});

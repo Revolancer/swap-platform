@@ -3,8 +3,7 @@ import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import Script from 'next/script';
 import { useState } from 'react';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 
 export const ChargeBeePortalButton = () => {
   const [cbInstance, setCbInstance] = useState(null);
