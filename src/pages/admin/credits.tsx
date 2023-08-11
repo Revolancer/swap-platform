@@ -1,8 +1,7 @@
 import { Title } from '@/components/head/title';
 import { Flex } from '@/components/layout/flex';
 import { AdminLayout } from '@/components/layout/layouts';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 import { H5 } from '@/components/text/headings';
 import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';

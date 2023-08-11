@@ -7,8 +7,7 @@ import { Flex } from '../layout/flex';
 import { H5 } from '../text/headings';
 import { Card } from '../layout/cards';
 import { P } from '../text/text';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 
 export const PortfolioSegment = ({
   name = '',

@@ -10,8 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { P } from '../text/text';
 import { Flex } from '../layout/flex';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 
 const AddSomething = () => {
   return (

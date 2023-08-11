@@ -6,8 +6,7 @@ import { Flex } from '@/components/layout/flex';
 import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { P } from '@/components/text/text';
-import { Buttons } from '@revolancer/ui';
-const UnstyledLink = Buttons.UnstyledLink;
+import { UnstyledLink } from '@revolancer/ui/buttons';
 
 export const ProjectOtherUserProfile = ({
   projectId,

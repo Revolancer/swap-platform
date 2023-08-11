@@ -5,8 +5,7 @@ import { Div } from '../../layout/utils';
 import { styled } from '@revolancer/ui';
 import { P } from '@/components/text/text';
 import store from '@/redux/store';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 
 const Table = styled('table', {
   borderCollapse: 'collapse',

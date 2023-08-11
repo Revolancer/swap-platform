@@ -4,8 +4,7 @@ import { useEffect, useState } from 'react';
 import { P } from '../text/text';
 import { Card } from '../layout/cards';
 import { Flex } from '../layout/flex';
-import { Buttons } from '@revolancer/ui';
-const { Button, TertiaryButton, UnstyledLink } = Buttons;
+import { Button, TertiaryButton, UnstyledLink } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 

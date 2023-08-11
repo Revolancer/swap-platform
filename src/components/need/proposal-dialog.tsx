@@ -6,8 +6,7 @@ import {
   ChangeEvent,
 } from 'react';
 import Modal from 'react-modal';
-import { Buttons } from '@revolancer/ui';
-const { Button, UnstyledLink } = Buttons;
+import { Button, UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex } from '../layout/flex';
 import { H4, H5 } from '../text/headings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';

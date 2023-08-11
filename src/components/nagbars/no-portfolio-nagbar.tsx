@@ -1,7 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { NagBar } from '../layout/utils';
-import { Buttons } from '@revolancer/ui';
-const { Link } = Buttons;
+import { Link } from '@revolancer/ui/buttons';
 import { P } from '../text/text';
 import store from '@/redux/store';
 import { axiosPublic } from '@/lib/axios';

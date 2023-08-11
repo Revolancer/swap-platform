@@ -10,8 +10,7 @@ import { TagField } from '../forms/taginput';
 import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Buttons } from '@revolancer/ui';
-const Button = Buttons.Button;
+import { Button } from '@revolancer/ui/buttons';
 
 export const SkillSegment = ({
   uid = '',

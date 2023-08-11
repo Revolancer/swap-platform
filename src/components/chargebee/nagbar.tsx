@@ -2,8 +2,7 @@ import { useAppSelector } from '@/redux/store';
 import { DateTime } from 'luxon';
 import { useEffect, useState } from 'react';
 import { NagBar } from '../layout/utils';
-import { Buttons } from '@revolancer/ui';
-const { Link } = Buttons;
+import { Link } from '@revolancer/ui/buttons';
 import { P } from '../text/text';
 
 export const TrialNagBar = () => {

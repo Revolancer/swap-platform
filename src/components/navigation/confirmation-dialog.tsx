@@ -1,7 +1,6 @@
 import { config as styleconfig } from '@revolancer/ui';
 import Modal from 'react-modal';
-import { Buttons } from '@revolancer/ui';
-const { Button, UnstyledLink } = Buttons;
+import { Button, UnstyledLink } from '@revolancer/ui/buttons';
 import { useState } from 'react';
 import { Flex } from '../layout/flex';
 import { H4 } from '../text/headings';

@@ -8,8 +8,7 @@ import store from '@/redux/store';
 import { P } from '../text/text';
 import { Divider } from '../layout/divider';
 import { DateTime } from 'luxon';
-import { Buttons } from '@revolancer/ui';
-const { UnstyledLink } = Buttons;
+import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Div } from '../layout/utils';
 
 const UnreadIndicator = () => {

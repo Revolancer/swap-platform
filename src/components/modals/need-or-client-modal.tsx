@@ -3,8 +3,7 @@ import { useEffect, useState } from 'react';
 import { P } from '../text/text';
 import { Card } from '../layout/cards';
 import { Flex } from '../layout/flex';
-import { Buttons } from '@revolancer/ui';
-const { Button, Link } = Buttons;
+import { Button, Link } from '@revolancer/ui/buttons';
 
 const customStyles: Modal.Styles = {
   content: {
