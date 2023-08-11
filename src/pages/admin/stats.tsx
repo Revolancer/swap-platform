@@ -5,7 +5,8 @@ import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { useEffect, useState } from 'react';
 import { FullWidth } from '@/components/layout/columns';
-import { styled } from '@revolancer/ui';
+import { Buttons } from '@revolancer/ui';
+const { Link } = Buttons;
 import { P } from '@/components/text/text';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
@@ -125,6 +126,14 @@ export default function Stats() {
         </CrumbBar>
         <FullWidth>
           <H1>Stats</H1>
+          <P>
+            <Link href={`/admin/stats/top-profile-skills`}>
+              Top Skills by Number of Profiles
+            </Link>
+          </P>
+          <P>
+            <Link href={`/admin/stats/top-referrers`}>Top Referrers</Link>
+          </P>
           <P>Total Users: {userCount}</P>
           <H5>User Activity</H5>
           <P>DAU: {dau}</P>
@@ -189,16 +198,6 @@ export default function Stats() {
           <P>Daily: {dailyNewUsers}</P>
           <P>Weekly: {weeklyNewUsers}</P>
           <P>Monthly: {monthlyNewUsers}</P>
-          {referrers && (
-            <>
-              <H5>Referrers</H5>
-              {referrers.map((referrer) => (
-                <P key={referrer.referrer}>
-                  {referrer.referrer}: {referrer.count}
-                </P>
-              ))}
-            </>
-          )}
           <H5>Other Stats</H5>
           <P>All time accounts created: {userCountAllTime}</P>
           <P>Deleted users: {userCountDeleted}</P>
