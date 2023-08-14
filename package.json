@@ -54,7 +54,7 @@
     "formik": "^2.4.2",
     "jwt-decode": "^3.1.2",
     "lodash.debounce": "^4.0.8",
-    "luxon": "^3.3.0",
+    "luxon": "^3.4.0",
     "masonic": "^3.7.0",
     "match-sorter": "^6.3.1",
     "next": "^13.4.12",
