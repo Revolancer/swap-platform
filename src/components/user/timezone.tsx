@@ -16,6 +16,7 @@ import { P } from '../text/text';
 import { DateTime } from 'luxon';
 import { LocationInput } from '../forms/location-input';
 import { Feedback } from '@/components/forms/feedback';
+import { H5 } from '../text/headings';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(
@@ -31,7 +32,9 @@ export const Timezone = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [location, setLocation] = useState<google.maps.Place>(null);
+  const [location, setLocation] = useState<google.maps.Place | undefined>(
+    undefined,
+  );
   const [timezone, setTimezone] = useState('');
 
   const zoneOffset = (timezone: string) => {
@@ -114,10 +117,16 @@ export const Timezone = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
+              <H5>Location</H5>
+              <P css={{ color: '$neutral600' }}>Where do you work from?</P>
               <LocationInput name="location" />
               {props.touched['location'] && props.errors['location'] && (
                 <Feedback state="error">{props.errors['location']}</Feedback>
               )}
+              <Feedback state="feedback">
+                We will use this to determine the timezone to display on your
+                profile. Your location will never be displayed.
+              </Feedback>
               <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
