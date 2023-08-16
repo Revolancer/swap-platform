@@ -90,7 +90,7 @@ export default function UserProfile() {
         </CrumbBar>
         <SideBar>
           {own && <ProfileProgress position="mobile" />}
-          <Card>
+          <Card css={{ overflow: 'unset' }}>
             <Flex
               column
               gap={3}
