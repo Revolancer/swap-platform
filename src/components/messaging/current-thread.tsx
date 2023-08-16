@@ -143,7 +143,7 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
           );
         }
       }
-      console.log(message);
+
       //Actual message body
       rendered.push(
         message.body.split('\n').map(function (item, idx) {
