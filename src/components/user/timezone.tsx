@@ -14,12 +14,13 @@ import { faC, faClock, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { TzSelect } from '../forms/select';
 import { P } from '../text/text';
 import { DateTime } from 'luxon';
+import { LocationInput } from '../forms/location-input';
+import { Feedback } from '@/components/forms/feedback';
 
 const UpdateTimezoneSchema = Yup.object().shape({
-  timezone: Yup.string()
-    .required('Please select a timezone')
-    .min(1, 'Please select a timezone')
-    .ensure(),
+  location: Yup.object<google.maps.Place>().required(
+    'Please select a location',
+  ),
 });
 
 export const Timezone = ({
@@ -30,6 +31,7 @@ export const Timezone = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
+  const [location, setLocation] = useState<google.maps.Place>(null);
   const [timezone, setTimezone] = useState('');
 
   const zoneOffset = (timezone: string) => {
@@ -77,13 +79,13 @@ export const Timezone = ({
     return (
       <Formik
         initialValues={{
-          timezone: timezone,
+          location: location,
         }}
         validationSchema={UpdateTimezoneSchema}
         onSubmit={async (values, actions) => {
           actions.setSubmitting(true);
           await axiosPrivate
-            .post('user/timezone', values)
+            .post('user/location', values)
             .then(async (response) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('timezone', 'Oops, something went wrong');
@@ -112,7 +114,10 @@ export const Timezone = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
-              <TzSelect name="timezone" />
+              <LocationInput name="location" />
+              {props.touched['location'] && props.errors['location'] && (
+                <Feedback state="error">{props.errors['location']}</Feedback>
+              )}
               <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button
                   href="#"
