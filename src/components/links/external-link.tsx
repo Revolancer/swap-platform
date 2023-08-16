@@ -21,6 +21,7 @@ export const ExternalLink = ({
     <>
       <Link
         href={href}
+        rel="noopener noreferrer nofollow"
         onClick={(e) => {
           e.preventDefault();
           setIsOpen(true);

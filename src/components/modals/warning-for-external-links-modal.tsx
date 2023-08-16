@@ -44,7 +44,7 @@ export const WarningForExternalLinksModal = ({
       onRequestClose={closeModal}
       style={customStyles}
     >
-      <Card css={{ color: '$neutral700', maxWidth: '550px' }}>
+      <Card css={{ color: '$neutral900', maxWidth: '550px' }}>
         <Flex css={{ alignItems: 'center', justifyContent: 'space-between' }}>
           <P>
             <strong>🚨 You’re leaving Revolancer</strong>
@@ -60,35 +60,19 @@ export const WarningForExternalLinksModal = ({
             <FontAwesomeIcon icon={faClose} />
           </Link>
         </Flex>
-        <P css={{ color: '#6C757D' }}>Please press Continue to visit: </P>
+        <P css={{ color: '$neutral700' }}>Please press Continue to visit: </P>
         <P css={{ maxHeight: '150px', overflow: 'auto' }}>{externalLink}</P>
         <Flex gap="5" css={{ alignItems: 'center', marginTop: '$2' }}>
           <Button
-            css={{
-              backgroundColor: '$White',
-              color: '#212529',
-              borderColor: '$borders',
-              '&:hover': {
-                color: 'white',
-              },
-              fontSize: '$small',
-              fontWeight: '$normal',
-            }}
+            role="secondary"
             href={externalLink}
+            target="_blank"
+            onClick={closeModal}
           >
             Continue
           </Button>
           <Button
-            css={{
-              backgroundColor: '$White',
-              color: '#212529',
-              borderColor: '$borders',
-              '&:hover': {
-                color: 'white',
-              },
-              fontSize: '$small',
-              fontWeight: '$normal',
-            }}
+            role="secondary"
             onClick={(e) => {
               e.preventDefault();
               closeModal();
@@ -98,7 +82,7 @@ export const WarningForExternalLinksModal = ({
             Back
           </Button>
         </Flex>
-        <P css={{ color: '#6C757D' }}>
+        <P css={{ color: '$neutral600' }}>
           Revolancer is not responsible for content on external websites.
         </P>
       </Card>
