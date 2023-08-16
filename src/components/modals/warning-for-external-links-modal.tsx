@@ -37,6 +37,7 @@ export const WarningForExternalLinksModal = ({
   closeModal: () => void;
 }) => {
   const router = useRouter();
+  Modal.setAppElement('#__next');
 
   return (
     <Modal
