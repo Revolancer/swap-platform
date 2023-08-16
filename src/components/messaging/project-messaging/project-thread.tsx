@@ -11,6 +11,8 @@ import { P } from '@/components/text/text';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import Linkify from 'linkify-react';
+import { renderLinksInMessages } from '../util-functions-for-messaging';
 
 export const ProjectThread = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<Project>();
@@ -223,7 +225,9 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
         message.message.split('\n').map(function (item, idx) {
           return (
             <span key={`${message.id}-${idx}`}>
-              {item}
+              <Linkify options={{ render: renderLinksInMessages }}>
+                {item}
+              </Linkify>
               <br />
             </span>
           );
