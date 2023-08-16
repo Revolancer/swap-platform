@@ -17,6 +17,7 @@ import FourOhFour from '../404';
 import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { ExternalLink } from '@/components/links/external-link';
 
 export default function UserProfile() {
   const router = useRouter();
