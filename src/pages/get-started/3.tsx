@@ -11,19 +11,20 @@ import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
 import { axiosPrivate } from '@/lib/axios';
 import { Form } from '@/components/forms/form';
-import { TzSelect } from '@/components/forms/select';
 import { Button } from '@revolancer/ui/buttons';
 import { TagField } from '@/components/forms/taginput';
 import { UploadField } from '@/components/forms/upload';
 import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
+import { LocationInput } from '@/components/forms/location-input';
+import { P } from '@/components/text/text';
+import { Feedback } from '@/components/forms/feedback';
 
 const OnboardingSchema = Yup.object().shape({
-  timezone: Yup.string()
-    .required('Please select a timezone')
-    .min(1, 'Please select a timezone')
-    .ensure(),
+  location: Yup.object<google.maps.Place>().required(
+    'Please select a location',
+  ),
   profileImage: Yup.string()
     .required('Please provide a profile picture. Maximum upload size is 40MB')
     .min(1, 'Please provide a profile picture. Maximum upload size is 40MB'),
@@ -83,7 +84,7 @@ export default function GetStarted() {
               <Formik
                 initialValues={{
                   skills: [],
-                  timezone: undefined,
+                  location: undefined,
                   profileImage: '',
                 }}
                 validationSchema={OnboardingSchema}
@@ -94,7 +95,7 @@ export default function GetStarted() {
                     .then(async (response) => {
                       if (response.data?.success == 'false') {
                         actions.setFieldError(
-                          'timezone',
+                          'location',
                           'Oops, something went wrong',
                         );
                       } else {
@@ -106,7 +107,7 @@ export default function GetStarted() {
                       //TODO - error handling
                       if (reason.code == 'ERR_NETWORK') {
                         actions.setFieldError(
-                          'timezone',
+                          'location',
                           'Oops, something went wrong',
                         );
                       } else {
@@ -138,8 +139,22 @@ export default function GetStarted() {
                         <TagField name="skills" />
                       </Flex>
                       <Flex column>
-                        <H5>Timezone</H5>
-                        <TzSelect name="timezone" />
+                        <H5>Location</H5>
+                        <P css={{ color: '$neutral600' }}>
+                          Where do you work from?
+                        </P>
+                        <LocationInput name="location" />
+                        {props.touched['location'] &&
+                          props.errors['location'] && (
+                            <Feedback state="error">
+                              {props.errors['location']}
+                            </Feedback>
+                          )}
+                        <Feedback state="feedback">
+                          We will use this to determine the timezone to display
+                          on your profile. Your location will never be
+                          displayed.
+                        </Feedback>
                       </Flex>
                       <Flex css={{ flexDirection: 'row-reverse' }}>
                         <Button
