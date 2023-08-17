@@ -25,6 +25,26 @@ import { NeedExplainer } from '@/components/collapsible/need-explainer';
 import { NeedLoopModal } from '@/components/modals/need-loop-modal';
 import { NeedOrClientModal } from '@/components/modals/need-or-client-modal';
 
+const discardEmptyBlocks = (blocks) => {
+  return blocks.filter(block => {
+    let filterCondition = true;
+    switch (block.type) {
+      case "list":
+        filterCondition = block.data.items.length > 0;
+        break;
+      case "header", "paragraph":
+        filterCondition = block.data.text.length > 0;
+        break;
+      case "image":
+        filterCondition = block.data.file.url.length > 0;
+        break;
+      default:
+        break;
+    }
+    return filterCondition;
+  });
+}
+
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
   title: Yup.string().required().ensure().min(1),
@@ -140,6 +160,13 @@ export default function NeedEditorPage() {
             onSubmit={async (values, actions) => {
               actions.setSubmitting(true);
               if (isNew) {
+                if (discardEmptyBlocks(values.data.blocks).length == 0) {
+                  actions.setFieldError(
+                    'data',
+                    'Please add some information about your need.',
+                  );
+                  return;
+                }
                 await axiosPrivate
                   .put('need', values)
                   .then(async (response) => {
@@ -278,6 +305,9 @@ export default function NeedEditorPage() {
                       <Flex column>
                         <H5>Describe what you need</H5>
                         <NeedExplainer />
+                        {props.touched.data && props.errors.data && (
+                          <Feedback state="error">{props.errors.data}</Feedback>
+                        )}
                         <NeedEditorJs name="data" data={props.values.data} />
                       </Flex>
                     </Form>
