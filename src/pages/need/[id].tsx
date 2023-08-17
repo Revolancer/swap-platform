@@ -24,18 +24,20 @@ import { P } from '@/components/text/text';
 import { NeedExplainer } from '@/components/collapsible/need-explainer';
 import { NeedLoopModal } from '@/components/modals/need-loop-modal';
 import { NeedOrClientModal } from '@/components/modals/need-or-client-modal';
+import { Block } from 'editorjs-blocks-react-renderer';
 
-const discardEmptyBlocks = (blocks) => {
-  return blocks.filter(block => {
+const discardEmptyBlocks = (blocks: Block[]) => {
+  return blocks.filter((block) => {
     let filterCondition = true;
     switch (block.type) {
-      case "list":
+      case 'list':
         filterCondition = block.data.items.length > 0;
         break;
-      case "header", "paragraph":
+      case 'header':
+      case 'paragraph':
         filterCondition = block.data.text.length > 0;
         break;
-      case "image":
+      case 'image':
         filterCondition = block.data.file.url.length > 0;
         break;
       default:
@@ -43,7 +45,7 @@ const discardEmptyBlocks = (blocks) => {
     }
     return filterCondition;
   });
-}
+};
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
@@ -158,6 +160,7 @@ export default function NeedEditorPage() {
             }}
             validationSchema={NeedSchema}
             onSubmit={async (values, actions) => {
+              console.log(values);
               actions.setSubmitting(true);
               if (isNew) {
                 if (discardEmptyBlocks(values.data.blocks).length == 0) {
