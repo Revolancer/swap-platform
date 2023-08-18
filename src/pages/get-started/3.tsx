@@ -54,6 +54,7 @@ export default function GetStarted() {
             '@xl': { gridColumn: '3 / 11' },
             gap: '$7',
             padding: '$7',
+            overflowY: 'visible',
           }}
         >
           <Flex gap={7}>
