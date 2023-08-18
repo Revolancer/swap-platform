@@ -14,6 +14,10 @@ import { ThreadList } from '@/components/messaging/thread-list';
 import { P } from '@/components/text/text';
 import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { MessageSideBar } from '../../components/layout/columns';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
+import { Link } from '@revolancer/ui/buttons';
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -79,16 +83,30 @@ export default function MessageCenter() {
             </Crumb>
           )}
         </CrumbBar>
-        <SideBar>
+        <MessageSideBar className="hello" hasThread={activeThread != ''}>
           <ThreadList activeThread={activeThread} />
-        </SideBar>
+        </MessageSideBar>
         <MainContentWithSideBar>
           {activeThreadProfile && (
             <Flex
               column
               css={{ maxHeight: 'max(400px, 85dvh)', height: '100vh' }}
             >
-              <CurrentThreadAuthor data={activeThreadProfile} />
+              <Flex css={{ alignItems: 'center' }}>
+                <Link
+                  href="/message"
+                  css={{
+                    display: 'block',
+                    color: '$neutral600',
+                    '@md': {
+                      display: 'none',
+                    },
+                  }}
+                >
+                  <FontAwesomeIcon size="lg" icon={faAngleLeft} />
+                </Link>
+                <CurrentThreadAuthor data={activeThreadProfile} />
+              </Flex>
               <Divider css={{ flexGrow: 0 }} />
               <CurrentThread uid={activeThread} />
             </Flex>
@@ -99,7 +117,17 @@ export default function MessageCenter() {
             </P>
           )}
           {!activeThreadProfile && allMessageCount >= 1 && (
-            <P css={{ color: '$neutral600' }}>Select a conversation</P>
+            <P
+              css={{
+                color: '$neutral600',
+                display: 'none',
+                '@md': {
+                  display: 'block',
+                },
+              }}
+            >
+              Select a conversation
+            </P>
           )}
         </MainContentWithSideBar>
       </PrimaryLayout>
