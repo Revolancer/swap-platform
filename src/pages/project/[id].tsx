@@ -23,6 +23,7 @@ import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
 import { Card } from '@/components/layout/cards';
 import { ProjectOtherUserProfile } from '@/components/messaging/project-messaging/project-other-user-profile';
+import { ProjectStatus } from '@/components/project-hub/project-status';
 
 export default function ProjectPage() {
   const router = useRouter();
@@ -113,8 +114,9 @@ export default function ProjectPage() {
         <FullWidth>
           <Card>
             {!hasLoaded && <H1>Loading...</H1>}
-            {hasLoaded && (
+            {hasLoaded && loadedData && (
               <Flex column>
+                <ProjectStatus project={loadedData} />
                 <Flex
                   css={{
                     justifyContent: 'space-between',

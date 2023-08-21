@@ -110,6 +110,8 @@ export interface Project {
   proposal: Proposal;
   client_approval: boolean;
   contractor_approval: boolean;
+  client_cancelled: boolean;
+  contractor_cancelled: boolean;
   created_at: string;
   updated_at: string;
   deleted_at?: string;
