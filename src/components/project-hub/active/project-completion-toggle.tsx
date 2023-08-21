@@ -63,52 +63,33 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
   };
 
   if (isLoading) return <></>;
-  if (isComplete)
-    return (
-      <P css={{ color: '$green500', fontWeight: '$bold' }}>
-        This project is complete
-      </P>
-    );
+  if (isComplete) return <></>;
   if (!hasApproved)
     return (
-      <Flex css={{ alignItems: 'center' }}>
-        {otherHasApproved && (
-          <P css={{ color: '$orange500' }}>
-            {otherProfile?.first_name ?? 'The other user'} is awaiting your
-            approval
-          </P>
-        )}
-        <Button
-          href="#"
-          role="secondary"
-          size={'small'}
-          onClick={(e) => {
-            e.preventDefault();
-            markComplete();
-          }}
-        >
-          Mark Complete
-        </Button>
-      </Flex>
-    );
-
-  return (
-    <Flex css={{ alignItems: 'center' }}>
-      <P css={{ color: '$orange500' }}>
-        Waiting for {otherProfile?.first_name ?? 'the other user'} to approve
-        this project
-      </P>
       <Button
         href="#"
         role="secondary"
         size={'small'}
         onClick={(e) => {
           e.preventDefault();
-          markIncomplete();
+          markComplete();
         }}
       >
-        Mark Not Complete
+        Mark Complete
       </Button>
-    </Flex>
+    );
+
+  return (
+    <Button
+      href="#"
+      role="secondary"
+      size={'small'}
+      onClick={(e) => {
+        e.preventDefault();
+        markIncomplete();
+      }}
+    >
+      Mark Not Complete
+    </Button>
   );
 };
