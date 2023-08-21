@@ -27,7 +27,8 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 // this function expects the url to be formatted properly
 export const urlToIconsWithPriority = (url: string) => {
   const host = new URL(url).host.split('.');
-  switch (host[0]) {
+  let brand = host[0] == 'www' ? host[1] : host[0];
+  switch (brand) {
     case 'facebook':
       return { url: url, priority: 1, icon: faFacebook };
     case 'instagram':
