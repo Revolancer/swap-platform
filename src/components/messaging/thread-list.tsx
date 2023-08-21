@@ -45,9 +45,9 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
     <Flex
       column
       css={{
-        maxHeight: '200px',
         overflowY: 'auto',
-        '@md': { maxHeight: '85dvh', paddingBlockEnd: '$4' },
+        maxHeight: '85dvh',
+        paddingBlockEnd: '$4',
       }}
       gap={0}
     >
