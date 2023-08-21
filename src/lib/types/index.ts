@@ -142,5 +142,5 @@ export interface Notification {
 
 export interface BrandPriority {
   priority: number;
-  brand: IconDefinition;
+  icon: IconDefinition;
 }
