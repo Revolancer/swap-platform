@@ -26,19 +26,22 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
 // this function expects the url to be formatted properly
 export const urlToIconsWithPriority = (url: string) => {
-  const formattedUrl = formatDomainToURL(url);
-  if (formattedUrl) {
-    url = formattedUrl;
-  } else {
-    url = 'http://default.com';
-  }
   let hs = '';
+  if (!(url.startsWith('https://') || url.startsWith('http://'))) {
+    url = 'http://' + url;
+  }
   try {
     hs = new URL(url).host;
   } catch (error) {
     hs = 'default';
   }
   const host = hs.split('.');
+  if (
+    host.length < 2 ||
+    (host.length >= 2 && host[host.length - 1].length <= 1)
+  ) {
+    return { url: url, priority: 100, icon: faGlobe };
+  }
   let brand = host[0] == 'www' ? host[1] : host[0];
   switch (brand) {
     case 'facebook':
@@ -72,9 +75,11 @@ export const urlToIconsWithPriority = (url: string) => {
     case 'gitlab':
       return { url: url, priority: 15, icon: faGitlab };
     case 'open':
-      if (host[1] == 'spotify')
+      if (host[1] == 'spotify') {
         return { url: url, priority: 16, icon: faSpotify };
-      else return { url: url, priority: 16, icon: faGlobe };
+      } else {
+        return { url: url, priority: 16, icon: faGlobe };
+      }
     case 'x':
     case 'twitter':
       return { url: url, priority: 17, icon: faXTwitter };
@@ -93,17 +98,6 @@ export const urlToIconsWithPriority = (url: string) => {
   }
 };
 
-export const formatDomainToURL = (domain: string) => {
-  // Regular expression to check if the domain is valid
-  const domainRegex =
-    /^(https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{2,3})+$/;
-
-  // Check if the domain matches the valid domain pattern
-  if (domainRegex.test(domain)) {
-    return domain.startsWith('http://') || domain.startsWith('https://')
-      ? domain
-      : 'http://' + domain;
-  } else {
-    return null; // Invalid domain
-  }
+export const formattedDomain = (url: string) => {
+  return urlToIconsWithPriority(url).priority != 100;
 };
