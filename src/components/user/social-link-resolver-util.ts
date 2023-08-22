@@ -75,6 +75,7 @@ export const urlToIconsWithPriority = (url: string) => {
       if (host[1] == 'spotify')
         return { url: url, priority: 16, icon: faSpotify };
       else return { url: url, priority: 16, icon: faGlobe };
+    case 'x':
     case 'twitter':
       return { url: url, priority: 17, icon: faXTwitter };
     case 'tumblr':
