@@ -15,7 +15,7 @@ export const ExternalLink = ({
   children,
 }: {
   href: string;
-  css: any;
+  css?: any;
   children: React.ReactNode;
 }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
