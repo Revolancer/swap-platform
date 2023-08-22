@@ -26,6 +26,12 @@ import { faGlobe } from '@fortawesome/free-solid-svg-icons';
 
 // this function expects the url to be formatted properly
 export const urlToIconsWithPriority = (url: string) => {
+  const formattedUrl = formatDomainToURL(url);
+  if (formattedUrl) {
+    url = formattedUrl;
+  } else {
+    url = 'http://default.com';
+  }
   let hs = '';
   try {
     hs = new URL(url).host;
@@ -82,6 +88,21 @@ export const urlToIconsWithPriority = (url: string) => {
     case 'artstation':
       return { url: url, priority: 25, icon: faArtstation };
     default:
-      return { url: url, priority: 25, icon: faGlobe };
+      return { url: url, priority: 100, icon: faGlobe };
+  }
+};
+
+export const formatDomainToURL = (domain: string) => {
+  // Regular expression to check if the domain is valid
+  const domainRegex =
+    /^(https?:\/\/)?(?:[a-zA-Z0-9-]+\.)?[a-zA-Z0-9-]+(\.[a-zA-Z0-9-]{2,3})+$/;
+
+  // Check if the domain matches the valid domain pattern
+  if (domainRegex.test(domain)) {
+    return domain.startsWith('http://') || domain.startsWith('https://')
+      ? domain
+      : 'http://' + domain;
+  } else {
+    return null; // Invalid domain
   }
 };

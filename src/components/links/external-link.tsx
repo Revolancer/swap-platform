@@ -11,9 +11,11 @@ const isInternalLink = (link: string) => {
 
 export const ExternalLink = ({
   href,
+  css,
   children,
 }: {
   href: string;
+  css: any;
   children: React.ReactNode;
 }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -27,6 +29,7 @@ export const ExternalLink = ({
   return (
     <>
       <Link
+        css={css}
         href={href}
         target="_blank"
         rel="noopener noreferrer nofollow"
