@@ -17,7 +17,7 @@ import { InputInner, InputOuter } from '../forms/input';
 import { ExternalLink } from '../links/external-link';
 import { IntermediateRepresentation, OptFn } from 'linkifyjs';
 import {
-  formatDomainToURL,
+  formattedDomain,
   urlToIconsWithPriority,
 } from './social-link-resolver-util';
 import Linkify from 'linkify-react';
@@ -128,7 +128,7 @@ export const SocialSegment = ({
                                 props.errors.socials[idx].length > 0
                               }
                             >
-                              {!formatDomainToURL(props.values.socials[idx]) ? (
+                              {!formattedDomain(props.values.socials[idx]) ? (
                                 <ExternalLink
                                   href={props.values.socials[idx]}
                                   css={{
