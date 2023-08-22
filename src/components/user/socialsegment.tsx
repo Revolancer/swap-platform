@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { Flex } from '../layout/flex';
 import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +21,7 @@ import {
   urlToIconsWithPriority,
 } from './social-link-resolver-util';
 import Linkify from 'linkify-react';
+import { axiosPublic } from '@/lib/axios';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()
@@ -50,10 +51,23 @@ export const SocialSegment = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [socials, _] = useState([]);
+  const [socials, setSocials] = useState([]);
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
+
+  const loadSocialForUSer = useCallback(async () => {
+    axiosPublic
+      .get(`user/socials/${uid}`, { id: `user-socials-${uid}` })
+      .then((response) => setSocials(response.data?.links ?? ''))
+      .catch(() => setSocials([]));
+  }, [uid]);
+
+  useEffect(() => {
+    if (uid != '') {
+      loadSocialForUSer();
+    }
+  }, [uid, loadSocialForUSer]);
 
   const StaticSocial = () => {
     return (
