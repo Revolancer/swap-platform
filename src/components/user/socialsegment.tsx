@@ -21,7 +21,7 @@ import {
   urlToIconsWithPriority,
 } from './social-link-resolver-util';
 import Linkify from 'linkify-react';
-import { axiosPublic } from '@/lib/axios';
+import { axiosPrivate, axiosPublic } from '@/lib/axios';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()
@@ -113,7 +113,33 @@ export const SocialSegment = ({
         }}
         validationSchema={UpdateSocialSchema}
         onSubmit={async (values, actions) => {
-          console.log(values, actions);
+          actions.setSubmitting(true);
+          await axiosPrivate
+            .post('user/socials', { links: values.socials })
+            .then(async (response) => {
+              if (response.data?.success == 'false') {
+                actions.setFieldError('socials', 'Oops, something went wrong');
+              } else {
+                await axiosPublic.storage.remove(`user-socials-${uid}`);
+                await loadSocialForUser();
+                toggleEdit();
+              }
+            })
+            .catch((reason) => {
+              //TODO - error handling
+              if (reason.code == 'ERR_NETWORK') {
+                actions.setFieldError('socials', 'Oops, something went wrong');
+              } else {
+                const statuscode = Number(reason?.response?.status);
+                switch (statuscode) {
+                  default:
+                    //TODO: Other failure reasons (not validated, etc)
+                    console.log(reason);
+                    break;
+                }
+              }
+            });
+          actions.setSubmitting(false);
         }}
       >
         {(props) => {
