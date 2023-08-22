@@ -50,11 +50,7 @@ export const SocialSegment = ({
   own?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
-  const [socials, _] = useState([
-    'github.com',
-    'www.gitlab.com',
-    'open.spotify.com',
-  ]);
+  const [socials, _] = useState([]);
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
