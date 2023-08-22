@@ -88,7 +88,7 @@ export const SocialSegment = ({
   };
 
   const placeholder = () => {
-    return own && socials.length == 0;
+    return socials.length == 0;
   };
 
   const EditSocial = () => {
