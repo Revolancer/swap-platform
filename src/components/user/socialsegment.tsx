@@ -56,7 +56,7 @@ export const SocialSegment = ({
     setEditMode(!editMode);
   };
 
-  const loadSocialForUSer = useCallback(async () => {
+  const loadSocialForUser = useCallback(async () => {
     axiosPublic
       .get(`user/socials/${uid}`, { id: `user-socials-${uid}` })
       .then((response) => setSocials(response.data?.links ?? ''))
@@ -65,9 +65,9 @@ export const SocialSegment = ({
 
   useEffect(() => {
     if (uid != '') {
-      loadSocialForUSer();
+      loadSocialForUser();
     }
-  }, [uid, loadSocialForUSer]);
+  }, [uid, loadSocialForUser]);
 
   const StaticSocial = () => {
     return (
