@@ -4,6 +4,7 @@ import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGlobe,
+  faGrip,
   faMinus,
   faPencil,
   faPlus,
@@ -22,6 +23,7 @@ import {
 } from './social-link-resolver-util';
 import Linkify from 'linkify-react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()
@@ -145,118 +147,173 @@ export const SocialSegment = ({
         {(props) => {
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
-              <FieldArray
-                name="socials"
-                render={(arrayHelpers) => {
-                  return (
-                    <>
-                      {props.values.socials && props.values.socials.length > 0
-                        ? props.values.socials.map((social, idx) => (
-                            <InputOuter
-                              css={{
-                                display: 'flex',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                                gap: '$1',
-                              }}
-                              key={`socials.${idx}`}
-                              error={
-                                props.touched.socials &&
-                                !!props.errors.socials &&
-                                typeof props.errors.socials == 'object' &&
-                                typeof props.errors.socials[idx] == 'string' &&
-                                props.errors.socials[idx].length > 0
-                              }
-                            >
-                              {!formattedDomain(props.values.socials[idx]) ? (
-                                <ExternalLink
-                                  href={props.values.socials[idx]}
-                                  css={{
-                                    color: `${
-                                      placeholder()
-                                        ? '$neutral600'
-                                        : '$neutral800'
-                                    }`,
-                                  }}
-                                >
-                                  <FontAwesomeIcon
-                                    icon={faGlobe}
-                                    fontSize={25}
-                                  />
-                                </ExternalLink>
-                              ) : (
-                                <Linkify
-                                  options={{
-                                    render: SocialIconLink,
-                                    attributes: {
-                                      css: {
-                                        color: `${
-                                          placeholder()
-                                            ? '$neutral600'
-                                            : '$neutral800'
-                                        }`,
-                                      },
-                                    },
-                                  }}
-                                >
-                                  {props.values.socials[idx]}
-                                </Linkify>
-                              )}
-                              <InputInner
-                                name={`socials.${idx}`}
-                                key={`socials.${idx}`}
-                                onChange={props.handleChange}
-                                onBlur={props.handleBlur}
-                                value={props.values.socials[idx]}
-                                css={{
-                                  width: '80%',
-                                  display: 'flex',
-                                  justifyContent: 'center',
-                                  alignItems: 'center',
-                                }}
-                              />
-                              <Button
-                                href="#"
-                                role="secondary"
-                                size="small"
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  arrayHelpers.remove(idx);
-                                }}
-                              >
-                                <FontAwesomeIcon icon={faMinus} fontSize={20} />
-                              </Button>
-                            </InputOuter>
-                          ))
-                        : null}
-                      <Flex>
-                        <Button
-                          href="#"
-                          role="secondary"
-                          size="small"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            props.submitForm();
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faSave} />
-                        </Button>
-                        <Button
-                          href="#"
-                          role="secondary"
-                          size="small"
-                          onClick={(e) => {
-                            e.preventDefault();
-                            arrayHelpers.push('');
-                          }}
-                        >
-                          <FontAwesomeIcon icon={faPlus} />
-                        </Button>
-                      </Flex>
-                    </>
+              <DragDropContext
+                onDragEnd={(e) => {
+                  console.log(e);
+                  if (!e.destination) {
+                    return;
+                  }
+
+                  const updatedSocials = [...props.values.socials];
+                  const [reorderedItem] = updatedSocials.splice(
+                    e.source.index,
+                    1,
                   );
+                  updatedSocials.splice(e.destination.index, 0, reorderedItem);
+                  props.setFieldValue('socials', updatedSocials);
                 }}
-              />
+              >
+                <Droppable droppableId="fieldList">
+                  {(dropProvided) => (
+                    <div
+                      {...dropProvided.droppableProps}
+                      ref={dropProvided.innerRef}
+                    >
+                      <FieldArray
+                        name="socials"
+                        render={(arrayHelpers) => {
+                          return (
+                            <>
+                              {props.values.socials &&
+                              props.values.socials.length > 0
+                                ? props.values.socials.map((social, idx) => (
+                                    <Draggable
+                                      key={idx}
+                                      draggableId={`${idx}`}
+                                      index={idx}
+                                    >
+                                      {(dragProvided) => (
+                                        <InputOuter
+                                          ref={dragProvided.innerRef}
+                                          {...dragProvided.draggableProps}
+                                          {...dragProvided.dragHandleProps}
+                                          css={{
+                                            display: 'flex',
+                                            justifyContent: 'center',
+                                            alignItems: 'center',
+                                            gap: '$1',
+                                            margin: '$3 0',
+                                          }}
+                                          error={
+                                            props.touched.socials &&
+                                            !!props.errors.socials &&
+                                            typeof props.errors.socials ==
+                                              'object' &&
+                                            typeof props.errors.socials[idx] ==
+                                              'string' &&
+                                            props.errors.socials[idx].length > 0
+                                          }
+                                        >
+                                          {!formattedDomain(
+                                            props.values.socials[idx],
+                                          ) ? (
+                                            <ExternalLink
+                                              href={props.values.socials[idx]}
+                                              css={{
+                                                color: `${
+                                                  placeholder()
+                                                    ? '$neutral600'
+                                                    : '$neutral800'
+                                                }`,
+                                              }}
+                                            >
+                                              <FontAwesomeIcon
+                                                icon={faGlobe}
+                                                fontSize={25}
+                                              />
+                                            </ExternalLink>
+                                          ) : (
+                                            <Linkify
+                                              options={{
+                                                render: SocialIconLink,
+                                                attributes: {
+                                                  css: {
+                                                    color: `${
+                                                      placeholder()
+                                                        ? '$neutral600'
+                                                        : '$neutral800'
+                                                    }`,
+                                                  },
+                                                },
+                                              }}
+                                            >
+                                              {props.values.socials[idx]}
+                                            </Linkify>
+                                          )}
+                                          <InputInner
+                                            name={`socials.${idx}`}
+                                            key={`socials.${idx}`}
+                                            onChange={props.handleChange}
+                                            onBlur={props.handleBlur}
+                                            value={props.values.socials[idx]}
+                                            css={{
+                                              width: '80%',
+                                              display: 'flex',
+                                              justifyContent: 'center',
+                                              alignItems: 'center',
+                                            }}
+                                          />
+                                          <Button
+                                            href="#"
+                                            role="secondary"
+                                            size="small"
+                                            onClick={(e) => {
+                                              e.preventDefault();
+                                              arrayHelpers.remove(idx);
+                                            }}
+                                          >
+                                            <FontAwesomeIcon
+                                              icon={faMinus}
+                                              fontSize={15}
+                                            />
+                                          </Button>
+                                          <P css={{ color: '$neutral500' }}>
+                                            <FontAwesomeIcon
+                                              icon={faGrip}
+                                              fontSize={15}
+                                            />
+                                          </P>
+                                        </InputOuter>
+                                      )}
+                                    </Draggable>
+                                  ))
+                                : null}
+                            </>
+                          );
+                        }}
+                      />
+                      {dropProvided.placeholder}
+                    </div>
+                  )}
+                </Droppable>
+              </DragDropContext>
+              <Flex>
+                <Button
+                  href="#"
+                  role="secondary"
+                  size="small"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.submitForm();
+                  }}
+                >
+                  <FontAwesomeIcon icon={faSave} />
+                </Button>
+                <Button
+                  href="#"
+                  role="secondary"
+                  size="small"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.setFieldValue('socials', [
+                      ...props.values.socials,
+                      '',
+                    ]);
+                  }}
+                >
+                  <FontAwesomeIcon icon={faPlus} />
+                </Button>
+              </Flex>
             </Form>
           );
         }}
