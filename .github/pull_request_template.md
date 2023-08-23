@@ -8,6 +8,7 @@
 
 ## Type of change
 
+- [ ] Chore
 - [ ] Bug Fix
 - [ ] New feature
 - [ ] Updated feature
