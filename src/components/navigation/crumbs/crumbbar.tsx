@@ -2,11 +2,9 @@ import { ColumnLayout, FullWidth } from '@/components/layout/columns';
 import { styled } from '@revolancer/ui';
 import { CrumbDivider } from './crumbdivider';
 
-const CrumbBarContainer = styled('div', {
-  display: 'flex',
-  gap: '$4',
-  padding: '$6',
-  paddingBottom: '0',
+const CrumbBarContainer = styled('p', {
+  margin: '$6',
+  marginBottom: '0',
 });
 
 export const CrumbBar = ({ children }: { children?: any }) => {
