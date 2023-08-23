@@ -23,6 +23,7 @@ import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { Crumb } from '@/components/navigation/crumbs/crumb';
 import { Card } from '@/components/layout/cards';
 import { ProfileProgress } from '@/components/collapsible/profile-progress';
+import { SocialSegment } from '@/components/user/socialsegment';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -114,6 +115,7 @@ export default function UserProfile() {
               )}
             </Flex>
             <AboutSegment uid={userProfile?.user?.id ?? ''} own={own} />
+            <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
             <Timezone uid={userProfile?.user?.id ?? ''} own={own} />
             <SkillSegment uid={userProfile?.user?.id ?? ''} own={own} />
           </Card>
