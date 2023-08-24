@@ -4,11 +4,10 @@ import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGlobe,
-  faGrip,
+  faGripVertical,
   faMinus,
   faPencil,
   faPlus,
-  faSave,
 } from '@fortawesome/free-solid-svg-icons';
 import { Form } from '../forms/form';
 import { FieldArray, Formik } from 'formik';
@@ -183,32 +182,25 @@ export const SocialSegment = ({
                                       index={idx}
                                     >
                                       {(dragProvided) => (
-                                        <InputOuter
+                                        <Flex
                                           ref={dragProvided.innerRef}
                                           {...dragProvided.draggableProps}
                                           {...dragProvided.dragHandleProps}
                                           css={{
-                                            display: 'flex',
                                             justifyContent: 'center',
                                             alignItems: 'center',
-                                            gap: '$1',
                                             margin: '$3 0',
                                           }}
-                                          error={
-                                            props.touched.socials &&
-                                            !!props.errors.socials &&
-                                            typeof props.errors.socials ==
-                                              'object' &&
-                                            typeof props.errors.socials[idx] ==
-                                              'string' &&
-                                            props.errors.socials[idx].length > 0
-                                          }
                                         >
                                           {!formattedDomain(
                                             props.values.socials[idx],
                                           ) ? (
                                             <ExternalLink
-                                              href={props.values.socials[idx]}
+                                              href={
+                                                props.values.socials[idx] == ''
+                                                  ? '#'
+                                                  : props.values.socials[idx]
+                                              }
                                               css={{
                                                 color: `${
                                                   placeholder()
@@ -240,40 +232,57 @@ export const SocialSegment = ({
                                               {props.values.socials[idx]}
                                             </Linkify>
                                           )}
-                                          <InputInner
-                                            name={`socials.${idx}`}
-                                            key={`socials.${idx}`}
-                                            onChange={props.handleChange}
-                                            onBlur={props.handleBlur}
-                                            value={props.values.socials[idx]}
+                                          <InputOuter
                                             css={{
                                               width: '80%',
-                                              display: 'flex',
-                                              justifyContent: 'center',
-                                              alignItems: 'center',
                                             }}
-                                          />
-                                          <Button
-                                            href="#"
-                                            role="secondary"
-                                            size="small"
-                                            onClick={(e) => {
-                                              e.preventDefault();
-                                              arrayHelpers.remove(idx);
-                                            }}
+                                            error={
+                                              props.touched.socials &&
+                                              !!props.errors.socials &&
+                                              typeof props.errors.socials ==
+                                                'object' &&
+                                              typeof props.errors.socials[
+                                                idx
+                                              ] == 'string' &&
+                                              props.errors.socials[idx].length >
+                                                0
+                                            }
                                           >
-                                            <FontAwesomeIcon
-                                              icon={faMinus}
-                                              fontSize={15}
+                                            <InputInner
+                                              name={`socials.${idx}`}
+                                              key={`socials.${idx}`}
+                                              onChange={props.handleChange}
+                                              onBlur={props.handleBlur}
+                                              value={props.values.socials[idx]}
+                                              css={{
+                                                width: '80%',
+                                                display: 'flex',
+                                                justifyContent: 'center',
+                                                alignItems: 'center',
+                                              }}
                                             />
-                                          </Button>
+                                            <Button
+                                              href="#"
+                                              role="secondary"
+                                              size="small"
+                                              onClick={(e) => {
+                                                e.preventDefault();
+                                                arrayHelpers.remove(idx);
+                                              }}
+                                            >
+                                              <FontAwesomeIcon
+                                                icon={faMinus}
+                                                fontSize={10}
+                                              />
+                                            </Button>
+                                          </InputOuter>
                                           <P css={{ color: '$neutral500' }}>
                                             <FontAwesomeIcon
-                                              icon={faGrip}
-                                              fontSize={15}
+                                              icon={faGripVertical}
+                                              fontSize={20}
                                             />
                                           </P>
-                                        </InputOuter>
+                                        </Flex>
                                       )}
                                     </Draggable>
                                   ))
@@ -287,18 +296,7 @@ export const SocialSegment = ({
                   )}
                 </Droppable>
               </DragDropContext>
-              <Flex>
-                <Button
-                  href="#"
-                  role="secondary"
-                  size="small"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    props.submitForm();
-                  }}
-                >
-                  <FontAwesomeIcon icon={faSave} />
-                </Button>
+              <Flex css={{ justifyContent: 'space-between' }}>
                 <Button
                   href="#"
                   role="secondary"
@@ -312,6 +310,16 @@ export const SocialSegment = ({
                   }}
                 >
                   <FontAwesomeIcon icon={faPlus} />
+                </Button>
+                <Button
+                  href="#"
+                  role="secondary"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    props.submitForm();
+                  }}
+                >
+                  Save
                 </Button>
               </Flex>
             </Form>
