@@ -1,20 +1,19 @@
 import { OnboardingLayout } from '@/components/layout/layouts';
 import { Title } from '@/components/head/title';
 import Image from 'next/image';
-import { Div } from '@/components/layout/utils';
 import { Progress } from '@/components/forms/progress';
 import { Yup } from '@/lib/yup';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '@/components/forms/form';
 import { Button, TertiaryButton } from '@revolancer/ui/buttons';
 import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
-import { Flex, Card } from '@revolancer/ui/layout';
+import { Flex, Card, Div } from '@revolancer/ui/layout';
 import { H4, H5 } from '@revolancer/ui/text';
 import {
+  Form,
   Feedback,
   InputInner,
   InputOuter,

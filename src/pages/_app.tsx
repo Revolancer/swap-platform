@@ -1,7 +1,6 @@
 import store from '@/redux/store';
 import type { AppProps } from 'next/app';
 import { Provider } from 'react-redux';
-import { darkTheme } from '@revolancer/ui';
 import { Analytics } from '@vercel/analytics/react';
 import Bugsnag from '@bugsnag/js';
 import BugsnagPluginReact, {

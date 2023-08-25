@@ -4,7 +4,6 @@ import dynamic from 'next/dynamic';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { TagField } from '@/components/forms/taginput';
-import { Form } from '@/components/forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { useRouter } from 'next/router';
@@ -16,7 +15,7 @@ import { SuccessModal } from '@/components/modals/success-modal';
 import { H1, H5 } from '@revolancer/ui/text';
 import { Flex, MainContentWithSideBar, SideBar } from '@revolancer/ui/layout';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
-import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),

@@ -7,7 +7,6 @@ import {
   faPencil,
   faPlus,
 } from '@fortawesome/free-solid-svg-icons';
-import { Form } from '../forms/form';
 import { FieldArray, Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
@@ -22,7 +21,7 @@ import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
-import { InputInner, InputOuter } from '@revolancer/ui/forms';
+import { Form, InputInner, InputOuter } from '@revolancer/ui/forms';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()

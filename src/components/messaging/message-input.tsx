@@ -1,13 +1,17 @@
 import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Formik } from 'formik';
-import { Form } from '../forms/form';
 import { Button, TertiaryButton } from '@revolancer/ui/buttons';
 import { useState } from 'react';
 import { StoredUploadField } from '../forms/stored-upload';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
-import { InputOuter, TextAreaInner, Feedback } from '@revolancer/ui/forms';
+import {
+  Form,
+  InputOuter,
+  TextAreaInner,
+  Feedback,
+} from '@revolancer/ui/forms';
 import { Flex } from '@revolancer/ui/layout';
 
 const MessageSchema = Yup.object().shape({

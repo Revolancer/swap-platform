@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
-import { Div } from '../../layout/utils';
 import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
 import { P } from '@revolancer/ui/text';
 import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
+import { Div } from '@revolancer/ui/layout';
 
 export const CompletedProjectsTable = () => {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);

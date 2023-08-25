@@ -1,14 +1,13 @@
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { useEffect, useState } from 'react';
 import { SuccessModal } from '../modals/success-modal';
-import { Div } from '../layout/utils';
 import { H5, Span } from '@revolancer/ui/text';
-import { Flex } from '@revolancer/ui/layout';
+import { Flex, Div } from '@revolancer/ui/layout';
 import {
+  Form,
   InputInner,
   InputOuter,
   Feedback,

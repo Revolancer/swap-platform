@@ -2,13 +2,17 @@ import { useCallback, useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
-import { InputOuter, TextAreaInner, Feedback } from '@revolancer/ui/forms';
+import {
+  Form,
+  InputOuter,
+  TextAreaInner,
+  Feedback,
+} from '@revolancer/ui/forms';
 import { ExternalLink } from '../links/external-link';
 import { IntermediateRepresentation, OptFn } from 'linkifyjs';
 import Linkify from 'linkify-react';

@@ -7,13 +7,13 @@ import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { SuccessModal } from '../modals/success-modal';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Form } from '../forms/form';
 import { axiosPrivate } from '@/lib/axios';
 import { logout } from '@/lib/user/auth';
 import { useAppDispatch } from '@/redux/store';
 import { H4, H5, P, Span } from '@revolancer/ui/text';
 import { Flex } from '@revolancer/ui/layout';
 import {
+  Form,
   Feedback,
   InputInner,
   InputOuter,

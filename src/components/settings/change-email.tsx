@@ -1,12 +1,11 @@
-import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
+import { axiosPrivate } from '@/lib/axios';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { SuccessModal } from '../modals/success-modal';
 import { useEffect, useState } from 'react';
 import { Flex } from '@revolancer/ui/layout';
-import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 import { H5, Span } from '@revolancer/ui/text';
 
 const UpdateEmailSchema = Yup.object().shape({

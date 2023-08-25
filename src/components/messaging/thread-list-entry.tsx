@@ -6,8 +6,7 @@ import { axiosPrivate } from '@/lib/axios';
 import store from '@/redux/store';
 import { DateTime } from 'luxon';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { Div } from '../layout/utils';
-import { Flex } from '@revolancer/ui/layout';
+import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 
 const UnreadIndicator = () => {

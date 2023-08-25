@@ -1,11 +1,11 @@
-import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
+import { axiosPrivate } from '@/lib/axios';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { useState } from 'react';
 import { SuccessModal } from '../modals/success-modal';
 import {
+  Form,
   InputInner,
   InputOuter,
   PasswordReveal,

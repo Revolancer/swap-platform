@@ -1,7 +1,6 @@
 import { axiosPrivate } from '@/lib/axios';
 import { Project, ProjectMessage, UserProfileData } from '@/lib/types';
 import { useCallback, useEffect, useState } from 'react';
-import { Div } from '../../layout/utils';
 import { ProjectMessageInput } from './message-input';
 import { DateTime } from 'luxon';
 import store from '@/redux/store';
@@ -11,7 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import Linkify from 'linkify-react';
 import { renderLinksInMessages } from '../util-functions-for-messaging';
-import { LabelledDivider } from '@revolancer/ui/layout';
+import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 
 export const ProjectThread = ({ projectId }: { projectId: string }) => {

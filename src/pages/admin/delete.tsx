@@ -3,13 +3,12 @@ import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Formik } from 'formik';
-import { Form } from '@/components/forms/form';
 import { useState } from 'react';
 import { SuccessModal } from '@/components/modals/success-modal';
 import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
 import { H5 } from '@revolancer/ui/text';
-import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 const CreditsSchema = Yup.object().shape({

@@ -1,13 +1,11 @@
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { useEffect, useState } from 'react';
 import { SuccessModal } from '../modals/success-modal';
-import { Div } from '../layout/utils';
 import { Flex } from '@revolancer/ui/layout';
-import { Slider, Feedback } from '@revolancer/ui/forms';
+import { Form, Slider, Feedback } from '@revolancer/ui/forms';
 import { H5, Span } from '@revolancer/ui/text';
 
 const ExperenceSchema = Yup.object().shape({
