@@ -20,10 +20,9 @@ import { useEffect, useState } from 'react';
 import { logout } from '@/lib/user/auth';
 import { axiosPrivate } from '@/lib/axios';
 import { UserProfileData } from '@/lib/types';
-import { Divider } from '@/components/layout/divider';
 import { SidebarMessagesIndicator } from '@/components/messaging/sidebar-messages-indicator';
 import { SidebarNotificationIndicator } from '@/components/notifications/sidebar-notification-indicator';
-import { Flex } from '@revolancer/ui/layout';
+import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 
 const Container = styled('div', {
