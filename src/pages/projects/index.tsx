@@ -1,16 +1,19 @@
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { Title } from '@/components/head/title';
-import { FullWidth, TwoCols } from '@/components/layout/columns';
-import { P } from '@/components/text/text';
+//import { FullWidth, TwoCols } from '@/components/layout/columns';
+//import { P } from '@/components/text/text';
 import { WalletChart } from '@/components/project-hub/wallet/wallet-chart';
 import { WalletTable } from '@/components/project-hub/wallet/wallet-table';
-import { H1, H5 } from '@/components/text/headings';
+//import { H1, H5 } from '@/components/text/headings';
 import { ProjectTabs } from '@/components/project-hub/tabs';
-import { Flex } from '@/components/layout/flex';
+//import { Flex } from '@/components/layout/flex';
 import { BalanceTile } from '@/components/project-hub/wallet/balance-tile';
 import { ActiveProjectsTile } from '@/components/project-hub/active-projects-tile';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
+//import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+//import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { FullWidth, Flex, TwoCols } from '@revolancer/ui/layout';
+import { H1, H5, P } from '@revolancer/ui/text';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 export default function CreditDashboard() {
   return (

@@ -5,19 +5,22 @@ import { useRouter } from 'next/router';
 import { UserProfileData } from '@/lib/types';
 import { version as uuidVersion } from 'uuid';
 import { axiosPrivate } from '@/lib/axios';
-import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
+//import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
 import { CurrentThreadAuthor } from '@/components/messaging/current-thread-author';
-import { Divider } from '@/components/layout/divider';
-import { Flex } from '@/components/layout/flex';
+//import { Divider } from '@/components/layout/divider';
+//import { Flex } from '@/components/layout/flex';
 import { CurrentThread } from '@/components/messaging/current-thread';
 import { ThreadList } from '@/components/messaging/thread-list';
-import { P } from '@/components/text/text';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
+//import { P } from '@/components/text/text';
+//import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
+//import { Crumb } from '@/components/navigation/crumbs/crumb';
 import { MessageSideBar } from '../../components/layout/columns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { Link } from '@revolancer/ui/buttons';
+import { MainContentWithSideBar, Divider, Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 export default function MessageCenter() {
   const router = useRouter();
