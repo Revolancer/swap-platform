@@ -1,20 +1,21 @@
-import { useRouter } from 'next/router';
-import { TabLink } from '../navigation/tablink';
-import { Flex } from '@revolancer/ui/layout';
+import { Tabs } from '@revolancer/ui/navigation';
 
 export const SettingsTabs = () => {
-  const router = useRouter();
+  const routes = {
+    root: {
+      settings: 'Account Details',
+    },
+    paths: {
+      email: 'Email Preferences',
+    },
+  };
+
   return (
-    <Flex wrap gap={0}>
-      <TabLink active={router.pathname == '/settings'} href="/settings">
-        Account Details
-      </TabLink>
-      <TabLink
-        active={router.pathname == '/settings/email'}
-        href="/settings/email"
-      >
-        Email Preferences
-      </TabLink>
-    </Flex>
+    <Tabs
+      root={Object.keys(routes.root)[0]}
+      rootName={Object.values(routes.root)[0]}
+      routes={Object.keys(routes.paths)}
+      routeNames={Object.values(routes.paths)}
+    />
   );
 };
