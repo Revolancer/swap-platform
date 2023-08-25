@@ -1,8 +1,5 @@
-import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
-import { Flex } from '@/components/layout/flex';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import { H1 } from '@/components/text/headings';
 import { Title } from '@/components/head/title';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
@@ -19,11 +16,16 @@ import FourOhFour from '../404';
 import { Button } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
-import { Card } from '@/components/layout/cards';
 import { ProfileProgress } from '@/components/collapsible/profile-progress';
 import { SocialSegment } from '@/components/user/socialsegment';
+import { CrumbBar, Crumb } from '@revolancer/ui/navigation';
+import {
+  Card,
+  Flex,
+  MainContentWithSideBar,
+  SideBar,
+} from '@revolancer/ui/layout';
+import { H1 } from '@revolancer/ui/text';
 
 export default function UserProfile() {
   const router = useRouter();

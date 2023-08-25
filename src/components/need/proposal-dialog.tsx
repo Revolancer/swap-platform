@@ -7,8 +7,6 @@ import {
 } from 'react';
 import Modal from 'react-modal';
 import { Button, UnstyledLink } from '@revolancer/ui/buttons';
-import { Flex } from '../layout/flex';
-import { H4, H5 } from '../text/headings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faClose, faTicket } from '@fortawesome/free-solid-svg-icons';
 import { config as styleconfig } from '@revolancer/ui';
@@ -17,21 +15,26 @@ import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import store from '@/redux/store';
 import { Author } from '../user-posts/author';
 import { Tags } from '../user-posts/tags';
-import { P } from '../text/text';
 import { DateTime } from 'luxon';
-import { Divider } from '../layout/divider';
 import { Formik, FormikProps } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Form } from '../forms/form';
-import { InputInner, InputOuter, TextAreaInner } from '../forms/input';
-import { Feedback } from '../forms/feedback';
-import {
-  StyledBlocksContainer,
-  cleanBlockData,
-} from '../user-posts/styledblockscontainer';
+import { cleanBlockData } from '../user-posts/styledblockscontainer';
 import Blocks from 'editorjs-blocks-react-renderer';
-import { TwoCols } from '../layout/columns';
 import { useRouter } from 'next/router';
+import {
+  Flex,
+  Divider,
+  TwoCols,
+  StyledBlocksContainer,
+} from '@revolancer/ui/layout';
+import { P, H4, H5 } from '@revolancer/ui/text';
+import {
+  InputInner,
+  InputOuter,
+  TextAreaInner,
+  Feedback,
+} from '@revolancer/ui/forms';
 
 const styles = styleconfig.theme;
 

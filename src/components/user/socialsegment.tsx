@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex } from '../layout/flex';
-import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faGlobe,
@@ -13,7 +11,6 @@ import { Form } from '../forms/form';
 import { FieldArray, Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
-import { InputInner, InputOuter } from '../forms/input';
 import { ExternalLink } from '../links/external-link';
 import { IntermediateRepresentation, OptFn } from 'linkifyjs';
 import {
@@ -23,6 +20,9 @@ import {
 import Linkify from 'linkify-react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
+import { InputInner, InputOuter } from '@revolancer/ui/forms';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()

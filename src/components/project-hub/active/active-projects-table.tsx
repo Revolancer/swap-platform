@@ -2,28 +2,10 @@ import { useEffect, useState } from 'react';
 import { Project } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { Div } from '../../layout/utils';
-import { styled } from '@revolancer/ui';
-import { P } from '@/components/text/text';
 import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
-
-const Table = styled('table', {
-  borderCollapse: 'collapse',
-  overflow: 'hidden',
-  width: '100%',
-  borderStyle: '$solid',
-  borderColor: '$neutral300',
-  borderWidth: '$1',
-});
-const THead = styled('thead', {
-  backgroundColor: '$neutral300',
-});
-const TH = styled('th', {
-  padding: '$2',
-  textAlign: 'start',
-});
-const TR = styled('tr', {});
-const TD = styled('td', { padding: '$2' });
+import { P } from '@revolancer/ui/text';
+import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
 
 export const ActiveProjectsTable = () => {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);

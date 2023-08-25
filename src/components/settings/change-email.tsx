@@ -1,15 +1,13 @@
-import { Flex } from '../layout/flex';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
-import { InputInner, InputOuter, TextAreaInner } from '../forms/input';
-import { Feedback } from '../forms/feedback';
-import { H5 } from '../text/headings';
-import { P, Span } from '../text/text';
 import { SuccessModal } from '../modals/success-modal';
 import { useEffect, useState } from 'react';
+import { Flex } from '@revolancer/ui/layout';
+import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { H5, Span } from '@revolancer/ui/text';
 
 const UpdateEmailSchema = Yup.object().shape({
   email: Yup.string()

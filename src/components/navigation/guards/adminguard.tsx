@@ -1,6 +1,6 @@
-import { FullWidth } from '@/components/layout/columns';
 import { useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
+import { FullWidth } from '@revolancer/ui/layout';
 
 export const AdminGuard = ({
   children,

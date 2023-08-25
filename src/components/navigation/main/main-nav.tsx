@@ -3,7 +3,6 @@ import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../../branding/logo';
 import { MobileNav } from './mobile';
 import { contract, expand } from './nav-toggle';
-import { Flex } from '@/components/layout/flex';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -21,10 +20,10 @@ import { useEffect, useState } from 'react';
 import { logout } from '@/lib/user/auth';
 import { axiosPrivate } from '@/lib/axios';
 import { UserProfileData } from '@/lib/types';
-import { RoundedSquareImage } from '@/components/user/roundedsquareimage';
-import { Divider } from '@/components/layout/divider';
 import { SidebarMessagesIndicator } from '@/components/messaging/sidebar-messages-indicator';
 import { SidebarNotificationIndicator } from '@/components/notifications/sidebar-notification-indicator';
+import { Flex, Divider } from '@revolancer/ui/layout';
+import { RoundedSquareImage } from '@revolancer/ui/user';
 
 const Container = styled('div', {
   backgroundColor: '$navy900',

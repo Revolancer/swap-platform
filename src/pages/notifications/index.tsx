@@ -1,16 +1,13 @@
 import { Title } from '@/components/head/title';
-import { FullWidth } from '@/components/layout/columns';
-import { Flex } from '@/components/layout/flex';
 import { PrimaryLayout } from '@/components/layout/layouts';
-import { Div } from '@/components/layout/utils';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
 import { NotificationItem } from '@/components/notifications/notification-item';
-import { P } from '@/components/text/text';
 import { axiosPrivate } from '@/lib/axios';
 import { Notification } from '@/lib/types';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
+import { FullWidth, Flex } from '@revolancer/ui/layout';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import { P } from '@revolancer/ui/text';
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);

@@ -4,26 +4,8 @@ import { axiosPrivate } from '@/lib/axios';
 import { Div } from '../../layout/utils';
 import { VictoryChart, VictoryStack, VictoryArea, VictoryTheme } from 'victory';
 import { DateTime } from 'luxon';
-import { styled } from '@revolancer/ui';
-import { P } from '@/components/text/text';
-
-const Table = styled('table', {
-  borderCollapse: 'collapse',
-  overflow: 'hidden',
-  width: '100%',
-  borderStyle: '$solid',
-  borderColor: '$neutral300',
-  borderWidth: '$1',
-});
-const THead = styled('thead', {
-  backgroundColor: '$neutral300',
-});
-const TH = styled('th', {
-  padding: '$2',
-  textAlign: 'start',
-});
-const TR = styled('tr', {});
-const TD = styled('td', { padding: '$2' });
+import { P } from '@revolancer/ui/text';
+import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
 
 export const WalletTable = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);

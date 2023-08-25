@@ -1,4 +1,3 @@
-import { FullWidth } from '@/components/layout/columns';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Title } from '@/components/head/title';
@@ -6,23 +5,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PostData, Proposal, UserProfileData } from '@/lib/types';
 import Blocks from 'editorjs-blocks-react-renderer';
-import { H1, H3, H5 } from '@/components/text/headings';
 import { Tags } from '@/components/user-posts/tags';
-import { Flex } from '@/components/layout/flex';
 import { Author } from '@/components/user-posts/author';
 import store from '@/redux/store';
 import FourOhFour from '../404';
-import { P } from '@/components/text/text';
 import { DateTime } from 'luxon';
-import {
-  StyledBlocksContainer,
-  cleanBlockData,
-} from '@/components/user-posts/styledblockscontainer';
+import { cleanBlockData } from '@/components/user-posts/styledblockscontainer';
 import { Masonry } from 'masonic';
 import { ProposalCard } from '@/components/need/proposal-card';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
 import { ProposalDialogWrap } from '@/components/need/proposal-dialog-wrap';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import { StyledBlocksContainer, Flex, FullWidth } from '@revolancer/ui/layout';
+import { H1, H3, H5, P } from '@revolancer/ui/text';
 
 export default function UserProfile() {
   const router = useRouter();

@@ -1,6 +1,4 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex } from '../layout/flex';
-import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Tag } from '@/lib/types';
@@ -11,6 +9,8 @@ import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const SkillSegment = ({
   uid = '',

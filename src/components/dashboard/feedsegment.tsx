@@ -4,13 +4,11 @@ import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
-import { Card } from '../layout/cards';
-import { H1 } from '../text/headings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { P } from '../text/text';
-import { Flex } from '../layout/flex';
 import { Button } from '@revolancer/ui/buttons';
+import { Flex, Card } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 const AddSomething = () => {
   return (

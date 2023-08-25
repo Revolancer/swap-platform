@@ -1,12 +1,11 @@
 import Modal from 'react-modal';
 import { Dispatch, SetStateAction } from 'react';
-import { P } from '../text/text';
-import { Card } from '../layout/cards';
-import { Flex } from '../layout/flex';
 import { Link, Button } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
 import { useRouter } from 'next/router';
+import { P } from '@revolancer/ui/text';
+import { Card, Flex } from '@revolancer/ui/layout';
 
 const customStyles: Modal.Styles = {
   content: {

@@ -2,11 +2,10 @@ import { config as styleconfig } from '@revolancer/ui';
 import Modal from 'react-modal';
 import { Button, UnstyledLink } from '@revolancer/ui/buttons';
 import { useState } from 'react';
-import { Flex } from '../layout/flex';
-import { H4 } from '../text/headings';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { P } from '../text/text';
+import { Flex } from '@revolancer/ui/layout';
+import { H4, P } from '@revolancer/ui/text';
 
 const styles = styleconfig.theme;
 

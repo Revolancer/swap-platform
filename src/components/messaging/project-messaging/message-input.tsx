@@ -2,14 +2,13 @@ import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Formik } from 'formik';
 import { Form } from '../../forms/form';
-import { InputOuter, TextAreaInner } from '../../forms/input';
-import { Feedback } from '../../forms/feedback';
-import { Flex } from '../../layout/flex';
 import { Button, TertiaryButton } from '@revolancer/ui/buttons';
 import { StoredUploadField } from '@/components/forms/stored-upload';
 import { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
+import { InputOuter, TextAreaInner, Feedback } from '@revolancer/ui/forms';
+import { Flex } from '@revolancer/ui/layout';
 
 const MessageSchema = Yup.object().shape({
   message: Yup.string().required('You cannot send an empty message').ensure(),

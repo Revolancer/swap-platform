@@ -1,15 +1,14 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Card } from '../layout/cards';
-import { P } from '../text/text';
 import { ProgressTraffic } from '../forms/progress-traffic';
 import { Link, UnstyledLink } from '@revolancer/ui/buttons';
-import { Flex } from '../layout/flex';
 import { styled } from '@revolancer/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleDown, faAngleUp } from '@fortawesome/free-solid-svg-icons';
 import { CheckedProgressItem } from '../forms/checked-progress-item';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import store from '@/redux/store';
+import { Flex, Card } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 const Expander = styled('div', {
   borderRadius: '100%',

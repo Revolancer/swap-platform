@@ -2,11 +2,11 @@ import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPublic } from '@/lib/axios';
-import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
 import NextLink from 'next/link';
-import { P } from '../text/text';
 import { TertiaryButton } from '@revolancer/ui/buttons';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const Author = ({ uid = '' }: { uid: string }) => {
   const [profile, setProfile] = useState<UserProfileData>({});

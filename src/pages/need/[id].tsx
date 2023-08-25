@@ -1,4 +1,3 @@
-import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { Title } from '@/components/head/title';
 import dynamic from 'next/dynamic';
@@ -8,23 +7,20 @@ import { TagField } from '@/components/forms/taginput';
 import { Form } from '@/components/forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { InputInner, InputOuter } from '@/components/forms/input';
-import { Feedback } from '@/components/forms/feedback';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { PostData } from '@/lib/types';
-import { H1, H5 } from '@/components/text/headings';
-import { Flex } from '@/components/layout/flex';
 import store from '@/redux/store';
 import FourOhFour from '../404';
 import { DateTime } from 'luxon';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
-import { P } from '@/components/text/text';
 import { NeedExplainer } from '@/components/collapsible/need-explainer';
 import { NeedLoopModal } from '@/components/modals/need-loop-modal';
 import { NeedOrClientModal } from '@/components/modals/need-or-client-modal';
 import { Block } from 'editorjs-blocks-react-renderer';
+import { MainContentWithSideBar, SideBar, Flex } from '@revolancer/ui/layout';
+import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { H1, H5, P } from '@revolancer/ui/text';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 const discardEmptyBlocks = (blocks: Block[]) => {
   return blocks.filter((block) => {

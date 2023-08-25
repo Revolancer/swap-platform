@@ -37,7 +37,7 @@
     "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-slider": "^1.1.2",
     "@reduxjs/toolkit": "^1.9.5",
-    "@revolancer/ui": "^1.1.0",
+    "@revolancer/ui": "^1.1.1",
     "@types/node": "20.5.1",
     "@types/react": "18.2.20",
     "@types/react-dom": "18.2.7",

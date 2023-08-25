@@ -2,11 +2,11 @@ import { axiosPrivate } from '@/lib/axios';
 import { Project, UserProfileData } from '@/lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import store from '@/redux/store';
-import { Flex } from '@/components/layout/flex';
 import { styled } from '@revolancer/ui';
 import Image from 'next/image';
-import { P } from '@/components/text/text';
 import { UnstyledLink } from '@revolancer/ui/buttons';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const ProjectOtherUserProfile = ({
   projectId,
