@@ -117,8 +117,8 @@ export default function UserProfile() {
               )}
             </Flex>
             <AboutSegment uid={userProfile?.user?.id ?? ''} own={own} />
-            <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
             <Timezone uid={userProfile?.user?.id ?? ''} own={own} />
+            <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
             <SkillSegment uid={userProfile?.user?.id ?? ''} own={own} />
           </Card>
         </SideBar>

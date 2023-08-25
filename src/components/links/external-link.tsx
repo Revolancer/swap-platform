@@ -4,7 +4,12 @@ import { WarningForExternalLinksModal } from '../modals/warning-for-external-lin
 
 const isInternalLink = (link: string) => {
   const whitelistHosts = ['revolancer.com', 'app.revolancer.com'];
-  const linkHost = new URL(link).host;
+  let linkHost = '';
+  try {
+    linkHost = new URL(link).host;
+  } catch (error) {
+    linkHost = 'error';
+  }
 
   return whitelistHosts.includes(linkHost);
 };
