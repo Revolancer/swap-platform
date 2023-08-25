@@ -1,7 +1,6 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import { Yup } from '@/lib/yup';
 import { useEffect, useState } from 'react';
 import { Link } from '@revolancer/ui/buttons';
 import { H1, H5, P } from '@revolancer/ui/text';

@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { CreditLogEntry } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
-import { Div } from '../../layout/utils';
 import {
   VictoryContainer,
   VictoryChart,
@@ -12,6 +11,7 @@ import {
 } from 'victory';
 import { DateTime } from 'luxon';
 import { config as styleConfig } from '@revolancer/ui';
+import { Div } from '@revolancer/ui/layout';
 
 export const WalletChart = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);

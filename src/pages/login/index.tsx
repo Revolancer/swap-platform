@@ -1,4 +1,3 @@
-import { Form } from '@/components/forms/form';
 import { Title } from '@/components/head/title';
 import { LoginLayout } from '@/components/layout/layouts';
 import { FormButton, Link, TertiaryButton } from '@revolancer/ui/buttons';
@@ -10,6 +9,7 @@ import { useCallback, useState } from 'react';
 import { H4, P } from '@revolancer/ui/text';
 import { Card, Flex } from '@revolancer/ui/layout';
 import {
+  Form,
   Feedback,
   InputInner,
   InputOuter,

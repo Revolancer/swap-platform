@@ -1,6 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
@@ -10,7 +9,7 @@ import { DateTime } from 'luxon';
 import { LocationInput } from '../forms/location-input';
 import { Flex } from '@revolancer/ui/layout';
 import { P, H5 } from '@revolancer/ui/text';
-import { Feedback } from '@revolancer/ui/forms';
+import { Form, Feedback } from '@revolancer/ui/forms';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(

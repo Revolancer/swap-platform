@@ -1,12 +1,10 @@
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
-import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
 import { useEffect, useState } from 'react';
 import { SuccessModal } from '../modals/success-modal';
 import { Flex } from '@revolancer/ui/layout';
-import { Checkbox, Feedback } from '@revolancer/ui/forms';
+import { Form, Checkbox, Feedback } from '@revolancer/ui/forms';
 import { P } from '@revolancer/ui/text';
 
 export const ChangeEmailPreferences = () => {

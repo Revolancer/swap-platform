@@ -1,4 +1,3 @@
-import { Form } from '@/components/forms/form';
 import { Turnstile } from '@/components/forms/turnstile';
 import { Title } from '@/components/head/title';
 import { LoginLayout } from '@/components/layout/layouts';
@@ -15,6 +14,7 @@ import { hasCookie, getCookie } from 'cookies-next';
 import { H4, P } from '@revolancer/ui/text';
 import { Card, Flex } from '@revolancer/ui/layout';
 import {
+  Form,
   Checkbox,
   InputInner,
   InputOuter,

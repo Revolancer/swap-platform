@@ -2,10 +2,10 @@ import { Logo } from '@/components/branding/logo';
 import { RootState, useAppDispatch } from '@/redux/store';
 import { useDispatch, useSelector } from 'react-redux';
 import { darkTheme, styled } from '@revolancer/ui';
-import { contract, expand, toggle } from './nav-toggle';
-import { Div } from '@/components/layout/utils';
+import { contract, toggle } from './nav-toggle';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAnglesDown, faAnglesUp } from '@fortawesome/free-solid-svg-icons';
+import { Div } from '@revolancer/ui/layout';
 
 const MobileTopbarContainer = styled('div', {
   display: 'flex',

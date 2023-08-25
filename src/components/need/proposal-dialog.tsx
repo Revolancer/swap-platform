@@ -18,7 +18,6 @@ import { Tags } from '../user-posts/tags';
 import { DateTime } from 'luxon';
 import { Formik, FormikProps } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Form } from '../forms/form';
 import { cleanBlockData } from '../user-posts/styledblockscontainer';
 import Blocks from 'editorjs-blocks-react-renderer';
 import { useRouter } from 'next/router';
@@ -30,6 +29,7 @@ import {
 } from '@revolancer/ui/layout';
 import { P, H4, H5 } from '@revolancer/ui/text';
 import {
+  Form,
   InputInner,
   InputOuter,
   TextAreaInner,

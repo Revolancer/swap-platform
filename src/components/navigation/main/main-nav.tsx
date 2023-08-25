@@ -6,7 +6,6 @@ import { contract, expand } from './nav-toggle';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faAnglesLeft,
   faBriefcase,
   faChartPie,
   faCog,

@@ -1,11 +1,10 @@
 import { useEffect, useState } from 'react';
 import { CreditLogEntry } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
-import { Div } from '../../layout/utils';
-import { VictoryChart, VictoryStack, VictoryArea, VictoryTheme } from 'victory';
 import { DateTime } from 'luxon';
 import { P } from '@revolancer/ui/text';
 import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
+import { Div } from '@revolancer/ui/layout';
 
 export const WalletTable = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);

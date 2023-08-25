@@ -1,5 +1,4 @@
 import { PostData } from '@/lib/types';
-import { ParagraphBlock } from 'editorjs-blocks-react-renderer';
 import { OutputData } from '@editorjs/editorjs';
 import { Tags } from './tags';
 import { Button, TertiaryButton, UnstyledLink } from '@revolancer/ui/buttons';

@@ -4,13 +4,12 @@ import { Button } from '@revolancer/ui/buttons';
 import { axiosPrivate } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Formik } from 'formik';
-import { Form } from '@/components/forms/form';
 import { useState } from 'react';
 import { SuccessModal } from '@/components/modals/success-modal';
 import { UploadField } from '@/components/forms/upload';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
 import { H5, P } from '@revolancer/ui/text';
-import { Feedback } from '@revolancer/ui/forms';
+import { Form, Feedback } from '@revolancer/ui/forms';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 const CreditsSchema = Yup.object().shape({

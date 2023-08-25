@@ -1,13 +1,12 @@
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Flex } from '@revolancer/ui/layout';
-import { InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
+import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 import { H2 } from '@revolancer/ui/text';
 
 const UpdateTaglineSchema = Yup.object().shape({

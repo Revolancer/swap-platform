@@ -7,12 +7,12 @@ import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button, FormButton, Link } from '@revolancer/ui/buttons';
 import { SuccessModal } from '@/components/modals/success-modal';
-import { Form } from '@/components/forms/form';
 import { Turnstile } from '@/components/forms/turnstile';
 import Image from 'next/image';
 import { P, H4 } from '@revolancer/ui/text';
 import { Card, Flex } from '@revolancer/ui/layout';
 import {
+  Form,
   Feedback,
   InputInner,
   InputOuter,

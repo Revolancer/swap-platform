@@ -1,4 +1,3 @@
-import { Div } from '@/components/layout/utils';
 import { axiosPrivate } from '@/lib/axios';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
