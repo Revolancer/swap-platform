@@ -15,7 +15,7 @@ import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
 import { LocationInput } from '@/components/forms/location-input';
-import { Feedback } from '@/components/forms/feedback';
+import { Feedback } from '@revolancer/ui/forms';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { H4, H5, P } from '@revolancer/ui/text';
 
