@@ -1,9 +1,8 @@
 import Modal from 'react-modal';
 import { useEffect, useState } from 'react';
-import { P } from '../text/text';
-import { Card } from '../layout/cards';
-import { Flex } from '../layout/flex';
 import { Button, Link } from '@revolancer/ui/buttons';
+import { P } from '@revolancer/ui/text';
+import { Card, Flex } from '@revolancer/ui/layout';
 
 const customStyles: Modal.Styles = {
   content: {

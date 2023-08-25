@@ -1,7 +1,7 @@
 import { faCheck } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { styled } from '@revolancer/ui';
-import { Flex } from '../layout/flex';
+import { Flex } from '@revolancer/ui/layout';
 
 const CheckText = styled('p', {
   color: '$neutral900',

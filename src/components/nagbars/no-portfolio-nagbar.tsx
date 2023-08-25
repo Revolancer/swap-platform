@@ -1,10 +1,10 @@
 import { useCallback, useEffect, useState } from 'react';
-import { NagBar } from '../layout/utils';
 import { Link } from '@revolancer/ui/buttons';
-import { P } from '../text/text';
 import store from '@/redux/store';
 import { axiosPublic } from '@/lib/axios';
 import { useRouter } from 'next/router';
+import { P } from '@revolancer/ui/text';
+import { NagBar } from '@revolancer/ui/layout';
 
 export const NoPortfolioNagbar = () => {
   const [hasPosts, setHasPosts] = useState(true);

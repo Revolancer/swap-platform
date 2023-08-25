@@ -1,6 +1,6 @@
-import { Flex } from '../layout/flex';
 import { useRouter } from 'next/router';
 import { TabLink } from '../navigation/tablink';
+import { Flex } from '@revolancer/ui/layout';
 
 export const SettingsTabs = () => {
   const router = useRouter();

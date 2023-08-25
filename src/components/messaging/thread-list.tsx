@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
-import { Flex } from '../layout/flex';
 import { axiosPrivate } from '@/lib/axios';
 import { Message } from '@/lib/types';
 import { ThreadListEntry } from './thread-list-entry';
+import { Flex } from '@revolancer/ui/layout';
 
 export const ThreadList = ({ activeThread }: { activeThread: string }) => {
   const [threads, setThreads] = useState<Message[]>([]);

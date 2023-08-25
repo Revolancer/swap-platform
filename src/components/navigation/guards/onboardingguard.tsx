@@ -1,7 +1,7 @@
-import { FullWidth } from '@/components/layout/columns';
 import { useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import { FullWidth } from '@revolancer/ui/layout';
 
 export const OnboardingGuard = ({ children }: { children?: any }) => {
   const router = useRouter();

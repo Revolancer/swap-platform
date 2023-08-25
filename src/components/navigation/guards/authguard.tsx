@@ -1,7 +1,7 @@
-import { FullWidth } from '@/components/layout/columns';
 import { useAppSelector } from '@/redux/store';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { FullWidth } from '@revolancer/ui/layout';
 
 export const AuthGuard = ({
   redirectTo,

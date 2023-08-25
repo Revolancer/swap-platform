@@ -3,9 +3,9 @@ import { PostData } from '@/lib/types';
 import { axiosPublic } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Flex } from '../layout/flex';
-import { H5 } from '../text/headings';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
+import { Flex } from '@revolancer/ui/layout';
+import { H5 } from '@revolancer/ui/text';
 
 export const NeedsSegment = ({
   name = '',

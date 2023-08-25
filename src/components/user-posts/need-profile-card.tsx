@@ -1,7 +1,5 @@
 import { PostData } from '@/lib/types';
 import { OutputData } from '@editorjs/editorjs';
-import { P } from '../text/text';
-import { Flex } from '../layout/flex';
 import { Tags } from './tags';
 import { Button, TertiaryButton, UnstyledLink } from '@revolancer/ui/buttons';
 import { Author } from './author';
@@ -10,8 +8,10 @@ import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { ConfirmationDialog } from '../navigation/confirmation-dialog';
 import { styled } from '@revolancer/ui';
-import { Card } from '../layout/cards';
 import { ProposalDialogWrap } from '../need/proposal-dialog-wrap';
+import { P } from '@revolancer/ui/text';
+import { Flex, Card } from '@revolancer/ui/layout';
+
 export const NeedProfileCard = ({
   data,
   own = false,

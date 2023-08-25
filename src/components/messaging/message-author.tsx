@@ -1,9 +1,9 @@
 import { styled } from '@revolancer/ui';
 import Image from 'next/image';
-import { Flex } from '../layout/flex';
 import { UserProfileData } from '@/lib/types';
-import { P } from '../text/text';
 import { DateTime } from 'luxon';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const MessageAuthor = ({
   profile,
