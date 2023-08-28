@@ -4,7 +4,7 @@ import { Title } from '@/components/head/title';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PostData, UserProfileData } from '@/lib/types';
-import Blocks, { RenderFn } from 'editorjs-blocks-react-renderer';
+import Blocks from 'editorjs-blocks-react-renderer';
 import { Tags } from '@/components/user-posts/tags';
 import { Author } from '@/components/user-posts/author';
 import { styled } from '@revolancer/ui';
@@ -15,42 +15,10 @@ import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog'
 import { FullWidth, Flex } from '@revolancer/ui/layout';
 import { H1 } from '@revolancer/ui/text';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
-import { ExternalLink } from '@/components/links/external-link';
-import Linkify from 'linkify-react';
-import { IntermediateRepresentation, OptFn } from 'linkifyjs';
-
-const LinkifiedText: OptFn<(ir: IntermediateRepresentation) => any> = ({
-  attributes,
-  content,
-}) => {
-  const { href, ...props } = attributes;
-  return (
-    <ExternalLink href={href} {...props}>
-      {content}
-    </ExternalLink>
-  );
-};
-
-const CustomTextRenderer: RenderFn<{
-  text: string;
-}> = ({ data, className = '' }) => {
-  return <Linkify options={{ render: LinkifiedText }}>{data.text}</Linkify>;
-};
-
-const CustomListRenderer: RenderFn<{
-  items: string[];
-}> = ({ data, className = '' }) => {
-  console.log(data);
-  return (
-    <ol>
-      {data?.items.map((item, i) => (
-        <li key={i} className={className}>
-          <Linkify options={{ render: LinkifiedText }}>{item}</Linkify>
-        </li>
-      ))}
-    </ol>
-  );
-};
+import {
+  CustomListRenderer,
+  CustomTextRenderer,
+} from '@/lib/editorjs/renderer';
 
 export default function UserProfile() {
   const router = useRouter();
