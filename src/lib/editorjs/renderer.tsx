@@ -3,6 +3,8 @@ import { P } from '@revolancer/ui/text';
 import { RenderFn } from 'editorjs-blocks-react-renderer';
 import Linkify from 'linkify-react';
 import { IntermediateRepresentation, OptFn } from 'linkifyjs';
+import Parser, { HTMLReactParserOptions, Element } from 'html-react-parser';
+import { ReactNode } from 'react';
 
 export const LinkifiedText: OptFn<(ir: IntermediateRepresentation) => any> = ({
   attributes,
@@ -19,9 +21,25 @@ export const LinkifiedText: OptFn<(ir: IntermediateRepresentation) => any> = ({
 export const CustomTextRenderer: RenderFn<{
   text: string;
 }> = ({ data, className = '' }) => {
+  console.log(data);
+  const options: HTMLReactParserOptions = {
+    replace: (node) => {
+      if (node instanceof Element && node.attribs && node.children) {
+        if (node.name === 'a') {
+          return (
+            <ExternalLink href={node.attribs.href}>
+              {node.children as ReactNode}
+            </ExternalLink>
+          );
+        }
+      }
+    },
+  };
+
+  const parsedHTML = Parser(data.text, options);
   return (
     <P css={{ margin: '$3 0' }}>
-      <Linkify options={{ render: LinkifiedText }}>{data.text}</Linkify>
+      <Linkify options={{ render: LinkifiedText }}>{parsedHTML}</Linkify>
     </P>
   );
 };
@@ -39,3 +57,11 @@ export const CustomListRenderer: RenderFn<{
     </ol>
   );
 };
+
+// export const CustomLinkRenderer: RenderFn<{
+//   anchor: string;
+//   link: string;
+// }> = ({ data }) => {
+//   console.log(data);
+//   return <ExternalLink href={data.link}>{data.anchor}</ExternalLink>;
+// };
