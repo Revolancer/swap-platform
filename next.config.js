@@ -70,6 +70,7 @@ const nextConfig = {
   ) => {
     // Important: return the modified config
     if (!dev && isServer && process.env.NEXT_PUBLIC_BUGSNAG_KEY) {
+      config.devtool = 'hidden-source-map';
       config.plugins.push(
         new BugsnagBuildReporterPlugin({
           apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
