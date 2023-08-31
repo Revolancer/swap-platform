@@ -1,12 +1,9 @@
-import { Flex } from '@/components/layout/flex';
-import { Button } from '@revolancer/ui/buttons';
-import { P } from '@/components/text/text';
+import { Flex, Divider } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 import { axiosPrivate } from '@/lib/axios';
 import { Project, UserProfileData } from '@/lib/types';
 import store from '@/redux/store';
-import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { Divider } from '../layout/divider';
 
 const Wrapper = ({ children }: { children: any }) => {
   return (
