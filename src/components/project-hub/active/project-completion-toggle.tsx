@@ -38,7 +38,7 @@ const ApprovalButton = ({
       .catch(() => {});
   };
 
-  if (approved) {
+  if (!approved) {
     return (
       <Button
         href="#"
