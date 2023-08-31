@@ -31,11 +31,11 @@ export const ProjectStatus = ({ project }: { project: Project }) => {
       ? project.client_approval
       : project.contractor_approval;
     const hasCancelled = isClient
-      ? project.client_cancelled
-      : project.contractor_cancelled;
+      ? project.client_cancellation
+      : project.contractor_cancellation;
     const otherHasCancelled = !isClient
-      ? project.client_cancelled
-      : project.contractor_cancelled;
+      ? project.client_cancellation
+      : project.contractor_cancellation;
     if (hasApproved) {
       setStatus('waiting_other');
     } else if (otherHasApproved) {
