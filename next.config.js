@@ -69,7 +69,7 @@ const nextConfig = {
     { buildId, dev, isServer, nextRuntime },
   ) => {
     // Important: return the modified config
-    if (!dev && isServer) {
+    if (!dev && isServer && process.env.NEXT_PUBLIC_BUGSNAG_KEY) {
       config.plugins.push(
         new BugsnagBuildReporterPlugin({
           apiKey: process.env.NEXT_PUBLIC_BUGSNAG_KEY,
