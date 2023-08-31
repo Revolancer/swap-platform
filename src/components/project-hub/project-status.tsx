@@ -101,12 +101,14 @@ export const ProjectStatus = ({ project }: { project: Project }) => {
   }
   if (status == 'waiting_cancel_self') {
     return (
-      <Wrapper>
-        <P css={{ color: '$red500', fontWeight: 'bold' }}>
-          {otherProfile?.first_name ?? 'The other user'} requested to cancel the
-          project
-        </P>
-      </Wrapper>
+      <>
+        <Wrapper>
+          <P css={{ color: '$red500', fontWeight: 'bold' }}>
+            {otherProfile?.first_name ?? 'The other user'} requested to cancel
+            the project
+          </P>
+        </Wrapper>
+      </>
     );
   }
   if (status == 'waiting_other') {

@@ -12,6 +12,8 @@ import {
   faCircleXmark,
   faCirclePause,
 } from '@fortawesome/free-regular-svg-icons';
+import { RequestCancellationModal } from '@/components/modals/request-cancellation-modal';
+import { ConfirmCancellationModal } from '@/components/modals/confirm-cancellation-modal';
 
 const ApprovalButton = ({
   approved,
@@ -48,6 +50,7 @@ const ApprovalButton = ({
           e.preventDefault();
           markComplete();
         }}
+        disabled={disabled}
       >
         <Span css={{ color: '$green500' }}>
           <FontAwesomeIcon icon={faCircleCheck} />
@@ -78,12 +81,15 @@ const ApprovalButton = ({
 
 const CancelButton = ({
   pendingOwn,
+  pendingOther,
   project,
 }: {
   pendingOwn: boolean;
+  pendingOther: boolean;
   project: Project;
 }) => {
   const router = useRouter();
+  const [openCancelModal, setOpenCancelModal] = useState(false);
 
   const requestCancellation = () => {
     axiosPrivate
@@ -100,20 +106,32 @@ const CancelButton = ({
     );
   } else {
     return (
-      <Button
-        href="#"
-        role="secondary"
-        size={'small'}
-        onClick={(e) => {
-          e.preventDefault();
-          requestCancellation();
-        }}
-      >
-        <Span css={{ color: '$red500' }}>
-          <FontAwesomeIcon icon={faCircleXmark} />
-        </Span>{' '}
-        Cancel
-      </Button>
+      <>
+        {openCancelModal && (
+          <RequestCancellationModal
+            requestCancellation={requestCancellation}
+            setOpen={setOpenCancelModal}
+          />
+        )}
+        {pendingOther && (
+          <ConfirmCancellationModal requestCancellation={requestCancellation} />
+        )}
+
+        <Button
+          href="#"
+          role="secondary"
+          size={'small'}
+          onClick={(e) => {
+            e.preventDefault();
+            pendingOther ? requestCancellation() : setOpenCancelModal(true);
+          }}
+        >
+          <Span css={{ color: '$red500' }}>
+            <FontAwesomeIcon icon={faCircleXmark} />
+          </Span>{' '}
+          Cancel
+        </Button>
+      </>
     );
   }
 };
@@ -158,7 +176,11 @@ export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
         approved={hasApproved}
         disabled={otherHasCancelled || hasCancelled}
       />
-      <CancelButton project={project} pendingOwn={hasCancelled} />
+      <CancelButton
+        project={project}
+        pendingOwn={hasCancelled}
+        pendingOther={otherHasCancelled}
+      />
     </Flex>
   );
 };
