@@ -4,16 +4,23 @@ import { WarningForExternalLinksModal } from '../modals/warning-for-external-lin
 
 const isInternalLink = (link: string) => {
   const whitelistHosts = ['revolancer.com', 'app.revolancer.com'];
-  const linkHost = new URL(link).host;
+  let linkHost = '';
+  try {
+    linkHost = new URL(link).host;
+  } catch (error) {
+    linkHost = 'error';
+  }
 
   return whitelistHosts.includes(linkHost);
 };
 
 export const ExternalLink = ({
   href,
+  css,
   children,
 }: {
   href: string;
+  css?: any;
   children: React.ReactNode;
 }) => {
   const [modalIsOpen, setIsOpen] = useState(false);
@@ -27,6 +34,7 @@ export const ExternalLink = ({
   return (
     <>
       <Link
+        css={css}
         href={href}
         target="_blank"
         rel="noopener noreferrer nofollow"

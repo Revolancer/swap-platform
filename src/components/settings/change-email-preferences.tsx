@@ -1,15 +1,11 @@
-import { Flex } from '../layout/flex';
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
-import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
-import { Checkbox, InputInner, InputOuter } from '../forms/input';
-import { Feedback } from '../forms/feedback';
-import { H5 } from '../text/headings';
 import { useEffect, useState } from 'react';
 import { SuccessModal } from '../modals/success-modal';
-import { P } from '../text/text';
+import { Flex } from '@revolancer/ui/layout';
+import { Form, Checkbox, Feedback } from '@revolancer/ui/forms';
+import { P } from '@revolancer/ui/text';
 
 export const ChangeEmailPreferences = () => {
   const [firstParty, setFirstParty] = useState(false);

@@ -1,25 +1,23 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { axiosPublic } from '@/lib/axios';
-import { P } from '@/components/text/text';
 import { Title } from '@/components/head/title';
 import { LoginLayout } from '@/components/layout/layouts';
-import { Card } from '@/components/layout/cards';
-import { H4 } from '@/components/text/headings';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Flex } from '@/components/layout/flex';
+import { Button, FormButton, Link } from '@revolancer/ui/buttons';
+import { SuccessModal } from '@/components/modals/success-modal';
+import { Turnstile } from '@/components/forms/turnstile';
+import Image from 'next/image';
+import { P, H4 } from '@revolancer/ui/text';
+import { Card, Flex } from '@revolancer/ui/layout';
 import {
+  Form,
+  Feedback,
   InputInner,
   InputOuter,
   PasswordReveal,
-} from '@/components/forms/input';
-import { Feedback } from '@/components/forms/feedback';
-import { Button, FormButton, Link } from '@revolancer/ui/buttons';
-import { SuccessModal } from '@/components/modals/success-modal';
-import { Form } from '@/components/forms/form';
-import { Turnstile } from '@/components/forms/turnstile';
-import Image from 'next/image';
+} from '@revolancer/ui/forms';
 
 const ResetPasswordSchema = Yup.object().shape({
   password: Yup.string()

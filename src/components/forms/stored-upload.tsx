@@ -1,11 +1,10 @@
 import { Field, FieldProps } from 'formik';
-import { Feedback } from './feedback';
-import { InputOuter } from './input';
 import { ChangeEvent, useState } from 'react';
 import { Button } from '@revolancer/ui/buttons';
-import { Flex } from '../layout/flex';
-import { RoundedSquareImage } from '../user/roundedsquareimage';
 import { uploadFile, storeFile } from '@/lib/upload';
+import { Feedback, InputOuter } from '@revolancer/ui/forms';
+import { Flex } from '@revolancer/ui/layout';
+import { RoundedSquareImage } from '@revolancer/ui/user';
 
 const StoredUploadField = ({
   name,

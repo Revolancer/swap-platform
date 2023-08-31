@@ -1,11 +1,11 @@
-import { Flex } from '@/components/layout/flex';
 import { Button } from '@revolancer/ui/buttons';
-import { P } from '@/components/text/text';
 import { axiosPrivate } from '@/lib/axios';
 import { Project, UserProfileData } from '@/lib/types';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const ProjectCompletionToggle = ({ project }: { project: Project }) => {
   const [otherProfile, setOtherProfile] = useState<UserProfileData>();

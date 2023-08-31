@@ -1,16 +1,11 @@
-import { Flex } from '@/components/layout/flex';
 import { OnboardingLayout } from '@/components/layout/layouts';
-import { H4, H5 } from '@/components/text/headings';
 import { Title } from '@/components/head/title';
-import { Card } from '@/components/layout/cards';
 import Image from 'next/image';
-import { Div } from '@/components/layout/utils';
 import { Progress } from '@/components/forms/progress';
 import { Yup } from '@/lib/yup';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Formik } from 'formik';
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '@/components/forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { TagField } from '@/components/forms/taginput';
 import { UploadField } from '@/components/forms/upload';
@@ -18,8 +13,9 @@ import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
 import { LocationInput } from '@/components/forms/location-input';
-import { P } from '@/components/text/text';
-import { Feedback } from '@/components/forms/feedback';
+import { Form, Feedback } from '@revolancer/ui/forms';
+import { Flex, Card, Div } from '@revolancer/ui/layout';
+import { H4, H5, P } from '@revolancer/ui/text';
 
 const OnboardingSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(

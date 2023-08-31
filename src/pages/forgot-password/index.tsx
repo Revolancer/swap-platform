@@ -1,26 +1,17 @@
-import { Feedback } from '@/components/forms/feedback';
-import { Form } from '@/components/forms/form';
-import {
-  Checkbox,
-  InputInner,
-  InputOuter,
-  PasswordReveal,
-} from '@/components/forms/input';
 import { Turnstile } from '@/components/forms/turnstile';
 import { Title } from '@/components/head/title';
-import { Card } from '@/components/layout/cards';
-import { Flex } from '@/components/layout/flex';
 import { LoginLayout } from '@/components/layout/layouts';
-import { FormButton, Link, TertiaryButton } from '@revolancer/ui/buttons';
+import { FormButton, Link } from '@revolancer/ui/buttons';
 import { SuccessModal } from '@/components/modals/success-modal';
-import { H4 } from '@/components/text/headings';
-import { P } from '@/components/text/text';
 import { axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { useAppSelector } from '@/redux/store';
 import { Formik } from 'formik';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { Form, Feedback, InputInner, InputOuter } from '@revolancer/ui/forms';
+import { Card, Flex } from '@revolancer/ui/layout';
+import { H4, P } from '@revolancer/ui/text';
 
 const ForgotPasswordSchema = Yup.object().shape({
   email: Yup.string()

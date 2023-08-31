@@ -1,25 +1,21 @@
-import { MainContentWithSideBar, SideBar } from '@/components/layout/columns';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { Title } from '@/components/head/title';
 import dynamic from 'next/dynamic';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { TagField } from '@/components/forms/taginput';
-import { Form } from '@/components/forms/form';
 import { Button } from '@revolancer/ui/buttons';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { InputInner, InputOuter } from '@/components/forms/input';
-import { Feedback } from '@/components/forms/feedback';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 import { PostData } from '@/lib/types';
-import { H1, H5 } from '@/components/text/headings';
-import { Flex } from '@/components/layout/flex';
 import store from '@/redux/store';
 import FourOhFour from '../404';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
 import { SuccessModal } from '@/components/modals/success-modal';
+import { H1, H5 } from '@revolancer/ui/text';
+import { Flex, MainContentWithSideBar, SideBar } from '@revolancer/ui/layout';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),

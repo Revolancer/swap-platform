@@ -1,10 +1,10 @@
 import { Notification } from '@/lib/types';
-import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { Div } from '../layout/utils';
 import { axiosPrivate } from '@/lib/axios';
+import { P } from '@revolancer/ui/text';
+import { Div } from '@revolancer/ui/layout';
 
 export const NotificationItem = ({
   notification,

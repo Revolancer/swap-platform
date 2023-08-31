@@ -1,14 +1,10 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
-import { H1, H5 } from '@/components/text/headings';
 import { axiosPrivate } from '@/lib/axios';
-import { Yup } from '@/lib/yup';
 import { useEffect, useState } from 'react';
-import { FullWidth } from '@/components/layout/columns';
-import { styled } from '@revolancer/ui';
-import { P } from '@/components/text/text';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { H1, H5, P } from '@revolancer/ui/text';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import { FullWidth } from '@revolancer/ui/layout';
 
 export default function TopReferrers() {
   const [referrers, setReferrers] =

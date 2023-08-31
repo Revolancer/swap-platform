@@ -1,14 +1,10 @@
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { Title } from '@/components/head/title';
-import { FeedSegment } from '@/components/dashboard/feedsegment';
-import { FullWidth } from '@/components/layout/columns';
-import { H1 } from '@/components/text/headings';
-import { P } from '@/components/text/text';
 import { Button } from '@revolancer/ui/buttons';
 import Image from 'next/image';
-import { Flex } from '@/components/layout/flex';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
+import { CrumbBar, Crumb } from '@revolancer/ui/navigation';
+import { Flex, FullWidth } from '@revolancer/ui/layout';
+import { H1, P } from '@revolancer/ui/text';
 
 export default function FiveHundred() {
   return (

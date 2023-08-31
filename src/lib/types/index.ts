@@ -1,3 +1,5 @@
+import { IconDefinition } from '@fortawesome/free-brands-svg-icons';
+
 export interface AppState {
   user: {
     accessToken: string;
@@ -138,4 +140,10 @@ export interface Notification {
   created_at: string;
   updated_at: string;
   deleted_at?: string;
+}
+
+export interface BrandPriority {
+  url: string;
+  priority: number;
+  icon: IconDefinition;
 }

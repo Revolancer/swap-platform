@@ -1,12 +1,10 @@
-import { Card } from '@/components/layout/cards';
-import { Flex } from '@/components/layout/flex';
-import { Div } from '@/components/layout/utils';
-import { H5 } from '@/components/text/headings';
 import { axiosPrivate } from '@/lib/axios';
 import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
-import { styled } from '@revolancer/ui';
+import { Card, Flex } from '@revolancer/ui/layout';
+import { H5 } from '@revolancer/ui/text';
+import { Price, CreditLabel } from '@revolancer/ui/project-hubs';
 
 export const BalanceTile = () => {
   const [credits, setCredits] = useState(0);
@@ -18,17 +16,6 @@ export const BalanceTile = () => {
       })
       .catch((e) => setCredits(0));
   }, []);
-
-  const Price = styled('span', {
-    color: '$pink500',
-    fontFamily: '$heading',
-    fontWeight: '$bold',
-  });
-  const CreditLabel = styled('span', {
-    fontSize: '$body1',
-    fontFamily: '$heading',
-    fontWeight: '$bold',
-  });
 
   return (
     <Card>

@@ -2,12 +2,11 @@ import { useCallback, useEffect, useState } from 'react';
 import { Proposal } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { Flex } from '../layout/flex';
-import { H5 } from '../text/headings';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
 import Image from 'next/image';
-import { P } from '../text/text';
 import { Button } from '@revolancer/ui/buttons';
+import { Flex } from '@revolancer/ui/layout';
+import { H5, P } from '@revolancer/ui/text';
 
 export const ProposalsSegment = ({ uid = '' }: { uid: string }) => {
   const [posts, setPosts] = useState<Proposal[]>([]);

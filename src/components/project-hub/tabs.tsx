@@ -1,47 +1,24 @@
-import Link from 'next/link';
-import { styled } from '@revolancer/ui';
-import { Flex } from '../layout/flex';
-import { useRouter } from 'next/router';
-import { TabLink } from '../navigation/tablink';
+import { Tabs } from '@revolancer/ui/navigation';
 
 export const ProjectTabs = () => {
-  const router = useRouter();
+  const routes = {
+    root: {
+      projects: 'Dashboard',
+    },
+    paths: {
+      active: 'Active Projects',
+      needs: 'My Needs',
+      proposals: 'Outgoing Proposals',
+      completed: 'Completed Projects',
+    },
+  };
+
   return (
-    <Flex wrap gap={0}>
-      <TabLink active={router.pathname == '/projects'} href="/projects">
-        Dashboard
-      </TabLink>
-      <TabLink
-        active={router.pathname == '/projects/active'}
-        href="/projects/active"
-      >
-        Active Projects
-      </TabLink>
-      {/*
-      <TabLink
-        active={router.pathname == "/projects/requests"}
-        href="/projects/requests"
-      >
-        Project Requests
-  </TabLink>*/}
-      <TabLink
-        active={router.pathname == '/projects/needs'}
-        href="/projects/needs"
-      >
-        My Needs
-      </TabLink>
-      <TabLink
-        active={router.pathname == '/projects/proposals'}
-        href="/projects/proposals"
-      >
-        Outgoing Proposals
-      </TabLink>
-      <TabLink
-        active={router.pathname == '/projects/completed'}
-        href="/projects/completed"
-      >
-        Completed Projects
-      </TabLink>
-    </Flex>
+    <Tabs
+      root={Object.keys(routes.root)[0]}
+      rootName={Object.values(routes.root)[0]}
+      routes={Object.keys(routes.paths)}
+      routeNames={Object.values(routes.paths)}
+    />
   );
 };

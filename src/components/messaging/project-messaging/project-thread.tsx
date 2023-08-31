@@ -1,18 +1,17 @@
 import { axiosPrivate } from '@/lib/axios';
 import { Project, ProjectMessage, UserProfileData } from '@/lib/types';
 import { useCallback, useEffect, useState } from 'react';
-import { LabelledDivider } from '../../layout/divider';
-import { Div } from '../../layout/utils';
 import { ProjectMessageInput } from './message-input';
 import { DateTime } from 'luxon';
 import store from '@/redux/store';
 import { MessageAuthor } from '../message-author';
-import { P } from '@/components/text/text';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import Linkify from 'linkify-react';
 import { renderLinksInMessages } from '../util-functions-for-messaging';
+import { LabelledDivider, Div } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const ProjectThread = ({ projectId }: { projectId: string }) => {
   const [project, setProject] = useState<Project>();

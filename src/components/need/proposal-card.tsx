@@ -1,5 +1,3 @@
-import { P } from '../text/text';
-import { Flex } from '../layout/flex';
 import { Button } from '@revolancer/ui/buttons';
 import { Author } from '../user-posts/author';
 import { Proposal } from '@/lib/types';
@@ -10,7 +8,8 @@ import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { MouseEvent, useEffect, useState } from 'react';
 import { ConfirmationDialog } from '../navigation/confirmation-dialog';
-import { Card } from '../layout/cards';
+import { P } from '@revolancer/ui/text';
+import { Flex, Card } from '@revolancer/ui/layout';
 
 export const ProposalCard = ({
   index,

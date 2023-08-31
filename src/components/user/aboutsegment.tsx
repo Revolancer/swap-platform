@@ -1,15 +1,32 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex } from '../layout/flex';
-import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
-import { InputOuter, TextAreaInner } from '../forms/input';
-import { Feedback } from '../forms/feedback';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
+import {
+  Form,
+  InputOuter,
+  TextAreaInner,
+  Feedback,
+} from '@revolancer/ui/forms';
+import { ExternalLink } from '../links/external-link';
+import { IntermediateRepresentation, OptFn } from 'linkifyjs';
+import Linkify from 'linkify-react';
+
+export const renderLinksInAbout: OptFn<
+  (ir: IntermediateRepresentation) => any
+> = ({ attributes, content }) => {
+  const { href, ...props } = attributes;
+  return (
+    <ExternalLink href={href} {...props}>
+      {content}
+    </ExternalLink>
+  );
+};
 
 const UpdateAboutSchema = Yup.object().shape({
   about: Yup.string().optional().ensure(),
@@ -48,10 +65,10 @@ export const AboutSegment = ({
           ? 'Tell us a bit about yourself'
           : about.split('\n').map(function (item, idx) {
               return (
-                <span key={idx}>
+                <Linkify key={idx} options={{ render: renderLinksInAbout }}>
                   {item}
                   <br />
-                </span>
+                </Linkify>
               );
             })}
       </P>

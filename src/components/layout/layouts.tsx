@@ -3,15 +3,13 @@ import { ReactNode } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../branding/logo';
-import { CrumbBar } from '../navigation/crumbs/crumbbar';
 import { AuthGuard } from '../navigation/guards/authguard';
 import { MainNav } from '../navigation/main/main-nav';
 import { contract } from '../navigation/main/nav-toggle';
-import { ColumnLayout, FullWidth } from './columns';
-import { Flex } from './flex';
 import { OnboardingGuard } from '../navigation/guards/onboardingguard';
 import { AdminGuard } from '../navigation/guards/adminguard';
 import { NagbarManager } from '../nagbars/nagbar-manager';
+import { ColumnLayout, FullWidth, Flex } from '@revolancer/ui/layout';
 
 const MainGridOuter = styled('div', {
   overflowX: 'hidden',

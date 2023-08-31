@@ -1,23 +1,20 @@
-import { FullWidth } from '@/components/layout/columns';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Title } from '@/components/head/title';
 import { useEffect, useMemo, useState } from 'react';
 import { useRouter } from 'next/router';
 import { PostData, UserProfileData } from '@/lib/types';
-import Blocks, { DataProp } from 'editorjs-blocks-react-renderer';
-import { H1 } from '@/components/text/headings';
+import Blocks from 'editorjs-blocks-react-renderer';
 import { Tags } from '@/components/user-posts/tags';
-import { Flex } from '@/components/layout/flex';
 import { Author } from '@/components/user-posts/author';
 import { styled } from '@revolancer/ui';
 import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
 import FourOhFour from '../404';
 import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog';
-import { CrumbBar } from '@/components/navigation/crumbs/crumbbar';
-import { Crumb } from '@/components/navigation/crumbs/crumb';
-import { ExternalLink } from '@/components/links/external-link';
+import { FullWidth, Flex } from '@revolancer/ui/layout';
+import { H1 } from '@revolancer/ui/text';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 export default function UserProfile() {
   const router = useRouter();

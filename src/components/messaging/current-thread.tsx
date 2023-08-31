@@ -1,19 +1,17 @@
 import { axiosPrivate } from '@/lib/axios';
 import { Message, UserProfileData } from '@/lib/types';
-import { LegacyRef, useCallback, useEffect, useState } from 'react';
-import { LabelledDivider } from '../layout/divider';
-import { Div } from '../layout/utils';
+import { useCallback, useEffect, useState } from 'react';
 import { MessageInput } from './message-input';
 import { DateTime } from 'luxon';
 import store from '@/redux/store';
 import { MessageAuthor } from './message-author';
-import { relative } from 'path';
-import { P } from '../text/text';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperclip } from '@fortawesome/free-solid-svg-icons';
 import Linkify from 'linkify-react';
 import { renderLinksInMessages } from './util-functions-for-messaging';
+import { LabelledDivider, Div } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const CurrentThread = ({ uid }: { uid: string }) => {
   const [messages, setMessages] = useState<Message[]>([]);

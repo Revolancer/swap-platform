@@ -1,22 +1,15 @@
-import { styled } from '@revolancer/ui';
-import { Div } from '../layout/utils';
-import Image from 'next/image';
 import { useCallback, useEffect, useState } from 'react';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
-import { Flex } from '../layout/flex';
 import { Button } from '@revolancer/ui/buttons';
 import { Formik } from 'formik';
-import { UploadField } from '../forms/upload';
 import { Yup } from '@/lib/yup';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faC, faClock, faPencil } from '@fortawesome/free-solid-svg-icons';
-import { TzSelect } from '../forms/select';
-import { P } from '../text/text';
+import { faClock, faPencil } from '@fortawesome/free-solid-svg-icons';
 import { DateTime } from 'luxon';
 import { LocationInput } from '../forms/location-input';
-import { Feedback } from '@/components/forms/feedback';
-import { H5 } from '../text/headings';
+import { Flex } from '@revolancer/ui/layout';
+import { P, H5 } from '@revolancer/ui/text';
+import { Form, Feedback } from '@revolancer/ui/forms';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(

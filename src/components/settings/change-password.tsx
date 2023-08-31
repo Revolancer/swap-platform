@@ -1,20 +1,17 @@
-import { Flex } from '../layout/flex';
-import { axiosPrivate, axiosPublic } from '@/lib/axios';
-import { Form } from '../forms/form';
+import { axiosPrivate } from '@/lib/axios';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
+import { useState } from 'react';
+import { SuccessModal } from '../modals/success-modal';
 import {
+  Form,
   InputInner,
   InputOuter,
   PasswordReveal,
-  TextAreaInner,
-} from '../forms/input';
-import { Feedback } from '../forms/feedback';
-import { H5 } from '../text/headings';
-import { P, Span } from '../text/text';
-import { useState } from 'react';
-import { SuccessModal } from '../modals/success-modal';
+  Feedback,
+} from '@revolancer/ui/forms';
+import { H5, Span } from '@revolancer/ui/text';
 
 const UpdatePasswordSchema = Yup.object().shape({
   password: Yup.string().required('Please provide your current password'),

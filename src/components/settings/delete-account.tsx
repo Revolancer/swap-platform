@@ -2,20 +2,23 @@ import { config as styleconfig } from '@revolancer/ui';
 import { useState } from 'react';
 import Modal from 'react-modal';
 import { Button, FormButton, UnstyledLink } from '@revolancer/ui/buttons';
-import { H4, H5 } from '../text/headings';
-import { P, Span } from '../text/text';
-import { Flex } from '../layout/flex';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faClose } from '@fortawesome/free-solid-svg-icons';
-import { Feedback } from '../forms/feedback';
 import { SuccessModal } from '../modals/success-modal';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
-import { Form } from '../forms/form';
 import { axiosPrivate } from '@/lib/axios';
-import { InputInner, InputOuter, PasswordReveal } from '../forms/input';
 import { logout } from '@/lib/user/auth';
 import { useAppDispatch } from '@/redux/store';
+import { H4, H5, P, Span } from '@revolancer/ui/text';
+import { Flex } from '@revolancer/ui/layout';
+import {
+  Form,
+  Feedback,
+  InputInner,
+  InputOuter,
+  PasswordReveal,
+} from '@revolancer/ui/forms';
 
 const styles = styleconfig.theme;
 

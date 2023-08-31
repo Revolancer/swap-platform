@@ -1,8 +1,5 @@
 import { PostData } from '@/lib/types';
-import { ParagraphBlock } from 'editorjs-blocks-react-renderer';
 import { OutputData } from '@editorjs/editorjs';
-import { P } from '../text/text';
-import { Flex } from '../layout/flex';
 import { Tags } from './tags';
 import { Button, TertiaryButton, UnstyledLink } from '@revolancer/ui/buttons';
 import { styled } from '@revolancer/ui';
@@ -15,7 +12,9 @@ import { ConfirmationDialog } from '../navigation/confirmation-dialog';
 import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import axios from 'axios';
-import { Card } from '../layout/cards';
+import { P } from '@revolancer/ui/text';
+import { Flex, Card } from '@revolancer/ui/layout';
+
 export const PortfolioProfileCard = ({
   data,
   own = false,

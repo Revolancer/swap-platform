@@ -1,25 +1,21 @@
-import { Flex } from '@/components/layout/flex';
 import { OnboardingLayout } from '@/components/layout/layouts';
-import { H4, H5 } from '@/components/text/headings';
 import { Title } from '@/components/head/title';
-import { Card } from '@/components/layout/cards';
 import Image from 'next/image';
-import { Div } from '@/components/layout/utils';
 import { Progress } from '@/components/forms/progress';
 import { Yup } from '@/lib/yup';
 import 'react-datepicker/dist/react-datepicker.css';
 import { Field, FieldProps, Formik } from 'formik';
 import { axiosPrivate } from '@/lib/axios';
-import { Form } from '@/components/forms/form';
-import { Feedback } from '@/components/forms/feedback';
 import { DateTime } from 'luxon';
-import { InputInner, InputOuter } from '@/components/forms/input';
 import { Button, TertiaryButton } from '@revolancer/ui/buttons';
 import { useEffect, useMemo, useRef } from 'react';
 import debounce from 'lodash.debounce';
 import { refreshToken } from '@/lib/user/auth';
 import store from '@/redux/store';
 import { useRouter } from 'next/router';
+import { Flex, Card, Div } from '@revolancer/ui/layout';
+import { H4, H5 } from '@revolancer/ui/text';
+import { Form, Feedback, InputInner, InputOuter } from '@revolancer/ui/forms';
 
 const OnboardingSchema = Yup.object().shape({
   firstName: Yup.string()

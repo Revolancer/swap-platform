@@ -1,16 +1,16 @@
 import { useCallback, useEffect, useState } from 'react';
-import { Flex } from '../layout/flex';
-import { P } from '../text/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Tag } from '@/lib/types';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { TagElement } from '../tags';
 import { TagField } from '../forms/taginput';
-import { Form } from '../forms/form';
 import { Formik } from 'formik';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
+import { Form } from '@revolancer/ui/forms';
 
 export const SkillSegment = ({
   uid = '',
