@@ -14,6 +14,7 @@ import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { ProjectThread } from '@/components/messaging/project-messaging/project-thread';
 import { ParagraphBlock } from 'editorjs-blocks-react-renderer';
 import { ProjectOtherUserProfile } from '@/components/messaging/project-messaging/project-other-user-profile';
+import { ProjectStatus } from '@/components/project-hub/project-status';
 import { H1, P } from '@revolancer/ui/text';
 import { FullWidth, Flex, Divider, Card } from '@revolancer/ui/layout';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
@@ -107,8 +108,9 @@ export default function ProjectPage() {
         <FullWidth>
           <Card>
             {!hasLoaded && <H1>Loading...</H1>}
-            {hasLoaded && (
+            {hasLoaded && loadedData && (
               <Flex column>
+                <ProjectStatus project={loadedData} />
                 <Flex
                   css={{
                     justifyContent: 'space-between',
