@@ -15,7 +15,10 @@ import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog'
 import { FullWidth, Flex } from '@revolancer/ui/layout';
 import { H1 } from '@revolancer/ui/text';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
-import { CustomTextRenderer } from '@/lib/editorjs/renderer';
+import {
+  CustomListRenderer,
+  CustomTextRenderer,
+} from '@/lib/editorjs/renderer';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -184,7 +187,7 @@ export default function UserProfile() {
                   renderers={{
                     paragraph: CustomTextRenderer,
                     header: CustomTextRenderer,
-                    list: CustomTextRenderer,
+                    list: CustomListRenderer,
                     table: CustomTextRenderer,
                   }}
                 />

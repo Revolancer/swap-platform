@@ -14,6 +14,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
+import { stringToJSX } from '@/lib/editorjs/renderer';
 
 export const PortfolioProfileCard = ({
   data,
@@ -210,7 +211,7 @@ export const PortfolioProfileCard = ({
             {withAuthor && data?.user?.id && <Author uid={data.user.id} />}
             <Tags tags={data?.tags ?? []} />
             {summary.length > 0 && (
-              <P css={{ color: '$neutral600' }}>{summary}</P>
+              <P css={{ color: '$neutral600' }}>{stringToJSX(summary)}</P>
             )}
             <Flex gap={6} css={{ alignItems: 'center' }}>
               {hasContent && data?.id && (
