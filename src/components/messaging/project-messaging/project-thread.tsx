@@ -270,9 +270,14 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
           ></div>
         </div>
       </Div>
-      {project?.status !== 'complete' && (
-        <ProjectMessageInput projectId={projectId} refresh={loadActiveThread} />
-      )}
+      {project?.status !== 'complete' &&
+        project?.client_cancellation === false &&
+        project?.contractor_cancellation === false && (
+          <ProjectMessageInput
+            projectId={projectId}
+            refresh={loadActiveThread}
+          />
+        )}
     </>
   );
 };
