@@ -15,10 +15,10 @@ import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog'
 import { FullWidth, Flex } from '@revolancer/ui/layout';
 import { H1 } from '@revolancer/ui/text';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
-import {
-  CustomListRenderer,
-  CustomTextRenderer,
-} from '@/lib/editorjs/renderer';
+import { Header } from '@/lib/editorjs/renderer/header';
+import { Table } from '@/lib/editorjs/renderer/table';
+import { Text } from '@/lib/editorjs/renderer/text';
+import { List } from '@/lib/editorjs/renderer/list';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -185,10 +185,10 @@ export default function UserProfile() {
                 <Blocks
                   data={cleanData}
                   renderers={{
-                    paragraph: CustomTextRenderer,
-                    header: CustomTextRenderer,
-                    list: CustomListRenderer,
-                    table: CustomTextRenderer,
+                    paragraph: Text,
+                    header: Header,
+                    list: List,
+                    table: Table,
                   }}
                 />
               </StyledBlocksContainer>

@@ -14,7 +14,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
-import { stringToJSX } from '@/lib/editorjs/renderer';
+import { stringToJSX } from '@/lib/editorjs/renderer/util';
 
 export const PortfolioProfileCard = ({
   data,

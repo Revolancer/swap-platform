@@ -17,10 +17,10 @@ import { ProposalDialogWrap } from '@/components/need/proposal-dialog-wrap';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { StyledBlocksContainer, Flex, FullWidth } from '@revolancer/ui/layout';
 import { H1, H3, H5, P } from '@revolancer/ui/text';
-import {
-  CustomListRenderer,
-  CustomTextRenderer,
-} from '@/lib/editorjs/renderer';
+import { Header } from '@/lib/editorjs/renderer/header';
+import { Table } from '@/lib/editorjs/renderer/table';
+import { Text } from '@/lib/editorjs/renderer/text';
+import { List } from '@/lib/editorjs/renderer/list';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -125,10 +125,10 @@ export default function UserProfile() {
                 <Blocks
                   data={cleanBlockData(postData.data)}
                   renderers={{
-                    paragraph: CustomTextRenderer,
-                    header: CustomTextRenderer,
-                    list: CustomListRenderer,
-                    table: CustomTextRenderer,
+                    paragraph: Text,
+                    header: Header,
+                    list: List,
+                    table: Table,
                   }}
                 />
               </StyledBlocksContainer>
