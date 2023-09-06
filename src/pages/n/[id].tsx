@@ -17,6 +17,10 @@ import { ProposalDialogWrap } from '@/components/need/proposal-dialog-wrap';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { StyledBlocksContainer, Flex, FullWidth } from '@revolancer/ui/layout';
 import { H1, H3, H5, P } from '@revolancer/ui/text';
+import { Header } from '@/lib/editorjs/renderer/header';
+import { Table } from '@/lib/editorjs/renderer/table';
+import { Text } from '@/lib/editorjs/renderer/text';
+import { List } from '@/lib/editorjs/renderer/list';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -118,7 +122,15 @@ export default function UserProfile() {
             {postData?.id && <ProposalDialogWrap id={postData.id} />}
             {postData?.data && (
               <StyledBlocksContainer>
-                <Blocks data={cleanBlockData(postData.data)} />
+                <Blocks
+                  data={cleanBlockData(postData.data)}
+                  renderers={{
+                    paragraph: Text,
+                    header: Header,
+                    list: List,
+                    table: Table,
+                  }}
+                />
               </StyledBlocksContainer>
             )}
             {own && <P css={{ color: '$neutral600' }}></P>}
