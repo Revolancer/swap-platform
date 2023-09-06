@@ -17,3 +17,4 @@ updates:
       fontawesome:
         patterns:
           - '@fortawesome/*'
+    open-pull-requests-limit: 50
