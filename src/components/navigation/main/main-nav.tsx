@@ -6,13 +6,17 @@ import { contract, expand } from './nav-toggle';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
+  faArrowTrendUp,
   faBriefcase,
   faChartPie,
   faCog,
+  faComments,
   faHouse,
   faLayerGroup,
   faRightFromBracket,
   faTicket,
+  faUserShield,
+  faUsers,
   faWallet,
 } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
@@ -23,6 +27,7 @@ import { SidebarMessagesIndicator } from '@/components/messaging/sidebar-message
 import { SidebarNotificationIndicator } from '@/components/notifications/sidebar-notification-indicator';
 import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
+import { Switch } from '@revolancer/ui/buttons';
 
 const Container = styled('div', {
   backgroundColor: '$navy900',
@@ -132,6 +137,73 @@ const WalletNavigable = ({
   );
 };
 
+const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
+  return (
+    <>
+      <SidebarNotificationIndicator expanded={expanded} />
+      <SidebarMessagesIndicator expanded={expanded} />
+      <Divider color="white" />
+      <Navigable
+        label="Discovery Feed"
+        icon={faHouse}
+        expanded={expanded}
+        href="/"
+      />
+      <Navigable
+        label="Project Hub"
+        icon={faLayerGroup}
+        expanded={expanded}
+        href="/projects/active"
+      />
+      <Navigable
+        label="My Needs"
+        icon={faChartPie}
+        expanded={expanded}
+        href="/projects/needs"
+      />
+      <Navigable
+        label="Job Board"
+        icon={faBriefcase}
+        expanded={expanded}
+        href="https://revolancer.com/magazine/get-clients/"
+        target="_blank"
+      />
+    </>
+  );
+};
+
+const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
+  return (
+    <>
+      <Navigable
+        label="Team Management"
+        icon={faUserShield}
+        expanded={expanded}
+        href="#"
+      />
+      <Navigable
+        label="User Management"
+        icon={faUsers}
+        expanded={expanded}
+        href="#"
+      />
+      <Navigable
+        label="Support"
+        icon={faComments}
+        expanded={expanded}
+        href="https://support.revolancer.com/"
+        target="_blank"
+      />
+      <Navigable
+        label="Statistics"
+        icon={faArrowTrendUp}
+        expanded={expanded}
+        href="/admin/stats"
+      />
+    </>
+  );
+};
+
 export const MainNav = () => {
   const expanded = useAppSelector((state) => state.navigation.toggle.expanded);
   const loggedIn = useAppSelector((state) => state.userData.user != null);
@@ -139,6 +211,7 @@ export const MainNav = () => {
   const [didMount, setDidMount] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
   const [credits, setCredits] = useState(0);
+  const [adminMode, setAdminMode] = useState(false);
   useEffect(() => {
     setDidMount(true);
     axiosPrivate
@@ -169,43 +242,30 @@ export const MainNav = () => {
             id="container-112"
           >
             <Flex column css={{ marginBlockStart: '$10' }} gap={4}>
-              <SidebarNotificationIndicator expanded={expanded} />
-              <SidebarMessagesIndicator expanded={expanded} />
-              <Divider color="white" />
-              <Navigable
-                label="Discovery Feed"
-                icon={faHouse}
-                expanded={expanded}
-                href="/"
-              />
-              <Navigable
-                label="Project Hub"
-                icon={faLayerGroup}
-                expanded={expanded}
-                href="/projects/active"
-              />
-              <Navigable
-                label="My Needs"
-                icon={faChartPie}
-                expanded={expanded}
-                href="/projects/needs"
-              />
-              <Navigable
-                label="Job Board"
-                icon={faBriefcase}
-                expanded={expanded}
-                href="https://revolancer.com/magazine/get-clients/"
-                target="_blank"
-              />
+              {adminMode ? (
+                <AdminSideBar expanded={expanded} />
+              ) : (
+                <NonAdminSideBar expanded={expanded} />
+              )}
             </Flex>
             <Flex column gap={4}>
-              <WalletNavigable credits={credits} expanded={expanded} />
-              <Navigable
-                label="Settings"
-                icon={faCog}
-                expanded={expanded}
-                href="/settings"
-              />
+              {!adminMode && (
+                <>
+                  <WalletNavigable credits={credits} expanded={expanded} />
+                  <Navigable
+                    label="Settings"
+                    icon={faCog}
+                    expanded={expanded}
+                    href="/settings"
+                  />
+                </>
+              )}
+              <Switch
+                checked={adminMode}
+                handleCheckedChange={() => setAdminMode(!adminMode)}
+              >
+                {expanded && 'Admin View'}
+              </Switch>
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
