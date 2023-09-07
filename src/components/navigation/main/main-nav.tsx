@@ -23,6 +23,7 @@ import { SidebarMessagesIndicator } from '@/components/messaging/sidebar-message
 import { SidebarNotificationIndicator } from '@/components/notifications/sidebar-notification-indicator';
 import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
+import Toggle from '@/components/toggle';
 
 const Container = styled('div', {
   backgroundColor: '$navy900',
@@ -137,9 +138,16 @@ export const MainNav = () => {
   const loggedIn = useAppSelector((state) => state.userData.user != null);
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
+  const [adminToggle, setAdminToggle] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
   const [credits, setCredits] = useState(0);
   useEffect(() => {
+    const regex = /\/admin/;
+    if (regex.test(window.location.href)) {
+      setAdminToggle(true);
+    } else {
+      setAdminToggle(false);
+    }
     setDidMount(true);
     axiosPrivate
       .get('user/profile')
@@ -206,6 +214,18 @@ export const MainNav = () => {
                 expanded={expanded}
                 href="/settings"
               />
+              <Flex
+                gap={4}
+                css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
+              >
+                <NavLink href={adminToggle ? '/' : '/admin'}>
+                  {expanded && 'Admin view'}
+                  <Toggle
+                    checked={adminToggle}
+                    onChange={() => setAdminToggle(!adminToggle)}
+                  />
+                </NavLink>
+              </Flex>
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
