@@ -3,7 +3,7 @@ import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../../branding/logo';
 import { MobileNav } from './mobile';
 import { contract, expand } from './nav-toggle';
-import { toggle } from './admin-toggle';
+import { adminView, toggle } from './admin-toggle';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -15,7 +15,7 @@ import {
   faComments,
   faHouse,
   faLayerGroup,
-  faMagnifyingGlass,
+  //faMagnifyingGlass,
   faTicket,
   faUserShield,
   faUsers,
@@ -30,7 +30,7 @@ import { SidebarNotificationIndicator } from '@/components/notifications/sidebar
 import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import { Switch } from '@revolancer/ui/buttons';
-import { InputInner, InputOuter } from '@revolancer/ui/forms';
+//import { InputInner, InputOuter } from '@revolancer/ui/forms';
 import { Span } from '@revolancer/ui/text';
 
 const Container = styled('div', {
@@ -141,7 +141,7 @@ const WalletNavigable = ({
   );
 };
 
-//TO-DO: Add search functionality
+/* //TO-DO: Add search functionality
 const SearchNavigable = ({ expanded }: { expanded: boolean }) =>
   expanded ? (
     <InputOuter>
@@ -150,14 +150,14 @@ const SearchNavigable = ({ expanded }: { expanded: boolean }) =>
     </InputOuter>
   ) : (
     <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '1.4rem' }} />
-  );
+  );*/
 
 const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
   return (
     <>
       <SidebarNotificationIndicator expanded={expanded} />
       <SidebarMessagesIndicator expanded={expanded} />
-      <SearchNavigable expanded={expanded} />
+      {/*<SearchNavigable expanded={expanded} />*/}
       <Divider color="white" />
       <Navigable
         label="Discovery Feed"
@@ -191,7 +191,7 @@ const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
 const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
   return (
     <>
-      <SearchNavigable expanded={expanded} />
+      {/*<SearchNavigable expanded={expanded} />*/}
       <Navigable
         label="Team Management"
         icon={faUserShield}
@@ -226,13 +226,20 @@ export const MainNav = () => {
   const loggedIn = useAppSelector((state) => state.userData.user != null);
   const adminMode = useAppSelector((state) => state.admin.toggle.adminView);
   const isAdmin = useAppSelector(
-    (state) => state.userData.user?.roles?.includes('admin') ?? false,
+    (state) =>
+      state.userData.user?.roles?.includes('admin') ||
+      state.userData.user?.roles?.includes('moderator') ||
+      state.userData.user?.roles?.includes('stats_viewer'),
   );
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
   const [credits, setCredits] = useState(0);
   useEffect(() => {
+    const regex = /\/admin/;
+    if (regex.test(window.location.href)) {
+      dispatch(adminView());
+    }
     setDidMount(true);
     axiosPrivate
       .get('user/profile')
@@ -246,7 +253,7 @@ export const MainNav = () => {
         setCredits(response.data);
       })
       .catch((e) => setCredits(0));
-  }, []);
+  }, [dispatch]);
 
   const navItems = (expanded: boolean) => {
     if (loggedIn && didMount) {
