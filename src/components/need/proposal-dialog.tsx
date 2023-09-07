@@ -6,7 +6,7 @@ import {
   ChangeEvent,
 } from 'react';
 import Modal from 'react-modal';
-import { Button, UnstyledLink } from '@revolancer/ui/buttons';
+import { Button, TertiaryButton, UnstyledLink } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCheck, faClose, faTicket } from '@fortawesome/free-solid-svg-icons';
 import { config as styleconfig } from '@revolancer/ui';
@@ -26,6 +26,7 @@ import {
   Divider,
   TwoCols,
   StyledBlocksContainer,
+  Div,
 } from '@revolancer/ui/layout';
 import { P, H4, H5 } from '@revolancer/ui/text';
 import {
@@ -87,6 +88,7 @@ export const ProposalDialog = ({
   const [isOwn, setIsOwn] = useState(false);
   const [profile, setProfile] = useState<UserProfileData>({});
   const [myRate, setMyRate] = useState(20);
+  const [price, setPrice] = useState(40);
   const [proposalCount, setProposalCount] = useState(0);
 
   const router = useRouter();
@@ -134,6 +136,7 @@ export const ProposalDialog = ({
             if ((response?.data ?? null) != null) {
               if ((response?.data?.id ?? '') !== '') {
                 setMyRate(response.data.hourly_rate);
+                setPrice(response.data.hourly_rate * 2);
               }
             }
           })
@@ -211,32 +214,11 @@ export const ProposalDialog = ({
                 <FontAwesomeIcon icon={faClose} />
               </UnstyledLink>
             </Flex>
-
-            {postData?.user && <Author uid={postData.user?.id ?? ''} />}
-            <P css={{ fontWeight: '$bold' }}>
-              {postData?.title ?? 'Loading...'}
-            </P>
-            {postData?.tags && <Tags tags={postData.tags} />}
-            {postData?.unpublish_at && (
-              <P css={{ color: '$neutral600' }}>
-                Respond by{' '}
-                {DateTime.fromISO(postData.unpublish_at).toFormat(
-                  'cccc, LLLL d',
-                )}
-              </P>
-            )}
-
-            {postData?.data && (
-              <StyledBlocksContainer>
-                <Blocks data={cleanBlockData(postData.data)} />
-              </StyledBlocksContainer>
-            )}
-            <Divider />
             <Formik
               initialValues={{
                 message: '',
                 estHours: 2,
-                price: 50,
+                price: price,
               }}
               validationSchema={ProposalSchema}
               onSubmit={async (values, actions) => {
@@ -277,107 +259,153 @@ export const ProposalDialog = ({
             >
               {(props) => {
                 return (
-                  <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
-                    <Flex column>
-                      <H5>
-                        Your Message
-                        {profile?.first_name && ` To ${profile.first_name}`}
-                      </H5>
-                      <InputOuter
-                        error={props.touched.message && !!props.errors.message}
-                      >
-                        <TextAreaInner
-                          name="message"
-                          id="message"
-                          placeholder="Write a message"
-                          aria-label="Your message"
-                          onChange={props.handleChange}
-                          onBlur={props.handleBlur}
-                          value={props.values.message}
-                        />
-                      </InputOuter>
-                      {props.touched.message && props.errors.message && (
-                        <Feedback state="error">
-                          {props.errors.message}
-                        </Feedback>
-                      )}
-                    </Flex>
-                    <TwoCols>
-                      <Flex column>
-                        <H5>Estimated hours of work</H5>
-                        <P>
-                          We use this to help recommend a price -{' '}
-                          {profile?.first_name
-                            ? profile.first_name
-                            : 'the client'}{' '}
-                          will not see this.
+                  <>
+                    <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
+                      <Divider />
+                      <Div css={{ overflowY: 'auto', maxHeight: '60dvh' }}>
+                        {postData?.user && (
+                          <Author uid={postData.user?.id ?? ''} />
+                        )}
+                        <P css={{ fontWeight: '$bold' }}>
+                          {postData?.title ?? 'Loading...'}
                         </P>
-                        <InputOuter
-                          error={
-                            props.touched.message && !!props.errors.message
-                          }
+                        {postData?.tags && <Tags tags={postData.tags} />}
+                        {postData?.unpublish_at && (
+                          <P css={{ color: '$neutral600' }}>
+                            Respond by{' '}
+                            {DateTime.fromISO(postData.unpublish_at).toFormat(
+                              'cccc, LLLL d',
+                            )}
+                          </P>
+                        )}
+                        {postData?.data && (
+                          <StyledBlocksContainer>
+                            <Blocks data={cleanBlockData(postData.data)} />
+                          </StyledBlocksContainer>
+                        )}
+                        <Divider />
+                        <Flex column>
+                          <H5>
+                            Your Message
+                            {profile?.first_name && ` To ${profile.first_name}`}
+                          </H5>
+                          <InputOuter
+                            error={
+                              props.touched.message && !!props.errors.message
+                            }
+                          >
+                            <TextAreaInner
+                              name="message"
+                              id="message"
+                              placeholder="Write a message"
+                              aria-label="Your message"
+                              onChange={props.handleChange}
+                              onBlur={props.handleBlur}
+                              value={props.values.message}
+                            />
+                          </InputOuter>
+                          {props.touched.message && props.errors.message && (
+                            <Feedback state="error">
+                              {props.errors.message}
+                            </Feedback>
+                          )}
+                        </Flex>
+                        <TwoCols>
+                          <Flex column>
+                            <H5>Estimated hours of work</H5>
+                            <P>
+                              We use this to help recommend a price -{' '}
+                              {profile?.first_name
+                                ? profile.first_name
+                                : 'the client'}{' '}
+                              will not see this.
+                            </P>
+                            <InputOuter
+                              error={
+                                props.touched.estHours &&
+                                !!props.errors.estHours
+                              }
+                            >
+                              <InputInner
+                                type="number"
+                                min={1}
+                                max={100}
+                                name="estHours"
+                                id="estHours"
+                                placeholder="How long will this take you?"
+                                aria-label="How long will this take you?"
+                                onChange={(e) => {
+                                  props.handleChange(e);
+                                  estimatePrice(e, props);
+                                }}
+                                onBlur={props.handleBlur}
+                                value={props.values.estHours}
+                              />
+                            </InputOuter>
+                          </Flex>
+                          <Flex column>
+                            <H5>Price</H5>
+                            <P id="priceLabel">
+                              How many credits will you complete this for?
+                            </P>
+                            <InputOuter
+                              error={
+                                props.touched.price && !!props.errors.price
+                              }
+                            >
+                              <FontAwesomeIcon icon={faTicket} />
+                              <InputInner
+                                type="number"
+                                min={1}
+                                max={10000}
+                                name="price"
+                                id="price"
+                                placeholder="Price"
+                                aria-label="Price"
+                                onChange={props.handleChange}
+                                onBlur={props.handleBlur}
+                                value={props.values.price}
+                                css={{ marginLeft: '$2' }}
+                              />
+                            </InputOuter>
+                          </Flex>
+                        </TwoCols>
+                        {props.touched.estHours && props.errors.estHours && (
+                          <Feedback state="error">
+                            {props.errors.estHours}
+                          </Feedback>
+                        )}
+                        {props.touched.price && props.errors.price && (
+                          <Feedback state="error">
+                            {props.errors.price}
+                          </Feedback>
+                        )}
+                      </Div>
+                      <Divider />
+                      <Flex css={{ alignItems: 'center' }} gap={6}>
+                        <Button
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            props.submitForm();
+                          }}
+                          disabled={props.isSubmitting}
                         >
-                          <InputInner
-                            type="number"
-                            min={1}
-                            max={100}
-                            name="estHours"
-                            id="estHours"
-                            placeholder="How long will this take you?"
-                            aria-label="How long will this take you?"
-                            onChange={(e) => {
-                              props.handleChange(e);
-                              estimatePrice(e, props);
-                            }}
-                            onBlur={props.handleBlur}
-                            value={props.values.estHours}
-                          />
-                        </InputOuter>
-                      </Flex>
-                      <Flex column>
-                        <H5>Price</H5>
-                        <P id="priceLabel">
-                          How many credits will you complete this for?
-                        </P>
-                        <InputOuter
-                          error={props.touched.price && !!props.errors.price}
+                          Send
+                        </Button>
+                        <TertiaryButton
+                          href="#"
+                          onClick={(e) => {
+                            e.preventDefault();
+                            closeModal();
+                          }}
+                          disabled={props.isSubmitting}
                         >
-                          <FontAwesomeIcon icon={faTicket} />
-                          <InputInner
-                            type="number"
-                            min={1}
-                            max={10000}
-                            name="price"
-                            id="price"
-                            placeholder="Price"
-                            aria-label="Price"
-                            onChange={props.handleChange}
-                            onBlur={props.handleBlur}
-                            value={props.values.price}
-                            css={{ marginLeft: '$2' }}
-                          />
-                        </InputOuter>
+                          Cancel
+                        </TertiaryButton>
                       </Flex>
-                    </TwoCols>
-                    {props.touched.estHours && props.errors.estHours && (
-                      <Feedback state="error">{props.errors.estHours}</Feedback>
-                    )}
-                    {props.touched.price && props.errors.price && (
-                      <Feedback state="error">{props.errors.price}</Feedback>
-                    )}
-                    <Flex>
-                      <Button
-                        href="#"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          props.submitForm();
-                        }}
-                        disabled={props.isSubmitting}
-                      >
-                        Send
-                      </Button>
-                    </Flex>
-                  </Form>
+                    </Form>
+                  </>
                 );
               }}
             </Formik>
