@@ -225,6 +225,9 @@ export const MainNav = () => {
   const expanded = useAppSelector((state) => state.navigation.toggle.expanded);
   const loggedIn = useAppSelector((state) => state.userData.user != null);
   const adminMode = useAppSelector((state) => state.admin.toggle.adminView);
+  const isAdmin = useAppSelector(
+    (state) => state.userData.user?.roles?.includes('admin') ?? false,
+  );
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
@@ -277,15 +280,17 @@ export const MainNav = () => {
                   />
                 </>
               )}
-              <Flex gap={4}>
-                {expanded && <Span>Admin View</Span>}
-                <Switch
-                  checked={adminMode}
-                  handleCheckedChange={() => dispatch(toggle())}
-                >
-                  {}
-                </Switch>
-              </Flex>
+              {isAdmin && (
+                <Flex gap={4}>
+                  {expanded && <Span>Admin View</Span>}
+                  <Switch
+                    checked={adminMode}
+                    handleCheckedChange={() => dispatch(toggle())}
+                  >
+                    {}
+                  </Switch>
+                </Flex>
+              )}
 
               <Flex
                 gap={4}
