@@ -138,6 +138,13 @@ export const MainNav = () => {
   const loggedIn = useAppSelector((state) => state.userData.user != null);
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
+  const admin = useAppSelector(
+    (state) =>
+      state.userData.user?.roles?.includes('admin') ||
+      state.userData.user?.roles?.includes('moderator') ||
+      state.userData.user?.roles?.includes('stats_viewer'),
+  );
+  const [showAdminToggle, setShowAdminToggle] = useState(admin);
   const [adminToggle, setAdminToggle] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
   const [credits, setCredits] = useState(0);
@@ -148,6 +155,7 @@ export const MainNav = () => {
     } else {
       setAdminToggle(false);
     }
+
     setDidMount(true);
     axiosPrivate
       .get('user/profile')
@@ -214,18 +222,20 @@ export const MainNav = () => {
                 expanded={expanded}
                 href="/settings"
               />
-              <Flex
-                gap={4}
-                css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
-              >
-                <NavLink href={adminToggle ? '/' : '/admin'}>
-                  {expanded && 'Admin view'}
-                  <Toggle
-                    checked={adminToggle}
-                    onChange={() => setAdminToggle(!adminToggle)}
-                  />
-                </NavLink>
-              </Flex>
+              {showAdminToggle && (
+                <Flex
+                  gap={4}
+                  css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
+                >
+                  <NavLink href={adminToggle ? '/' : '/admin'}>
+                    {expanded && 'Admin view'}
+                    <Toggle
+                      checked={adminToggle}
+                      onChange={() => setAdminToggle(!adminToggle)}
+                    />
+                  </NavLink>
+                </Flex>
+              )}
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
