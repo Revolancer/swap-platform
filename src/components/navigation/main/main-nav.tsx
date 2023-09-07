@@ -13,6 +13,7 @@ import {
   faComments,
   faHouse,
   faLayerGroup,
+  faMagnifyingGlass,
   faRightFromBracket,
   faTicket,
   faUserShield,
@@ -28,6 +29,7 @@ import { SidebarNotificationIndicator } from '@/components/notifications/sidebar
 import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import { Switch } from '@revolancer/ui/buttons';
+import { InputInner, InputOuter } from '@revolancer/ui/forms';
 
 const Container = styled('div', {
   backgroundColor: '$navy900',
@@ -137,11 +139,23 @@ const WalletNavigable = ({
   );
 };
 
+//TO-DO: Add search functionality
+const SearchNavigable = ({ expanded }: { expanded: boolean }) =>
+  expanded ? (
+    <InputOuter>
+      <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '1rem' }} />
+      <InputInner placeholder="Search" />
+    </InputOuter>
+  ) : (
+    <FontAwesomeIcon icon={faMagnifyingGlass} style={{ fontSize: '1.4rem' }} />
+  );
+
 const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
   return (
     <>
       <SidebarNotificationIndicator expanded={expanded} />
       <SidebarMessagesIndicator expanded={expanded} />
+      <SearchNavigable expanded={expanded} />
       <Divider color="white" />
       <Navigable
         label="Discovery Feed"
@@ -175,17 +189,18 @@ const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
 const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
   return (
     <>
+      <SearchNavigable expanded={expanded} />
       <Navigable
         label="Team Management"
         icon={faUserShield}
         expanded={expanded}
-        href="#"
+        href="/"
       />
       <Navigable
         label="User Management"
         icon={faUsers}
         expanded={expanded}
-        href="#"
+        href="/"
       />
       <Navigable
         label="Support"
