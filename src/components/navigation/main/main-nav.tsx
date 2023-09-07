@@ -8,6 +8,7 @@ import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faArrowTrendUp,
+  faArrowUpFromBracket,
   faBriefcase,
   faChartPie,
   faCog,
@@ -15,7 +16,6 @@ import {
   faHouse,
   faLayerGroup,
   faMagnifyingGlass,
-  faRightFromBracket,
   faTicket,
   faUserShield,
   faUsers,
@@ -31,6 +31,7 @@ import { Flex, Divider } from '@revolancer/ui/layout';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import { Switch } from '@revolancer/ui/buttons';
 import { InputInner, InputOuter } from '@revolancer/ui/forms';
+import { Span } from '@revolancer/ui/text';
 
 const Container = styled('div', {
   backgroundColor: '$navy900',
@@ -276,12 +277,16 @@ export const MainNav = () => {
                   />
                 </>
               )}
-              <Switch
-                checked={adminMode}
-                handleCheckedChange={() => dispatch(toggle())}
-              >
-                {expanded && 'Admin View'}
-              </Switch>
+              <Flex gap={4}>
+                {expanded && <Span>Admin View</Span>}
+                <Switch
+                  checked={adminMode}
+                  handleCheckedChange={() => dispatch(toggle())}
+                >
+                  {}
+                </Switch>
+              </Flex>
+
               <Flex
                 gap={4}
                 css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
@@ -300,21 +305,15 @@ export const MainNav = () => {
                       ? `${ownProfile?.first_name} ${ownProfile?.last_name}`
                       : 'My Profile')}
                 </NavLink>
-              </Flex>
-              {expanded && (
-                <Flex
-                  gap={4}
-                  css={{ justifyContent: expanded ? 'flex-start' : 'center' }}
-                >
+                {expanded && (
                   <NavLink href="#" onClick={() => dispatch(logout())}>
                     <FontAwesomeIcon
-                      icon={faRightFromBracket}
+                      icon={faArrowUpFromBracket}
                       style={{ fontSize: '1.4rem' }}
                     />
-                    Log Out
                   </NavLink>
-                </Flex>
-              )}
+                )}
+              </Flex>
             </Flex>
           </Flex>
         </>
