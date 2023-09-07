@@ -3,6 +3,7 @@ import { darkTheme, styled } from '@revolancer/ui';
 import { Logo } from '../../branding/logo';
 import { MobileNav } from './mobile';
 import { contract, expand } from './nav-toggle';
+import { toggle } from './admin-toggle';
 import Link from 'next/link';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -194,13 +195,13 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
         label="Team Management"
         icon={faUserShield}
         expanded={expanded}
-        href="/"
+        href="#"
       />
       <Navigable
         label="User Management"
         icon={faUsers}
         expanded={expanded}
-        href="/"
+        href="#"
       />
       <Navigable
         label="Support"
@@ -222,11 +223,11 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
 export const MainNav = () => {
   const expanded = useAppSelector((state) => state.navigation.toggle.expanded);
   const loggedIn = useAppSelector((state) => state.userData.user != null);
+  const adminMode = useAppSelector((state) => state.admin.toggle.adminView);
   const dispatch = useAppDispatch();
   const [didMount, setDidMount] = useState(false);
   const [ownProfile, setOwnProfile] = useState<UserProfileData>({});
   const [credits, setCredits] = useState(0);
-  const [adminMode, setAdminMode] = useState(false);
   useEffect(() => {
     setDidMount(true);
     axiosPrivate
@@ -277,7 +278,7 @@ export const MainNav = () => {
               )}
               <Switch
                 checked={adminMode}
-                handleCheckedChange={() => setAdminMode(!adminMode)}
+                handleCheckedChange={() => dispatch(toggle())}
               >
                 {expanded && 'Admin View'}
               </Switch>
