@@ -19,7 +19,7 @@ import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 
 const ArticleSchema = Yup.object().shape({
   data: Yup.object().optional(),
-  title: Yup.string().required().ensure().min(1),
+  title: Yup.string().required().ensure().min(1).max(40),
   tags: Yup.array()
     .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
     .required('Please tag this post with some associated skills or tools')

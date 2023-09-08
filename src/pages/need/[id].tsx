@@ -44,7 +44,7 @@ const discardEmptyBlocks = (blocks: Block[]) => {
 
 const NeedSchema = Yup.object().shape({
   data: Yup.object().optional(),
-  title: Yup.string().required().ensure().min(1),
+  title: Yup.string().required().ensure().min(1).max(40),
   tags: Yup.array()
     .of(Yup.object().shape({ id: Yup.string(), text: Yup.string() }))
     .required('Please tag this project with some associated skills or tools')
