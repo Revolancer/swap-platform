@@ -20,7 +20,7 @@ export default function Settings() {
   return (
     <>
       <Title>Delete User</Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin', 'moderator']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/delete" active>

@@ -22,7 +22,7 @@ export default function Settings() {
   return (
     <>
       <Title>Add or Remove Credits</Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin', 'moderator']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/credits" active>

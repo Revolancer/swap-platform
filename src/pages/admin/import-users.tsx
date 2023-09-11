@@ -23,7 +23,7 @@ export default function ImportUsers() {
   return (
     <>
       <Title>Import Users</Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/import-users" active>

@@ -37,7 +37,7 @@ export default function Settings() {
   return (
     <>
       <Title>Tags</Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/tags" active>

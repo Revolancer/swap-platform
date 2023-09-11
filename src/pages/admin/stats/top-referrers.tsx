@@ -26,7 +26,7 @@ export default function TopReferrers() {
   return (
     <>
       <Title>Stats</Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin', 'moderator', 'stats_viewer']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/stats">Stats</Crumb>
