@@ -7,7 +7,7 @@ import { AuthGuard } from '../navigation/guards/authguard';
 import { MainNav } from '../navigation/main/main-nav';
 import { contract } from '../navigation/main/nav-toggle';
 import { OnboardingGuard } from '../navigation/guards/onboardingguard';
-import { AdminGuard } from '../navigation/guards/adminguard';
+import { RoleGuard } from '../navigation/guards/roleguard';
 import { NagbarManager } from '../nagbars/nagbar-manager';
 import { ColumnLayout, FullWidth, Flex } from '@revolancer/ui/layout';
 
@@ -110,9 +110,10 @@ export const PrimaryLayout = ({
 };
 
 export const AdminLayout = ({
+  roles = ['admin'],
   children = <></>,
 }: {
-  unguarded?: boolean;
+  roles?: string[];
   children?: ReactNode;
 }) => {
   const expanded = useSelector(
@@ -131,7 +132,7 @@ export const AdminLayout = ({
         <MainGridInner expanded={expanded}>
           <ColumnLayout>
             <AuthGuard>
-              <AdminGuard>{children}</AdminGuard>
+              <RoleGuard roles={roles}>{children}</RoleGuard>
             </AuthGuard>
           </ColumnLayout>
         </MainGridInner>

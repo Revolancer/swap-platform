@@ -2,19 +2,19 @@ import { useAppSelector } from '@/redux/store';
 import { useEffect, useState } from 'react';
 import { FullWidth } from '@revolancer/ui/layout';
 
-export const AdminGuard = ({
+export const RoleGuard = ({
+  roles = ['admin'],
   children,
 }: {
-  redirectTo?: string;
-  redirectIfAuthed?: boolean;
+  roles?: string[];
   children?: any;
 }) => {
   const [didMount, setDidMount] = useState(false);
   useEffect(() => {
     setDidMount(true);
   }, []);
-  const admin = useAppSelector(
-    (state) => state.userData.user?.roles?.includes('admin') ?? false,
+  const admin = useAppSelector((state) =>
+    roles.some((role) => state.userData.user?.roles?.includes(role) ?? false),
   );
   if (!didMount) {
     return <FullWidth placeholder />;
