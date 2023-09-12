@@ -202,7 +202,7 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
         label="User Management"
         icon={faUsers}
         expanded={expanded}
-        href="#"
+        href="/admin/users"
       />
       <Navigable
         label="Support"
