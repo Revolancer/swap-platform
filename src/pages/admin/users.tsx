@@ -15,7 +15,7 @@ export default function Stats() {
 
   const load = async () => {
     await axiosPrivate
-      .get('admin/users')
+      .get('admin/users/all')
       .then((response) => setUsers(response.data ?? []))
       .catch((err) => {});
   };
