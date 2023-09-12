@@ -26,6 +26,7 @@ import {
   SideBar,
 } from '@revolancer/ui/layout';
 import { H1 } from '@revolancer/ui/text';
+import { Name } from '@/components/user/name';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -105,11 +106,7 @@ export default function UserProfile() {
               }}
             >
               <ProfileImage uid={userProfile?.user?.id ?? ''} own={own} />
-              <H1 css={{ fontSize: '$h4', lineHeight: '$h4' }}>
-                {userProfile?.first_name
-                  ? `${userProfile?.first_name} ${userProfile?.last_name}`
-                  : 'User Profile'}
-              </H1>
+              <Name uid={userProfile?.user?.id ?? ''} own={own} />
               {!own && userProfile?.user?.id && (
                 <Button
                   role="secondary"
