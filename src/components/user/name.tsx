@@ -83,13 +83,13 @@ export const Name = ({
             .post('user/name', values)
             .then(async (response) => {
               if (response.data?.success == 'false') {
-                setFirstName(values.first_name);
-                setLastName(values.last_name);
                 actions.setFieldError(
                   'last_name',
                   'Oops, something went wrong',
                 );
               } else {
+                setFirstName(values.first_name);
+                setLastName(values.last_name);
                 await axiosPublic.storage.remove(`user-name-${uid}`);
                 toggleEdit();
               }
@@ -118,25 +118,6 @@ export const Name = ({
           return (
             <Form onSubmit={props.handleSubmit} css={{ gap: '$3' }}>
               <InputOuter
-                error={props.touched.last_name && !!props.errors.last_name}
-              >
-                <InputInner
-                  type="text"
-                  name="last_name"
-                  id="last_name"
-                  minLength={2}
-                  maxLength={35}
-                  placeholder="Last Name"
-                  aria-label="Last Name"
-                  onChange={props.handleChange}
-                  onBlur={props.handleBlur}
-                  value={props.values.last_name}
-                />
-              </InputOuter>
-              {props.touched.last_name && props.errors.last_name && (
-                <Feedback state="error">{props.errors.last_name}</Feedback>
-              )}
-              <InputOuter
                 error={props.touched.first_name && !!props.errors.first_name}
               >
                 <InputInner
@@ -154,6 +135,25 @@ export const Name = ({
               </InputOuter>
               {props.touched.first_name && props.errors.first_name && (
                 <Feedback state="error">{props.errors.first_name}</Feedback>
+              )}
+              <InputOuter
+                error={props.touched.last_name && !!props.errors.last_name}
+              >
+                <InputInner
+                  type="text"
+                  name="last_name"
+                  id="last_name"
+                  minLength={2}
+                  maxLength={35}
+                  placeholder="Last Name"
+                  aria-label="Last Name"
+                  onChange={props.handleChange}
+                  onBlur={props.handleBlur}
+                  value={props.values.last_name}
+                />
+              </InputOuter>
+              {props.touched.last_name && props.errors.last_name && (
+                <Feedback state="error">{props.errors.last_name}</Feedback>
               )}
               <Flex css={{ flexDirection: 'row-reverse' }}>
                 <Button

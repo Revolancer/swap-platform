@@ -75,7 +75,7 @@ export default function UserProfile() {
       }
     };
     getUserProfileData();
-  }, [slug, userProfile?.user?.id]);
+  }, [slug, userProfile?.user?.id, router]);
   if (isNotFound) {
     return <FourOhFour />;
   }
