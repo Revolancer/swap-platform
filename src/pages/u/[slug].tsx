@@ -43,6 +43,9 @@ export default function UserProfile() {
           .then((res) => {
             if ((res?.data ?? null) != null) {
               setUserProfile(res.data);
+              if (res.data?.slug) {
+                router.replace(`/u/${res.data.slug}`);
+              }
             }
           })
           .catch((err) => {
