@@ -37,7 +37,7 @@ export default function Team() {
   return (
     <>
       <Title>Team</Title>
-      <AdminLayout roles={['admin', 'moderator']}>
+      <AdminLayout roles={['admin']}>
         <CrumbBar>
           <Crumb href="/admin">Admin</Crumb>
           <Crumb href="/admin/team" active>
@@ -73,7 +73,7 @@ export default function Team() {
                     <TD>{u.role}</TD>
                     <TD>
                       <Flex css={{ alignItems: 'center' }}>
-                        <Button href="#" role="secondary">
+                        <Button href={`/admin/users/${u.id}`} role="secondary">
                           Edit User
                         </Button>
                         <Button href={`/u/${u.slug}`} role="secondary">
