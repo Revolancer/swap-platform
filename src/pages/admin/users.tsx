@@ -1,37 +1,216 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import { useCallback, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Button, Link } from '@revolancer/ui/buttons';
 import { DateTime } from 'luxon';
-import { H1, H5, Span } from '@revolancer/ui/text';
+import { H3, H5, P, Span } from '@revolancer/ui/text';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
-import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { DataTable, TD, TH, TR } from '@revolancer/ui/project-hubs';
 import { useRouter } from 'next/router';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus, faPlus } from '@fortawesome/free-solid-svg-icons';
-import { InputInner, InputOuter } from '@revolancer/ui/forms';
+import {
+  faAngleLeft,
+  faAngleRight,
+  faSearch,
+} from '@fortawesome/free-solid-svg-icons';
+import {
+  InputInner,
+  InputOuter,
+  SelectGroup,
+  SelectItem,
+  Select,
+} from '@revolancer/ui/forms';
 import { Form, Formik } from 'formik';
+import { Checkbox } from '@/components/forms/checkbox';
+import { RoundedSquareImage } from '@revolancer/ui/user';
+import { ChangeRoleModal } from '@/components/modals/change-role-modal';
+import { DeleteAccountModal } from '@/components/modals/delete-account-modal';
 
 type SortByColumn = 'created_at' | 'first_name' | 'last_name' | 'slug';
 type Order = 'ASC' | 'DESC';
+type UserFilter = 'all' | 'admin' | 'moderator' | 'viewer' | 'user';
+interface User {
+  id: string;
+  first_name: string;
+  last_name: string;
+  slug: string;
+  roles: string[];
+  profile_image: string;
+  created_at: string;
+  selected: boolean;
+  user: any;
+}
 
-export default function Stats() {
-  const [users, setUsers] = useState<
-    {
-      id: string;
-      first_name: string;
-      last_name: string;
-      slug: string;
-      roles: string[];
-      profile_image: string;
-      created_at: string;
-    }[]
-  >([]);
+const getInitialSortColumn = (
+  column: SortByColumn,
+  order: Order,
+): '0' | '1' | '2' | '3' => {
+  if (column == 'created_at' && order == 'DESC') return '0';
+  else if (column == 'created_at' && order == 'ASC') return '1';
+  else if (column == 'first_name' && order == 'ASC') return '2';
+  else if (column == 'first_name' && order == 'DESC') return '3';
+  else return '0';
+};
+
+function UserTable({
+  users,
+  allSelected,
+  userFilter,
+  toggleAllSelected,
+  setUsers,
+}: {
+  users: User[];
+  allSelected: boolean;
+  toggleAllSelected: () => void;
+  setUsers: Dispatch<SetStateAction<User[]>>;
+  userFilter: UserFilter;
+}) {
+  return (
+    <DataTable
+      renderHeadRow={() => (
+        <TR>
+          <TH>
+            <Checkbox
+              id="checked"
+              name="checked"
+              checked={allSelected}
+              onChange={(value: boolean) => {
+                toggleAllSelected();
+                setUsers((prev) => {
+                  let newUsers = [];
+                  for (let u of prev) {
+                    u.selected = value;
+                    newUsers.push(u);
+                  }
+                  return newUsers;
+                });
+              }}
+            >
+              {''}
+            </Checkbox>
+          </TH>
+          <TH>
+            <H5>User</H5>
+          </TH>
+          <TH>
+            <H5>Email</H5>
+          </TH>
+          <TH>
+            <H5>Role</H5>
+          </TH>
+          <TH>
+            <H5></H5>
+          </TH>
+        </TR>
+      )}
+      renderBodyRows={() =>
+        users
+          .filter(
+            (user) => userFilter == 'all' || user.roles?.includes(userFilter),
+          )
+          .map((user) => (
+            <TR key={user.id}>
+              <TD>
+                <Checkbox
+                  name="checked"
+                  id={user.id}
+                  checked={user.selected}
+                  onChange={(value: boolean) => {
+                    setUsers((prev) => {
+                      return prev.map((u) => {
+                        if (u.id == user.id) return { ...u, selected: value };
+                        else return u;
+                      });
+                    });
+                  }}
+                >
+                  {''}
+                </Checkbox>
+              </TD>
+              <TD>
+                <Flex css={{ alignItems: 'center' }}>
+                  <RoundedSquareImage size="small" url={user.profile_image} />
+                  {user.first_name + ' ' + user.last_name}
+                </Flex>
+              </TD>
+              <TD>{user.user?.email}</TD>
+              <TD>
+                {user.roles && user.roles.length ? (
+                  user.roles?.join(', ')
+                ) : (
+                  <Span css={{ color: '$neutral500' }}>No roles</Span>
+                )}
+              </TD>
+              <TD>
+                <Flex>
+                  <Button href="#" role={'secondary'}>
+                    Edit
+                  </Button>
+                  <Button
+                    href={`/u/${user.slug}`}
+                    target="_blank"
+                    role={'secondary'}
+                  >
+                    View Profile
+                  </Button>
+                </Flex>
+              </TD>
+            </TR>
+          ))
+      }
+    />
+  );
+}
+
+function RoleSelector({
+  onSubmit,
+  roles,
+}: {
+  onSubmit: (role: string) => void;
+  roles: string[];
+}) {
+  return (
+    <Formik
+      initialValues={{ role: roles[0] }}
+      onSubmit={(values, actions) => {
+        onSubmit(values.role);
+      }}
+    >
+      {(props) => (
+        <Form onChange={props.submitForm}>
+          <Select name="role" placeholder="Roles">
+            <SelectGroup id="role">
+              {roles.map((role) => (
+                <SelectItem key={role} id={role} value={role}>
+                  {role}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </Select>
+        </Form>
+      )}
+    </Formik>
+  );
+}
+
+export default function UserManagement() {
+  const [users, setUsers] = useState<User[]>([]);
+  const [allSelected, setAllSelected] = useState(false);
+  const [userFilter, setUserFilter] = useState<UserFilter>('all');
+  const [openRoleModal, setOpenRoleModal] = useState(false);
+  const [openDeleteModal, setOpenDeleteModal] = useState(false);
 
   const router = useRouter();
+
   const { page, sortBy, order } = router.query;
+
   const [userPage, setUserPage] = useState(
     Number.isNaN(Number(page)) ? 1 : Number(page),
   );
@@ -39,6 +218,7 @@ export default function Stats() {
     (sortBy as SortByColumn) || 'created_at',
   );
   const [ord, setOrd] = useState<Order>((order as Order) || 'ASC');
+
   const load = useCallback(async () => {
     await axiosPrivate
       .get(`admin/users?page=${userPage}&sortBy=${sortby}&order=${ord}`)
@@ -51,64 +231,190 @@ export default function Stats() {
     if (sortBy) setSortby(sortBy as SortByColumn);
     if (order) setOrd(order as Order);
     load();
-  }, [page, sortBy, order, load]);
+  }, [page, sortBy, order, load, userFilter]);
 
   return (
     <>
       <Title>Users</Title>
       <AdminLayout roles={['admin', 'moderator']}>
-        <CrumbBar>
-          <Crumb href="/admin">Admin</Crumb>
-          <Crumb href="/admin/users" active>
-            List of Users
-          </Crumb>
-        </CrumbBar>
-        <FullWidth>
-          <H1>All Users</H1>
-          <Flex
-            wrap
-            css={{
-              padding: '$3',
-              gap: '$5',
-            }}
-          >
-            <Formik
-              initialValues={{ searchText: '' }}
-              onSubmit={(values, actions) => {}}
+        <FullWidth css={{ padding: '$5' }}>
+          <FullWidth>
+            <H3>User Management</H3>
+          </FullWidth>
+          <FullWidth>
+            <H5>USERS</H5>
+            <P>
+              View & Manage your users. To search for multiple users separate
+              their usernames by a comma.{' '}
+            </P>
+            <Flex
+              css={{
+                width: '100%',
+                padding: '$3',
+                gap: '$5',
+              }}
             >
-              {(props) => (
-                <Form>
-                  <Flex
-                    css={{ justifyContent: 'center', alignItems: 'center' }}
-                  >
-                    <label htmlFor="searchText">Search: </label>
-                    <InputOuter>
-                      <InputInner
-                        type="text"
-                        name="searchText"
-                        id="searchText"
-                        placeholder="Search for an user"
-                        onBlur={props.handleBlur}
-                      />
-                    </InputOuter>
-                  </Flex>
-                </Form>
-              )}
-            </Formik>
-            <Flex css={{ justifyContent: 'center', alignItems: 'center' }}>
-              <label htmlFor="searchText">Page: </label>
-
-              <Flex
-                css={{
-                  border: '1px solid $neutral500',
-                  borderRadius: '$1',
-                  padding: '$1',
-                  justifyContent: 'center',
-                  alignItems: 'center',
+              <Formik
+                initialValues={{ searchText: '' }}
+                onSubmit={(values, actions) => {}}
+              >
+                {(props) => (
+                  <Form style={{ width: '65%' }}>
+                    <Flex
+                      css={{
+                        justifyContent: 'center',
+                        alignItems: 'center',
+                        width: '100%',
+                      }}
+                    >
+                      <InputOuter css={{ width: '100%' }}>
+                        <FontAwesomeIcon
+                          icon={faSearch}
+                          style={{ marginRight: '5px' }}
+                        />
+                        <InputInner
+                          type="text"
+                          name="searchText"
+                          id="searchText"
+                          placeholder="Search"
+                          onBlur={props.handleBlur}
+                          onChange={props.handleChange}
+                        />
+                      </InputOuter>
+                    </Flex>
+                  </Form>
+                )}
+              </Formik>
+              <Button
+                href="#"
+                role="secondary"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenRoleModal(true);
                 }}
               >
+                Change role
+              </Button>
+              <Button
+                href="#"
+                role="dangerous"
+                onClick={(e) => {
+                  e.preventDefault();
+                  setOpenDeleteModal(true);
+                }}
+              >
+                Delete
+              </Button>
+            </Flex>
+            <Flex
+              css={{
+                width: '100%',
+                padding: '$3',
+                gap: '$5',
+              }}
+            >
+              <Formik
+                initialValues={{ sortBy: getInitialSortColumn(sortby, ord) }}
+                onSubmit={(values, actions) => {
+                  switch (values.sortBy) {
+                    case '0':
+                      router.push({
+                        pathname: '/admin/users',
+                        query: {
+                          page: userPage,
+                          sortBy: 'created_at',
+                          order: 'DESC',
+                        },
+                      });
+                      setOrd('DESC');
+                      setSortby('created_at');
+                      break;
+                    case '1':
+                      router.push({
+                        pathname: '/admin/users',
+                        query: {
+                          page: userPage,
+                          sortBy: 'created_at',
+                          order: 'ASC',
+                        },
+                      });
+                      setOrd('ASC');
+                      setSortby('created_at');
+                      break;
+                    case '2':
+                      router.push({
+                        pathname: '/admin/users',
+                        query: {
+                          page: userPage,
+                          sortBy: 'first_name',
+                          order: 'ASC',
+                        },
+                      });
+                      setOrd('ASC');
+                      setSortby('first_name');
+                      break;
+                    case '3':
+                      router.push({
+                        pathname: '/admin/users',
+                        query: {
+                          page: userPage,
+                          sortBy: 'first_name',
+                          order: 'DESC',
+                        },
+                      });
+                      setOrd('DESC');
+                      setSortby('first_name');
+                      break;
+                    default:
+                      router.push({
+                        pathname: '/admin/users',
+                        query: {
+                          page: userPage,
+                          sortBy: 'created_at',
+                          order: 'ASC',
+                        },
+                      });
+                      setOrd('DESC');
+                      setSortby('first_name');
+                  }
+                }}
+              >
+                {(props) => (
+                  <Form onChange={props.submitForm}>
+                    <Select name="sortBy" placeholder="Order">
+                      <SelectGroup id="sortBy">
+                        <SelectItem id="0" value="0">
+                          Newest First
+                        </SelectItem>
+                        <SelectItem id="1" value="1">
+                          Oldest First
+                        </SelectItem>
+                        <SelectItem id="2" value="2">
+                          Alphabetically A-Z
+                        </SelectItem>
+                        <SelectItem id="3" value="3">
+                          Alphabetically Z-A
+                        </SelectItem>
+                      </SelectGroup>
+                    </Select>
+                  </Form>
+                )}
+              </Formik>
+              <RoleSelector
+                roles={['all', 'admin', 'moderator', 'viewer', 'user']}
+                onSubmit={(role) => setUserFilter(role as UserFilter)}
+              />
+              <Flex
+                css={{
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                  marginLeft: 'auto',
+                  color: '$neutral700',
+                }}
+              >
+                <Span>page {userPage}</Span>
                 <FontAwesomeIcon
-                  icon={faMinus}
+                  icon={faAngleLeft}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     router.push({
@@ -122,9 +428,8 @@ export default function Stats() {
                     setUserPage(userPage - 1);
                   }}
                 />
-                <Span>{userPage}</Span>
                 <FontAwesomeIcon
-                  icon={faPlus}
+                  icon={faAngleRight}
                   style={{ cursor: 'pointer' }}
                   onClick={() => {
                     router.push({
@@ -140,104 +445,37 @@ export default function Stats() {
                 />
               </Flex>
             </Flex>
-            <Flex css={{ justifyContent: 'center', alignItems: 'center' }}>
-              <label htmlFor="searchText">Column: </label>
-
-              <select
-                defaultValue={'created_at'}
-                value={sortby}
-                name="sortBy"
-                placeholder="Select a property to sort by"
-                onChange={(e) => {
-                  router.push({
-                    pathname: '/admin/users',
-                    query: {
-                      page: userPage,
-                      sortBy: e.target.value,
-                      order: ord,
-                    },
-                  });
-                  setSortby(e.target.value as SortByColumn);
-                }}
-              >
-                <option value="created_at">created_at</option>
-                <option value="first_name">first_name</option>
-                <option value="last_name">last_name</option>
-                <option value="slug">profile slug</option>
-              </select>
-            </Flex>
-            <Flex css={{ justifyContent: 'center', alignItems: 'center' }}>
-              <label htmlFor="searchText">Order: </label>
-              <select
-                defaultValue={'ASC'}
-                value={ord}
-                name="order"
-                placeholder="Select the order"
-                onChange={(e) => {
-                  router.push({
-                    pathname: '/admin/users',
-                    query: {
-                      page: userPage,
-                      sortBy: sortby,
-                      order: e.target.value,
-                    },
-                  });
-                  setOrd(e.target.value as Order);
-                }}
-              >
-                <option value="ASC">ASC</option>
-                <option value="DESC">DESC</option>
-              </select>
-            </Flex>
-          </Flex>
-          <DataTable
-            renderHeadRow={() => (
-              <TR>
-                <TH>
-                  <H5>Name</H5>
-                </TH>
-                <TH>
-                  <H5>Created At</H5>
-                </TH>
-                <TH>
-                  <H5>Roles</H5>
-                </TH>
-                <TH>
-                  <H5>Action</H5>
-                </TH>
-              </TR>
-            )}
-            renderBodyRows={() =>
-              users.map((user) => (
-                <TR key={user.id}>
-                  <TD>
-                    <Link href={`/u/${user.slug}`} target="_blank">
-                      {user.first_name + ' ' + user.last_name}
-                    </Link>
-                  </TD>
-                  <TD>{DateTime.fromISO(user.created_at).toFormat('DDD t')}</TD>
-                  <TD>
-                    {user.roles && user.roles.length ? (
-                      user.roles?.join(', ')
-                    ) : (
-                      <Span css={{ color: '$neutral500' }}>No roles</Span>
-                    )}
-                  </TD>
-                  <TD>
-                    <Flex>
-                      <Button href="#" role={'primary'}>
-                        Edit
-                      </Button>
-                      <Button href="#" role={'primary'}>
-                        Delete
-                      </Button>
-                    </Flex>
-                  </TD>
-                </TR>
-              ))
-            }
+          </FullWidth>
+          <UserTable
+            users={users}
+            setUsers={setUsers}
+            allSelected={allSelected}
+            toggleAllSelected={() => setAllSelected(!allSelected)}
+            userFilter={userFilter}
           />
         </FullWidth>
+        <ChangeRoleModal
+          modalIsOpen={openRoleModal}
+          closeModal={() => setOpenRoleModal(false)}
+          onSave={() => {}}
+          selectedUsers={users
+            .filter((u) => u.selected)
+            .map((u) => u.first_name + ' ' + u.last_name)}
+          RoleChangerComponent={
+            <RoleSelector
+              roles={['admin', 'moderator', 'viewer', 'user']}
+              onSubmit={(role) => {}}
+            />
+          }
+        />
+        <DeleteAccountModal
+          onDelete={() => {}}
+          modalIsOpen={openDeleteModal}
+          closeModal={() => setOpenDeleteModal(false)}
+          selectedUsers={users
+            .filter((u) => u.selected)
+            .map((u) => u.first_name + ' ' + u.last_name)}
+        />
       </AdminLayout>
     </>
   );
