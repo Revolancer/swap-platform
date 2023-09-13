@@ -16,8 +16,6 @@ import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 import { stringToJSX } from '@/lib/editorjs/renderer/util';
-import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { endLoad, startLoad } from '@/lib/loading';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 
 export const PortfolioProfileCard = ({
@@ -33,16 +31,13 @@ export const PortfolioProfileCard = ({
   withAuthor?: boolean;
   hideIfEmpty?: boolean;
 }) => {
-  const loading = useAppSelector((state) => state.loading.toggle.loading);
   const [firstImage, setFirstImage] = useState<string>();
   const [imageUnoptimised, setImageUnoptimised] = useState(false);
   const [hasContent, setHasContent] = useState(false);
-  //const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [summary, setSummary] = useState('');
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(startLoad());
     const cleanData = () => {
       try {
         return JSON.parse(data?.data ?? '{}')?.version ?? false
@@ -126,9 +121,8 @@ export const PortfolioProfileCard = ({
       return summary;
     };
     setSummary(getSummary(cleanData()));
-    //setLoading(false);
-    dispatch(endLoad());
-  }, [data, placeholder, dispatch]);
+    setLoading(false);
+  }, [data, placeholder]);
 
   const PostImageContainer = styled('div', {
     backgroundColor: '$neutral300',
@@ -165,7 +159,14 @@ export const PortfolioProfileCard = ({
             type="p"
           />
           <Flex css={{ alignItems: 'center' }}>
-            <RoundedSquareImage loading size="medium" />
+            {/*<RoundedSquareImage loading size="small" />*/}
+            <SkeletonText
+              css={{
+                width: '$9',
+                height: '$9',
+                borderRadius: '$2',
+              }}
+            />
             <SkeletonText type="p" />
           </Flex>
           <Flex>
