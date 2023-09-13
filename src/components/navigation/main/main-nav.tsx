@@ -196,7 +196,7 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
         label="Team Management"
         icon={faUserShield}
         expanded={expanded}
-        href="#"
+        href="/admin/team"
       />
       <Navigable
         label="User Management"
