@@ -10,7 +10,7 @@ import {
 } from 'react';
 import { Button, Link } from '@revolancer/ui/buttons';
 import { DateTime } from 'luxon';
-import { H3, H5, P, Span } from '@revolancer/ui/text';
+import { H1, H2, H3, H5, P, Span } from '@revolancer/ui/text';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
 import { DataTable, TD, TH, TR } from '@revolancer/ui/project-hubs';
 import { useRouter } from 'next/router';
@@ -32,6 +32,7 @@ import { Checkbox } from '@/components/forms/checkbox';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import { ChangeRoleModal } from '@/components/modals/change-role-modal';
 import { DeleteAccountModal } from '@/components/modals/delete-account-modal';
+import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 
 type SortByColumn = 'created_at' | 'first_name' | 'last_name' | 'slug';
 type Order = 'ASC' | 'DESC';
@@ -76,7 +77,7 @@ function UserTable({
     <DataTable
       renderHeadRow={() => (
         <TR>
-          <TH>
+          <TH css={{ width: '1%' }}>
             <Checkbox
               id="checked"
               name="checked"
@@ -105,9 +106,7 @@ function UserTable({
           <TH>
             <H5>Role</H5>
           </TH>
-          <TH>
-            <H5></H5>
-          </TH>
+          <TH css={{ width: '1%' }}></TH>
         </TR>
       )}
       renderBodyRows={() =>
@@ -150,8 +149,8 @@ function UserTable({
               </TD>
               <TD>
                 <Flex>
-                  <Button href="#" role={'secondary'}>
-                    Edit
+                  <Button href={`/admin/users/${user.id}`} role={'secondary'}>
+                    Edit User
                   </Button>
                   <Button
                     href={`/u/${user.slug}`}
@@ -237,9 +236,15 @@ export default function UserManagement() {
     <>
       <Title>Users</Title>
       <AdminLayout roles={['admin', 'moderator']}>
+        <CrumbBar>
+          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="/admin/users" active>
+            User Management
+          </Crumb>
+        </CrumbBar>
         <FullWidth css={{ padding: '$5' }}>
           <FullWidth>
-            <H3>User Management</H3>
+            <H2>User Management</H2>
           </FullWidth>
           <FullWidth>
             <H5>USERS</H5>
