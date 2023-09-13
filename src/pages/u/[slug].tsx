@@ -29,6 +29,7 @@ import { H1, P } from '@revolancer/ui/text';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { Name } from '@/components/user/name';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -47,6 +48,9 @@ export default function UserProfile() {
           .then((res) => {
             if ((res?.data ?? null) != null) {
               setUserProfile(res.data);
+              if (res.data?.slug) {
+                router.replace(`/u/${res.data.slug}`);
+              }
             }
           })
           .catch((err) => {
@@ -76,8 +80,7 @@ export default function UserProfile() {
       setLoading(false);
     };
     getUserProfileData();
-  }, [slug, userProfile?.user?.id]);
-
+  }, [slug, userProfile?.user?.id, router]);
   if (isNotFound) {
     return <FourOhFour />;
   }
@@ -214,22 +217,14 @@ export default function UserProfile() {
             }}
           >
             <ProfileImage uid={userProfile?.user?.id ?? ''} own={own} />
-            <H1 css={{ fontSize: '$h4', lineHeight: '$h4' }}>
-              {userProfile?.first_name
-                ? `${userProfile?.first_name} ${userProfile?.last_name}`
-                : 'User Profile'}
-            </H1>
+            <Name uid={userProfile?.user?.id ?? ''} own={own} />
             {!own && userProfile?.user?.id && (
               <Button role="secondary" href={`/message/${userProfile.user.id}`}>
                 <FontAwesomeIcon icon={faMessage} /> Message
               </Button>
             )}
           </Flex>
-          <AboutSegment
-            uid={userProfile?.user?.id ?? ''}
-            own={own}
-            loading={loading}
-          />
+          <AboutSegment uid={userProfile?.user?.id ?? ''} own={own} />
           <Timezone uid={userProfile?.user?.id ?? ''} own={own} />
           <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
           <SkillSegment uid={userProfile?.user?.id ?? ''} own={own} />
