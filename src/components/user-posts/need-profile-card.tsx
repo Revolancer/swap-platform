@@ -7,10 +7,10 @@ import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
 import { useRouter } from 'next/router';
 import { ConfirmationDialog } from '../navigation/confirmation-dialog';
-import { styled } from '@revolancer/ui';
 import { ProposalDialogWrap } from '../need/proposal-dialog-wrap';
 import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
+import { NeedsSkeleton } from '../skeletons/needs-profile-card';
 
 export const NeedProfileCard = ({
   data,
@@ -87,19 +87,8 @@ export const NeedProfileCard = ({
     }
   };
 
-  const PostImageContainer = styled('div', {
-    backgroundColor: '$neutral300',
-    overflow: 'hidden',
-    width: `100%`,
-    height: `200px`,
-  });
-
   if (loading && !placeholder) {
-    return (
-      <Card unpadded>
-        <PostImageContainer />
-      </Card>
-    );
+    return <NeedsSkeleton />;
   }
 
   return (

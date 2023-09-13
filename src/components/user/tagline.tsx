@@ -8,6 +8,7 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Flex } from '@revolancer/ui/layout';
 import { Form, InputInner, InputOuter, Feedback } from '@revolancer/ui/forms';
 import { H2 } from '@revolancer/ui/text';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 const UpdateTaglineSchema = Yup.object().shape({
   tagline: Yup.string().optional().ensure(),
@@ -16,9 +17,11 @@ const UpdateTaglineSchema = Yup.object().shape({
 export const Tagline = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [tagline, setTagline] = useState('');
@@ -41,14 +44,12 @@ export const Tagline = ({
     }
   }, [uid, loadTagline]);
 
-  const placeholder = () => {
-    return own && tagline == '';
-  };
+  const placeholder = own && tagline == '';
 
   const StaticTagline = () => {
     return (
-      <H2 css={{ color: `${placeholder() ? '$neutral600' : '$neutral800'}` }}>
-        {placeholder() ? 'Add a tagline' : tagline}{' '}
+      <H2 css={{ color: `${placeholder ? '$neutral600' : '$neutral800'}` }}>
+        {placeholder ? 'Add a tagline' : tagline}{' '}
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
@@ -144,6 +145,8 @@ export const Tagline = ({
       </Formik>
     );
   };
+
+  if (loading) return <SkeletonText type="h2" />;
 
   return (
     <>

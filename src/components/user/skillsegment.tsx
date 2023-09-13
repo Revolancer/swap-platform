@@ -11,13 +11,16 @@ import { Button } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { Form } from '@revolancer/ui/forms';
+import { SkillSkeleton } from '../skeletons/skillsegment';
 
 export const SkillSegment = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
@@ -118,6 +121,8 @@ export const SkillSegment = ({
       </Formik>
     );
   };
+
+  if (loading) return <SkillSkeleton />;
 
   return (
     <>

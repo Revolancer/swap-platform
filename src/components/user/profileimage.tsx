@@ -10,6 +10,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPencil } from '@fortawesome/free-solid-svg-icons';
 import { Flex } from '@revolancer/ui/layout';
 import { Form } from '@revolancer/ui/forms';
+import { RoundedSquareImage } from '@revolancer/ui/user';
 
 const UpdateImageSchema = Yup.object().shape({
   profileImage: Yup.string()
@@ -20,9 +21,11 @@ const UpdateImageSchema = Yup.object().shape({
 export const ProfileImage = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [url, setUrl] = useState('');
@@ -56,6 +59,8 @@ export const ProfileImage = ({
   const ProfileImage = styled(Image, {
     objectFit: 'cover',
   });
+
+  if (loading) return <RoundedSquareImage loading size="xl" />;
 
   const StaticImage = () => {
     return (

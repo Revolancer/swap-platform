@@ -22,6 +22,7 @@ import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { Form, InputInner, InputOuter } from '@revolancer/ui/forms';
+import { SocialsSkeleton } from '../skeletons/socialsegment';
 
 const UpdateSocialSchema = Yup.object().shape({
   socials: Yup.array()
@@ -46,9 +47,11 @@ const SocialIconLink: OptFn<(ir: IntermediateRepresentation) => any> = ({
 export const SocialSegment = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [socials, setSocials] = useState([]);
@@ -327,6 +330,8 @@ export const SocialSegment = ({
       </Formik>
     );
   };
+
+  if (loading) return <SocialsSkeleton />;
 
   return (
     <>

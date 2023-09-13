@@ -179,6 +179,7 @@ export const AboutSegment = ({
           .map((item, idx) => (
             <SkeletonText type="p" key={`p-${idx}`} css={{ marginTop: '$2' }} />
           ))}
+        <SkeletonText type="p" css={{ width: '25%', marginTop: '$2' }} />
       </>
     );
   }

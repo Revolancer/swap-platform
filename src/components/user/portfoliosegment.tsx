@@ -6,6 +6,8 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Button } from '@revolancer/ui/buttons';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { H5, P } from '@revolancer/ui/text';
+import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const PortfolioSegment = ({
   name = '',
@@ -43,7 +45,15 @@ export const PortfolioSegment = ({
     );
   }
 
-  if (loading) return <></>;
+  if (loading)
+    return (
+      <Flex column gap={4}>
+        <SkeletonText type="h5" />
+        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
+          <Masonry gutter="0.8rem">{skeletonPortfoliosArray}</Masonry>
+        </ResponsiveMasonry>
+      </Flex>
+    );
 
   return own || staticPosts.length > 0 ? (
     <Flex column gap={4}>

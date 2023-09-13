@@ -13,7 +13,7 @@ import { PortfolioSegment } from '@/components/user/portfoliosegment';
 import store from '@/redux/store';
 import { NeedsSegment } from '@/components/user/needssegment';
 import FourOhFour from '../404';
-import { Button } from '@revolancer/ui/buttons';
+import { Button, FormButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { ProfileProgress } from '@/components/collapsible/profile-progress';
@@ -25,11 +25,16 @@ import {
   MainContentWithSideBar,
   SideBar,
 } from '@revolancer/ui/layout';
-import { H1, P } from '@revolancer/ui/text';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 import { RoundedSquareImage } from '@revolancer/ui/user';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Name } from '@/components/user/name';
+import { skeletonPortfoliosArray } from '@/components/skeletons/portfolio-profile-card';
+import { AboutSkeleton } from '@/components/skeletons/aboutsegment';
+import { TimezoneSkeleton } from '@/components/skeletons/timezone';
+import { SocialsSkeleton } from '@/components/skeletons/socialsegment';
+import { SkillSkeleton } from '@/components/skeletons/skillsegment';
+import { skeletonNeedsArray } from '@/components/skeletons/needs-profile-card';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -85,47 +90,6 @@ export default function UserProfile() {
     return <FourOhFour />;
   }
 
-  const NeedsSkeleton = () => (
-    <Card unpadded>
-      <SkeletonText />
-      <Flex column gap={4} css={{ padding: '$6' }}>
-        <SkeletonText
-          css={{
-            fontWeight: '$bold',
-            fontSize: '$body1',
-            lineHeight: '$body1',
-          }}
-          type="p"
-        />
-        <Flex css={{ alignItems: 'center' }}>
-          {/*<RoundedSquareImage loading size="small" />*/}
-          <SkeletonText
-            css={{
-              width: '$9',
-              height: '$9',
-              borderRadius: '$2',
-            }}
-          />
-          <SkeletonText type="p" />
-        </Flex>
-        <Flex>
-          {Array(3)
-            .fill(null)
-            .map((item, idx) => (
-              <SkeletonText type="tag" key={`tag-${idx}`} />
-            ))}
-        </Flex>
-        {Array(3)
-          .fill(null)
-          .map((item, idx) => (
-            <SkeletonText type="p" key={`p-${idx}`} />
-          ))}
-      </Flex>
-    </Card>
-  );
-
-  const skeletonArray = Array(15).fill(<NeedsSkeleton />);
-
   const Skeleton = () => (
     <>
       <SideBar>
@@ -138,56 +102,17 @@ export default function UserProfile() {
             }}
           >
             <RoundedSquareImage loading size="xl" />
-            <SkeletonText type="h1" />
+            <SkeletonText type="h4" />
+            {!own && (
+              <FormButton role="secondary" loading>
+                <></>
+              </FormButton>
+            )}
           </Flex>
-          <Flex
-            style={{
-              justifyContent: 'flex-start',
-              width: '100%',
-            }}
-          >
-            <P css={{ color: '$neutral600' }}>About</P>
-          </Flex>
-          {Array(3)
-            .fill(null)
-            .map((item, idx) => (
-              <SkeletonText
-                type="p"
-                key={`p-${idx}`}
-                css={{ marginTop: '$2' }}
-              />
-            ))}
-          <SkeletonText type="p" css={{ width: '25%', marginTop: '$2' }} />
-          <Flex
-            style={{
-              justifyContent: 'flex-start',
-              width: '100%',
-            }}
-          >
-            <P css={{ color: '$neutral600' }}>Socials</P>
-          </Flex>
-          <Flex gap={4}>
-            {Array(4)
-              .fill(null)
-              .map((item, idx) => (
-                <RoundedSquareImage loading size="small" key={idx.toString()} />
-              ))}
-          </Flex>
-          <Flex
-            style={{
-              justifyContent: 'flex-start',
-              width: '100%',
-            }}
-          >
-            <P css={{ color: '$neutral600' }}>Skills</P>
-          </Flex>
-          <Flex>
-            {Array(4)
-              .fill(null)
-              .map((item, idx) => (
-                <SkeletonText type="tag" key={`tag-${idx}`} />
-              ))}
-          </Flex>
+          <AboutSkeleton />
+          <TimezoneSkeleton />
+          <SocialsSkeleton />
+          <SkillSkeleton />
         </Card>
       </SideBar>
       <MainContentWithSideBar>
@@ -196,7 +121,13 @@ export default function UserProfile() {
           <Flex column gap={4}>
             <SkeletonText type="h5" />
             <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
-              <Masonry gutter="0.8rem">{skeletonArray}</Masonry>
+              <Masonry gutter="0.8rem">{skeletonNeedsArray}</Masonry>
+            </ResponsiveMasonry>
+          </Flex>
+          <Flex column gap={4}>
+            <SkeletonText type="h5" />
+            <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
+              <Masonry gutter="0.8rem">{skeletonPortfoliosArray}</Masonry>
             </ResponsiveMasonry>
           </Flex>
         </Flex>
@@ -216,23 +147,51 @@ export default function UserProfile() {
               alignItems: 'center',
             }}
           >
-            <ProfileImage uid={userProfile?.user?.id ?? ''} own={own} />
+            <ProfileImage
+              uid={userProfile?.user?.id ?? ''}
+              own={own}
+              loading={loading}
+            />
             <Name uid={userProfile?.user?.id ?? ''} own={own} />
             {!own && userProfile?.user?.id && (
-              <Button role="secondary" href={`/message/${userProfile.user.id}`}>
+              <Button
+                role="secondary"
+                href={`/message/${userProfile.user.id}`}
+                loading={loading}
+              >
                 <FontAwesomeIcon icon={faMessage} /> Message
               </Button>
             )}
           </Flex>
-          <AboutSegment uid={userProfile?.user?.id ?? ''} own={own} />
-          <Timezone uid={userProfile?.user?.id ?? ''} own={own} />
-          <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
-          <SkillSegment uid={userProfile?.user?.id ?? ''} own={own} />
+          <AboutSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <Timezone
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <SocialSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <SkillSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
         </Card>
       </SideBar>
       <MainContentWithSideBar>
         <Flex column gap={8}>
-          <Tagline uid={userProfile?.user?.id ?? ''} own={own} />
+          <Tagline
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
           {own && <ProfileProgress />}
           <NeedsSegment
             name={userProfile?.first_name ?? ''}
