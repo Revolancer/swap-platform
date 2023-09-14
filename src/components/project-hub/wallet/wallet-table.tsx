@@ -4,7 +4,7 @@ import { axiosPrivate } from '@/lib/axios';
 import { DateTime } from 'luxon';
 import { P } from '@revolancer/ui/text';
 import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
-import { Div } from '@revolancer/ui/layout';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const WalletTable = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
@@ -22,7 +22,7 @@ export const WalletTable = () => {
 
   if (loading)
     return (
-      <Div
+      <SkeletonText
         css={{
           borderRadius: '$3',
           backgroundColor: '$neutral300',

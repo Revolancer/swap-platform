@@ -11,7 +11,7 @@ import {
 } from 'victory';
 import { DateTime } from 'luxon';
 import { config as styleConfig } from '@revolancer/ui';
-import { Div } from '@revolancer/ui/layout';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const WalletChart = () => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
@@ -29,7 +29,7 @@ export const WalletChart = () => {
 
   if (loading)
     return (
-      <Div
+      <SkeletonText
         css={{
           borderRadius: '$3',
           backgroundColor: '$neutral300',

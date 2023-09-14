@@ -5,7 +5,7 @@ import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
 import { P } from '@revolancer/ui/text';
 import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
-import { Div } from '@revolancer/ui/layout';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const CompletedProjectsTable = () => {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
@@ -23,7 +23,7 @@ export const CompletedProjectsTable = () => {
 
   if (loading)
     return (
-      <Div
+      <SkeletonText
         css={{
           borderRadius: '$3',
           backgroundColor: '$neutral300',
