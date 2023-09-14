@@ -15,6 +15,9 @@ import { Link } from '@revolancer/ui/buttons';
 import { MainContentWithSideBar, Divider, Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import { ThreadAuthorSkeleton } from '@/components/skeletons/current-thread-author';
+import { ThreadSkeleton } from '@/components/skeletons/current-thread';
+import { threadListSkeleton } from '@/components/skeletons/thread-list-entry';
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -23,6 +26,7 @@ export default function MessageCenter() {
     useState<UserProfileData>();
   const [activeThread, setActiveThread] = useState('');
   const [allMessageCount, setAllMessageCount] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -60,8 +64,78 @@ export default function MessageCenter() {
         loadProfile(id[0] ?? '');
       } catch (err) {}
     }
+    setLoading(false);
   }, [id]);
   console.log(typeof activeThreadProfile);
+
+  const Skeleton = () => (
+    <>
+      <MessageSideBar className="hello" hasThread={activeThread != ''}>
+        {threadListSkeleton()}
+      </MessageSideBar>
+      <MainContentWithSideBar>
+        <Flex column css={{ maxHeight: 'max(400px, 85dvh)', height: '100vh' }}>
+          <Flex css={{ alignItems: 'center' }}>
+            <ThreadAuthorSkeleton />
+          </Flex>
+          <Divider css={{ flexGrow: 0 }} />
+          <ThreadSkeleton />
+        </Flex>
+      </MainContentWithSideBar>
+    </>
+  );
+
+  const MainContent = () => (
+    <>
+      <MessageSideBar className="hello" hasThread={activeThread != ''}>
+        <ThreadList activeThread={activeThread} loading={loading} />
+      </MessageSideBar>
+      <MainContentWithSideBar>
+        {activeThreadProfile && (
+          <Flex
+            column
+            css={{ maxHeight: 'max(400px, 85dvh)', height: '100vh' }}
+          >
+            <Flex css={{ alignItems: 'center' }}>
+              <Link
+                href="/message"
+                css={{
+                  display: 'block',
+                  color: '$neutral600',
+                  '@md': {
+                    display: 'none',
+                  },
+                }}
+              >
+                <FontAwesomeIcon size="lg" icon={faAngleLeft} />
+              </Link>
+              <CurrentThreadAuthor data={activeThreadProfile} />
+            </Flex>
+            <Divider css={{ flexGrow: 0 }} />
+            <CurrentThread uid={activeThread} loading={loading} />
+          </Flex>
+        )}
+        {!activeThreadProfile && allMessageCount < 1 && (
+          <P css={{ color: '$neutral600' }}>
+            Looks like you haven&rsquo;t messaged anyone just yet
+          </P>
+        )}
+        {!activeThreadProfile && allMessageCount >= 1 && (
+          <P
+            css={{
+              color: '$neutral600',
+              display: 'none',
+              '@md': {
+                display: 'block',
+              },
+            }}
+          >
+            Select a conversation
+          </P>
+        )}
+      </MainContentWithSideBar>
+    </>
+  );
 
   return (
     <>
@@ -80,53 +154,7 @@ export default function MessageCenter() {
             </Crumb>
           )}
         </CrumbBar>
-        <MessageSideBar className="hello" hasThread={activeThread != ''}>
-          <ThreadList activeThread={activeThread} />
-        </MessageSideBar>
-        <MainContentWithSideBar>
-          {activeThreadProfile && (
-            <Flex
-              column
-              css={{ maxHeight: 'max(400px, 85dvh)', height: '100vh' }}
-            >
-              <Flex css={{ alignItems: 'center' }}>
-                <Link
-                  href="/message"
-                  css={{
-                    display: 'block',
-                    color: '$neutral600',
-                    '@md': {
-                      display: 'none',
-                    },
-                  }}
-                >
-                  <FontAwesomeIcon size="lg" icon={faAngleLeft} />
-                </Link>
-                <CurrentThreadAuthor data={activeThreadProfile} />
-              </Flex>
-              <Divider css={{ flexGrow: 0 }} />
-              <CurrentThread uid={activeThread} />
-            </Flex>
-          )}
-          {!activeThreadProfile && allMessageCount < 1 && (
-            <P css={{ color: '$neutral600' }}>
-              Looks like you haven&rsquo;t messaged anyone just yet
-            </P>
-          )}
-          {!activeThreadProfile && allMessageCount >= 1 && (
-            <P
-              css={{
-                color: '$neutral600',
-                display: 'none',
-                '@md': {
-                  display: 'block',
-                },
-              }}
-            >
-              Select a conversation
-            </P>
-          )}
-        </MainContentWithSideBar>
+        {loading ? <Skeleton /> : <MainContent />}
       </PrimaryLayout>
     </>
   );

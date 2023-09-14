@@ -331,7 +331,7 @@ export const SocialSegment = ({
     );
   };
 
-  if (loading || socials.length === 0) return <SocialsSkeleton />;
+  if (loading && socials.length === 0) return <SocialsSkeleton />;
 
   return (
     <>

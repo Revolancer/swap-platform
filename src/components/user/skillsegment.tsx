@@ -122,7 +122,7 @@ export const SkillSegment = ({
     );
   };
 
-  if (loading || tags.length === 0) return <SkillSkeleton />;
+  if (loading && tags.length === 0) return <SkillSkeleton />;
 
   return (
     <>
