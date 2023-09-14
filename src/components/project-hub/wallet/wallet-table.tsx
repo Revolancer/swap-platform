@@ -3,14 +3,7 @@ import { CreditLogEntry } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { DateTime } from 'luxon';
 import { P } from '@revolancer/ui/text';
-import {
-  Table,
-  THead,
-  TH,
-  TR,
-  TD,
-  DataTable,
-} from '@revolancer/ui/project-hubs';
+import { TH, TR, TD, DataTable } from '@revolancer/ui/project-hubs';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const WalletTable = () => {
