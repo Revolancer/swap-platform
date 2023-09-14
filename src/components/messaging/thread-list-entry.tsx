@@ -8,6 +8,7 @@ import { DateTime } from 'luxon';
 import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
+import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
 
 const UnreadIndicator = () => {
   const Container = styled('div', {
@@ -96,6 +97,9 @@ export const ThreadListEntry = ({
   } else {
     timeStr = time.toFormat('LLLL d');
   }
+
+  if (!id) return <ThreadListEntrySkeleton />;
+
   return (
     <>
       <Div

@@ -4,8 +4,9 @@ import { axiosPrivate } from '@/lib/axios';
 import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
 import { P } from '@revolancer/ui/text';
-import { Table, THead, TH, TR, TD } from '@revolancer/ui/project-hubs';
+import { TH, TR, TD, DataTable } from '@revolancer/ui/project-hubs';
 import { Div } from '@revolancer/ui/layout';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const ActiveProjectsTable = () => {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
@@ -23,7 +24,7 @@ export const ActiveProjectsTable = () => {
 
   if (loading)
     return (
-      <Div
+      <SkeletonText
         css={{
           borderRadius: '$3',
           backgroundColor: '$neutral300',
@@ -37,21 +38,27 @@ export const ActiveProjectsTable = () => {
   const self = store?.getState()?.userData?.user?.id ?? '';
 
   return (
-    <Table>
-      <THead>
-        <TH css={{ width: '100%' }}>Project</TH>
-        <TH></TH>
-      </THead>
-      {activeProjects.map((project) => {
-        return (
-          <TR key={project.id}>
-            <TD>{project.need.title ?? 'Untitled Project'}</TD>
-            <TD>
-              <Button href={`/project/${project.id}`}>View</Button>
-            </TD>
-          </TR>
-        );
-      })}
-    </Table>
+    <DataTable
+      renderHeadRow={() => (
+        <TR>
+          <TH css={{ width: '100%' }}>Project</TH>
+          <TH></TH>
+        </TR>
+      )}
+      renderBodyRows={() => (
+        <>
+          {activeProjects.map((project) => {
+            return (
+              <TR key={project.id}>
+                <TD>{project.need.title ?? 'Untitled Project'}</TD>
+                <TD>
+                  <Button href={`/project/${project.id}`}>View</Button>
+                </TD>
+              </TR>
+            );
+          })}
+        </>
+      )}
+    />
   );
 };

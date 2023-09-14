@@ -16,6 +16,7 @@ import {
 import { ExternalLink } from '../links/external-link';
 import { IntermediateRepresentation, OptFn } from 'linkifyjs';
 import Linkify from 'linkify-react';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const renderLinksInAbout: OptFn<
   (ir: IntermediateRepresentation) => any
@@ -35,9 +36,11 @@ const UpdateAboutSchema = Yup.object().shape({
 export const AboutSegment = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [about, setAbout] = useState('');
@@ -60,8 +63,8 @@ export const AboutSegment = ({
 
   const StaticAbout = () => {
     return (
-      <P css={{ color: `${placeholder() ? '$neutral600' : '$neutral800'}` }}>
-        {placeholder()
+      <P css={{ color: `${placeholder ? '$neutral600' : '$neutral800'}` }}>
+        {placeholder
           ? 'Tell us a bit about yourself'
           : about.split('\n').map(function (item, idx) {
               return (
@@ -75,9 +78,7 @@ export const AboutSegment = ({
     );
   };
 
-  const placeholder = () => {
-    return own && about == '';
-  };
+  const placeholder = own && about == '';
 
   const EditAbout = () => {
     return (
@@ -161,6 +162,27 @@ export const AboutSegment = ({
       </Formik>
     );
   };
+
+  if (loading || !about) {
+    return (
+      <>
+        <Flex
+          style={{
+            justifyContent: 'flex-start',
+            width: '100%',
+          }}
+        >
+          <P css={{ color: '$neutral600' }}>About</P>
+        </Flex>
+        {Array(3)
+          .fill(null)
+          .map((item, idx) => (
+            <SkeletonText type="p" key={`p-${idx}`} css={{ marginTop: '$2' }} />
+          ))}
+        <SkeletonText type="p" css={{ width: '25%', marginTop: '$2' }} />
+      </>
+    );
+  }
 
   return (
     <>

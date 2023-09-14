@@ -13,7 +13,7 @@ import { PortfolioSegment } from '@/components/user/portfoliosegment';
 import store from '@/redux/store';
 import { NeedsSegment } from '@/components/user/needssegment';
 import FourOhFour from '../404';
-import { Button } from '@revolancer/ui/buttons';
+import { Button, FormButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { ProfileProgress } from '@/components/collapsible/profile-progress';
@@ -25,8 +25,16 @@ import {
   MainContentWithSideBar,
   SideBar,
 } from '@revolancer/ui/layout';
-import { H1 } from '@revolancer/ui/text';
+import { SkeletonText } from '@revolancer/ui/skeleton';
+import { RoundedSquareImage } from '@revolancer/ui/user';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { Name } from '@/components/user/name';
+import { skeletonPortfoliosArray } from '@/components/skeletons/portfolio-profile-card';
+import { AboutSkeleton } from '@/components/skeletons/aboutsegment';
+import { TimezoneSkeleton } from '@/components/skeletons/timezone';
+import { SocialsSkeleton } from '@/components/skeletons/socialsegment';
+import { SkillSkeleton } from '@/components/skeletons/skillsegment';
+import { skeletonNeedsArray } from '@/components/skeletons/needs-profile-card';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -34,6 +42,7 @@ export default function UserProfile() {
   const [userProfile, setUserProfile] = useState<UserProfileData>({});
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -73,12 +82,128 @@ export default function UserProfile() {
             setNotFound(true);
           });
       }
+      setLoading(false);
     };
     getUserProfileData();
   }, [slug, userProfile?.user?.id, router]);
   if (isNotFound) {
     return <FourOhFour />;
   }
+
+  const Skeleton = () => (
+    <>
+      <SideBar>
+        <Card css={{ overflow: 'unset' }}>
+          <Flex
+            column
+            gap={3}
+            css={{
+              alignItems: 'center',
+            }}
+          >
+            <RoundedSquareImage loading size="xl" />
+            <SkeletonText type="h4" />
+            {!own && <FormButton role="secondary" loading />}
+          </Flex>
+          <AboutSkeleton />
+          <TimezoneSkeleton />
+          <SocialsSkeleton />
+          <SkillSkeleton />
+        </Card>
+      </SideBar>
+      <MainContentWithSideBar>
+        <Flex column gap={8}>
+          <SkeletonText type="h2" css={{ height: '$17' }} />
+          <Flex column gap={4}>
+            <SkeletonText type="h5" css={{ width: '50%' }} />
+            <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
+              <Masonry gutter="0.8rem">{skeletonNeedsArray(1)}</Masonry>
+            </ResponsiveMasonry>
+          </Flex>
+          <Flex column gap={4}>
+            <SkeletonText type="h5" css={{ width: '50%' }} />
+            <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
+              <Masonry gutter="0.8rem">{skeletonPortfoliosArray()}</Masonry>
+            </ResponsiveMasonry>
+          </Flex>
+        </Flex>
+      </MainContentWithSideBar>
+    </>
+  );
+
+  const MainContent = () => (
+    <>
+      <SideBar>
+        {own && <ProfileProgress position="mobile" />}
+        <Card css={{ overflow: 'unset' }}>
+          <Flex
+            column
+            gap={3}
+            css={{
+              alignItems: 'center',
+            }}
+          >
+            <ProfileImage
+              uid={userProfile?.user?.id ?? ''}
+              own={own}
+              loading={loading}
+            />
+            <Name uid={userProfile?.user?.id ?? ''} own={own} />
+            {!own && userProfile?.user?.id && (
+              <Button
+                role="secondary"
+                href={`/message/${userProfile.user.id}`}
+                loading={loading}
+              >
+                <FontAwesomeIcon icon={faMessage} /> Message
+              </Button>
+            )}
+          </Flex>
+          <AboutSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <Timezone
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <SocialSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          <SkillSegment
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+        </Card>
+      </SideBar>
+      <MainContentWithSideBar>
+        <Flex column gap={8}>
+          <Tagline
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+            loading={loading}
+          />
+          {own && <ProfileProgress />}
+          <NeedsSegment
+            name={userProfile?.first_name ?? ''}
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+          />
+          <PortfolioSegment
+            name={userProfile?.first_name ?? ''}
+            uid={userProfile?.user?.id ?? ''}
+            own={own}
+          />
+        </Flex>
+      </MainContentWithSideBar>
+    </>
+  );
+
   return (
     <>
       <Title>
@@ -95,49 +220,7 @@ export default function UserProfile() {
               : 'User Profile'}
           </Crumb>
         </CrumbBar>
-        <SideBar>
-          {own && <ProfileProgress position="mobile" />}
-          <Card css={{ overflow: 'unset' }}>
-            <Flex
-              column
-              gap={3}
-              css={{
-                alignItems: 'center',
-              }}
-            >
-              <ProfileImage uid={userProfile?.user?.id ?? ''} own={own} />
-              <Name uid={userProfile?.user?.id ?? ''} own={own} />
-              {!own && userProfile?.user?.id && (
-                <Button
-                  role="secondary"
-                  href={`/message/${userProfile.user.id}`}
-                >
-                  <FontAwesomeIcon icon={faMessage} /> Message
-                </Button>
-              )}
-            </Flex>
-            <AboutSegment uid={userProfile?.user?.id ?? ''} own={own} />
-            <Timezone uid={userProfile?.user?.id ?? ''} own={own} />
-            <SocialSegment uid={userProfile?.user?.id ?? ''} own={own} />
-            <SkillSegment uid={userProfile?.user?.id ?? ''} own={own} />
-          </Card>
-        </SideBar>
-        <MainContentWithSideBar>
-          <Flex column gap={8}>
-            <Tagline uid={userProfile?.user?.id ?? ''} own={own} />
-            {own && <ProfileProgress />}
-            <NeedsSegment
-              name={userProfile?.first_name ?? ''}
-              uid={userProfile?.user?.id ?? ''}
-              own={own}
-            />
-            <PortfolioSegment
-              name={userProfile?.first_name ?? ''}
-              uid={userProfile?.user?.id ?? ''}
-              own={own}
-            />
-          </Flex>
-        </MainContentWithSideBar>
+        {loading ? <Skeleton /> : <MainContent />}
       </PrimaryLayout>
     </>
   );

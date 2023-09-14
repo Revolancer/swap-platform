@@ -5,17 +5,22 @@ import { useEffect, useState } from 'react';
 import { Card, Flex } from '@revolancer/ui/layout';
 import { H5 } from '@revolancer/ui/text';
 import { Price, CreditLabel } from '@revolancer/ui/project-hubs';
+import { WalletTileSkeleton } from '@/components/skeletons/wallet-tile';
 
 export const BalanceTile = () => {
   const [credits, setCredits] = useState(0);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     axiosPrivate
       .get('credits')
       .then((response) => {
         setCredits(response.data);
+        setLoading(false);
       })
       .catch((e) => setCredits(0));
   }, []);
+
+  if (loading && credits === 0) return <WalletTileSkeleton />;
 
   return (
     <Card>

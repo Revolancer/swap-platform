@@ -5,14 +5,18 @@ import { useEffect, useState } from 'react';
 import { styled } from '@revolancer/ui';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { H5 } from '@revolancer/ui/text';
+import { WalletTileSkeleton } from '../skeletons/wallet-tile';
 
 export const ActiveProjectsTile = () => {
   const [activeProjects, setActiveProjects] = useState(0);
+  const [loading, setLoading] = useState(true);
+
   useEffect(() => {
     axiosPrivate
       .get('projects/active/count')
       .then((response) => {
         setActiveProjects(response.data);
+        setLoading(false);
       })
       .catch((e) => setActiveProjects(0));
   }, []);
@@ -22,6 +26,8 @@ export const ActiveProjectsTile = () => {
     fontFamily: '$heading',
     fontWeight: '$bold',
   });
+
+  if (loading && activeProjects === 0) return <WalletTileSkeleton />;
 
   return (
     <Card>

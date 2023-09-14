@@ -9,6 +9,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { Button } from '@revolancer/ui/buttons';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
+import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 
 const AddSomething = () => {
   return (
@@ -94,11 +95,14 @@ export const FeedSegment = () => {
       );
     }
   }
+
   return (
     <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
       <Masonry gutter="0.8rem">
         <AddSomething />
-        {staticPosts}
+        {staticPosts.length === 0
+          ? skeletonPortfoliosArray(15, true)
+          : staticPosts}
       </Masonry>
     </ResponsiveMasonry>
   );

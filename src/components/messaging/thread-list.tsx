@@ -3,8 +3,15 @@ import { axiosPrivate } from '@/lib/axios';
 import { Message } from '@/lib/types';
 import { ThreadListEntry } from './thread-list-entry';
 import { Flex } from '@revolancer/ui/layout';
+import { threadListSkeleton } from '../skeletons/thread-list-entry';
 
-export const ThreadList = ({ activeThread }: { activeThread: string }) => {
+export const ThreadList = ({
+  activeThread,
+  loading,
+}: {
+  activeThread: string;
+  loading: boolean;
+}) => {
   const [threads, setThreads] = useState<Message[]>([]);
 
   useEffect(() => {
@@ -51,7 +58,7 @@ export const ThreadList = ({ activeThread }: { activeThread: string }) => {
       }}
       gap={0}
     >
-      {displayThreads()}
+      {!loading ? displayThreads() : threadListSkeleton()}
     </Flex>
   );
 };

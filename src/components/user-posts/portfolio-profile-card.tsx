@@ -15,6 +15,7 @@ import axios from 'axios';
 import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
 import { stringToJSX } from '@/lib/editorjs/renderer/util';
+import { PortfoliosSkeleton } from '../skeletons/portfolio-profile-card';
 
 export const PortfolioProfileCard = ({
   data,
@@ -144,11 +145,7 @@ export const PortfolioProfileCard = ({
   };
 
   if (loading) {
-    return (
-      <Card unpadded>
-        <PostImageContainer />
-      </Card>
-    );
+    return <PortfoliosSkeleton withAuthor={withAuthor} />;
   }
 
   if (hideIfEmpty && !hasContent) {

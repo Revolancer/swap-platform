@@ -5,6 +5,7 @@ import NextLink from 'next/link';
 import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
+import { ThreadAuthorSkeleton } from '../skeletons/current-thread-author';
 
 export const CurrentThreadAuthor = ({ data }: { data: UserProfileData }) => {
   const ProfileImageContainer = styled('div', {
@@ -18,6 +19,8 @@ export const CurrentThreadAuthor = ({ data }: { data: UserProfileData }) => {
   const ProfileImage = styled(Image, {
     objectFit: 'cover',
   });
+
+  if (!data) return <ThreadAuthorSkeleton />;
 
   return (
     <Flex css={{ alignItems: 'center' }}>

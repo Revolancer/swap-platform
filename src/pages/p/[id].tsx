@@ -9,7 +9,7 @@ import { Tags } from '@/components/user-posts/tags';
 import { Author } from '@/components/user-posts/author';
 import { styled } from '@revolancer/ui';
 import store from '@/redux/store';
-import { Button } from '@revolancer/ui/buttons';
+import { Button, FormButton } from '@revolancer/ui/buttons';
 import FourOhFour from '../404';
 import { ConfirmationDialog } from '@/components/navigation/confirmation-dialog';
 import { FullWidth, Flex } from '@revolancer/ui/layout';
@@ -19,6 +19,7 @@ import { Header } from '@/lib/editorjs/renderer/header';
 import { Table } from '@/lib/editorjs/renderer/table';
 import { Text } from '@/lib/editorjs/renderer/text';
 import { List } from '@/lib/editorjs/renderer/list';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export default function UserProfile() {
   const router = useRouter();
@@ -27,6 +28,7 @@ export default function UserProfile() {
   const [own, setOwn] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [profile, setProfile] = useState<UserProfileData>({});
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -53,6 +55,7 @@ export default function UserProfile() {
       }
     };
     getUserProfileData();
+    setLoading(false);
   }, [id]);
 
   const cleanData = useMemo(() => {
@@ -144,6 +147,84 @@ export default function UserProfile() {
     router.push('/u/profile');
   };
 
+  const Skeleton = () => (
+    <>
+      <SkeletonText type="h1" css={{ width: '66%' }} />
+      <Flex css={{ alignItems: 'center' }}>
+        {/*<RoundedSquareImage loading size="small" />*/}
+        <SkeletonText
+          css={{
+            width: '$9',
+            height: '$9',
+            borderRadius: '$2',
+          }}
+        />
+        <SkeletonText type="p" css={{ width: '20%' }} />
+      </Flex>
+      <Flex>
+        {Array(4)
+          .fill(null)
+          .map((item, idx) => (
+            <SkeletonText type="tag" key={`tag-${idx}`} />
+          ))}
+      </Flex>
+      <StyledBlocksContainer>
+        {Array(2)
+          .fill(null)
+          .map((item, idx) => (
+            <SkeletonText type="p" key={`p-${idx}`} css={{ marginTop: '$2' }} />
+          ))}
+        <SkeletonText type="p" css={{ marginTop: '$2', width: '33%' }} />
+        <SkeletonText type="image" />
+        {Array(3)
+          .fill(null)
+          .map((item, idx) => (
+            <SkeletonText type="p" key={`p-${idx}`} css={{ marginTop: '$2' }} />
+          ))}
+        <SkeletonText type="p" css={{ marginTop: '$2', width: '33%' }} />
+      </StyledBlocksContainer>
+    </>
+  );
+
+  const MainContent = () => (
+    <>
+      <H1>{postData?.title ?? 'Loading...'}</H1>
+      {postData?.user && <Author uid={postData.user?.id ?? ''} />}
+      {postData?.tags && <Tags tags={postData.tags} />}
+      {own && postData?.id && (
+        <Flex>
+          <Button
+            role="secondary"
+            href={`/portfolio/${postData.id}`}
+            loading={loading}
+          >
+            Edit
+          </Button>
+          <ConfirmationDialog
+            dangerous
+            onAccept={deletePost}
+            label="Delete"
+            title="Deleting Portfolio Article"
+            labelAccept="Delete"
+          />
+        </Flex>
+      )}
+      {postData?.data && (
+        <StyledBlocksContainer>
+          <Blocks
+            data={cleanData}
+            renderers={{
+              paragraph: Text,
+              header: Header,
+              list: List,
+              table: Table,
+            }}
+          />
+        </StyledBlocksContainer>
+      )}
+    </>
+  );
+
   return (
     <>
       <Title>{postData?.title ? postData?.title : 'Portfolio Post'}</Title>
@@ -163,36 +244,7 @@ export default function UserProfile() {
         </CrumbBar>
         <FullWidth>
           <Flex column gap={3}>
-            <H1>{postData?.title ?? 'Loading...'}</H1>
-            {postData?.user && <Author uid={postData.user?.id ?? ''} />}
-            {postData?.tags && <Tags tags={postData.tags} />}
-            {own && postData?.id && (
-              <Flex>
-                <Button role="secondary" href={`/portfolio/${postData.id}`}>
-                  Edit
-                </Button>
-                <ConfirmationDialog
-                  dangerous
-                  onAccept={deletePost}
-                  label="Delete"
-                  title="Deleting Portfolio Article"
-                  labelAccept="Delete"
-                />
-              </Flex>
-            )}
-            {postData?.data && (
-              <StyledBlocksContainer>
-                <Blocks
-                  data={cleanData}
-                  renderers={{
-                    paragraph: Text,
-                    header: Header,
-                    list: List,
-                    table: Table,
-                  }}
-                />
-              </StyledBlocksContainer>
-            )}
+            {!loading && postData ? <MainContent /> : <Skeleton />}
           </Flex>
         </FullWidth>
       </PrimaryLayout>

@@ -12,8 +12,15 @@ import Linkify from 'linkify-react';
 import { renderLinksInMessages } from './util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
+import { ThreadSkeleton } from '../skeletons/current-thread';
 
-export const CurrentThread = ({ uid }: { uid: string }) => {
+export const CurrentThread = ({
+  uid,
+  loading,
+}: {
+  uid: string;
+  loading: boolean;
+}) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
@@ -179,6 +186,8 @@ export const CurrentThread = ({ uid }: { uid: string }) => {
     }
     return rendered;
   };
+
+  if (loading) return <ThreadSkeleton />;
 
   return (
     <>

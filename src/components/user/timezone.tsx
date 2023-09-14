@@ -10,6 +10,8 @@ import { LocationInput } from '../forms/location-input';
 import { Flex } from '@revolancer/ui/layout';
 import { P, H5 } from '@revolancer/ui/text';
 import { Form, Feedback } from '@revolancer/ui/forms';
+import { TimezoneSkeleton } from '../skeletons/timezone';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(
@@ -20,9 +22,11 @@ const UpdateTimezoneSchema = Yup.object().shape({
 export const Timezone = ({
   uid = '',
   own = false,
+  loading = true,
 }: {
   uid: string;
   own?: boolean;
+  loading?: boolean;
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [location, setLocation] = useState<google.maps.Place | undefined>(
@@ -148,6 +152,8 @@ export const Timezone = ({
       </Formik>
     );
   };
+
+  if (loading || !timezone) return <TimezoneSkeleton />;
 
   return (
     <>
