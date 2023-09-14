@@ -16,9 +16,9 @@ export const ActiveProjectsTile = () => {
       .get('projects/active/count')
       .then((response) => {
         setActiveProjects(response.data);
+        setLoading(false);
       })
       .catch((e) => setActiveProjects(0));
-    setLoading(false);
   }, []);
 
   const Price = styled('span', {
@@ -27,7 +27,7 @@ export const ActiveProjectsTile = () => {
     fontWeight: '$bold',
   });
 
-  if (loading) return <WalletTileSkeleton />;
+  if (loading && activeProjects === 0) return <WalletTileSkeleton />;
 
   return (
     <Card>

@@ -15,12 +15,12 @@ export const BalanceTile = () => {
       .get('credits')
       .then((response) => {
         setCredits(response.data);
+        setLoading(false);
       })
       .catch((e) => setCredits(0));
-    setLoading(false);
   }, []);
 
-  if (loading) return <WalletTileSkeleton />;
+  if (loading && credits === 0) return <WalletTileSkeleton />;
 
   return (
     <Card>
