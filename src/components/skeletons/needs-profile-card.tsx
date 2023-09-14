@@ -4,7 +4,7 @@ import { SkeletonText } from '@revolancer/ui/skeleton';
 export const NeedsSkeleton = ({
   withAuthor = false,
 }: {
-  withAuthor: boolean;
+  withAuthor?: boolean;
 }) => (
   <Card unpadded>
     <Flex column gap={4} css={{ padding: '$6' }}>
