@@ -8,17 +8,54 @@ import { useEffect, useState } from 'react';
 import { FullWidth, Flex } from '@revolancer/ui/layout';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { P } from '@revolancer/ui/text';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export default function Notifications() {
   const [notifications, setNotifications] = useState<Notification[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     axiosPrivate
       .get('notifications')
       .then((res) => res.data)
-      .then((data) => setNotifications(data))
+      .then((data) => {
+        setLoading(false);
+        setNotifications(data);
+      })
       .catch(() => setNotifications([]));
   }, []);
+
+  const Skeleton = () => {
+    return Array(4).fill(
+      <SkeletonText
+        css={{
+          height: '80px',
+          padding: '$8',
+          margin: '$2',
+          borderRadius: '$2',
+        }}
+      />,
+    );
+  };
+
+  const MainContent = () => (
+    <>
+      {notifications.length == 0 && (
+        <Flex column gap={4} css={{ alignItems: 'center' }}>
+          <Image
+            src="/img/revy/happy.png"
+            alt="Revy, happy to guide you back to safety"
+            width={210}
+            height={314}
+          />
+          <P>You have no notifications.</P>
+        </Flex>
+      )}
+      {notifications.map((notification) => (
+        <NotificationItem notification={notification} key={notification.id} />
+      ))}
+    </>
+  );
 
   return (
     <>
@@ -30,25 +67,7 @@ export default function Notifications() {
             Notifications
           </Crumb>
         </CrumbBar>
-        <FullWidth>
-          {notifications.length == 0 && (
-            <Flex column gap={4} css={{ alignItems: 'center' }}>
-              <Image
-                src="/img/revy/happy.png"
-                alt="Revy, happy to guide you back to safety"
-                width={210}
-                height={314}
-              />
-              <P>You have no notifications.</P>
-            </Flex>
-          )}
-          {notifications.map((notification) => (
-            <NotificationItem
-              notification={notification}
-              key={notification.id}
-            />
-          ))}
-        </FullWidth>
+        <FullWidth>{loading ? <Skeleton /> : <MainContent />}</FullWidth>
       </PrimaryLayout>
     </>
   );
