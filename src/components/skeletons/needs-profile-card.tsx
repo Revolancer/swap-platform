@@ -1,7 +1,11 @@
 import { Card, Flex } from '@revolancer/ui/layout';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
-export const NeedsSkeleton = () => (
+export const NeedsSkeleton = ({
+  withAuthor = false,
+}: {
+  withAuthor: boolean;
+}) => (
   <Card unpadded>
     <Flex column gap={4} css={{ padding: '$6' }}>
       <SkeletonText
@@ -12,17 +16,18 @@ export const NeedsSkeleton = () => (
           lineHeight: '$body1',
         }}
       />
-      <Flex css={{ alignItems: 'center' }}>
-        {/*<RoundedSquareImage loading size="small" />*/}
-        <SkeletonText
-          css={{
-            width: '$9',
-            height: '$9',
-            borderRadius: '$2',
-          }}
-        />
-        <SkeletonText type="p" />
-      </Flex>
+      {withAuthor && (
+        <Flex css={{ alignItems: 'center' }}>
+          <SkeletonText
+            css={{
+              width: '$9',
+              height: '$9',
+              borderRadius: '$2',
+            }}
+          />
+          <SkeletonText type="p" />
+        </Flex>
+      )}
       <Flex>
         {Array(3)
           .fill(null)
@@ -39,4 +44,5 @@ export const NeedsSkeleton = () => (
   </Card>
 );
 
-export const skeletonNeedsArray = Array(1).fill(<NeedsSkeleton />);
+export const skeletonNeedsArray = (number = 5, withAuthor = false) =>
+  Array(number).fill(<NeedsSkeleton withAuthor={withAuthor} />);

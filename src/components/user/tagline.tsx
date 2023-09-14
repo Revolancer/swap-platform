@@ -146,10 +146,11 @@ export const Tagline = ({
     );
   };
 
-  if (loading) return <SkeletonText type="h2" />;
-
   return (
     <>
+      {(loading || !tagline) && (
+        <SkeletonText type="h2" css={{ height: '$17' }} />
+      )}
       {(!own || !editMode) && StaticTagline()}
       {own && editMode && EditTagline()}
     </>

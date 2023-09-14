@@ -14,9 +14,7 @@ import { useRouter } from 'next/router';
 import axios from 'axios';
 import { P } from '@revolancer/ui/text';
 import { Flex, Card } from '@revolancer/ui/layout';
-import { SkeletonText } from '@revolancer/ui/skeleton';
 import { stringToJSX } from '@/lib/editorjs/renderer/util';
-import { RoundedSquareImage } from '@revolancer/ui/user';
 import { PortfoliosSkeleton } from '../skeletons/portfolio-profile-card';
 
 export const PortfolioProfileCard = ({
@@ -147,7 +145,7 @@ export const PortfolioProfileCard = ({
   };
 
   if (loading) {
-    return <PortfoliosSkeleton />;
+    return <PortfoliosSkeleton withAuthor={withAuthor} />;
   }
 
   if (hideIfEmpty && !hasContent) {

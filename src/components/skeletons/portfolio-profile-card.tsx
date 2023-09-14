@@ -1,7 +1,11 @@
 import { Card, Flex } from '@revolancer/ui/layout';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
-export const PortfoliosSkeleton = () => (
+export const PortfoliosSkeleton = ({
+  withAuthor = false,
+}: {
+  withAuthor?: boolean;
+}) => (
   <Card unpadded>
     <SkeletonText />
     <Flex column gap={4} css={{ padding: '$6' }}>
@@ -13,19 +17,20 @@ export const PortfoliosSkeleton = () => (
         }}
         type="p"
       />
-      <Flex css={{ alignItems: 'center' }}>
-        {/*<RoundedSquareImage loading size="small" />*/}
-        <SkeletonText
-          css={{
-            width: '$9',
-            height: '$9',
-            borderRadius: '$2',
-          }}
-        />
-        <SkeletonText type="p" />
-      </Flex>
+      {withAuthor && (
+        <Flex css={{ alignItems: 'center' }}>
+          <SkeletonText
+            css={{
+              width: '$9',
+              height: '$9',
+              borderRadius: '$2',
+            }}
+          />
+          <SkeletonText type="p" css={{ width: '33%' }} />
+        </Flex>
+      )}
       <Flex>
-        {Array(3)
+        {Array(4)
           .fill(null)
           .map((item, idx) => (
             <SkeletonText type="tag" key={`tag-${idx}`} />
@@ -40,4 +45,5 @@ export const PortfoliosSkeleton = () => (
   </Card>
 );
 
-export const skeletonPortfoliosArray = Array(15).fill(<PortfoliosSkeleton />);
+export const skeletonPortfoliosArray = (number = 15, withAuthor = false) =>
+  Array(number).fill(<PortfoliosSkeleton withAuthor={withAuthor} />);

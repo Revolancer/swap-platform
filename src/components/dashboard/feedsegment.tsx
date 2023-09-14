@@ -100,7 +100,9 @@ export const FeedSegment = () => {
     <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
       <Masonry gutter="0.8rem">
         <AddSomething />
-        {staticPosts.length === 0 ? skeletonPortfoliosArray : staticPosts}
+        {staticPosts.length === 0
+          ? skeletonPortfoliosArray(15, true)
+          : staticPosts}
       </Masonry>
     </ResponsiveMasonry>
   );

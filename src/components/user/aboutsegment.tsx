@@ -163,7 +163,7 @@ export const AboutSegment = ({
     );
   };
 
-  if (loading) {
+  if (loading || !about) {
     return (
       <>
         <Flex

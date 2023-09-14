@@ -103,11 +103,7 @@ export default function UserProfile() {
           >
             <RoundedSquareImage loading size="xl" />
             <SkeletonText type="h4" />
-            {!own && (
-              <FormButton role="secondary" loading>
-                <></>
-              </FormButton>
-            )}
+            {!own && <FormButton role="secondary" loading />}
           </Flex>
           <AboutSkeleton />
           <TimezoneSkeleton />
@@ -119,15 +115,15 @@ export default function UserProfile() {
         <Flex column gap={8}>
           <SkeletonText type="h2" css={{ height: '$17' }} />
           <Flex column gap={4}>
-            <SkeletonText type="h5" />
+            <SkeletonText type="h5" css={{ width: '50%' }} />
             <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
-              <Masonry gutter="0.8rem">{skeletonNeedsArray}</Masonry>
+              <Masonry gutter="0.8rem">{skeletonNeedsArray(1)}</Masonry>
             </ResponsiveMasonry>
           </Flex>
           <Flex column gap={4}>
-            <SkeletonText type="h5" />
+            <SkeletonText type="h5" css={{ width: '50%' }} />
             <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
-              <Masonry gutter="0.8rem">{skeletonPortfoliosArray}</Masonry>
+              <Masonry gutter="0.8rem">{skeletonPortfoliosArray()}</Masonry>
             </ResponsiveMasonry>
           </Flex>
         </Flex>

@@ -48,9 +48,9 @@ export const PortfolioSegment = ({
   if (loading)
     return (
       <Flex column gap={4}>
-        <SkeletonText type="h5" />
+        <SkeletonText type="h5" css={{ width: '50%' }} />
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 1200: 2 }}>
-          <Masonry gutter="0.8rem">{skeletonPortfoliosArray}</Masonry>
+          <Masonry gutter="0.8rem">{skeletonPortfoliosArray()}</Masonry>
         </ResponsiveMasonry>
       </Flex>
     );

@@ -11,6 +11,7 @@ import { Flex } from '@revolancer/ui/layout';
 import { P, H5 } from '@revolancer/ui/text';
 import { Form, Feedback } from '@revolancer/ui/forms';
 import { TimezoneSkeleton } from '../skeletons/timezone';
+import { SkeletonText } from '@revolancer/ui/skeleton';
 
 const UpdateTimezoneSchema = Yup.object().shape({
   location: Yup.object<google.maps.Place>().required(
@@ -152,7 +153,7 @@ export const Timezone = ({
     );
   };
 
-  if (loading) return <TimezoneSkeleton />;
+  if (loading || !timezone) return <TimezoneSkeleton />;
 
   return (
     <>
