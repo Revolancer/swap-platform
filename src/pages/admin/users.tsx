@@ -1,16 +1,9 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import {
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
-import { Button, Link } from '@revolancer/ui/buttons';
-import { DateTime } from 'luxon';
-import { H1, H2, H3, H5, P, Span } from '@revolancer/ui/text';
+import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import { Button } from '@revolancer/ui/buttons';
+import { H2, H5, P, Span } from '@revolancer/ui/text';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
 import { DataTable, TD, TH, TR } from '@revolancer/ui/project-hubs';
 import { useRouter } from 'next/router';
@@ -33,6 +26,8 @@ import { RoundedSquareImage } from '@revolancer/ui/user';
 import { ChangeRoleModal } from '@/components/modals/change-role-modal';
 import { DeleteAccountModal } from '@/components/modals/delete-account-modal';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
+import debounce from 'lodash.debounce';
+import { DebouncedFunc } from 'lodash';
 
 type SortByColumn = 'created_at' | 'first_name' | 'last_name' | 'slug';
 type Order = 'ASC' | 'DESC';
@@ -46,7 +41,7 @@ interface User {
   profile_image: string;
   created_at: string;
   selected: boolean;
-  user: any;
+  email: string;
 }
 
 const getInitialSortColumn = (
@@ -66,13 +61,19 @@ function UserTable({
   userFilter,
   toggleAllSelected,
   setUsers,
+  debouncedLoad,
 }: {
   users: User[];
   allSelected: boolean;
   toggleAllSelected: () => void;
   setUsers: Dispatch<SetStateAction<User[]>>;
   userFilter: UserFilter;
+  debouncedLoad: DebouncedFunc<() => Promise<void>>;
 }) {
+  useEffect(() => {
+    debouncedLoad();
+  }, [userFilter, debouncedLoad]);
+
   return (
     <DataTable
       renderHeadRow={() => (
@@ -139,7 +140,7 @@ function UserTable({
                   {user.first_name + ' ' + user.last_name}
                 </Flex>
               </TD>
-              <TD>{user.user?.email}</TD>
+              <TD>{user.email}</TD>
               <TD>
                 {user.roles && user.roles.length ? (
                   user.roles?.join(', ')
@@ -208,7 +209,7 @@ export default function UserManagement() {
 
   const router = useRouter();
 
-  const { page, sortBy, order } = router.query;
+  const { search: srch, page, sortBy, order } = router.query;
 
   const [userPage, setUserPage] = useState(
     Number.isNaN(Number(page)) ? 1 : Number(page),
@@ -217,20 +218,22 @@ export default function UserManagement() {
     (sortBy as SortByColumn) || 'created_at',
   );
   const [ord, setOrd] = useState<Order>((order as Order) || 'ASC');
+  const [search, setSearch] = useState(srch || '');
 
-  const load = useCallback(async () => {
+  const debouncedLoad = debounce(async () => {
     await axiosPrivate
-      .get(`admin/users?page=${userPage}&sortBy=${sortby}&order=${ord}`)
+      .get(
+        `admin/users?search=${search}&page=${userPage}&sortBy=${sortby}&order=${ord}`,
+      )
       .then((response) => setUsers(response.data ?? []))
       .catch((err) => {});
-  }, [ord, sortby, userPage]);
+  }, 500);
 
   useEffect(() => {
     if (page) setUserPage(Number.isNaN(Number(page)) ? 1 : Number(page));
     if (sortBy) setSortby(sortBy as SortByColumn);
     if (order) setOrd(order as Order);
-    load();
-  }, [page, sortBy, order, load, userFilter]);
+  }, [page, sortBy, order]);
 
   return (
     <>
@@ -272,18 +275,32 @@ export default function UserManagement() {
                         width: '100%',
                       }}
                     >
-                      <InputOuter css={{ width: '100%' }}>
+                      <InputOuter key={'searchText'} css={{ width: '100%' }}>
                         <FontAwesomeIcon
                           icon={faSearch}
                           style={{ marginRight: '5px' }}
                         />
                         <InputInner
+                          autoFocus
                           type="text"
                           name="searchText"
                           id="searchText"
                           placeholder="Search"
                           onBlur={props.handleBlur}
-                          onChange={props.handleChange}
+                          value={search}
+                          onChange={(e) => {
+                            router.push({
+                              pathname: '/admin/users',
+                              query: {
+                                search: e.target.value,
+                                page: userPage,
+                                sortBy: sortby,
+                                order: ord,
+                              },
+                            });
+                            setSearch(e.target.value);
+                            debouncedLoad();
+                          }}
                         />
                       </InputOuter>
                     </Flex>
@@ -326,6 +343,7 @@ export default function UserManagement() {
                       router.push({
                         pathname: '/admin/users',
                         query: {
+                          search: search,
                           page: userPage,
                           sortBy: 'created_at',
                           order: 'DESC',
@@ -338,6 +356,7 @@ export default function UserManagement() {
                       router.push({
                         pathname: '/admin/users',
                         query: {
+                          search: search,
                           page: userPage,
                           sortBy: 'created_at',
                           order: 'ASC',
@@ -350,6 +369,7 @@ export default function UserManagement() {
                       router.push({
                         pathname: '/admin/users',
                         query: {
+                          search: search,
                           page: userPage,
                           sortBy: 'first_name',
                           order: 'ASC',
@@ -362,6 +382,7 @@ export default function UserManagement() {
                       router.push({
                         pathname: '/admin/users',
                         query: {
+                          search: search,
                           page: userPage,
                           sortBy: 'first_name',
                           order: 'DESC',
@@ -374,6 +395,7 @@ export default function UserManagement() {
                       router.push({
                         pathname: '/admin/users',
                         query: {
+                          search: search,
                           page: userPage,
                           sortBy: 'created_at',
                           order: 'ASC',
@@ -425,6 +447,7 @@ export default function UserManagement() {
                     router.push({
                       pathname: '/admin/users',
                       query: {
+                        search: search,
                         page: userPage - 1,
                         sortBy: sortby,
                         order: ord,
@@ -440,6 +463,7 @@ export default function UserManagement() {
                     router.push({
                       pathname: '/admin/users',
                       query: {
+                        search: search,
                         page: userPage + 1,
                         sortBy: sortby,
                         order: ord,
@@ -457,6 +481,7 @@ export default function UserManagement() {
             allSelected={allSelected}
             toggleAllSelected={() => setAllSelected(!allSelected)}
             userFilter={userFilter}
+            debouncedLoad={debouncedLoad}
           />
         </FullWidth>
         <ChangeRoleModal
