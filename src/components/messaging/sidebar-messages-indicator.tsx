@@ -1,17 +1,21 @@
 import { axiosPrivate } from '@/lib/axios';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
 import { styled } from '@revolancer/ui';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { setMessagesUnread } from '@/lib/notifications';
 
 export const SidebarMessagesIndicator = ({
   expanded,
 }: {
   expanded: boolean;
 }) => {
-  const [countUnread, setCountUnread] = useState(0);
+  const countUnread = useAppSelector((state) => state.indicator.messagesUnread);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     const checkUnreadMessageCount = async () => {
       await axiosPrivate
@@ -20,7 +24,7 @@ export const SidebarMessagesIndicator = ({
           cache: { ttl: 30 * 60 },
         })
         .then((res) => res.data)
-        .then((data) => setCountUnread((data as number) ?? 0))
+        .then((data) => dispatch(setMessagesUnread((data as number) ?? 0)))
         .catch((err) => {});
     };
     checkUnreadMessageCount();
@@ -28,7 +32,7 @@ export const SidebarMessagesIndicator = ({
     return () => {
       clearInterval(timer);
     };
-  }, []);
+  }, [dispatch]);
 
   const MessageBadgeContainer = styled(Link, {
     position: 'relative',
