@@ -25,6 +25,7 @@ export const Tagline = ({
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [tagline, setTagline] = useState('');
+  const [internalLoading, setInternalLoading] = useState(true);
 
   const toggleEdit = () => {
     setEditMode(!editMode);
@@ -34,8 +35,14 @@ export const Tagline = ({
   const loadTagline = useCallback(() => {
     axiosPublic
       .get(`user/tagline/${uid}`, { id: `user-tagline-${uid}` })
-      .then((response) => setTagline(response.data?.tagline ?? ''))
-      .catch(() => setTagline(''));
+      .then((response) => {
+        setInternalLoading(false);
+        setTagline(response.data?.tagline ?? '');
+      })
+      .catch(() => {
+        setInternalLoading(false);
+        setTagline('');
+      });
   }, [uid]);
 
   useEffect(() => {
@@ -148,7 +155,7 @@ export const Tagline = ({
 
   return (
     <>
-      {(loading || !tagline) && (
+      {(loading || internalLoading) && (
         <SkeletonText type="h2" css={{ height: '$17' }} />
       )}
       {(!own || !editMode) && StaticTagline()}

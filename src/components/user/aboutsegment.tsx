@@ -44,6 +44,7 @@ export const AboutSegment = ({
 }) => {
   const [editMode, setEditMode] = useState(false);
   const [about, setAbout] = useState('');
+  const [internalLoading, setInternalLoading] = useState(true);
   const toggleEdit = () => {
     setEditMode(!editMode);
   };
@@ -51,8 +52,14 @@ export const AboutSegment = ({
   const loadAboutForUser = useCallback(async () => {
     axiosPublic
       .get(`user/about/${uid}`, { id: `user-about-${uid}` })
-      .then((response) => setAbout(response.data?.about ?? ''))
-      .catch(() => setAbout(''));
+      .then((response) => {
+        setInternalLoading(false);
+        setAbout(response.data?.about ?? '');
+      })
+      .catch(() => {
+        setInternalLoading(false);
+        setAbout('');
+      });
   }, [uid]);
 
   useEffect(() => {
@@ -163,7 +170,7 @@ export const AboutSegment = ({
     );
   };
 
-  if (loading || !about) {
+  if (loading || internalLoading) {
     return (
       <>
         <Flex
@@ -192,7 +199,7 @@ export const AboutSegment = ({
           width: '100%',
         }}
       >
-        <P css={{ color: '$neutral600' }}>About</P>
+        {(own || !!about) && <P css={{ color: '$neutral600' }}>About</P>}
         {own && (
           <FontAwesomeIcon
             onClick={toggleEdit}
