@@ -27,7 +27,7 @@ export default function TopProfileSkills() {
       <Title>Stats</Title>
       <AdminLayout roles={['admin', 'moderator', 'stats_viewer']}>
         <CrumbBar>
-          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/stats">Stats</Crumb>
           <Crumb href="/admin/stats/top-profile-skills" active>
             Top Profile Skills

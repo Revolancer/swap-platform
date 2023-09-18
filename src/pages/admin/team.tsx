@@ -39,7 +39,7 @@ export default function Team() {
       <Title>Team</Title>
       <AdminLayout roles={['admin']}>
         <CrumbBar>
-          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/team" active>
             Team Management
           </Crumb>
