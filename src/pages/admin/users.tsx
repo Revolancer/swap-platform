@@ -1,7 +1,13 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import { Dispatch, SetStateAction, useEffect, useState } from 'react';
+import {
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import { Button } from '@revolancer/ui/buttons';
 import { H2, H5, P, Span } from '@revolancer/ui/text';
 import { Flex, FullWidth } from '@revolancer/ui/layout';
@@ -206,6 +212,7 @@ export default function UserManagement() {
   const [userFilter, setUserFilter] = useState<UserFilter>('all');
   const [openRoleModal, setOpenRoleModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
+  const [totalPageCount, setTotalPageCount] = useState(0);
 
   const router = useRouter();
 
@@ -225,9 +232,20 @@ export default function UserManagement() {
       .get(
         `admin/users?search=${search}&page=${userPage}&sortBy=${sortby}&order=${ord}`,
       )
-      .then((response) => setUsers(response.data ?? []))
+      .then((response) => {
+        setUsers(response.data.data ?? []);
+        changePageCount(response.data.totalPages ?? 0);
+      })
       .catch((err) => {});
   }, 500);
+
+  const changePageCount = useCallback(
+    (pg: number) => {
+      setTotalPageCount(pg);
+      console.log(page, sortBy, order);
+    },
+    [page, sortBy, order],
+  );
 
   useEffect(() => {
     if (page) setUserPage(Number.isNaN(Number(page)) ? 1 : Number(page));
@@ -439,39 +457,51 @@ export default function UserManagement() {
                   color: '$neutral700',
                 }}
               >
-                <Span>page {userPage}</Span>
-                <FontAwesomeIcon
-                  icon={faAngleLeft}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    router.push({
-                      pathname: '/admin/users',
-                      query: {
-                        search: search,
-                        page: userPage - 1,
-                        sortBy: sortby,
-                        order: ord,
-                      },
-                    });
-                    setUserPage(userPage - 1);
-                  }}
-                />
-                <FontAwesomeIcon
-                  icon={faAngleRight}
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    router.push({
-                      pathname: '/admin/users',
-                      query: {
-                        search: search,
-                        page: userPage + 1,
-                        sortBy: sortby,
-                        order: ord,
-                      },
-                    });
-                    setUserPage(userPage + 1);
-                  }}
-                />
+                {totalPageCount == 0 ? (
+                  <Span>No results found</Span>
+                ) : (
+                  <>
+                    <Span>
+                      page {userPage} of {totalPageCount}
+                    </Span>
+                    {userPage > 1 && (
+                      <FontAwesomeIcon
+                        icon={faAngleLeft}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          router.push({
+                            pathname: '/admin/users',
+                            query: {
+                              search: search,
+                              page: userPage - 1,
+                              sortBy: sortby,
+                              order: ord,
+                            },
+                          });
+                          setUserPage(userPage - 1);
+                        }}
+                      />
+                    )}
+                    {userPage < totalPageCount && (
+                      <FontAwesomeIcon
+                        icon={faAngleRight}
+                        style={{ cursor: 'pointer' }}
+                        onClick={() => {
+                          router.push({
+                            pathname: '/admin/users',
+                            query: {
+                              search: search,
+                              page: userPage + 1,
+                              sortBy: sortby,
+                              order: ord,
+                            },
+                          });
+                          setUserPage(userPage + 1);
+                        }}
+                      />
+                    )}
+                  </>
+                )}
               </Flex>
             </Flex>
           </FullWidth>
