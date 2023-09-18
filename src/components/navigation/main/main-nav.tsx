@@ -21,7 +21,7 @@ import {
   faUsers,
   faWallet,
 } from '@fortawesome/free-solid-svg-icons';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { logout } from '@/lib/user/auth';
 import { axiosPrivate } from '@/lib/axios';
 import { UserProfileData } from '@/lib/types';
@@ -189,28 +189,41 @@ const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
 };
 
 const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
+  const roles = useAppSelector(
+    (state) => state.userData.user?.roles ?? ['user'],
+  );
+  const hasRoleIn = useCallback(
+    (validRoles: string[]) => validRoles.some((role) => roles.includes(role)),
+    [roles],
+  );
   return (
     <>
       {/*<SearchNavigable expanded={expanded} />*/}
-      <Navigable
-        label="Team Management"
-        icon={faUserShield}
-        expanded={expanded}
-        href="/admin/team"
-      />
-      <Navigable
-        label="User Management"
-        icon={faUsers}
-        expanded={expanded}
-        href="/admin/users"
-      />
-      <Navigable
-        label="Support"
-        icon={faComments}
-        expanded={expanded}
-        href="https://support.revolancer.com/"
-        target="_blank"
-      />
+      {hasRoleIn(['admin']) && (
+        <Navigable
+          label="Team Management"
+          icon={faUserShield}
+          expanded={expanded}
+          href="/admin/team"
+        />
+      )}
+      {hasRoleIn(['admin', 'moderator']) && (
+        <>
+          <Navigable
+            label="User Management"
+            icon={faUsers}
+            expanded={expanded}
+            href="/admin/users"
+          />
+          <Navigable
+            label="Support"
+            icon={faComments}
+            expanded={expanded}
+            href="https://support.revolancer.com/"
+            target="_blank"
+          />
+        </>
+      )}
       <Navigable
         label="Statistics"
         icon={faArrowTrendUp}
