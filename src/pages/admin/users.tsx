@@ -258,7 +258,7 @@ export default function UserManagement() {
       <Title>Users</Title>
       <AdminLayout roles={['admin', 'moderator']}>
         <CrumbBar>
-          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/users" active>
             User Management
           </Crumb>

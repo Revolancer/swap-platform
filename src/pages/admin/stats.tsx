@@ -115,7 +115,7 @@ export default function Stats() {
       <Title>Stats</Title>
       <AdminLayout roles={['admin', 'moderator', 'stats_viewer']}>
         <CrumbBar>
-          <Crumb href="/admin">Admin</Crumb>
+          <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/stats" active>
             Stats
           </Crumb>
