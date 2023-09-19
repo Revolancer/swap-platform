@@ -16,6 +16,7 @@ import { ManageUserTabs } from './tabs';
 
 export default function ManageUserLayout({ children }: { children: any }) {
   const [profile, setProfile] = useState<UserProfileData>();
+  const [roles, setRoles] = useState<{ role: string }[]>();
   const router = useRouter();
   const { id } = router.query;
   const isValidId = typeof id == 'string' && isUuid(id);
@@ -24,6 +25,9 @@ export default function ManageUserLayout({ children }: { children: any }) {
     if (isValidId) {
       axiosPrivate.get(`user/profile/by_id/${id}`).then((res) => {
         setProfile(res.data);
+      });
+      axiosPrivate.get(`admin/user/roles/${id}`).then((res) => {
+        setRoles(res.data);
       });
     }
   }, [id, isValidId]);
@@ -97,7 +101,7 @@ export default function ManageUserLayout({ children }: { children: any }) {
                 </Flex>
               </Flex>
               <P>Username: {profile.slug}</P>
-              <P>Role: </P>
+              <P>Roles: {roles?.map((role) => role.role).join(', ')}</P>
               <P>ID: {id}</P>
               <ManageUserTabs />
             </Flex>
