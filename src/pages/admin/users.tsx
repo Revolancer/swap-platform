@@ -224,7 +224,7 @@ export default function UserManagement() {
   const [sortby, setSortby] = useState<SortByColumn>(
     (sortBy as SortByColumn) || 'created_at',
   );
-  const [ord, setOrd] = useState<Order>((order as Order) || 'ASC');
+  const [ord, setOrd] = useState<Order>((order as Order) || 'DESC');
   const [search, setSearch] = useState(srch || '');
 
   const debouncedLoad = debounce(async () => {
@@ -239,13 +239,9 @@ export default function UserManagement() {
       .catch((err) => {});
   }, 500);
 
-  const changePageCount = useCallback(
-    (pg: number) => {
-      setTotalPageCount(pg);
-      console.log(page, sortBy, order);
-    },
-    [page, sortBy, order],
-  );
+  const changePageCount = useCallback((pg: number) => {
+    setTotalPageCount(pg);
+  }, []);
 
   useEffect(() => {
     if (page) setUserPage(Number.isNaN(Number(page)) ? 1 : Number(page));
