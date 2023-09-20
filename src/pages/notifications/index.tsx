@@ -1,29 +1,24 @@
 import { Title } from '@/components/head/title';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { NotificationItem } from '@/components/notifications/notification-item';
-import { axiosPrivate } from '@/lib/axios';
-import { Notification } from '@/lib/types';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FullWidth, Flex } from '@revolancer/ui/layout';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { P } from '@revolancer/ui/text';
 import { SkeletonText } from '@revolancer/ui/skeleton';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getNotifications } from '@/lib/notifications';
 
 export default function Notifications() {
-  const [notifications, setNotifications] = useState<Notification[]>([]);
+  const notifications = useAppSelector((state) => state.indicator.notifs);
   const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    axiosPrivate
-      .get('notifications')
-      .then((res) => res.data)
-      .then((data) => {
-        setLoading(false);
-        setNotifications(data);
-      })
-      .catch(() => setNotifications([]));
-  }, []);
+    dispatch(getNotifications());
+    setLoading(false);
+  }, [dispatch]);
 
   const Skeleton = () => {
     return Array(4).fill(

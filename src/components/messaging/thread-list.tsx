@@ -1,9 +1,9 @@
-import { useEffect, useState } from 'react';
-import { axiosPrivate } from '@/lib/axios';
-import { Message } from '@/lib/types';
+import { useEffect } from 'react';
 import { ThreadListEntry } from './thread-list-entry';
 import { Flex } from '@revolancer/ui/layout';
 import { threadListSkeleton } from '../skeletons/thread-list-entry';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getMessages } from '@/lib/notifications';
 
 export const ThreadList = ({
   activeThread,
@@ -12,27 +12,16 @@ export const ThreadList = ({
   activeThread: string;
   loading: boolean;
 }) => {
-  const [threads, setThreads] = useState<Message[]>([]);
+  const threads = useAppSelector((state) => state.indicator.messages);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const loadThreads = async () => {
-      axiosPrivate
-        .get('message', {
-          id: `message-threads`,
-          cache: {
-            ttl: 20 * 1000,
-          },
-        })
-        .then((res) => res.data)
-        .then((data) => setThreads(data))
-        .catch((err) => setThreads([]));
-    };
-    loadThreads();
-    const refreshThreads = setInterval(loadThreads, 40 * 1000);
+    dispatch(getMessages());
+    const refreshThreads = setInterval(dispatch, 40 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
-  }, []);
+  }, [dispatch]);
 
   const displayThreads = () => {
     const rendered = [];
