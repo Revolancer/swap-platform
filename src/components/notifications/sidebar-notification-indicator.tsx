@@ -22,6 +22,7 @@ export const SidebarNotificationIndicator = ({
       const unread = notifications.filter((item) => item.read == false).length;
       dispatch(setNotifsUnread(unread));
     };
+    checkUnreadNotificationCount();
     const timer = setInterval(checkUnreadNotificationCount, 60 * 1000);
     return () => {
       clearInterval(timer);

@@ -1,20 +1,28 @@
 import { Notification } from '@/lib/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
-import { UnstyledLink } from '@revolancer/ui/buttons';
+import { TertiaryButton } from '@revolancer/ui/buttons';
 import { axiosPrivate } from '@/lib/axios';
 import { P } from '@revolancer/ui/text';
 import { Div } from '@revolancer/ui/layout';
+import { useAppDispatch } from '@/redux/store';
+import { getNotifications } from '@/lib/notifications';
 
 export const NotificationItem = ({
   notification,
 }: {
   notification: Notification;
 }) => {
-  axiosPrivate.post(`notifications/acknowledge/${notification.id}`);
+  const dispatch = useAppDispatch();
+
+  const handleReadNotification = () => {
+    axiosPrivate.post(`notifications/acknowledge/${notification.id}`);
+    dispatch(getNotifications());
+  };
   return (
-    <UnstyledLink
+    <TertiaryButton
       href={notification.url}
+      onClick={() => handleReadNotification}
       css={{
         display: 'flex',
         alignItems: 'center',
@@ -50,6 +58,6 @@ export const NotificationItem = ({
         )}
       </P>
       <FontAwesomeIcon icon={faChevronRight} />
-    </UnstyledLink>
+    </TertiaryButton>
   );
 };
