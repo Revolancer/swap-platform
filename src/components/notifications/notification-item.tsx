@@ -6,7 +6,7 @@ import { axiosPrivate } from '@/lib/axios';
 import { P } from '@revolancer/ui/text';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch } from '@/redux/store';
-import { getNotifications } from '@/lib/notifications';
+import { getUnreadNotifsCount } from '@/lib/notifications';
 
 export const NotificationItem = ({
   notification,
@@ -17,12 +17,12 @@ export const NotificationItem = ({
 
   const handleReadNotification = () => {
     axiosPrivate.post(`notifications/acknowledge/${notification.id}`);
-    dispatch(getNotifications());
+    dispatch(getUnreadNotifsCount());
   };
   return (
     <TertiaryButton
       href={notification.url}
-      onClick={() => handleReadNotification}
+      onClick={() => handleReadNotification()}
       css={{
         display: 'flex',
         alignItems: 'center',

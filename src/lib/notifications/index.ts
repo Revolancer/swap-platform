@@ -21,6 +21,14 @@ export const getNotifications = createAsyncThunk('notifications', async () => {
   return res.data;
 });
 
+export const getUnreadNotifsCount = createAsyncThunk(
+  'notifications/count/unread',
+  async () => {
+    const res = axiosPrivate.get('notifications/count/unread');
+    return (await res).data;
+  },
+);
+
 export const getMessages = createAsyncThunk('message', async () => {
   const res = await axiosPrivate.get('message', {
     id: `message-threads`,
@@ -52,6 +60,15 @@ export const indicatorsSlice = createSlice({
       )
       .addCase(getNotifications.rejected, (state) => {
         state.notifs = [];
+      })
+      .addCase(
+        getUnreadNotifsCount.fulfilled,
+        (state, action: PayloadAction<number>) => {
+          state.notifsUnread = action.payload;
+        },
+      )
+      .addCase(getUnreadNotifsCount.rejected, (state) => {
+        state.notifsUnread = 0;
       })
       .addCase(
         getMessages.fulfilled,

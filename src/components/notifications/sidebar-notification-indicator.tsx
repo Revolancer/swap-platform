@@ -5,7 +5,11 @@ import { styled } from '@revolancer/ui';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getNotifications, setNotifsUnread } from '@/lib/notifications';
+import {
+  getNotifications,
+  getUnreadNotifsCount,
+  setNotifsUnread,
+} from '@/lib/notifications';
 
 export const SidebarNotificationIndicator = ({
   expanded,
@@ -19,8 +23,7 @@ export const SidebarNotificationIndicator = ({
   useEffect(() => {
     dispatch(getNotifications());
     const checkUnreadNotificationCount = () => {
-      const unread = notifications.filter((item) => item.read == false).length;
-      dispatch(setNotifsUnread(unread));
+      dispatch(getUnreadNotifsCount());
     };
     checkUnreadNotificationCount();
     const timer = setInterval(checkUnreadNotificationCount, 60 * 1000);
