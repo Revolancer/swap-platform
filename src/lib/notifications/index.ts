@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message, Notification } from '../types';
 import { axiosPrivate } from '../axios';
+import { DateTime } from 'luxon';
 
 interface IndicatorsState {
   notifsUnread: number;
@@ -26,8 +27,16 @@ export const getNotifications = createAsyncThunk('notifications', async () => {
 export const getUnreadNotifsCount = createAsyncThunk(
   'notifications/count/unread',
   async () => {
-    const res = axiosPrivate.get('notifications/count/unread');
-    return (await res).data;
+    const res = await axiosPrivate.get('notifications/count/unread');
+    return res.data;
+  },
+);
+
+export const markNotifAsRead = createAsyncThunk(
+  'notifications/acknowledge/:id',
+  async (id: string) => {
+    await axiosPrivate.post(`notifications/acknowledge/${id}`);
+    return id;
   },
 );
 
@@ -88,6 +97,19 @@ export const indicatorsSlice = createSlice({
       .addCase(getUnreadNotifsCount.rejected, (state) => {
         state.notifsUnread = 0;
       })
+      .addCase(
+        markNotifAsRead.fulfilled,
+        (state, action: PayloadAction<string>) => {
+          const notifOnRead = state.notifs.findIndex(
+            (notif) => notif.id == action.payload,
+          );
+          state.notifs[notifOnRead].read = true;
+          state.notifs[notifOnRead].read_at = DateTime.now()
+            .toJSDate()
+            .toString();
+        },
+      )
+      .addCase(markNotifAsRead.rejected, () => {})
       .addCase(
         getMessages.fulfilled,
         (state, action: PayloadAction<Message[]>) => {

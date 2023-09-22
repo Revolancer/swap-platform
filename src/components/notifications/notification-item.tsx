@@ -2,11 +2,10 @@ import { Notification } from '@/lib/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { TertiaryButton } from '@revolancer/ui/buttons';
-import { axiosPrivate } from '@/lib/axios';
 import { P } from '@revolancer/ui/text';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch } from '@/redux/store';
-import { getUnreadNotifsCount } from '@/lib/notifications';
+import { markNotifAsRead } from '@/lib/notifications';
 
 export const NotificationItem = ({
   notification,
@@ -16,8 +15,7 @@ export const NotificationItem = ({
   const dispatch = useAppDispatch();
 
   const handleReadNotification = () => {
-    axiosPrivate.post(`notifications/acknowledge/${notification.id}`);
-    dispatch(getUnreadNotifsCount());
+    dispatch(markNotifAsRead(notification.id));
   };
   return (
     <TertiaryButton
@@ -26,6 +24,7 @@ export const NotificationItem = ({
       css={{
         display: 'flex',
         alignItems: 'center',
+        width: '100%',
         justifyContent: 'space-between',
         borderWidth: '$1',
         borderColor: '$neutral400',
