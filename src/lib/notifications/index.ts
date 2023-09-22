@@ -6,6 +6,7 @@ interface IndicatorsState {
   notifsUnread: number;
   notifs: Notification[];
   messagesUnread: number;
+  messageCount: number;
   messages: Message[];
 }
 
@@ -13,6 +14,7 @@ const initialState = {
   notifsUnread: 0,
   notifs: [],
   messagesUnread: 0,
+  messageCount: 0,
   messages: [],
 } as IndicatorsState;
 
@@ -38,6 +40,22 @@ export const getMessages = createAsyncThunk('message', async () => {
   });
   return res.data;
 });
+
+export const getUnreadMessagesCount = createAsyncThunk(
+  'message/unread',
+  async () => {
+    const res = await axiosPrivate.get('message/unread');
+    return res.data;
+  },
+);
+
+export const getAllMessagesCount = createAsyncThunk(
+  'message/count_all',
+  async () => {
+    const res = await axiosPrivate.get('message/count_all');
+    return res.data;
+  },
+);
 
 export const indicatorsSlice = createSlice({
   name: 'indicators',
@@ -78,6 +96,24 @@ export const indicatorsSlice = createSlice({
       )
       .addCase(getMessages.rejected, (state) => {
         state.messages = [];
+      })
+      .addCase(
+        getUnreadMessagesCount.fulfilled,
+        (state, action: PayloadAction<number>) => {
+          state.messagesUnread = action.payload;
+        },
+      )
+      .addCase(getUnreadMessagesCount.rejected, (state) => {
+        state.messagesUnread = 0;
+      })
+      .addCase(
+        getAllMessagesCount.fulfilled,
+        (state, action: PayloadAction<number>) => {
+          state.messageCount = action.payload;
+        },
+      )
+      .addCase(getAllMessagesCount.rejected, (state) => {
+        state.messageCount = 0;
       });
   },
 });

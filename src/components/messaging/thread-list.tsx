@@ -16,12 +16,12 @@ export const ThreadList = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getMessages());
-    const refreshThreads = setInterval(dispatch, 40 * 1000);
+    const fetchMessages = () => dispatch(getMessages());
+    const refreshThreads = setInterval(fetchMessages, 40 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
-  }, [dispatch]);
+  }, [dispatch, threads]);
 
   const displayThreads = () => {
     const rendered = [];
