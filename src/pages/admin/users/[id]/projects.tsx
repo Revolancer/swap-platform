@@ -5,7 +5,6 @@ import { H5, Span } from '@revolancer/ui/text';
 import { axiosPrivate } from '@/lib/axios';
 import { DataTable, TD, TH, TR } from '@revolancer/ui/project-hubs';
 import { Project } from '@/lib/types';
-import { RoundedSquareImage } from '@revolancer/ui/user';
 
 export default function UserProjects() {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
@@ -14,13 +13,13 @@ export default function UserProjects() {
 
   useEffect(() => {
     axiosPrivate
-      .get('projects/active')
+      .get(`admin/users/${id}/projects`)
       .then((res) => res.data)
       .then((data) => {
         setActiveProjects(data);
       })
       .catch(() => setActiveProjects([]));
-  }, []);
+  }, [id]);
 
   return (
     <ManageUserLayout>
