@@ -17,6 +17,7 @@ export const ActiveProjectsTile = ({ id }: { id?: string }) => {
         .get(`admin/users/${id}/projects/active/count`)
         .then((response) => {
           setActiveProjects(response.data);
+          setLoading(false);
         })
         .catch((e) => setActiveProjects(0));
     } else {
