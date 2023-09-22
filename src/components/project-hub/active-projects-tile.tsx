@@ -7,19 +7,28 @@ import { Flex, Card } from '@revolancer/ui/layout';
 import { H5 } from '@revolancer/ui/text';
 import { WalletTileSkeleton } from '../skeletons/wallet-tile';
 
-export const ActiveProjectsTile = () => {
+export const ActiveProjectsTile = ({ id }: { id?: string }) => {
   const [activeProjects, setActiveProjects] = useState(0);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    axiosPrivate
-      .get('projects/active/count')
-      .then((response) => {
-        setActiveProjects(response.data);
-        setLoading(false);
-      })
-      .catch((e) => setActiveProjects(0));
-  }, []);
+    if (id) {
+      axiosPrivate
+        .get(`admin/users/${id}/projects/active/count`)
+        .then((response) => {
+          setActiveProjects(response.data);
+        })
+        .catch((e) => setActiveProjects(0));
+    } else {
+      axiosPrivate
+        .get('projects/active/count')
+        .then((response) => {
+          setActiveProjects(response.data);
+          setLoading(false);
+        })
+        .catch((e) => setActiveProjects(0));
+    }
+  }, [id]);
 
   const Price = styled('span', {
     color: '$pink500',

@@ -18,15 +18,15 @@ export default function UserWallet() {
     <ManageUserLayout>
       <Flex column>
         <TwoCols>
-          <BalanceTile />
-          <ActiveProjectsTile />
+          <BalanceTile id={id?.toString()} />
+          <ActiveProjectsTile id={id?.toString()} />
         </TwoCols>
         <H5>Transaction History</H5>
         <P css={{ color: '$neutral800' }}>
           This is an overview of your transactions
         </P>
-        <WalletChart />
-        <WalletTable />
+        <WalletChart id={id?.toString()} />
+        <WalletTable id={id?.toString()} />
       </Flex>
     </ManageUserLayout>
   );
