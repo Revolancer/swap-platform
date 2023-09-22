@@ -21,9 +21,9 @@ export const SidebarMessagesIndicator = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getMessages());
-    dispatch(getAllMessagesCount());
     const checkUnreadMessageCount = () => {
+      dispatch(getMessages());
+      dispatch(getAllMessagesCount());
       dispatch(getUnreadMessagesCount());
     };
     checkUnreadMessageCount();
