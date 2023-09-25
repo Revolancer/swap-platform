@@ -48,6 +48,7 @@ interface User {
   created_at: string;
   selected: boolean;
   email: string;
+  user_id: string;
 }
 
 const getInitialSortColumn = (
@@ -67,18 +68,22 @@ function UserTable({
   userFilter,
   toggleAllSelected,
   setUsers,
-  debouncedLoad,
+  load,
+  selectedUsers,
+  setSelectedUsers,
 }: {
   users: User[];
   allSelected: boolean;
   toggleAllSelected: () => void;
   setUsers: Dispatch<SetStateAction<User[]>>;
   userFilter: UserFilter;
-  debouncedLoad: DebouncedFunc<() => Promise<void>>;
+  load: () => Promise<void>;
+  selectedUsers: string[];
+  setSelectedUsers: Dispatch<SetStateAction<string[]>>;
 }) {
   useEffect(() => {
-    debouncedLoad();
-  }, [userFilter, debouncedLoad]);
+    load();
+  }, [userFilter, load]);
 
   return (
     <DataTable
@@ -91,14 +96,8 @@ function UserTable({
               checked={allSelected}
               onChange={(value: boolean) => {
                 toggleAllSelected();
-                setUsers((prev) => {
-                  let newUsers = [];
-                  for (let u of prev) {
-                    u.selected = value;
-                    newUsers.push(u);
-                  }
-                  return newUsers;
-                });
+                if (value) setSelectedUsers(users.map((u) => u.user_id));
+                else setSelectedUsers([]);
               }}
             >
               {''}
@@ -125,16 +124,22 @@ function UserTable({
             <TR key={user.id}>
               <TD>
                 <Checkbox
+                  key={user.id}
                   name="checked"
                   id={user.id}
-                  checked={user.selected}
+                  checked={selectedUsers.includes(user.user_id)}
                   onChange={(value: boolean) => {
-                    setUsers((prev) => {
-                      return prev.map((u) => {
-                        if (u.id == user.id) return { ...u, selected: value };
-                        else return u;
+                    if (value && !selectedUsers.includes(user.user_id)) {
+                      setSelectedUsers((prev) => [...prev, user.user_id]);
+                    } else {
+                      setSelectedUsers((prev) => {
+                        let newSelected = [];
+                        for (let u of prev) {
+                          if (u != user.user_id) newSelected.push(u);
+                        }
+                        return newSelected;
                       });
-                    });
+                    }
                   }}
                 >
                   {''}
@@ -213,6 +218,8 @@ export default function UserManagement() {
   const [openRoleModal, setOpenRoleModal] = useState(false);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [totalPageCount, setTotalPageCount] = useState(0);
+  const [selectedUsers, setSelectedUsers] = useState<string[]>([]);
+  const [changeRole, setChangeRole] = useState('user');
 
   const router = useRouter();
 
@@ -227,21 +234,19 @@ export default function UserManagement() {
   const [ord, setOrd] = useState<Order>((order as Order) || 'DESC');
   const [search, setSearch] = useState(srch || '');
 
-  const debouncedLoad = debounce(async () => {
+  const load = useCallback(async () => {
     await axiosPrivate
       .get(
-        `admin/users?search=${search}&page=${userPage}&sortBy=${sortby}&order=${ord}`,
+        `admin/users?search=${search}&page=${userPage}&sortBy=${sortby}&order=${ord}&timestamp=${new Date().getTime()}`,
       )
       .then((response) => {
         setUsers(response.data.data ?? []);
-        changePageCount(response.data.totalPages ?? 0);
+        setTotalPageCount(response.data.totalPages ?? 0);
       })
       .catch((err) => {});
-  }, 500);
+  }, [userPage, sortby, ord, search]);
 
-  const changePageCount = useCallback((pg: number) => {
-    setTotalPageCount(pg);
-  }, []);
+  const debouncedLoad = debounce(load, 500);
 
   useEffect(() => {
     if (page) setUserPage(Number.isNaN(Number(page)) ? 1 : Number(page));
@@ -507,29 +512,68 @@ export default function UserManagement() {
             allSelected={allSelected}
             toggleAllSelected={() => setAllSelected(!allSelected)}
             userFilter={userFilter}
-            debouncedLoad={debouncedLoad}
+            load={load}
+            selectedUsers={selectedUsers}
+            setSelectedUsers={setSelectedUsers}
           />
         </FullWidth>
         <ChangeRoleModal
           modalIsOpen={openRoleModal}
           closeModal={() => setOpenRoleModal(false)}
-          onSave={() => {}}
+          onSave={() => {
+            axiosPrivate
+              .put(`admin/users/role`, {
+                usersToChangeRole: selectedUsers,
+                role: changeRole,
+              })
+              .then((response) => {
+                axiosPrivate
+                  .get(
+                    `admin/users?search=${search}&page=${1}&sortBy=${sortby}&order=${ord}&timestamp=${new Date().getTime()}`,
+                  )
+                  .then((response) => {
+                    setUsers(response.data.data ?? []);
+                    setTotalPageCount(response.data.totalPages ?? 0);
+                  })
+                  .catch((err) => {});
+              })
+              .catch((err) => {});
+          }}
           selectedUsers={users
-            .filter((u) => u.selected)
+            .filter((u) => selectedUsers.includes(u.user_id))
             .map((u) => u.first_name + ' ' + u.last_name)}
           RoleChangerComponent={
             <RoleSelector
-              roles={['admin', 'moderator', 'viewer', 'user']}
-              onSubmit={(role) => {}}
+              roles={['admin', 'moderator', 'stats_viewer', 'user']}
+              onSubmit={(role) => setChangeRole(role)}
             />
           }
         />
         <DeleteAccountModal
-          onDelete={() => {}}
+          onDelete={() => {
+            axiosPrivate
+              .delete(`admin/users`, {
+                data: {
+                  usersToDelete: selectedUsers,
+                },
+              })
+              .then((response) => {
+                axiosPrivate
+                  .get(
+                    `admin/users?search=${search}&page=${1}&sortBy=${sortby}&order=${ord}&timestamp=${new Date().getTime()}`,
+                  )
+                  .then((response) => {
+                    setUsers(response.data.data ?? []);
+                    setTotalPageCount(response.data.totalPages ?? 0);
+                  })
+                  .catch((err) => {});
+              })
+              .catch((err) => {});
+          }}
           modalIsOpen={openDeleteModal}
           closeModal={() => setOpenDeleteModal(false)}
           selectedUsers={users
-            .filter((u) => u.selected)
+            .filter((u) => selectedUsers.includes(u.user_id))
             .map((u) => u.first_name + ' ' + u.last_name)}
         />
       </AdminLayout>
