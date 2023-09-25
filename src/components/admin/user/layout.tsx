@@ -13,6 +13,7 @@ import { validate as isUuid } from 'uuid';
 import { axiosPrivate } from '@/lib/axios';
 import { H1, P } from '@revolancer/ui/text';
 import { ManageUserTabs } from './tabs';
+import { DeleteUserButton } from './delete';
 
 export default function ManageUserLayout({ children }: { children: any }) {
   const [profile, setProfile] = useState<UserProfileData>();
@@ -92,12 +93,10 @@ export default function ManageUserLayout({ children }: { children: any }) {
                   </H1>
                 </Flex>
                 <Flex css={{ alignItems: 'center' }}>
-                  <Button href="#" role="secondary">
+                  <Button href="#" role="secondary" css={{ flexShrink: '0' }}>
                     Change Role
                   </Button>
-                  <Button href="#" role="dangerous">
-                    Delete User
-                  </Button>
+                  {id && typeof id == 'string' && <DeleteUserButton id={id} />}
                 </Flex>
               </Flex>
               <P>Username: {profile.slug}</P>
