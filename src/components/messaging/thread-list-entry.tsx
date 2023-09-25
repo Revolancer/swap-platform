@@ -3,12 +3,13 @@ import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
-import store from '@/redux/store';
+import store, { useAppDispatch } from '@/redux/store';
 import { DateTime } from 'luxon';
 import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
+import { markMessageAsRead } from '@/lib/notifications';
 
 const UnreadIndicator = () => {
   const Container = styled('div', {
@@ -44,6 +45,8 @@ export const ThreadListEntry = ({
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState('');
   const [unread, setUnread] = useState(false);
+
+  const dispatch = useAppDispatch();
 
   const ProfileImageContainer = styled('div', {
     backgroundColor: '$neutral300',
@@ -100,6 +103,10 @@ export const ThreadListEntry = ({
 
   if (!id) return <ThreadListEntrySkeleton />;
 
+  const handleReadMessage = () => {
+    dispatch(markMessageAsRead(message.id));
+  };
+
   return (
     <>
       <Div
@@ -112,7 +119,11 @@ export const ThreadListEntry = ({
           paddingInline: '$2',
         }}
       >
-        <UnstyledLink href={`/message/${id}`} replace>
+        <UnstyledLink
+          href={`/message/${id}`}
+          onClick={() => handleReadMessage()}
+          replace
+        >
           <Div
             css={{
               display: 'grid',
