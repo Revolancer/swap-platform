@@ -161,7 +161,10 @@ function UserTable({
               </TD>
               <TD>
                 <Flex>
-                  <Button href={`/admin/users/${user.id}`} role={'secondary'}>
+                  <Button
+                    href={`/admin/users/${user.user_id}`}
+                    role={'secondary'}
+                  >
                     Edit User
                   </Button>
                   <Button
