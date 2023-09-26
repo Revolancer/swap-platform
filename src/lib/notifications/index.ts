@@ -4,7 +4,6 @@ import { axiosPrivate } from '../axios';
 import { DateTime } from 'luxon';
 
 interface IndicatorsState {
-  notifsUnread: number;
   notifs: Notification[];
   messagesUnread: number;
   messageCount: number;
@@ -12,7 +11,6 @@ interface IndicatorsState {
 }
 
 const initialState = {
-  notifsUnread: 0,
   notifs: [],
   messagesUnread: 0,
   messageCount: 0,
@@ -24,20 +22,11 @@ export const getNotifications = createAsyncThunk('notifications', async () => {
   return res.data;
 });
 
-export const getUnreadNotifsCount = createAsyncThunk(
-  'notifications/count/unread',
-  async () => {
-    const res = await axiosPrivate.get('notifications/count/unread');
-    return res.data;
-  },
-);
-
 export const markNotifAsRead = createAsyncThunk(
   'notifications/acknowledge/:id',
   async (id: string) => {
     await axiosPrivate.post(`notifications/acknowledge/${id}`);
     getNotifications();
-    getUnreadNotifsCount();
     return id;
   },
 );
@@ -72,8 +61,8 @@ export const markMessageAsRead = createAsyncThunk(
   'message/acknowledge/:id',
   async (id: string) => {
     await axiosPrivate.post(`message/acknowledge/${id}`);
-    getNotifications();
-    getUnreadNotifsCount();
+    getMessages();
+    getUnreadMessagesCount();
     return id;
   },
 );
@@ -82,9 +71,6 @@ export const indicatorsSlice = createSlice({
   name: 'indicators',
   initialState,
   reducers: {
-    setNotifsUnread(state, action: PayloadAction<number>) {
-      state.notifsUnread = action.payload;
-    },
     setMessagesUnread(state, action: PayloadAction<number>) {
       state.messagesUnread = action.payload;
     },
@@ -94,34 +80,17 @@ export const indicatorsSlice = createSlice({
       .addCase(
         getNotifications.fulfilled,
         (state, action: PayloadAction<Notification[]>) => {
-          state.notifs = action.payload;
+          state.notifs = action.payload.filter((notif) => notif.read == true);
         },
       )
       .addCase(getNotifications.rejected, (state) => {
         state.notifs = [];
       })
       .addCase(
-        getUnreadNotifsCount.fulfilled,
-        (state, action: PayloadAction<number>) => {
-          state.notifsUnread = action.payload;
-        },
-      )
-      .addCase(getUnreadNotifsCount.rejected, (state) => {
-        state.notifsUnread = 0;
-      })
-      .addCase(
         markNotifAsRead.fulfilled,
         (state, action: PayloadAction<string>) => {
-          const notifOnRead = state.notifs.findIndex(
-            (notif) => notif.id == action.payload,
-          );
-          state.notifs[notifOnRead].read = true;
-          state.notifs[notifOnRead].read_at = DateTime.now()
-            .toJSDate()
-            .toString();
+          state.notifs.filter((notif) => notif.id == action.payload);
           getNotifications();
-          getUnreadNotifsCount();
-          console.log('notifsUnread: ', state.notifsUnread);
         },
       )
       .addCase(markNotifAsRead.rejected, () => {})
@@ -172,4 +141,4 @@ export const indicatorsSlice = createSlice({
   },
 });
 
-export const { setNotifsUnread, setMessagesUnread } = indicatorsSlice.actions;
+export const { setMessagesUnread } = indicatorsSlice.actions;
