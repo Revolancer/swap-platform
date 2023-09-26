@@ -6,13 +6,13 @@ export const ManageUserTabs = () => {
   const { id } = router.query;
   const routes = {
     root: {
-      [`/admin/users/${id}`]: 'User Profile',
+      [`admin/users/${id}`]: 'User Profile',
     },
     paths: {
       settings: 'Account Settings',
       wallet: 'Wallet',
       posts: 'User Posts',
-      email_prefs: 'Preferences',
+      'email-preferences': 'Email Preferences',
       messages: 'Messages',
       projects: 'Active Projects',
       projects_completed: 'Completed Projects',
