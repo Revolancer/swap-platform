@@ -12,7 +12,7 @@ export const ManageUserTabs = () => {
       settings: 'Account Settings',
       wallet: 'Wallet',
       posts: 'User Posts',
-      email_prefs: 'Preferences',
+      'email-preferences': 'Email Preferences',
       messages: 'Messages',
       projects: 'Active Projects',
       projects_completed: 'Completed Projects',
