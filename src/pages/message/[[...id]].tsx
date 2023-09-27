@@ -19,7 +19,6 @@ import { ThreadAuthorSkeleton } from '@/components/skeletons/current-thread-auth
 import { ThreadSkeleton } from '@/components/skeletons/current-thread';
 import { threadListSkeleton } from '@/components/skeletons/thread-list-entry';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getAllMessagesCount } from '@/lib/notifications';
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -29,10 +28,9 @@ export default function MessageCenter() {
   const [activeThread, setActiveThread] = useState('');
   const [loading, setLoading] = useState(true);
 
-  const allMessageCount = useAppSelector(
-    (state) => state.indicator.messageCount,
-  );
+  const messages = useAppSelector((state) => state.indicator.messages);
   const dispatch = useAppDispatch();
+  const allMessageCount = messages.length;
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -52,10 +50,6 @@ export default function MessageCenter() {
           setActiveThread('');
         });
     };
-    const checkIfAnyMessages = () => {
-      dispatch(getAllMessagesCount());
-    };
-    checkIfAnyMessages();
     if (typeof id !== 'undefined') {
       try {
         //If url param is a valid uuid, we can try to open a thread with that user

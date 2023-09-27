@@ -105,6 +105,7 @@ export const ThreadListEntry = ({
 
   const handleReadMessage = () => {
     dispatch(markMessageAsRead(message.id));
+    setUnread(false);
   };
 
   return (

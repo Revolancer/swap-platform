@@ -5,15 +5,11 @@ import { DateTime } from 'luxon';
 
 interface IndicatorsState {
   notifs: Notification[];
-  messagesUnread: number;
-  messageCount: number;
   messages: Message[];
 }
 
 const initialState = {
   notifs: [],
-  messagesUnread: 0,
-  messageCount: 0,
   messages: [],
 } as IndicatorsState;
 
@@ -26,7 +22,6 @@ export const markNotifAsRead = createAsyncThunk(
   'notifications/acknowledge/:id',
   async (id: string) => {
     await axiosPrivate.post(`notifications/acknowledge/${id}`);
-    getNotifications();
     return id;
   },
 );
@@ -41,28 +36,10 @@ export const getMessages = createAsyncThunk('message', async () => {
   return res.data;
 });
 
-export const getUnreadMessagesCount = createAsyncThunk(
-  'message/unread',
-  async () => {
-    const res = await axiosPrivate.get('message/unread');
-    return res.data;
-  },
-);
-
-export const getAllMessagesCount = createAsyncThunk(
-  'message/count_all',
-  async () => {
-    const res = await axiosPrivate.get('message/count_all');
-    return res.data;
-  },
-);
-
 export const markMessageAsRead = createAsyncThunk(
   'message/acknowledge/:id',
   async (id: string) => {
     await axiosPrivate.post(`message/acknowledge/${id}`);
-    getMessages();
-    getUnreadMessagesCount();
     return id;
   },
 );
@@ -70,11 +47,7 @@ export const markMessageAsRead = createAsyncThunk(
 export const indicatorsSlice = createSlice({
   name: 'indicators',
   initialState,
-  reducers: {
-    setMessagesUnread(state, action: PayloadAction<number>) {
-      state.messagesUnread = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -90,7 +63,6 @@ export const indicatorsSlice = createSlice({
         markNotifAsRead.fulfilled,
         (state, action: PayloadAction<string>) => {
           state.notifs.filter((notif) => notif.id == action.payload);
-          getNotifications();
         },
       )
       .addCase(markNotifAsRead.rejected, () => {})
@@ -104,24 +76,6 @@ export const indicatorsSlice = createSlice({
         state.messages = [];
       })
       .addCase(
-        getUnreadMessagesCount.fulfilled,
-        (state, action: PayloadAction<number>) => {
-          state.messagesUnread = action.payload;
-        },
-      )
-      .addCase(getUnreadMessagesCount.rejected, (state) => {
-        state.messagesUnread = 0;
-      })
-      .addCase(
-        getAllMessagesCount.fulfilled,
-        (state, action: PayloadAction<number>) => {
-          state.messageCount = action.payload;
-        },
-      )
-      .addCase(getAllMessagesCount.rejected, (state) => {
-        state.messageCount = 0;
-      })
-      .addCase(
         markMessageAsRead.fulfilled,
         (state, action: PayloadAction<string>) => {
           const messageOnRead = state.messages.findIndex(
@@ -131,14 +85,8 @@ export const indicatorsSlice = createSlice({
           state.messages[messageOnRead].read_at = DateTime.now()
             .toJSDate()
             .toString();
-          getMessages();
-          getAllMessagesCount();
-          getUnreadMessagesCount();
-          console.log('messagesUnread: ', state.messagesUnread);
         },
       )
       .addCase(markMessageAsRead.rejected, () => {});
   },
 });
-
-export const { setMessagesUnread } = indicatorsSlice.actions;
