@@ -1,4 +1,5 @@
 import { LocationInput } from '@/components/forms/location-input';
+import { SuccessModal } from '@/components/modals/success-modal';
 import { TimezoneSkeleton } from '@/components/skeletons/timezone';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
@@ -17,6 +18,7 @@ const UpdateTimezoneSchema = Yup.object().shape({
 
 const EditTimeZoneSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [location, setLocation] = useState<google.maps.Place | undefined>(
     undefined,
   );
@@ -56,6 +58,7 @@ const EditTimeZoneSegment = ({ uid }: { uid: string | string[] }) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('timezone', 'Oops, something went wrong');
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-timezone-${uid}`);
               }
             })
@@ -96,6 +99,14 @@ const EditTimeZoneSegment = ({ uid }: { uid: string | string[] }) => {
               </Flex>
               {props.touched['location'] && props.errors['location'] && (
                 <Feedback state="error">{props.errors['location']}</Feedback>
+              )}
+              {success && (
+                <SuccessModal
+                  successMessage="Timezone has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
               )}
             </Form>
           );

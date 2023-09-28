@@ -1,5 +1,6 @@
 import { LocationInput } from '@/components/forms/location-input';
 import { UploadField } from '@/components/forms/upload';
+import { SuccessModal } from '@/components/modals/success-modal';
 import { TimezoneSkeleton } from '@/components/skeletons/timezone';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
@@ -19,6 +20,7 @@ const UpdateImageSchema = Yup.object().shape({
 
 const EditPictureSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [editMode, setEditMode] = useState(false);
   const [url, setUrl] = useState('');
 
@@ -59,6 +61,7 @@ const EditPictureSegment = ({ uid }: { uid: string | string[] }) => {
                   'Oops, something went wrong',
                 );
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-image-${uid}`);
               }
             })
@@ -100,6 +103,14 @@ const EditPictureSegment = ({ uid }: { uid: string | string[] }) => {
                   Save
                 </Button>
               </Flex>
+              {success && (
+                <SuccessModal
+                  successMessage="Profile picture has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
+              )}
             </Form>
           );
         }}

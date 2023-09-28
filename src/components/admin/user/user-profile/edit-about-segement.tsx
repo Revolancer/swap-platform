@@ -1,3 +1,4 @@
+import { SuccessModal } from '@/components/modals/success-modal';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
@@ -20,6 +21,7 @@ const UpdateAboutSchema = Yup.object().shape({
 
 const EditAboutSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [about, setAbout] = useState('');
 
   const loadAboutForUser = useCallback(async () => {
@@ -56,6 +58,7 @@ const EditAboutSegment = ({ uid }: { uid: string | string[] }) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('about', 'Oops, something went wrong');
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-about-${uid}`);
                 await loadAboutForUser();
               }
@@ -107,6 +110,14 @@ const EditAboutSegment = ({ uid }: { uid: string | string[] }) => {
               </Flex>
               {props.touched.about && props.errors.about && (
                 <Feedback state="error">{props.errors.about}</Feedback>
+              )}
+              {success && (
+                <SuccessModal
+                  successMessage="About has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
               )}
             </Form>
           );

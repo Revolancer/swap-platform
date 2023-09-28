@@ -1,5 +1,6 @@
 import { LocationInput } from '@/components/forms/location-input';
 import { TagField } from '@/components/forms/taginput';
+import { SuccessModal } from '@/components/modals/success-modal';
 import { SkillSkeleton } from '@/components/skeletons/skillsegment';
 import { TimezoneSkeleton } from '@/components/skeletons/timezone';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
@@ -27,6 +28,7 @@ const SkillEditSchema = Yup.object().shape({
 
 const EditSkillsSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [tags, setTags] = useState<Tag[]>([]);
 
   const loadTagsForUser = useCallback(async () => {
@@ -57,6 +59,7 @@ const EditSkillsSegment = ({ uid }: { uid: string | string[] }) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('skills', 'Oops, something went wrong');
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-skills-${uid}`);
                 await loadTagsForUser();
               }
@@ -96,6 +99,14 @@ const EditSkillsSegment = ({ uid }: { uid: string | string[] }) => {
                   Save
                 </Button>
               </Flex>
+              {success && (
+                <SuccessModal
+                  successMessage="Skills has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
+              )}
             </Form>
           );
         }}
