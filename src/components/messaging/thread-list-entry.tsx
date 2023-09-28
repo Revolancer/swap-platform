@@ -115,7 +115,10 @@ export const ThreadListEntry = ({
           paddingInline: '$2',
         }}
       >
-        <UnstyledLink href={uid ? `messages/${id}` : `/message/${id}`} replace>
+        <UnstyledLink
+          href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
+          replace
+        >
           <Div
             css={{
               display: 'grid',

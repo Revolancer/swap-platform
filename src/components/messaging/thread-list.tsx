@@ -60,7 +60,6 @@ export const ThreadList = ({
           key={thread.id}
           activeThread={activeThread}
           uid={uid}
-          adminMode
         />,
       );
     }

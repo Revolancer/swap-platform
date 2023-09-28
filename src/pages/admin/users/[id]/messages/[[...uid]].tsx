@@ -21,12 +21,11 @@ import { Link } from '@revolancer/ui/buttons';
 
 export default function AdminMessageCenter() {
   const router = useRouter();
-  const { id } = router.query;
+  const { id, uid } = router.query;
   const { route } = router;
   const [activeThreadProfile, setActiveThreadProfile] =
     useState<UserProfileData>();
   const [activeThread, setActiveThread] = useState('');
-  console.log(activeThread);
   const [allMessageCount, setAllMessageCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -58,16 +57,16 @@ export default function AdminMessageCenter() {
         .catch((err) => {});
     };
     checkIfAnyMessages();
-    if (typeof id !== 'undefined') {
+    if (typeof uid !== 'undefined') {
       try {
         //If url param is a valid uuid, we can try to open a thread with that user
-        uuidVersion(id[0] ?? '');
-        setActiveThread(id[0]);
-        loadProfile(id[0] ?? '');
+        uuidVersion(uid[0] ?? '');
+        setActiveThread(uid[0]);
+        loadProfile(uid[0] ?? '');
       } catch (err) {}
     }
     setLoading(false);
-  }, [id]);
+  }, [id, uid]);
 
   return (
     <ManageUserLayout>
@@ -105,7 +104,7 @@ export default function AdminMessageCenter() {
               <CurrentThread
                 uid={activeThread}
                 loading={loading}
-                adminUid={id?.toString()}
+                uidForAdmin={id?.toString()}
               />
             </Flex>
           )}
