@@ -1,3 +1,4 @@
+import { SuccessModal } from '@/components/modals/success-modal';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
@@ -15,6 +16,7 @@ const UpdateNameSchema = Yup.object().shape({
 
 const EditNameSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
 
@@ -54,6 +56,7 @@ const EditNameSegment = ({ uid }: { uid: string | string[] }) => {
                   'Oops, something went wrong',
                 );
               } else {
+                setSuccess(true);
                 setFirstName(values.first_name);
                 setLastName(values.last_name);
                 await axiosPublic.storage.remove(`user-name-${uid}`);
@@ -134,6 +137,14 @@ const EditNameSegment = ({ uid }: { uid: string | string[] }) => {
 
               {props.touched.last_name && props.errors.last_name && (
                 <Feedback state="error">{props.errors.last_name}</Feedback>
+              )}
+              {success && (
+                <SuccessModal
+                  successMessage="Name has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
               )}
             </Form>
           );

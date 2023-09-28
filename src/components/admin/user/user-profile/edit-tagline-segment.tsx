@@ -1,3 +1,4 @@
+import { SuccessModal } from '@/components/modals/success-modal';
 import { axiosPrivate, axiosPublic } from '@/lib/axios';
 import { Yup } from '@/lib/yup';
 import { Button } from '@revolancer/ui/buttons';
@@ -14,6 +15,7 @@ const UpdateTaglineSchema = Yup.object().shape({
 
 const EditTaglineSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [tagline, setTagline] = useState('');
 
   const loadTagline = useCallback(() => {
@@ -50,6 +52,7 @@ const EditTaglineSegment = ({ uid }: { uid: string | string[] }) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('tagline', 'Oops, something went wrong');
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-tagline-${uid}`);
               }
             })
@@ -104,6 +107,14 @@ const EditTaglineSegment = ({ uid }: { uid: string | string[] }) => {
                   <Feedback state="error">{props.errors.tagline}</Feedback>
                 )}
               </Flex>
+              {success && (
+                <SuccessModal
+                  successMessage="Tagline has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
+              )}
             </Form>
           );
         }}

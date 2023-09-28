@@ -1,4 +1,5 @@
 import { ExternalLink } from '@/components/links/external-link';
+import { SuccessModal } from '@/components/modals/success-modal';
 import { SocialsSkeleton } from '@/components/skeletons/socialsegment';
 import {
   formattedDomain,
@@ -46,6 +47,7 @@ const SocialIconLink: OptFn<(ir: IntermediateRepresentation) => any> = ({
 
 const EditSocialsSegment = ({ uid }: { uid: string | string[] }) => {
   const [loading, setLoading] = useState(true);
+  const [success, setSuccess] = useState(false);
   const [socials, setSocials] = useState([]);
 
   const loadSocialForUser = useCallback(async () => {
@@ -89,6 +91,7 @@ const EditSocialsSegment = ({ uid }: { uid: string | string[] }) => {
               if (response.data?.success == 'false') {
                 actions.setFieldError('socials', 'Oops, something went wrong');
               } else {
+                setSuccess(true);
                 await axiosPublic.storage.remove(`user-socials-${uid}`);
                 await loadSocialForUser();
               }
@@ -291,6 +294,14 @@ const EditSocialsSegment = ({ uid }: { uid: string | string[] }) => {
                   Save
                 </Button>
               </Flex>
+              {success && (
+                <SuccessModal
+                  successMessage="Socials has been updated"
+                  onClose={() => {
+                    setSuccess(false);
+                  }}
+                />
+              )}
             </Form>
           );
         }}
