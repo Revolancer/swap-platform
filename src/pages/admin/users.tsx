@@ -183,7 +183,7 @@ function UserTable({
   );
 }
 
-function RoleSelector({
+export function RoleSelector({
   onSubmit,
   roles,
 }: {
