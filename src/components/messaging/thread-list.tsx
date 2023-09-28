@@ -8,31 +8,48 @@ import { threadListSkeleton } from '../skeletons/thread-list-entry';
 export const ThreadList = ({
   activeThread,
   loading,
+  uid,
+  adminMode = false,
 }: {
   activeThread: string;
   loading: boolean;
+  uid?: string;
+  adminMode?: boolean;
 }) => {
   const [threads, setThreads] = useState<Message[]>([]);
 
   useEffect(() => {
     const loadThreads = async () => {
-      axiosPrivate
-        .get('message', {
-          id: `message-threads`,
-          cache: {
-            ttl: 20 * 1000,
-          },
-        })
-        .then((res) => res.data)
-        .then((data) => setThreads(data))
-        .catch((err) => setThreads([]));
+      if (adminMode) {
+        axiosPrivate
+          .get(`message/admin/${uid}`, {
+            id: `message-threads`,
+            cache: {
+              ttl: 20 * 1000,
+            },
+          })
+          .then((res) => res.data)
+          .then((data) => setThreads(data))
+          .catch((err) => setThreads([]));
+      } else {
+        axiosPrivate
+          .get('message', {
+            id: `message-threads`,
+            cache: {
+              ttl: 20 * 1000,
+            },
+          })
+          .then((res) => res.data)
+          .then((data) => setThreads(data))
+          .catch((err) => setThreads([]));
+      }
     };
     loadThreads();
     const refreshThreads = setInterval(loadThreads, 40 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
-  }, []);
+  }, [uid, adminMode]);
 
   const displayThreads = () => {
     const rendered = [];
@@ -42,6 +59,8 @@ export const ThreadList = ({
           message={thread}
           key={thread.id}
           activeThread={activeThread}
+          uid={uid}
+          adminMode
         />,
       );
     }

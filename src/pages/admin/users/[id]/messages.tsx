@@ -1,12 +1,16 @@
 import { UserProfileData } from '@/lib/types';
-import FourOhFour from '@/pages/404';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
-import { validate as isUuid, version as uuidVersion } from 'uuid';
+import { version as uuidVersion } from 'uuid';
 import ManageUserLayout from '@/components/admin/user/layout';
 import { MessageSideBar } from '@/components/layout/columns';
 import { ThreadList } from '@/components/messaging/thread-list';
-import { Divider, Flex, MainContentWithSideBar } from '@revolancer/ui/layout';
+import {
+  ColumnLayout,
+  Divider,
+  Flex,
+  MainContentWithSideBar,
+} from '@revolancer/ui/layout';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import { CurrentThreadAuthor } from '@/components/messaging/current-thread-author';
@@ -15,13 +19,14 @@ import { axiosPrivate } from '@/lib/axios';
 import { P } from '@revolancer/ui/text';
 import { Link } from '@revolancer/ui/buttons';
 
-export default function ManageUser() {
-  const [profile, setProfile] = useState<UserProfileData>();
+export default function AdminMessageCenter() {
   const router = useRouter();
   const { id } = router.query;
+  const { route } = router;
   const [activeThreadProfile, setActiveThreadProfile] =
     useState<UserProfileData>();
   const [activeThread, setActiveThread] = useState('');
+  console.log(activeThread);
   const [allMessageCount, setAllMessageCount] = useState(0);
   const [loading, setLoading] = useState(true);
 
@@ -66,9 +71,14 @@ export default function ManageUser() {
 
   return (
     <ManageUserLayout>
-      <>
+      <ColumnLayout>
         <MessageSideBar className="hello" hasThread={activeThread != ''}>
-          <ThreadList activeThread={activeThread} loading={loading} />
+          <ThreadList
+            activeThread={activeThread}
+            loading={loading}
+            uid={id?.toString()}
+            adminMode={route.includes('admin')}
+          />
         </MessageSideBar>
         <MainContentWithSideBar>
           {activeThreadProfile && (
@@ -92,7 +102,11 @@ export default function ManageUser() {
                 <CurrentThreadAuthor data={activeThreadProfile} />
               </Flex>
               <Divider css={{ flexGrow: 0 }} />
-              <CurrentThread uid={activeThread} loading={loading} />
+              <CurrentThread
+                uid={activeThread}
+                loading={loading}
+                adminUid={id?.toString()}
+              />
             </Flex>
           )}
           {!activeThreadProfile && allMessageCount < 1 && (
@@ -114,7 +128,7 @@ export default function ManageUser() {
             </P>
           )}
         </MainContentWithSideBar>
-      </>
+      </ColumnLayout>
     </ManageUserLayout>
   );
 }
