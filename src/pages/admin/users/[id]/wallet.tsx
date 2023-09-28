@@ -10,5 +10,5 @@ export default function ManageUser() {
   const router = useRouter();
   const { id } = router.query;
 
-  return <ManageUserLayout>Settings</ManageUserLayout>;
+  return <ManageUserLayout>Wallet</ManageUserLayout>;
 }
