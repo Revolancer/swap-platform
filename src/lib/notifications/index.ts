@@ -1,7 +1,6 @@
 import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Message, Notification } from '../types';
 import { axiosPrivate } from '../axios';
-import { DateTime } from 'luxon';
 
 interface IndicatorsState {
   notifs: Notification[];
@@ -47,7 +46,14 @@ export const markMessageAsRead = createAsyncThunk(
 export const indicatorsSlice = createSlice({
   name: 'indicators',
   initialState,
-  reducers: {},
+  reducers: {
+    setNotifsUnread(state) {
+      state.notifs = [];
+    },
+    setMessagesUnread(state) {
+      state.messages = [];
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(
@@ -82,11 +88,10 @@ export const indicatorsSlice = createSlice({
             (message) => message.id == action.payload,
           );
           state.messages[messageOnRead].read = true;
-          state.messages[messageOnRead].read_at = DateTime.now()
-            .toJSDate()
-            .toString();
         },
       )
       .addCase(markMessageAsRead.rejected, () => {});
   },
 });
+
+export const { setNotifsUnread, setMessagesUnread } = indicatorsSlice.actions;
