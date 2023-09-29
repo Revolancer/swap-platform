@@ -7,6 +7,7 @@ import { Div, Flex } from '@revolancer/ui/layout';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 import { H5, P } from '@revolancer/ui/text';
 import { Formik } from 'formik';
+import { DateTime } from 'luxon';
 import React, { useCallback, useEffect, useState } from 'react';
 
 const UpdateDOBSchema = Yup.object().shape({
@@ -23,12 +24,11 @@ const EditDOBSegment = ({ uid }: { uid: string | string[] }) => {
       .get(`admin/user/dob/${uid}`, { id: `admin-user-dob-${uid}` })
       .then((response) => {
         setLoading(false);
-        const dt = new Date(response.data?.date_of_birth);
-        setDOB(`${dt.getDate()}/${dt.getMonth()}/${dt.getFullYear()}`);
+        const dt = DateTime.fromISO(response.data?.date_of_birth);
+        setDOB(dt.toFormat('yyyy-LL-dd'));
       })
       .catch(() => {
         setLoading(false);
-        setDOB('');
       });
   }, [uid]);
 
@@ -54,6 +54,7 @@ const EditDOBSegment = ({ uid }: { uid: string | string[] }) => {
                 actions.setFieldError('email', 'Oops, something went wrong');
               } else {
                 setSuccess(true);
+                setDOB(values.dob);
                 await axiosPublic.storage.remove(`admin-user-dob-${uid}`);
                 await loadDOBForUser();
               }
