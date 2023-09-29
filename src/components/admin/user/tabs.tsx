@@ -15,7 +15,7 @@ export const ManageUserTabs = () => {
       'email-preferences': 'Email Preferences',
       messages: 'Messages',
       projects: 'Active Projects',
-      projects_completed: 'Completed Projects',
+      completed: 'Completed Projects',
     },
   };
 

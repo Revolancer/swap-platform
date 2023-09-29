@@ -66,7 +66,6 @@ export default function MessageCenter() {
     }
     setLoading(false);
   }, [id]);
-  console.log(typeof activeThreadProfile);
 
   const Skeleton = () => (
     <>

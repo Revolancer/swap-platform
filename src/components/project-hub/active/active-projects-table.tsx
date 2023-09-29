@@ -5,7 +5,6 @@ import store from '@/redux/store';
 import { Button } from '@revolancer/ui/buttons';
 import { P } from '@revolancer/ui/text';
 import { TH, TR, TD, DataTable } from '@revolancer/ui/project-hubs';
-import { Div } from '@revolancer/ui/layout';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
 export const ActiveProjectsTable = () => {
@@ -33,7 +32,7 @@ export const ActiveProjectsTable = () => {
       />
     );
 
-  if (setActiveProjects.length < 1) return <P>No active projects</P>;
+  if (activeProjects.length < 1) return <P>No active projects</P>;
 
   const self = store?.getState()?.userData?.user?.id ?? '';
 
