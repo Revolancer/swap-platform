@@ -38,9 +38,11 @@ const UnreadIndicator = () => {
 export const ThreadListEntry = ({
   message,
   activeThread,
+  uid,
 }: {
   message: Message;
   activeThread: string;
+  uid?: string;
 }) => {
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState('');
@@ -77,7 +79,8 @@ export const ThreadListEntry = ({
           setThreadProfile(undefined);
         });
     };
-    const self = store?.getState()?.userData?.user?.id ?? '';
+    const ownUser = store?.getState()?.userData?.user?.id ?? '';
+    const self = uid ? uid : ownUser;
     let id;
     if ((message.reciever as any as string) == self) {
       id = message.sender as any as string;
@@ -87,7 +90,7 @@ export const ThreadListEntry = ({
     }
     loadProfile(id);
     setId(id);
-  }, [message]);
+  }, [message, uid]);
 
   const time = DateTime.fromISO(message.created_at).toLocal();
   const now = DateTime.now().toLocal();
@@ -121,8 +124,7 @@ export const ThreadListEntry = ({
         }}
       >
         <UnstyledLink
-          href={`/message/${id}`}
-          onClick={() => handleReadMessage()}
+          href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
           replace
         >
           <Div

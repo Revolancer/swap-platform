@@ -13,19 +13,29 @@ import { DateTime } from 'luxon';
 import { config as styleConfig } from '@revolancer/ui';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
-export const WalletChart = () => {
+export const WalletChart = ({ id }: { id?: string }) => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axiosPrivate
-      .get('credits/log/reverse')
-      .then((res) => res.data)
-      .then((data) => {
-        setLogEntries(data);
-        setLoading(false);
-      })
-      .catch((err) => setLogEntries([]));
-  }, []);
+    if (id) {
+      axiosPrivate
+        .get(`credits/admin/${id}/log/reverse`)
+        .then((response) => {
+          setLogEntries(response.data);
+          setLoading(false);
+        })
+        .catch((err) => setLogEntries([]));
+    } else {
+      axiosPrivate
+        .get('credits/log/reverse')
+        .then((res) => res.data)
+        .then((data) => {
+          setLogEntries(data);
+          setLoading(false);
+        })
+        .catch((err) => setLogEntries([]));
+    }
+  }, [id]);
 
   if (loading)
     return (

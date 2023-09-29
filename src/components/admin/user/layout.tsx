@@ -14,10 +14,16 @@ import { axiosPrivate } from '@/lib/axios';
 import { H1, P } from '@revolancer/ui/text';
 import { ManageUserTabs } from './tabs';
 import { DeleteUserButton } from './delete';
+import { AdminChangeRoleModal } from '@/components/modals/admin-change-role-modal';
+import { RoleSelector } from '@/pages/admin/users';
+import { SuccessModal } from '@/components/modals/success-modal';
 
 export default function ManageUserLayout({ children }: { children: any }) {
   const [profile, setProfile] = useState<UserProfileData>();
   const [roles, setRoles] = useState<{ role: string }[]>();
+  const [changeRole, setChangeRole] = useState('');
+  const [modalOpen, setModalOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const { id } = router.query;
   const isValidId = typeof id == 'string' && isUuid(id);
@@ -93,7 +99,15 @@ export default function ManageUserLayout({ children }: { children: any }) {
                   </H1>
                 </Flex>
                 <Flex css={{ alignItems: 'center' }}>
-                  <Button href="#" role="secondary" css={{ flexShrink: '0' }}>
+                  <Button
+                    href="#"
+                    role="secondary"
+                    css={{ flexShrink: '0' }}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      setModalOpen(true);
+                    }}
+                  >
                     Change Role
                   </Button>
                   {id && typeof id == 'string' && <DeleteUserButton id={id} />}
@@ -104,9 +118,43 @@ export default function ManageUserLayout({ children }: { children: any }) {
               <P>ID: {id}</P>
               <ManageUserTabs />
             </Flex>
+            <AdminChangeRoleModal
+              modalIsOpen={modalOpen}
+              closeModal={() => setModalOpen(false)}
+              onSave={async () => {
+                try {
+                  await axiosPrivate.put(`admin/users/role`, {
+                    usersToChangeRole: [id],
+                    role: changeRole,
+                  });
+                } catch (err) {
+                  return;
+                }
+                setSuccess(true);
+                axiosPrivate
+                  .get(`admin/user/roles/${id}`, {
+                    id: `${new Date().getTime()}`,
+                  })
+                  .then((res) => {
+                    setRoles(res.data);
+                  });
+              }}
+              RoleChangerComponent={
+                <RoleSelector
+                  roles={['admin', 'moderator', 'stats_viewer', 'user']}
+                  onSubmit={(role) => setChangeRole(role)}
+                />
+              }
+            />
           </FullWidth>
         )}
         <FullWidth>{children}</FullWidth>
+        {success && (
+          <SuccessModal
+            successMessage="Role has been updated."
+            onClose={() => setSuccess(false)}
+          />
+        )}
       </AdminLayout>
     </>
   );

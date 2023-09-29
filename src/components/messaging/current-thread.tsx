@@ -17,9 +17,11 @@ import { ThreadSkeleton } from '../skeletons/current-thread';
 export const CurrentThread = ({
   uid,
   loading,
+  uidForAdmin,
 }: {
   uid: string;
   loading: boolean;
+  uidForAdmin?: string;
 }) => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
@@ -31,27 +33,45 @@ export const CurrentThread = ({
 
   const loadActiveThread = useCallback(() => {
     if (uid == '') return;
-    axiosPrivate
-      .get(`message/${uid}`, {
-        id: `message-threads-${uid}`,
-        cache: {
-          ttl: 20 * 1000,
-        },
-      })
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.length != messages.length) {
-          scrollToBottom();
-          setMessages(data);
-        }
-      })
-      .catch((err) => setMessages([]));
-  }, [uid, messages, scrollToBottom]);
+    if (uidForAdmin) {
+      axiosPrivate
+        .get(`message/admin/${uidForAdmin}/messages/${uid}`, {
+          id: `message-threads-${uid}`,
+          cache: {
+            ttl: 20 * 1000,
+          },
+        })
+        .then((res) => res.data)
+        .then((data) => {
+          if (data.length != messages.length) {
+            setMessages(data);
+          }
+        })
+        .catch((err) => setMessages([]));
+    } else {
+      axiosPrivate
+        .get(`message/${uid}`, {
+          id: `message-threads-${uid}`,
+          cache: {
+            ttl: 20 * 1000,
+          },
+        })
+        .then((res) => res.data)
+        .then((data) => {
+          if (data.length != messages.length) {
+            scrollToBottom();
+            setMessages(data);
+          }
+        })
+        .catch((err) => setMessages([]));
+    }
+  }, [uid, messages, scrollToBottom, uidForAdmin]);
 
   useEffect(() => {
     const loadProfiles = async () => {
       if (uid == '') return;
-      const self = store?.getState()?.userData?.user?.id ?? '';
+      const own = store?.getState()?.userData?.user?.id ?? '';
+      const self = uidForAdmin ? uidForAdmin : own;
       if (self == '') return;
       await axiosPrivate
         .get(`user/profile/by_id/${uid}`)
@@ -82,12 +102,12 @@ export const CurrentThread = ({
     };
     loadProfiles();
     loadActiveThread();
-    scrollToBottom();
+    if (!uidForAdmin) scrollToBottom();
     const refreshActiveThread = setInterval(loadActiveThread, 20 * 1000);
     return () => {
       clearInterval(refreshActiveThread);
     };
-  }, [loadActiveThread, uid, scrollToBottom]);
+  }, [loadActiveThread, uid, scrollToBottom, uidForAdmin]);
 
   const sendReadReceipt = async (id: string) => {
     axiosPrivate.post(`message/acknowledge/${id}`).catch((err) => {});
@@ -99,7 +119,7 @@ export const CurrentThread = ({
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     for (const message of messages) {
-      if (!message.read) {
+      if (!message.read && !uid) {
         sendReadReceipt(message.id);
       }
       const thisTime = DateTime.fromISO(message.created_at);
@@ -202,7 +222,7 @@ export const CurrentThread = ({
           ></div>
         </div>
       </Div>
-      <MessageInput uid={uid} refresh={loadActiveThread} />
+      {!uidForAdmin && <MessageInput uid={uid} refresh={loadActiveThread} />}
     </>
   );
 };

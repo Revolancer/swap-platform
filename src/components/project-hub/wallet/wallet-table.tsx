@@ -6,19 +6,29 @@ import { P } from '@revolancer/ui/text';
 import { TH, TR, TD, DataTable } from '@revolancer/ui/project-hubs';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 
-export const WalletTable = () => {
+export const WalletTable = ({ id }: { id?: string }) => {
   const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
-    axiosPrivate
-      .get('credits/log')
-      .then((res) => res.data)
-      .then((data) => {
-        setLogEntries(data);
-        setLoading(false);
-      })
-      .catch((err) => setLogEntries([]));
-  }, []);
+    if (id) {
+      axiosPrivate
+        .get(`credits/admin/${id}/log`)
+        .then((response) => {
+          setLogEntries(response.data);
+          setLoading(false);
+        })
+        .catch((err) => setLogEntries([]));
+    } else {
+      axiosPrivate
+        .get('credits/log')
+        .then((res) => res.data)
+        .then((data) => {
+          setLogEntries(data);
+          setLoading(false);
+        })
+        .catch((err) => setLogEntries([]));
+    }
+  }, [id]);
 
   if (loading)
     return (

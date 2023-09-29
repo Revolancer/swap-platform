@@ -1,27 +1,59 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { ThreadListEntry } from './thread-list-entry';
 import { Flex } from '@revolancer/ui/layout';
 import { threadListSkeleton } from '../skeletons/thread-list-entry';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getMessages } from '@/lib/notifications';
+import { axiosPrivate } from '@/lib/axios';
+import { Message } from '@/lib/types';
 
 export const ThreadList = ({
   activeThread,
   loading,
+  uid,
+  adminMode = false,
 }: {
   activeThread: string;
   loading: boolean;
+  uid?: string;
+  adminMode?: boolean;
 }) => {
-  const threads = useAppSelector((state) => state.indicator.messages);
+  //const threads = useAppSelector((state) => state.indicator.messages);
+  const [threads, setThreads] = useState<Message[]>();
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const fetchMessages = () => dispatch(getMessages());
-    const refreshThreads = setInterval(fetchMessages, 40 * 1000);
+    const loadThreads = async () => {
+      if (adminMode) {
+        axiosPrivate
+          .get(`message/admin/${uid}`, {
+            id: `message-threads`,
+            cache: {
+              ttl: 20 * 1000,
+            },
+          })
+          .then((res) => res.data)
+          .then((data) => setThreads(data))
+          .catch((err) => setThreads([]));
+      } else {
+        axiosPrivate
+          .get('message', {
+            id: `message-threads`,
+            cache: {
+              ttl: 20 * 1000,
+            },
+          })
+          .then((res) => res.data)
+          .then((data) => setThreads(data))
+          .catch((err) => setThreads([]));
+      }
+    };
+    loadThreads();
+    const refreshThreads = setInterval(loadThreads, 40 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
-  }, [dispatch, threads]);
+  }, [uid, adminMode]);
 
   const displayThreads = () => {
     const rendered = [];
@@ -31,6 +63,7 @@ export const ThreadList = ({
           message={thread}
           key={thread.id}
           activeThread={activeThread}
+          uid={uid}
         />,
       );
     }
