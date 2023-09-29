@@ -5,6 +5,9 @@ import { H5, P, Span } from '@revolancer/ui/text';
 import { axiosPrivate } from '@/lib/axios';
 import { DataTable, TD, TH, TR } from '@revolancer/ui/project-hubs';
 import { Project } from '@/lib/types';
+import { ProjectStatusEntry } from '@/components/project-hub/active/project-status-entry';
+import { CollaboratorEntry } from '@/components/project-hub/active/collaborator-entry';
+import { ProjectCreditEntry } from '@/components/project-hub/active/project-credit-entry';
 
 export default function UserProjects() {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
@@ -41,9 +44,9 @@ export default function UserProjects() {
         renderHeadRow={() => (
           <TR>
             <TH>Project Title</TH>
+            <TH>Collaborator</TH>
             <TH>Credits</TH>
-            <TH>Deadline</TH>
-            <TH>More Information</TH>
+            <TH>Project Status</TH>
           </TR>
         )}
         renderBodyRows={() => (
@@ -52,9 +55,15 @@ export default function UserProjects() {
               return (
                 <TR key={project.id}>
                   <TD>{project.need.title ?? 'Untitled Project'}</TD>
-                  <TD>{project.credits}</TD>
-                  <TD>{project.proposal.estimated_hours}</TD>
-                  <TD>{project.status}</TD>
+                  <TD>
+                    <CollaboratorEntry project={project} id={id} />
+                  </TD>
+                  <TD>
+                    <ProjectCreditEntry project={project} id={id} />
+                  </TD>
+                  <TD>
+                    <ProjectStatusEntry project={project} />
+                  </TD>
                 </TR>
               );
             })}
@@ -66,7 +75,7 @@ export default function UserProjects() {
 
   return (
     <ManageUserLayout>
-      {activeProjectsCount > 1 ? <MainContent /> : <NoProjects />}
+      {activeProjectsCount > 0 ? <MainContent /> : <NoProjects />}
     </ManageUserLayout>
   );
 }
