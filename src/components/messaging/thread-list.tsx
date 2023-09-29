@@ -19,7 +19,7 @@ export const ThreadList = ({
   adminMode?: boolean;
 }) => {
   //const threads = useAppSelector((state) => state.indicator.messages);
-  const [threads, setThreads] = useState<Message[]>();
+  const [threads, setThreads] = useState<Message[]>([]);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
