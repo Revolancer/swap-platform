@@ -3,12 +3,13 @@ import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
-import store from '@/redux/store';
+import store, { useAppDispatch } from '@/redux/store';
 import { DateTime } from 'luxon';
 import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
+import { setMessageRead } from '@/lib/notifications';
 
 const UnreadIndicator = () => {
   const Container = styled('div', {
@@ -46,6 +47,7 @@ export const ThreadListEntry = ({
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState('');
   const [unread, setUnread] = useState(false);
+  const dispatch = useAppDispatch();
 
   const ProfileImageContainer = styled('div', {
     backgroundColor: '$neutral300',
@@ -117,6 +119,10 @@ export const ThreadListEntry = ({
       >
         <UnstyledLink
           href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
+          onClick={() => {
+            dispatch(setMessageRead(message.id));
+            setUnread(false);
+          }}
           replace
         >
           <Div
@@ -139,10 +145,12 @@ export const ThreadListEntry = ({
             </ProfileImageContainer>
             <Flex column css={{ flexGrow: '1' }}>
               <Flex css={{ justifyContent: 'space-between' }}>
-                <P css={{ fontWeight: 'bold' }}>
-                  {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
+                <Flex>
+                  <P css={{ fontWeight: 'bold' }}>
+                    {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
+                  </P>
                   {unread && <UnreadIndicator />}
-                </P>
+                </Flex>
                 <P css={{ color: '$neutral600' }}>{timeStr}</P>
               </Flex>
               <P
