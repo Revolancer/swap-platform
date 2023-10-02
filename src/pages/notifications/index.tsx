@@ -1,8 +1,6 @@
 import { Title } from '@/components/head/title';
 import { PrimaryLayout } from '@/components/layout/layouts';
 import { NotificationItem } from '@/components/notifications/notification-item';
-import { axiosPrivate } from '@/lib/axios';
-import { Notification } from '@/lib/types';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { FullWidth, Flex } from '@revolancer/ui/layout';
@@ -13,7 +11,6 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { getNotifications } from '@/lib/notifications';
 
 export default function Notifications() {
-  //const [notifications, setNotifications] = useState<Notification[]>([]);
   const notifications = useAppSelector(
     (state) => state.indicator.notifications,
   );
