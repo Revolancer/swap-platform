@@ -86,7 +86,7 @@
     "@types/luxon": "^3.3.2",
     "@types/match-sorter": "^6.0.0",
     "@types/react-beautiful-dnd": "^13.1.5",
-    "@types/react-datepicker": "^4.11.2",
+    "@types/react-datepicker": "^4.15.1",
     "@types/react-modal": "^3.16.0",
     "@types/react-responsive-masonry": "^2.1.1",
     "@types/react-tag-input": "^6.6.2",
