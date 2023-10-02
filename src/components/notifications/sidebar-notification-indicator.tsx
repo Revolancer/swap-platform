@@ -6,33 +6,37 @@ import { styled } from '@revolancer/ui';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setNotifsUnread } from '@/lib/notifications';
+import { getNotifications, setNotifsUnread } from '@/lib/notifications';
 
 export const SidebarNotificationIndicator = ({
   expanded,
 }: {
   expanded: boolean;
 }) => {
+  const notifications = useAppSelector(
+    (state) => state.indicator.notifications,
+  );
   const countUnread = useAppSelector((state) => state.indicator.notifsUnread);
   const dispatch = useAppDispatch();
+  console.log(notifications);
+  console.log(countUnread);
 
   useEffect(() => {
     const checkUnreadNotificationCount = async () => {
-      await axiosPrivate
-        .get('notifications/count/unread', {
-          id: 'unread-notification-count',
-          cache: { ttl: 30 * 1000 },
-        })
-        .then((res) => res.data)
-        .then((data) => dispatch(setNotifsUnread((data as number) ?? 0)))
-        .catch((err) => {});
+      await dispatch(getNotifications()).then(() =>
+        dispatch(
+          setNotifsUnread(
+            notifications.filter((notif) => notif.read === false).length,
+          ),
+        ),
+      );
     };
     checkUnreadNotificationCount();
     const timer = setInterval(checkUnreadNotificationCount, 60 * 1000);
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch]);
+  }, [dispatch, notifications, countUnread]);
 
   const NotificationBadgeContainer = styled(Link, {
     position: 'relative',
