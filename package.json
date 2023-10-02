@@ -88,7 +88,7 @@
     "@types/react-beautiful-dnd": "^13.1.4",
     "@types/react-datepicker": "^4.11.2",
     "@types/react-modal": "^3.16.0",
-    "@types/react-responsive-masonry": "^2.1.0",
+    "@types/react-responsive-masonry": "^2.1.1",
     "@types/react-tag-input": "^6.6.1",
     "@types/uuid": "^9.0.4",
     "editorjs-hyperlink": "^1.0.6",
