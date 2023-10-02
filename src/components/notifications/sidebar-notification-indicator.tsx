@@ -14,7 +14,6 @@ export const SidebarNotificationIndicator = ({
 }) => {
   const countUnread = useAppSelector((state) => state.indicator.notifsUnread);
   const dispatch = useAppDispatch();
-  console.log(countUnread);
 
   useEffect(() => {
     const checkUnreadNotificationCount = () => {
