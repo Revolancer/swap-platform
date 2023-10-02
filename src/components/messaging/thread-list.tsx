@@ -4,6 +4,8 @@ import { Message } from '@/lib/types';
 import { ThreadListEntry } from './thread-list-entry';
 import { Flex } from '@revolancer/ui/layout';
 import { threadListSkeleton } from '../skeletons/thread-list-entry';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getMessages } from '@/lib/notifications';
 
 export const ThreadList = ({
   activeThread,
@@ -16,32 +18,15 @@ export const ThreadList = ({
   uid?: string;
   adminMode?: boolean;
 }) => {
-  const [threads, setThreads] = useState<Message[]>([]);
+  const threads = useAppSelector((state) => state.indicator.messages);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadThreads = async () => {
       if (adminMode) {
-        axiosPrivate
-          .get(`message/admin/${uid}`, {
-            id: `message-threads`,
-            cache: {
-              ttl: 20 * 1000,
-            },
-          })
-          .then((res) => res.data)
-          .then((data) => setThreads(data))
-          .catch((err) => setThreads([]));
+        dispatch(getMessages(uid as string));
       } else {
-        axiosPrivate
-          .get('message', {
-            id: `message-threads`,
-            cache: {
-              ttl: 20 * 1000,
-            },
-          })
-          .then((res) => res.data)
-          .then((data) => setThreads(data))
-          .catch((err) => setThreads([]));
+        dispatch(getMessages(''));
       }
     };
     loadThreads();
@@ -49,7 +34,7 @@ export const ThreadList = ({
     return () => {
       clearInterval(refreshThreads);
     };
-  }, [uid, adminMode]);
+  }, [uid, adminMode, dispatch]);
 
   const displayThreads = () => {
     const rendered = [];

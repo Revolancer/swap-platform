@@ -3,7 +3,7 @@ import { Message, UserProfileData } from '@/lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import { MessageInput } from './message-input';
 import { DateTime } from 'luxon';
-import store from '@/redux/store';
+import store, { useAppDispatch } from '@/redux/store';
 import { MessageAuthor } from './message-author';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,6 +13,7 @@ import { renderLinksInMessages } from './util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadSkeleton } from '../skeletons/current-thread';
+import { setMessageRead } from '@/lib/notifications';
 
 export const CurrentThread = ({
   uid,
@@ -30,6 +31,7 @@ export const CurrentThread = ({
   const scrollToBottom = useCallback(() => {
     if (messagesEnd) messagesEnd.scrollIntoView({ behavior: 'smooth' });
   }, [messagesEnd]);
+  const dispatch = useAppDispatch();
 
   const loadActiveThread = useCallback(() => {
     if (uid == '') return;
@@ -109,10 +111,6 @@ export const CurrentThread = ({
     };
   }, [loadActiveThread, uid, scrollToBottom, uidForAdmin]);
 
-  const sendReadReceipt = async (id: string) => {
-    axiosPrivate.post(`message/acknowledge/${id}`).catch((err) => {});
-  };
-
   const renderMessageArray = () => {
     const rendered = [];
     let lastSender = '';
@@ -120,7 +118,7 @@ export const CurrentThread = ({
     let now = DateTime.now().toLocal();
     for (const message of messages) {
       if (!message.read && !uid) {
-        sendReadReceipt(message.id);
+        dispatch(setMessageRead(message.id));
       }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date

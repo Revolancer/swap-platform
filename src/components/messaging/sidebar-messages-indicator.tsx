@@ -1,4 +1,3 @@
-import { axiosPrivate } from '@/lib/axios';
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -6,7 +5,7 @@ import { styled } from '@revolancer/ui';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setMessagesUnread } from '@/lib/notifications';
+import { getMessagesUnread, setMessagesUnread } from '@/lib/notifications';
 
 export const SidebarMessagesIndicator = ({
   expanded,
@@ -17,15 +16,8 @@ export const SidebarMessagesIndicator = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const checkUnreadMessageCount = async () => {
-      await axiosPrivate
-        .get('message/unread', {
-          id: 'unread-message-count',
-          cache: { ttl: 30 * 60 },
-        })
-        .then((res) => res.data)
-        .then((data) => dispatch(setMessagesUnread((data as number) ?? 0)))
-        .catch((err) => {});
+    const checkUnreadMessageCount = () => {
+      dispatch(getMessagesUnread());
     };
     checkUnreadMessageCount();
     const timer = setInterval(checkUnreadMessageCount, 60 * 1000);
