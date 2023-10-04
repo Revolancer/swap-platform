@@ -11,16 +11,17 @@ import { EditBalance } from '@/components/modals/admin-edit-balance-modal';
 export default function UserWallet() {
   const router = useRouter();
   const { id } = router.query;
+  const uid = id ? id.toString() : 'undefined';
 
   return (
     <ManageUserLayout>
       <Flex column>
         <Flex css={{ justifyContent: 'flex-end' }}>
-          <EditBalance id={id?.toString()} />
+          <EditBalance id={uid} />
         </Flex>
         <TwoCols>
-          <BalanceTile id={id?.toString()} />
-          <ActiveProjectsTile id={id?.toString()} />
+          <BalanceTile id={uid} />
+          <ActiveProjectsTile id={uid} />
         </TwoCols>
         <H5>Transaction History</H5>
         <P css={{ color: '$neutral800' }}>

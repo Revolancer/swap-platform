@@ -1,6 +1,4 @@
-import { useEffect, useState } from 'react';
-import { CreditLogEntry } from '@/lib/types';
-import { axiosPrivate } from '@/lib/axios';
+import { useEffect } from 'react';
 import {
   VictoryContainer,
   VictoryChart,
@@ -12,30 +10,20 @@ import {
 import { DateTime } from 'luxon';
 import { config as styleConfig } from '@revolancer/ui';
 import { SkeletonText } from '@revolancer/ui/skeleton';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getReverseCreditLogs } from '@/lib/user/wallet';
 
 export const WalletChart = ({ id }: { id?: string }) => {
-  const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { reverseLog, loading } = useAppSelector((state) => state.wallet);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (id) {
-      axiosPrivate
-        .get(`credits/admin/${id}/log/reverse`)
-        .then((response) => {
-          setLogEntries(response.data);
-          setLoading(false);
-        })
-        .catch((err) => setLogEntries([]));
+      dispatch(getReverseCreditLogs(id));
     } else {
-      axiosPrivate
-        .get('credits/log/reverse')
-        .then((res) => res.data)
-        .then((data) => {
-          setLogEntries(data);
-          setLoading(false);
-        })
-        .catch((err) => setLogEntries([]));
+      dispatch(getReverseCreditLogs(''));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   if (loading)
     return (
@@ -48,7 +36,7 @@ export const WalletChart = ({ id }: { id?: string }) => {
       />
     );
 
-  if (logEntries.length < 2) return <></>;
+  if (reverseLog.length < 2) return <></>;
 
   return (
     <VictoryChart
@@ -69,7 +57,7 @@ export const WalletChart = ({ id }: { id?: string }) => {
     >
       <VictoryLine
         height={400}
-        data={logEntries.slice(-20)}
+        data={reverseLog.slice(-20)}
         interpolation="catmullRom"
         x={(d) => DateTime.fromISO(d.updated_at).toFormat('yyyy-LL-dd HH:mm')}
         y="resultant_amount"
@@ -78,7 +66,7 @@ export const WalletChart = ({ id }: { id?: string }) => {
       />
       <VictoryScatter
         height={400}
-        data={logEntries.slice(-20)}
+        data={reverseLog.slice(-20)}
         x={(d) => DateTime.fromISO(d.updated_at).toFormat('yyyy-LL-dd HH:mm')}
         y="resultant_amount"
         style={{ data: { fill: styleConfig.theme.colors.pink500 } }}

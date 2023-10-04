@@ -1,4 +1,10 @@
 import { axiosPrivate } from '@/lib/axios';
+import {
+  getCreditLogs,
+  getCredits,
+  getReverseCreditLogs,
+} from '@/lib/user/wallet';
+import { useAppDispatch } from '@/redux/store';
 import { FormButton } from '@revolancer/ui/buttons';
 import { Feedback, Form, InputInner, InputOuter } from '@revolancer/ui/forms';
 import { Card, Flex } from '@revolancer/ui/layout';
@@ -12,8 +18,9 @@ type Values = {
   amount: number;
 };
 
-export const EditBalance = ({ id }: { id: string | undefined }) => {
+export const EditBalance = ({ id }: { id: string }) => {
   const [openModal, setOpenModal] = useState(false);
+  const dispatch = useAppDispatch();
 
   const handleClose = (close: () => void) => {
     close();
@@ -26,6 +33,11 @@ export const EditBalance = ({ id }: { id: string | undefined }) => {
         ...values,
         amount: Number(values.amount),
         recipient: id,
+      })
+      .then(() => {
+        dispatch(getCredits(id));
+        dispatch(getCreditLogs(id));
+        dispatch(getReverseCreditLogs(id));
       })
       .catch((reason) => {
         if (reason.code == 'ERR_NETWORK') {

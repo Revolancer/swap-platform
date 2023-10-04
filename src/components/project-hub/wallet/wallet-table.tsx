@@ -1,34 +1,22 @@
-import { useEffect, useState } from 'react';
-import { CreditLogEntry } from '@/lib/types';
-import { axiosPrivate } from '@/lib/axios';
+import { useEffect } from 'react';
 import { DateTime } from 'luxon';
 import { P } from '@revolancer/ui/text';
 import { TH, TR, TD, DataTable } from '@revolancer/ui/project-hubs';
 import { SkeletonText } from '@revolancer/ui/skeleton';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getCreditLogs } from '@/lib/user/wallet';
 
 export const WalletTable = ({ id }: { id?: string }) => {
-  const [logEntries, setLogEntries] = useState<CreditLogEntry[]>([]);
-  const [loading, setLoading] = useState(true);
+  const { creditLog, loading } = useAppSelector((state) => state.wallet);
+  const dispatch = useAppDispatch();
+
   useEffect(() => {
     if (id) {
-      axiosPrivate
-        .get(`credits/admin/${id}/log`)
-        .then((response) => {
-          setLogEntries(response.data);
-          setLoading(false);
-        })
-        .catch((err) => setLogEntries([]));
+      dispatch(getCreditLogs(id));
     } else {
-      axiosPrivate
-        .get('credits/log')
-        .then((res) => res.data)
-        .then((data) => {
-          setLogEntries(data);
-          setLoading(false);
-        })
-        .catch((err) => setLogEntries([]));
+      dispatch(getCreditLogs(''));
     }
-  }, [id]);
+  }, [id, dispatch]);
 
   if (loading)
     return (
@@ -41,7 +29,7 @@ export const WalletTable = ({ id }: { id?: string }) => {
       />
     );
 
-  if (logEntries.length < 1) return <P>No transactions just yet!</P>;
+  if (creditLog.length < 1) return <P>No transactions just yet!</P>;
 
   return (
     <DataTable
@@ -55,7 +43,7 @@ export const WalletTable = ({ id }: { id?: string }) => {
       )}
       renderBodyRows={() => (
         <>
-          {logEntries.map((entry) => {
+          {creditLog.map((entry) => {
             return (
               <TR key={entry.id}>
                 <TD>
