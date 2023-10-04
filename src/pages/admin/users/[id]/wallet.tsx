@@ -1,18 +1,11 @@
-import { UserProfileData } from '@/lib/types';
 import { useRouter } from 'next/router';
-import { useState } from 'react';
 import ManageUserLayout from '@/components/admin/user/layout';
-import { Card, Flex, TwoCols } from '@revolancer/ui/layout';
+import { Flex, TwoCols } from '@revolancer/ui/layout';
 import { BalanceTile } from '@/components/project-hub/wallet/balance-tile';
 import { ActiveProjectsTile } from '@/components/project-hub/active-projects-tile';
 import { H5, P } from '@revolancer/ui/text';
 import { WalletChart } from '@/components/project-hub/wallet/wallet-chart';
 import { WalletTable } from '@/components/project-hub/wallet/wallet-table';
-import { FormButton } from '@revolancer/ui/buttons';
-import { Formik } from 'formik';
-import { Feedback, Form, InputInner, InputOuter } from '@revolancer/ui/forms';
-import { RevoModal as Modal } from '@revolancer/ui/modals';
-import { axiosPrivate } from '@/lib/axios';
 import { EditBalance } from '@/components/modals/admin-edit-balance-modal';
 
 export default function UserWallet() {
@@ -23,7 +16,7 @@ export default function UserWallet() {
     <ManageUserLayout>
       <Flex column>
         <Flex css={{ justifyContent: 'flex-end' }}>
-          <EditBalance />
+          <EditBalance id={id?.toString()} />
         </Flex>
         <TwoCols>
           <BalanceTile id={id?.toString()} />

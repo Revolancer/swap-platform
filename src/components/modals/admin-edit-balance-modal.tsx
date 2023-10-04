@@ -5,17 +5,28 @@ import { Card, Flex } from '@revolancer/ui/layout';
 import { RevoModal as Modal } from '@revolancer/ui/modals';
 import { P } from '@revolancer/ui/text';
 import { Formik } from 'formik';
+import { useState } from 'react';
 
 type Values = {
   reason: string;
-  credits: number;
+  amount: number;
 };
 
-export const EditBalance = () => {
+export const EditBalance = ({ id }: { id: string | undefined }) => {
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleClose = (close: () => void) => {
+    close();
+    setOpenModal(false);
+  };
+
   const handleSubmit = async (values: Values, close: () => void) => {
     await axiosPrivate
-      .put(`admin/user/credits`, { ...values })
-      .then(async (response) => response.data)
+      .post(`admin/user/credits`, {
+        ...values,
+        amount: Number(values.amount),
+        recipient: id,
+      })
       .catch((reason) => {
         if (reason.code == 'ERR_NETWORK') {
           console.log(reason);
@@ -27,16 +38,17 @@ export const EditBalance = () => {
           }
         }
       });
-    close();
+    handleClose(close);
   };
   return (
-    <Modal
-      showModalOpenCTA
-      modalCTALabel="Edit Balance"
-      openOnTrigger={false}
-      renderChildren={({ close }) => (
-        <Card>
-          <Flex column>
+    <>
+      <FormButton role="secondary" onClick={() => setOpenModal(true)}>
+        Edit Balance
+      </FormButton>
+      <Modal
+        openOnTrigger={openModal}
+        renderChildren={({ close }) => (
+          <Flex column css={{ width: '50%' }}>
             <P css={{ fontWeight: '$bold' }}>Edit Balance</P>
             <P>
               Provide a reason and specify the credit amount to add or remove
@@ -46,7 +58,7 @@ export const EditBalance = () => {
             <Formik
               initialValues={{
                 reason: '',
-                credits: 0,
+                amount: 0,
               }}
               onSubmit={(values) => handleSubmit(values, close)}
             >
@@ -70,8 +82,8 @@ export const EditBalance = () => {
                       <InputOuter>
                         <InputInner
                           placeholder="0"
-                          name="credits"
-                          value={values.credits}
+                          name="amount"
+                          value={values.amount}
                           onChange={handleChange}
                         ></InputInner>
                       </InputOuter>
@@ -80,7 +92,10 @@ export const EditBalance = () => {
                       </Feedback>
                       <Flex>
                         <FormButton type="submit">Save</FormButton>
-                        <FormButton role="secondary" onClick={() => close()}>
+                        <FormButton
+                          role="secondary"
+                          onClick={() => handleClose(close)}
+                        >
                           Cancel
                         </FormButton>
                       </Flex>
@@ -90,8 +105,8 @@ export const EditBalance = () => {
               }}
             </Formik>
           </Flex>
-        </Card>
-      )}
-    />
+        )}
+      />
+    </>
   );
 };
