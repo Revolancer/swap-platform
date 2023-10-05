@@ -17,7 +17,11 @@ const initialState = {
 } as IndicatorsState;
 
 export const getNotifications = createAsyncThunk('notifications', async () => {
-  return await axiosPrivate.get('notifications').then((res) => res.data);
+  return await axiosPrivate
+    .get('notifications', {
+      cache: { ttl: 1000 },
+    })
+    .then((res) => res.data);
 });
 
 export const getNotificationsUnread = createAsyncThunk(
@@ -25,9 +29,7 @@ export const getNotificationsUnread = createAsyncThunk(
   async () => {
     return await axiosPrivate
       .get('notifications/count/unread', {
-        cache: {
-          ttl: 5 * 1000,
-        },
+        cache: { ttl: 1000 },
       })
       .then((res) => res.data);
   },
@@ -47,18 +49,14 @@ export const getMessages = createAsyncThunk('messages', async (id?: string) => {
     return await axiosPrivate
       .get(`message/admin/${id}`, {
         id: `message-threads`,
-        cache: {
-          ttl: 20 * 1000,
-        },
+        cache: { ttl: 1000 },
       })
       .then((res) => res.data);
   }
   return await axiosPrivate
     .get('message', {
       id: `message-threads`,
-      cache: {
-        ttl: 20 * 1000,
-      },
+      cache: { ttl: 1000 },
     })
     .then((res) => res.data);
 });
@@ -69,7 +67,7 @@ export const getMessagesUnread = createAsyncThunk(
     return await axiosPrivate
       .get('message/unread', {
         id: 'unread-message-count',
-        cache: { ttl: 30 * 60 },
+        cache: { ttl: 1000 },
       })
       .then((res) => res.data);
   },
@@ -135,15 +133,8 @@ const indicatorsSlice = createSlice({
       .addCase(getNotificationsUnread.rejected, (state) => {
         state.notifsUnread = 0;
       })
-      .addCase(
-        setNotifRead.fulfilled,
-        (state, action: PayloadAction<Notification[]>) => {
-          state.notifications = action.payload;
-        },
-      )
-      .addCase(setNotifRead.rejected, (state) => {
-        state.notifications = [];
-      })
+      .addCase(setNotifRead.fulfilled, () => {})
+      .addCase(setNotifRead.rejected, () => {})
       .addCase(
         getMessages.fulfilled,
         (state, action: PayloadAction<Message[]>) => {

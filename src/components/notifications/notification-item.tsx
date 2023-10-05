@@ -5,7 +5,11 @@ import { UnstyledLink } from '@revolancer/ui/buttons';
 import { P } from '@revolancer/ui/text';
 import { Div, Flex } from '@revolancer/ui/layout';
 import { useAppDispatch } from '@/redux/store';
-import { setNotifRead, setNotifsUnread } from '@/lib/notifications';
+import {
+  getNotifications,
+  getNotificationsUnread,
+  setNotifRead,
+} from '@/lib/notifications';
 
 export const NotificationItem = ({
   notification,
@@ -33,7 +37,8 @@ export const NotificationItem = ({
       }}
       onClick={() => {
         dispatch(setNotifRead(notification.id));
-        dispatch(setNotifsUnread('dec'));
+        dispatch(getNotifications());
+        dispatch(getNotificationsUnread());
       }}
     >
       <Flex>
