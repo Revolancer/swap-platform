@@ -9,7 +9,11 @@ import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
-import { setMessageRead } from '@/lib/notifications';
+import {
+  getMessages,
+  getMessagesUnread,
+  setMessageRead,
+} from '@/lib/notifications';
 
 const UnreadIndicator = () => {
   const Container = styled('div', {
@@ -121,6 +125,8 @@ export const ThreadListEntry = ({
           href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
           onClick={() => {
             dispatch(setMessageRead(message.id));
+            dispatch(getMessages(uid ? uid : ''));
+            dispatch(getMessagesUnread());
             setUnread(false);
           }}
           replace
