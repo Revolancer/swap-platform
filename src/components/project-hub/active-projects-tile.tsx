@@ -4,8 +4,9 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { useEffect, useState } from 'react';
 import { styled } from '@revolancer/ui';
 import { Flex, Card } from '@revolancer/ui/layout';
-import { H5 } from '@revolancer/ui/text';
+import { H5, Span } from '@revolancer/ui/text';
 import { WalletTileSkeleton } from '../skeletons/wallet-tile';
+import { Link } from '@revolancer/ui/buttons';
 
 export const ActiveProjectsTile = ({ id }: { id?: string }) => {
   const [activeProjects, setActiveProjects] = useState(0);
@@ -48,6 +49,22 @@ export const ActiveProjectsTile = ({ id }: { id?: string }) => {
           <Price>{activeProjects}</Price>
         </Flex>
       </Flex>
+      <Span
+        css={{
+          fontSize: '$body2',
+          lineHeight: '$body2',
+          color: '$neutral700',
+        }}
+      >
+        💡 Learn more about service exchanges{' '}
+        <Link
+          href="https://support.revolancer.com/hc/en-gb/articles/13835195587229-How-Do-Service-Exchanges-Work-"
+          target="_blank"
+        >
+          here
+        </Link>
+        .
+      </Span>
     </Card>
   );
 };
