@@ -13,7 +13,13 @@ import { renderLinksInMessages } from '../util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 
-export const ProjectThread = ({ projectId }: { projectId: string }) => {
+export const ProjectThread = ({
+  uid,
+  projectId,
+}: {
+  uid?: string;
+  projectId: string;
+}) => {
   const [project, setProject] = useState<Project>();
   const [messages, setMessages] = useState<ProjectMessage[]>([]);
   const [myProfile, setMyProfile] = useState<UserProfileData>();
@@ -25,41 +31,73 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
   }, [messagesEnd]);
 
   const loadProject = useCallback(() => {
-    axiosPrivate
-      .get(`projects/${projectId}`)
-      .then((response) => {
-        if ((response?.data ?? null) != null) {
-          if ((response?.data?.id ?? '') !== '') {
-            setProject(response.data);
-            console.log(response.data);
+    if (uid) {
+      axiosPrivate
+        .get(`admin/users/${uid}/projects/${projectId}`)
+        .then((response) => {
+          if ((response?.data ?? null) != null) {
+            if ((response?.data?.id ?? '') !== '') {
+              setProject(response.data);
+              console.log(response.data);
+            }
           }
-        }
-      })
-      .catch((err) => {});
-  }, [projectId]);
+        })
+        .catch((err) => {});
+    } else {
+      axiosPrivate
+        .get(`projects/${projectId}`)
+        .then((response) => {
+          if ((response?.data ?? null) != null) {
+            if ((response?.data?.id ?? '') !== '') {
+              setProject(response.data);
+              console.log(response.data);
+            }
+          }
+        })
+        .catch((err) => {});
+    }
+  }, [projectId, uid]);
 
   const loadActiveThread = useCallback(() => {
     if (projectId == '') return;
-    axiosPrivate
-      .get(`projects/${projectId}/messages`, {
-        id: `project-threads-${projectId}`,
-        cache: {
-          ttl: 20 * 1000,
-        },
-      })
-      .then((res) => res.data)
-      .then((data) => {
-        if (data.length != messages.length) {
-          scrollToBottom();
-          setMessages(data);
-        }
-      })
-      .catch((err) => setMessages([]));
-  }, [projectId, messages, scrollToBottom]);
+    if (uid) {
+      axiosPrivate
+        .get(`admin/users/${uid}/projects/${projectId}/messages`, {
+          id: `project-threads-${projectId}`,
+          cache: {
+            ttl: 20 * 1000,
+          },
+        })
+        .then((res) => res.data)
+        .then((data) => {
+          if (data.length != messages.length) {
+            setMessages(data);
+          }
+        })
+        .catch((err) => setMessages([]));
+    } else {
+      axiosPrivate
+        .get(`projects/${projectId}/messages`, {
+          id: `project-threads-${projectId}`,
+          cache: {
+            ttl: 20 * 1000,
+          },
+        })
+        .then((res) => res.data)
+        .then((data) => {
+          if (data.length != messages.length) {
+            scrollToBottom();
+            setMessages(data);
+          }
+        })
+        .catch((err) => setMessages([]));
+    }
+  }, [projectId, messages, scrollToBottom, uid]);
 
   const loadProfiles = useCallback(() => {
     if (!project) return;
-    const self = store?.getState()?.userData?.user?.id ?? '';
+    const own = store?.getState()?.userData?.user?.id ?? '';
+    const self = uid ? uid : own;
     if (self == '') return;
     setMyId(self);
     const otherId =
@@ -92,7 +130,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       .catch((err) => {
         setMyProfile(undefined);
       });
-  }, [project]);
+  }, [project, uid]);
 
   useEffect(() => {
     loadProject();
@@ -169,7 +207,7 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       );
     }
     for (const message of messages) {
-      if (!message.read && myId && message.user.id != myId) {
+      if (!message.read && myId && message.user.id != myId && !uid) {
         sendReadReceipt(message.id);
       }
       const thisTime = DateTime.fromISO(message.created_at);
@@ -272,7 +310,8 @@ export const ProjectThread = ({ projectId }: { projectId: string }) => {
       </Div>
       {project?.status !== 'complete' &&
         project?.client_cancellation === false &&
-        project?.contractor_cancellation === false && (
+        project?.contractor_cancellation === false &&
+        !uid && (
           <ProjectMessageInput
             projectId={projectId}
             refresh={loadActiveThread}
