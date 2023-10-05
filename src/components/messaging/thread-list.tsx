@@ -23,14 +23,10 @@ export const ThreadList = ({
 
   useEffect(() => {
     const loadThreads = async () => {
-      if (adminMode) {
-        dispatch(getMessages(uid as string));
-      } else {
-        dispatch(getMessages(''));
-      }
+      dispatch(getMessages(uid ? uid : ''));
     };
     loadThreads();
-    const refreshThreads = setInterval(loadThreads, 40 * 1000);
+    const refreshThreads = setInterval(loadThreads, 20 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };

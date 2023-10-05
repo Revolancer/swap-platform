@@ -5,7 +5,7 @@ import { styled } from '@revolancer/ui';
 import { faMessage } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getMessagesUnread, setMessagesUnread } from '@/lib/notifications';
+import { getMessagesUnread } from '@/lib/notifications';
 
 export const SidebarMessagesIndicator = ({
   expanded,
@@ -20,7 +20,7 @@ export const SidebarMessagesIndicator = ({
       dispatch(getMessagesUnread());
     };
     checkUnreadMessageCount();
-    const timer = setInterval(checkUnreadMessageCount, 60 * 1000);
+    const timer = setInterval(checkUnreadMessageCount, 20 * 1000);
     return () => {
       clearInterval(timer);
     };
