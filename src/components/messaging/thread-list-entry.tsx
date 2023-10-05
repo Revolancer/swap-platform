@@ -50,7 +50,6 @@ export const ThreadListEntry = ({
 }) => {
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState('');
-  const [unread, setUnread] = useState(false);
   const dispatch = useAppDispatch();
 
   const ProfileImageContainer = styled('div', {
@@ -87,7 +86,6 @@ export const ThreadListEntry = ({
     let id;
     if ((message.reciever as any as string) == self) {
       id = message.sender as any as string;
-      if (!message.read) setUnread(true);
     } else {
       id = message.reciever as any as string;
     }
@@ -127,7 +125,6 @@ export const ThreadListEntry = ({
             dispatch(setMessageRead(message.id));
             dispatch(getMessages(uid ? uid : ''));
             dispatch(getMessagesUnread());
-            setUnread(false);
           }}
           replace
         >
@@ -155,7 +152,7 @@ export const ThreadListEntry = ({
                   <P css={{ fontWeight: 'bold' }}>
                     {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
                   </P>
-                  {unread && <UnreadIndicator />}
+                  {!message.read && <UnreadIndicator />}
                 </Flex>
                 <P css={{ color: '$neutral600' }}>{timeStr}</P>
               </Flex>
