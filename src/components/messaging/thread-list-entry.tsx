@@ -63,6 +63,8 @@ export const ThreadListEntry = ({
   const ProfileImage = styled(Image, {
     objectFit: 'cover',
   });
+  const ownUser = store?.getState()?.userData?.user?.id ?? '';
+  const self = uid ? uid : ownUser;
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -81,8 +83,6 @@ export const ThreadListEntry = ({
           setThreadProfile(undefined);
         });
     };
-    const ownUser = store?.getState()?.userData?.user?.id ?? '';
-    const self = uid ? uid : ownUser;
     let id;
     if ((message.reciever as any as string) == self) {
       id = message.sender as any as string;
@@ -91,7 +91,7 @@ export const ThreadListEntry = ({
     }
     loadProfile(id);
     setId(id);
-  }, [message, uid]);
+  }, [message, self]);
 
   const time = DateTime.fromISO(message.created_at).toLocal();
   const now = DateTime.now().toLocal();
@@ -152,7 +152,9 @@ export const ThreadListEntry = ({
                   <P css={{ fontWeight: 'bold' }}>
                     {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
                   </P>
-                  {!message.read && <UnreadIndicator />}
+                  {!message.read && message.reciever === self && (
+                    <UnreadIndicator />
+                  )}
                 </Flex>
                 <P css={{ color: '$neutral600' }}>{timeStr}</P>
               </Flex>

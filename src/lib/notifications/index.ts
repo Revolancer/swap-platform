@@ -49,14 +49,14 @@ export const getMessages = createAsyncThunk('messages', async (id?: string) => {
     return await axiosPrivate
       .get(`message/admin/${id}`, {
         id: `message-threads`,
-        cache: { ttl: 1000 },
+        cache: { ttl: 500 },
       })
       .then((res) => res.data);
   }
   return await axiosPrivate
     .get('message', {
       id: `message-threads`,
-      cache: { ttl: 1000 },
+      cache: { ttl: 500 },
     })
     .then((res) => res.data);
 });
@@ -67,7 +67,7 @@ export const getMessagesUnread = createAsyncThunk(
     return await axiosPrivate
       .get('message/unread', {
         id: 'unread-message-count',
-        cache: { ttl: 1000 },
+        cache: { ttl: 500 },
       })
       .then((res) => res.data);
   },
