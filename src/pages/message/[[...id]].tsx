@@ -24,7 +24,7 @@ import { ThreadAuthorSkeleton } from '@/components/skeletons/current-thread-auth
 import { ThreadSkeleton } from '@/components/skeletons/current-thread';
 import { threadListSkeleton } from '@/components/skeletons/thread-list-entry';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setAllMessagesRead } from '@/lib/notifications';
+import { getMessagesUnread, setAllMessagesRead } from '@/lib/notifications';
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -72,9 +72,10 @@ export default function MessageCenter() {
         uuidVersion(id[0] ?? '');
         setActiveThread(id[0]);
         loadProfile(id[0] ?? '');
+        dispatch(getMessagesUnread());
       } catch (err) {}
     }
-  }, [id]);
+  }, [id, dispatch, countUnread]);
 
   const Skeleton = () => (
     <>

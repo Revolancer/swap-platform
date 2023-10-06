@@ -125,7 +125,6 @@ export const ThreadListEntry = ({
           onClick={() => {
             dispatch(setMessageRead(message.id));
             dispatch(getMessagesUnread());
-            dispatch(getMessages(uid ? uid : ''));
           }}
           replace
         >

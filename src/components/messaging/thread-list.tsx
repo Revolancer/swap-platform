@@ -5,7 +5,7 @@ import { ThreadListEntry } from './thread-list-entry';
 import { Flex } from '@revolancer/ui/layout';
 import { threadListSkeleton } from '../skeletons/thread-list-entry';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { getMessages } from '@/lib/notifications';
+import { getMessages, getMessagesUnread } from '@/lib/notifications';
 
 export const ThreadList = ({
   activeThread,
@@ -19,18 +19,20 @@ export const ThreadList = ({
   adminMode?: boolean;
 }) => {
   const threads = useAppSelector((state) => state.indicator.messages);
+  const countUnread = useAppSelector((state) => state.indicator.messagesUnread);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadThreads = async () => {
       dispatch(getMessages(uid ? uid : ''));
+      dispatch(getMessagesUnread());
     };
     loadThreads();
     const refreshThreads = setInterval(loadThreads, 20 * 1000);
     return () => {
       clearInterval(refreshThreads);
     };
-  }, [uid, adminMode, dispatch]);
+  }, [uid, adminMode, dispatch, countUnread]);
 
   const displayThreads = () => {
     const rendered = [];
