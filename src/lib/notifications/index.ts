@@ -37,11 +37,8 @@ export const getNotificationsUnread = createAsyncThunk(
 
 export const setNotifRead = createAsyncThunk(
   'notifications/acknowledge/:id',
-  async (id: string) => {
-    return await axiosPrivate
-      .post(`notifications/acknowledge/${id}`)
-      .then((res) => res.data);
-  },
+  async (id: string) =>
+    await axiosPrivate.post(`notifications/acknowledge/${id}`),
 );
 
 export const getMessages = createAsyncThunk('messages', async (id?: string) => {
@@ -49,14 +46,14 @@ export const getMessages = createAsyncThunk('messages', async (id?: string) => {
     return await axiosPrivate
       .get(`message/admin/${id}`, {
         id: `message-threads`,
-        cache: { ttl: 500 },
+        cache: { ttl: 1000 },
       })
       .then((res) => res.data);
   }
   return await axiosPrivate
     .get('message', {
       id: `message-threads`,
-      cache: { ttl: 500 },
+      cache: { ttl: 1000 },
     })
     .then((res) => res.data);
 });
@@ -67,7 +64,7 @@ export const getMessagesUnread = createAsyncThunk(
     return await axiosPrivate
       .get('message/unread', {
         id: 'unread-message-count',
-        cache: { ttl: 500 },
+        cache: { ttl: 1000 },
       })
       .then((res) => res.data);
   },
@@ -75,9 +72,12 @@ export const getMessagesUnread = createAsyncThunk(
 
 export const setMessageRead = createAsyncThunk(
   'message/acknowledge/:id',
-  async (id: string) => {
-    await axiosPrivate.post(`message/acknowledge/${id}`);
-  },
+  async (id: string) => await axiosPrivate.post(`message/acknowledge/${id}`),
+);
+
+export const setAllMessagesRead = createAsyncThunk(
+  'message/acknowledge',
+  async () => await axiosPrivate.post(`message/acknowledge`),
 );
 
 const indicatorsSlice = createSlice({
@@ -154,7 +154,9 @@ const indicatorsSlice = createSlice({
         state.messagesUnread = 0;
       })
       .addCase(setMessageRead.fulfilled, () => {})
-      .addCase(setMessageRead.rejected, () => {});
+      .addCase(setMessageRead.rejected, () => {})
+      .addCase(setAllMessagesRead.fulfilled, () => {})
+      .addCase(setAllMessagesRead.rejected, () => {});
   },
 });
 
