@@ -80,7 +80,7 @@ export const AddSomething = () => {
         >
           💡 Need some Instructions? Check out our{' '}
           <Link
-            href="https://support.revolancer.com/hc/en-gb/articles/13840149282973-How-to-apply-for-jobs-on-the-Job-Board"
+            href="https://support.revolancer.com/hc/en-gb/sections/11726713990045-Guides"
             target="_blank"
           >
             guides
