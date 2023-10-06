@@ -13,7 +13,7 @@ import { renderLinksInMessages } from './util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadSkeleton } from '../skeletons/current-thread';
-import { getMessages, setMessageRead } from '@/lib/notifications';
+import { setMessageRead } from '@/lib/notifications';
 
 export const CurrentThread = ({
   uid,
@@ -45,7 +45,6 @@ export const CurrentThread = ({
         .then((data) => {
           if (data.length != messages.length) {
             setMessages(data);
-            dispatch(getMessages(uid));
           }
         })
         .catch((err) => setMessages([]));
@@ -60,12 +59,11 @@ export const CurrentThread = ({
           if (data.length != messages.length) {
             scrollToBottom();
             setMessages(data);
-            dispatch(getMessages(''));
           }
         })
         .catch((err) => setMessages([]));
     }
-  }, [uid, messages, scrollToBottom, uidForAdmin, dispatch]);
+  }, [uid, messages, scrollToBottom, uidForAdmin]);
 
   useEffect(() => {
     const loadProfiles = async () => {
