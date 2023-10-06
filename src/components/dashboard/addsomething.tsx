@@ -31,21 +31,20 @@ export const AddSomething = () => {
             width: '100%',
             alignItems: 'center',
             marginBottom: '$4',
-            '@md': { width: '75%' },
           }}
           gap={4}
         >
           <Image
-            src="/img/revy/happy.png"
+            src="/img/revy/mini_revy.png"
             alt="Revy, happy to guide you through this feed"
             width={76}
-            height={114}
+            height={76}
           />
           <P css={{ fontSize: '$h5', fontWeight: '$bold' }}>
             Hi {name}, what would you like to do today?
           </P>
         </Flex>
-        <Flex css={{ width: '100%', '@md': { width: '75%' } }} gap={4}>
+        <Flex css={{ width: '100%' }} gap={4}>
           <Button
             href="/portfolio/new"
             size="small"
@@ -68,7 +67,7 @@ export const AddSomething = () => {
           target="_blank"
           size="small"
           role="secondary"
-          css={{ width: '100%', textAlign: 'center', '@md': { width: '75%' } }}
+          css={{ width: '100%', textAlign: 'center' }}
         >
           Look For Paid Work Opportunities
         </Button>
