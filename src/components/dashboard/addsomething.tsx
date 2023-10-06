@@ -38,7 +38,7 @@ export const AddSomething = () => {
             src="/img/revy/mini_revy.png"
             alt="Revy, happy to guide you through this feed"
             width={76}
-            height={76}
+            height={69}
           />
           <P css={{ fontSize: '$h5', fontWeight: '$bold' }}>
             Hi {name}, what would you like to do today?
