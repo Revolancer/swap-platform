@@ -12,6 +12,7 @@ import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
 import {
   getMessages,
   getMessagesUnread,
+  setAllMessagesRead,
   setMessageRead,
 } from '@/lib/notifications';
 
@@ -123,8 +124,8 @@ export const ThreadListEntry = ({
           href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
           onClick={() => {
             dispatch(setMessageRead(message.id));
-            dispatch(getMessages(uid ? uid : ''));
             dispatch(getMessagesUnread());
+            dispatch(getMessages(uid ? uid : ''));
           }}
           replace
         >

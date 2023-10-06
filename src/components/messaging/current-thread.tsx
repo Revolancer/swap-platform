@@ -13,7 +13,7 @@ import { renderLinksInMessages } from './util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadSkeleton } from '../skeletons/current-thread';
-import { setMessageRead } from '@/lib/notifications';
+import { getMessages, setMessageRead } from '@/lib/notifications';
 
 export const CurrentThread = ({
   uid,
@@ -39,14 +39,13 @@ export const CurrentThread = ({
       axiosPrivate
         .get(`message/admin/${uidForAdmin}/messages/${uid}`, {
           id: `message-threads-${uid}`,
-          cache: {
-            ttl: 20 * 1000,
-          },
+          cache: { ttl: 1000 },
         })
         .then((res) => res.data)
         .then((data) => {
           if (data.length != messages.length) {
             setMessages(data);
+            dispatch(getMessages(uid));
           }
         })
         .catch((err) => setMessages([]));
@@ -54,20 +53,19 @@ export const CurrentThread = ({
       axiosPrivate
         .get(`message/${uid}`, {
           id: `message-threads-${uid}`,
-          cache: {
-            ttl: 20 * 1000,
-          },
+          cache: { ttl: 1000 },
         })
         .then((res) => res.data)
         .then((data) => {
           if (data.length != messages.length) {
             scrollToBottom();
             setMessages(data);
+            dispatch(getMessages(''));
           }
         })
         .catch((err) => setMessages([]));
     }
-  }, [uid, messages, scrollToBottom, uidForAdmin]);
+  }, [uid, messages, scrollToBottom, uidForAdmin, dispatch]);
 
   useEffect(() => {
     const loadProfiles = async () => {
@@ -105,7 +103,7 @@ export const CurrentThread = ({
     loadProfiles();
     loadActiveThread();
     if (!uidForAdmin) scrollToBottom();
-    const refreshActiveThread = setInterval(loadActiveThread, 20 * 1000);
+    const refreshActiveThread = setInterval(loadActiveThread, 5 * 1000);
     return () => {
       clearInterval(refreshActiveThread);
     };
