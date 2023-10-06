@@ -9,30 +9,47 @@ import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 
 export const ProjectOtherUserProfile = ({
+  uid,
   projectId,
 }: {
+  uid?: string;
   projectId: string;
 }) => {
   const [project, setProject] = useState<Project>();
   const [theirProfile, setTheirProfile] = useState<UserProfileData>();
 
   const loadProject = useCallback(() => {
-    axiosPrivate
-      .get(`projects/${projectId}`)
-      .then((response) => {
-        if ((response?.data ?? null) != null) {
-          if ((response?.data?.id ?? '') !== '') {
-            setProject(response.data);
-            console.log(response.data);
+    if (uid) {
+      axiosPrivate
+        .get(`admin/users/${uid}/projects/${projectId}`)
+        .then((response) => {
+          if ((response?.data ?? null) != null) {
+            if ((response?.data?.id ?? '') !== '') {
+              setProject(response.data);
+              console.log(response.data);
+            }
           }
-        }
-      })
-      .catch((err) => {});
-  }, [projectId]);
+        })
+        .catch((err) => {});
+    } else {
+      axiosPrivate
+        .get(`projects/${projectId}`)
+        .then((response) => {
+          if ((response?.data ?? null) != null) {
+            if ((response?.data?.id ?? '') !== '') {
+              setProject(response.data);
+              console.log(response.data);
+            }
+          }
+        })
+        .catch((err) => {});
+    }
+  }, [projectId, uid]);
 
   const loadProfile = useCallback(() => {
     if (!project) return;
-    const self = store?.getState()?.userData?.user?.id ?? '';
+    const own = store?.getState()?.userData?.user?.id ?? '';
+    const self = uid ? uid : own;
     if (self == '') return;
     const otherId =
       project?.contractor.id == self
@@ -51,7 +68,7 @@ export const ProjectOtherUserProfile = ({
       .catch((err) => {
         setTheirProfile(undefined);
       });
-  }, [project]);
+  }, [project, uid]);
 
   useEffect(() => {
     loadProject();

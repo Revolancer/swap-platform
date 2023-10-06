@@ -26,7 +26,7 @@ export const ProjectStatusEntry = ({ project }: { project: Project }) => {
     variants: {
       status: {
         cancelled: {
-          backgroundColor: '$red500',
+          color: '$red500',
         },
         active: {
           color: '$orange500',
