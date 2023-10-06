@@ -24,7 +24,7 @@ export const SidebarNotificationIndicator = ({
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch]);
+  }, [dispatch, countUnread]);
 
   const NotificationBadgeContainer = styled(Link, {
     position: 'relative',
