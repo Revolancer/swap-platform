@@ -61,6 +61,7 @@ export default function MessageCenter() {
         .then((res) => res.data)
         .then((data) => {
           setAllMessageCount(data);
+          setLoading(false);
         })
         .catch((err) => {});
     };
@@ -73,7 +74,6 @@ export default function MessageCenter() {
         loadProfile(id[0] ?? '');
       } catch (err) {}
     }
-    setLoading(false);
   }, [id]);
 
   const Skeleton = () => (
@@ -98,21 +98,7 @@ export default function MessageCenter() {
       <MessageSideBar className="hello" hasThread={activeThread != ''}>
         {countUnread > 0 && (
           <TertiaryFormButton onClick={() => dispatch(setAllMessagesRead())}>
-            <Flex>
-              <Div
-                css={{
-                  position: 'absolute',
-                  width: '$4',
-                  height: '$4',
-                  borderRadius: '100%',
-                  backgroundColor: '$pink500',
-                  top: '-0.4rem',
-                  right: '-0.4rem',
-                }}
-              ></Div>
-
-              <P>Mark all as read</P>
-            </Flex>
+            Mark all as read
           </TertiaryFormButton>
         )}
         <ThreadList activeThread={activeThread} loading={loading} />
