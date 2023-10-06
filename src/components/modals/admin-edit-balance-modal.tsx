@@ -19,13 +19,7 @@ type Values = {
 };
 
 export const EditBalance = ({ id }: { id: string }) => {
-  const [openModal, setOpenModal] = useState(false);
   const dispatch = useAppDispatch();
-
-  const handleClose = (close: () => void) => {
-    close();
-    setOpenModal(false);
-  };
 
   const handleSubmit = async (values: Values, close: () => void) => {
     await axiosPrivate
@@ -50,17 +44,21 @@ export const EditBalance = ({ id }: { id: string }) => {
           }
         }
       });
-    handleClose(close);
+    close();
   };
   return (
     <>
-      <FormButton role="secondary" onClick={() => setOpenModal(true)}>
-        Edit Balance
-      </FormButton>
       <Modal
-        openOnTrigger={openModal}
+        openOnTrigger={false}
+        css={{ width: '50vw' }}
+        showModalOpenCTA
+        renderCTA={({ open }) => (
+          <FormButton role="secondary" onClick={() => open()}>
+            Edit Balance
+          </FormButton>
+        )}
         renderChildren={({ close }) => (
-          <Flex column css={{ width: '50%' }}>
+          <Flex column>
             <P css={{ fontWeight: '$bold' }}>Edit Balance</P>
             <P>
               Provide a reason and specify the credit amount to add or remove
@@ -104,10 +102,7 @@ export const EditBalance = ({ id }: { id: string }) => {
                       </Feedback>
                       <Flex>
                         <FormButton type="submit">Save</FormButton>
-                        <FormButton
-                          role="secondary"
-                          onClick={() => handleClose(close)}
-                        >
+                        <FormButton role="secondary" onClick={() => close()}>
                           Cancel
                         </FormButton>
                       </Flex>

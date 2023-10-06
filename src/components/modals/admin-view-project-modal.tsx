@@ -14,13 +14,6 @@ import { RevoModal as Modal } from '@revolancer/ui/modals';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 
 export const ViewProject = ({ id, project }: { id: any; project: Project }) => {
-  const [openModal, setOpenModal] = useState(false);
-
-  const handleClose = (close: () => void) => {
-    close();
-    setOpenModal(false);
-  };
-
   const cleanData = useMemo(() => {
     try {
       return JSON.parse(project?.need?.data ?? '{}')?.version ?? false
@@ -49,55 +42,53 @@ export const ViewProject = ({ id, project }: { id: any; project: Project }) => {
   const summary = getSummary(cleanData);
 
   return (
-    <>
-      <TertiaryFormButton role="secondary" onClick={() => setOpenModal(true)}>
-        {project.need.title ?? 'Untitled Project'}
-      </TertiaryFormButton>
-      <Modal
-        openOnTrigger={openModal}
-        renderChildren={({ close }) => (
-          <Flex
-            column
-            wrap
-            css={{ justifyContent: 'center', alignItems: 'flex-start' }}
-          >
-            <FormButton role="secondary" onClick={() => handleClose(close)}>
-              Go Back
-            </FormButton>
-            {project && (
-              <Flex column>
-                <ProjectStatus project={project} />
-                <Flex
-                  css={{
-                    justifyContent: 'space-between',
-                    alignItems: 'flex-start',
-                  }}
-                >
-                  <Flex column>
-                    <ProjectOtherUserProfile
-                      projectId={project.id ?? ''}
-                      uid={id}
-                    />
-                    <H1 css={{ fontSize: '$body1', lineHeight: '$body1' }}>
-                      {project.need.title ?? 'Untitled Project'}
-                    </H1>
-                  </Flex>
+    <Modal
+      openOnTrigger={false}
+      css={{ width: '75vw' }}
+      showModalOpenCTA
+      renderCTA={({ open }) => (
+        <TertiaryFormButton role="secondary" onClick={() => open()}>
+          {project.need.title ?? 'Untitled Project'}
+        </TertiaryFormButton>
+      )}
+      renderChildren={({ close }) => (
+        <Flex column css={{ width: '70vw' }}>
+          <FormButton role="secondary" onClick={() => close()}>
+            Go Back
+          </FormButton>
+          {project && (
+            <Flex column>
+              <ProjectStatus project={project} />
+              <Flex
+                css={{
+                  justifyContent: 'space-between',
+                  alignItems: 'flex-start',
+                }}
+              >
+                <Flex column>
+                  <ProjectOtherUserProfile
+                    projectId={project.id ?? ''}
+                    uid={id}
+                  />
+                  <H1 css={{ fontSize: '$body1', lineHeight: '$body1' }}>
+                    {project.need.title ?? 'Untitled Project'}
+                  </H1>
                 </Flex>
-                <Tags tags={project.need.tags ?? []} />
-                {summary && <ParagraphBlock data={summary} />}
-                <P css={{ color: '$neutral600' }}>
-                  <strong>
-                    Price: <FontAwesomeIcon icon={faTicket} />
-                  </strong>{' '}
-                  {project.proposal.price}
-                </P>
-                <Divider />
-                <ProjectThread projectId={project.id} uid={id} />
               </Flex>
-            )}
-          </Flex>
-        )}
-      />
-    </>
+              <Tags tags={project.need.tags ?? []} />
+              {summary && <ParagraphBlock data={summary} />}
+              <P css={{ color: '$neutral600' }}>
+                <strong>
+                  Price: <FontAwesomeIcon icon={faTicket} />
+                </strong>{' '}
+                {project.proposal.price}
+              </P>
+              <Divider />
+              <ProjectThread projectId={project.id} uid={id} />
+            </Flex>
+          )}
+        </Flex>
+      )}
+    />
   );
 };
