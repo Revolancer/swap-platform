@@ -24,7 +24,7 @@ export const SidebarMessagesIndicator = ({
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch]);
+  }, [dispatch, countUnread]);
 
   const MessageBadgeContainer = styled(Link, {
     position: 'relative',
