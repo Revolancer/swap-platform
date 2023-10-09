@@ -123,7 +123,8 @@ export const ThreadListEntry = ({
         <UnstyledLink
           href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
           onClick={() => {
-            dispatch(setMessageRead(message.id));
+            if (!uid && message.reciever === ownUser)
+              dispatch(setMessageRead(message.sender));
             dispatch(getMessagesUnread());
           }}
           replace
