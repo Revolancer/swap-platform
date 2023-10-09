@@ -13,7 +13,6 @@ import { renderLinksInMessages } from './util-functions-for-messaging';
 import { LabelledDivider, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadSkeleton } from '../skeletons/current-thread';
-import { setMessageRead } from '@/lib/notifications';
 
 export const CurrentThread = ({
   uid,
@@ -31,7 +30,6 @@ export const CurrentThread = ({
   const scrollToBottom = useCallback(() => {
     if (messagesEnd) messagesEnd.scrollIntoView({ behavior: 'smooth' });
   }, [messagesEnd]);
-  const dispatch = useAppDispatch();
 
   const loadActiveThread = useCallback(() => {
     if (uid == '') return;
@@ -113,9 +111,6 @@ export const CurrentThread = ({
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     for (const message of messages) {
-      if (!message.read && !uid) {
-        dispatch(setMessageRead(message.id));
-      }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date
       if (lastTime.startOf('day') < thisTime.startOf('day')) {
