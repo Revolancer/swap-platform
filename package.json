@@ -88,7 +88,7 @@
     "@types/react-modal": "^3.16.1",
     "@types/react-responsive-masonry": "^2.1.1",
     "@types/react-tag-input": "^6.6.2",
-    "@types/uuid": "^9.0.4",
+    "@types/uuid": "^9.0.5",
     "editorjs-hyperlink": "^1.0.6",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
