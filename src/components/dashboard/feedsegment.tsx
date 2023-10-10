@@ -6,6 +6,7 @@ import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 import { AddSomething } from './addsomething';
+import { UserProfileCard } from '../user-posts/user-profile-card';
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
