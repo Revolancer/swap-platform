@@ -26,7 +26,7 @@ export default function ManageUserPosts() {
   const [selectedNeed, setSelectedNeed] = useState<PostData | undefined>(
     undefined,
   );
-  
+
   const [selectedPortfolio, setSelectedPortfolio] = useState<
     PostData | undefined
   >(undefined);
@@ -111,11 +111,9 @@ export default function ManageUserPosts() {
         {selectedPortfolio == undefined && selectedNeed == undefined && (
           <Div>
             <H3>NEEDS</H3>
-            <P css={{ color: '$neutral600' }}>
-              View and edit user’s needs
-            </P>
+            <P css={{ color: '$neutral600' }}>View and edit user’s needs</P>
             <Flex wrap>{staticPosts}</Flex>
-            <H3 css={{ margin: "$5 0 $3 0" }}>PORTFOLIO POSTS</H3>
+            <H3 css={{ margin: '$5 0 $3 0' }}>PORTFOLIO POSTS</H3>
             <P css={{ color: '$neutral600' }}>
               View and edit user’s portfolio posts
             </P>
