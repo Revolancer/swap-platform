@@ -11,13 +11,20 @@ import { ThreadList } from '@/components/messaging/thread-list';
 import { MessageSideBar } from '../../components/layout/columns';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft } from '@fortawesome/free-solid-svg-icons';
-import { Link } from '@revolancer/ui/buttons';
-import { MainContentWithSideBar, Divider, Flex } from '@revolancer/ui/layout';
+import { Link, TertiaryFormButton } from '@revolancer/ui/buttons';
+import {
+  MainContentWithSideBar,
+  Divider,
+  Flex,
+  Div,
+} from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { ThreadAuthorSkeleton } from '@/components/skeletons/current-thread-author';
 import { ThreadSkeleton } from '@/components/skeletons/current-thread';
 import { threadListSkeleton } from '@/components/skeletons/thread-list-entry';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
+import { getMessagesUnread, setAllMessagesRead } from '@/lib/notifications';
 
 export default function MessageCenter() {
   const router = useRouter();
@@ -27,6 +34,8 @@ export default function MessageCenter() {
   const [activeThread, setActiveThread] = useState('');
   const [allMessageCount, setAllMessageCount] = useState(0);
   const [loading, setLoading] = useState(true);
+  const countUnread = useAppSelector((state) => state.indicator.messagesUnread);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -52,6 +61,7 @@ export default function MessageCenter() {
         .then((res) => res.data)
         .then((data) => {
           setAllMessageCount(data);
+          setLoading(false);
         })
         .catch((err) => {});
     };
@@ -62,10 +72,10 @@ export default function MessageCenter() {
         uuidVersion(id[0] ?? '');
         setActiveThread(id[0]);
         loadProfile(id[0] ?? '');
+        dispatch(getMessagesUnread());
       } catch (err) {}
     }
-    setLoading(false);
-  }, [id]);
+  }, [id, dispatch, countUnread]);
 
   const Skeleton = () => (
     <>
@@ -87,6 +97,11 @@ export default function MessageCenter() {
   const MainContent = () => (
     <>
       <MessageSideBar className="hello" hasThread={activeThread != ''}>
+        {countUnread > 0 && (
+          <TertiaryFormButton onClick={() => dispatch(setAllMessagesRead())}>
+            Mark all as read
+          </TertiaryFormButton>
+        )}
         <ThreadList activeThread={activeThread} loading={loading} />
       </MessageSideBar>
       <MainContentWithSideBar>

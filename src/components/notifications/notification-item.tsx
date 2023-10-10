@@ -2,16 +2,21 @@ import { Notification } from '@/lib/types';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronRight } from '@fortawesome/free-solid-svg-icons';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { axiosPrivate } from '@/lib/axios';
 import { P } from '@revolancer/ui/text';
-import { Div } from '@revolancer/ui/layout';
+import { Div, Flex } from '@revolancer/ui/layout';
+import { useAppDispatch } from '@/redux/store';
+import {
+  getNotifications,
+  getNotificationsUnread,
+  setNotifRead,
+} from '@/lib/notifications';
 
 export const NotificationItem = ({
   notification,
 }: {
   notification: Notification;
 }) => {
-  axiosPrivate.post(`notifications/acknowledge/${notification.id}`);
+  const dispatch = useAppDispatch();
   return (
     <UnstyledLink
       href={notification.url}
@@ -30,9 +35,14 @@ export const NotificationItem = ({
           boxShadow: '$1',
         },
       }}
+      onClick={() => {
+        dispatch(setNotifRead(notification.id));
+        dispatch(getNotifications());
+        dispatch(getNotificationsUnread());
+      }}
     >
-      <P>
-        {notification.message}
+      <Flex>
+        <P>{notification.message}</P>
         {!notification.read && (
           <Div css={{ position: 'relative', display: 'inline' }}>
             <Div
@@ -48,7 +58,7 @@ export const NotificationItem = ({
             ></Div>
           </Div>
         )}
-      </P>
+      </Flex>
       <FontAwesomeIcon icon={faChevronRight} />
     </UnstyledLink>
   );

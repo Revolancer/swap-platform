@@ -8,7 +8,7 @@ import { Project } from '@/lib/types';
 import { ProjectStatusEntry } from '@/components/project-hub/active/project-status-entry';
 import { CollaboratorEntry } from '@/components/project-hub/active/collaborator-entry';
 import { ProjectCreditEntry } from '@/components/project-hub/active/project-credit-entry';
-import Link from 'next/link';
+import { ViewProject } from '@/components/modals/admin-view-project-modal';
 
 export default function UserProjects() {
   const [activeProjects, setActiveProjects] = useState<Project[]>([]);
@@ -55,9 +55,9 @@ export default function UserProjects() {
             {activeProjects.map((project) => {
               return (
                 <TR key={project.id}>
-                  <Link href={`/admin/users/${id}/projects/${project.id}`}>
-                    <TD>{project.need.title ?? 'Untitled Project'}</TD>
-                  </Link>
+                  <TD>
+                    <ViewProject project={project} id={id} />
+                  </TD>
                   <TD>
                     <CollaboratorEntry project={project} id={id} />
                   </TD>

@@ -1,4 +1,3 @@
-import { axiosPrivate } from '@/lib/axios';
 import { useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import Link from 'next/link';
@@ -6,7 +5,7 @@ import { styled } from '@revolancer/ui';
 import { faBell } from '@fortawesome/free-regular-svg-icons';
 import { Div } from '@revolancer/ui/layout';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { setNotifsUnread } from '@/lib/notifications';
+import { getNotificationsUnread } from '@/lib/notifications';
 
 export const SidebarNotificationIndicator = ({
   expanded,
@@ -17,22 +16,15 @@ export const SidebarNotificationIndicator = ({
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const checkUnreadNotificationCount = async () => {
-      await axiosPrivate
-        .get('notifications/count/unread', {
-          id: 'unread-notification-count',
-          cache: { ttl: 30 * 1000 },
-        })
-        .then((res) => res.data)
-        .then((data) => dispatch(setNotifsUnread((data as number) ?? 0)))
-        .catch((err) => {});
+    const checkUnreadNotificationCount = () => {
+      dispatch(getNotificationsUnread());
     };
     checkUnreadNotificationCount();
     const timer = setInterval(checkUnreadNotificationCount, 60 * 1000);
     return () => {
       clearInterval(timer);
     };
-  }, [dispatch]);
+  }, [dispatch, countUnread]);
 
   const NotificationBadgeContainer = styled(Link, {
     position: 'relative',
