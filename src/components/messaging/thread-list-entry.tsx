@@ -3,12 +3,18 @@ import { styled } from '@revolancer/ui';
 import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { axiosPrivate } from '@/lib/axios';
-import store from '@/redux/store';
+import store, { useAppDispatch } from '@/redux/store';
 import { DateTime } from 'luxon';
 import { UnstyledLink } from '@revolancer/ui/buttons';
 import { Flex, Div } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { ThreadListEntrySkeleton } from '../skeletons/thread-list-entry';
+import {
+  getMessages,
+  getMessagesUnread,
+  setAllMessagesRead,
+  setMessageRead,
+} from '@/lib/notifications';
 
 const UnreadIndicator = () => {
   const Container = styled('div', {
@@ -45,7 +51,7 @@ export const ThreadListEntry = ({
 }) => {
   const [threadProfile, setThreadProfile] = useState<UserProfileData>();
   const [id, setId] = useState('');
-  const [unread, setUnread] = useState(false);
+  const dispatch = useAppDispatch();
 
   const ProfileImageContainer = styled('div', {
     backgroundColor: '$neutral300',
@@ -58,6 +64,8 @@ export const ThreadListEntry = ({
   const ProfileImage = styled(Image, {
     objectFit: 'cover',
   });
+  const ownUser = store?.getState()?.userData?.user?.id ?? '';
+  const self = uid ? uid : ownUser;
 
   useEffect(() => {
     const loadProfile = async (id: string) => {
@@ -76,18 +84,15 @@ export const ThreadListEntry = ({
           setThreadProfile(undefined);
         });
     };
-    const ownUser = store?.getState()?.userData?.user?.id ?? '';
-    const self = uid ? uid : ownUser;
     let id;
     if ((message.reciever as any as string) == self) {
       id = message.sender as any as string;
-      if (!message.read) setUnread(true);
     } else {
       id = message.reciever as any as string;
     }
     loadProfile(id);
     setId(id);
-  }, [message, uid]);
+  }, [message, self]);
 
   const time = DateTime.fromISO(message.created_at).toLocal();
   const now = DateTime.now().toLocal();
@@ -117,6 +122,11 @@ export const ThreadListEntry = ({
       >
         <UnstyledLink
           href={uid ? `/admin/users/${uid}/messages/${id}` : `/message/${id}`}
+          onClick={() => {
+            if (!uid && message.reciever === ownUser)
+              dispatch(setMessageRead(message.sender));
+            dispatch(getMessagesUnread());
+          }}
           replace
         >
           <Div
@@ -139,10 +149,14 @@ export const ThreadListEntry = ({
             </ProfileImageContainer>
             <Flex column css={{ flexGrow: '1' }}>
               <Flex css={{ justifyContent: 'space-between' }}>
-                <P css={{ fontWeight: 'bold' }}>
-                  {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
-                  {unread && <UnreadIndicator />}
-                </P>
+                <Flex>
+                  <P css={{ fontWeight: 'bold' }}>
+                    {`${threadProfile?.first_name} ${threadProfile?.last_name}`}
+                  </P>
+                  {!message.read && message.reciever === self && (
+                    <UnreadIndicator />
+                  )}
+                </Flex>
                 <P css={{ color: '$neutral600' }}>{timeStr}</P>
               </Flex>
               <P

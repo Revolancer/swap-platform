@@ -3,7 +3,7 @@ import { Message, UserProfileData } from '@/lib/types';
 import { useCallback, useEffect, useState } from 'react';
 import { MessageInput } from './message-input';
 import { DateTime } from 'luxon';
-import store from '@/redux/store';
+import store, { useAppDispatch } from '@/redux/store';
 import { MessageAuthor } from './message-author';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -37,9 +37,7 @@ export const CurrentThread = ({
       axiosPrivate
         .get(`message/admin/${uidForAdmin}/messages/${uid}`, {
           id: `message-threads-${uid}`,
-          cache: {
-            ttl: 20 * 1000,
-          },
+          cache: { ttl: 1000 },
         })
         .then((res) => res.data)
         .then((data) => {
@@ -52,9 +50,7 @@ export const CurrentThread = ({
       axiosPrivate
         .get(`message/${uid}`, {
           id: `message-threads-${uid}`,
-          cache: {
-            ttl: 20 * 1000,
-          },
+          cache: { ttl: 1000 },
         })
         .then((res) => res.data)
         .then((data) => {
@@ -103,15 +99,11 @@ export const CurrentThread = ({
     loadProfiles();
     loadActiveThread();
     if (!uidForAdmin) scrollToBottom();
-    const refreshActiveThread = setInterval(loadActiveThread, 20 * 1000);
+    const refreshActiveThread = setInterval(loadActiveThread, 5 * 1000);
     return () => {
       clearInterval(refreshActiveThread);
     };
   }, [loadActiveThread, uid, scrollToBottom, uidForAdmin]);
-
-  const sendReadReceipt = async (id: string) => {
-    axiosPrivate.post(`message/acknowledge/${id}`).catch((err) => {});
-  };
 
   const renderMessageArray = () => {
     const rendered = [];
@@ -119,9 +111,6 @@ export const CurrentThread = ({
     let lastTime = DateTime.fromMillis(0);
     let now = DateTime.now().toLocal();
     for (const message of messages) {
-      if (!message.read && !uid) {
-        sendReadReceipt(message.id);
-      }
       const thisTime = DateTime.fromISO(message.created_at);
       //Divider for date
       if (lastTime.startOf('day') < thisTime.startOf('day')) {

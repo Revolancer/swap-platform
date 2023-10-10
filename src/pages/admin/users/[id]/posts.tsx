@@ -11,19 +11,25 @@ import { H3, P } from '@revolancer/ui/text';
 import { NeedProfileCard } from '@/components/user-posts/need-profile-card';
 import { NeedProfileCardForAdmin } from '@/components/user-posts/need-profile-card-for-admin';
 import UserPostForAdmin from '@/components/admin/user/user-posts/user-post-for-admin';
+import { PortfolioCardForAdmin } from '@/components/user-posts/portfolio-card-for-admin';
+import UserPortfolioForAdmin from '@/components/admin/user/user-posts/user-portfolio-for-admin';
 
 export default function ManageUserPosts() {
   const [profile, setProfile] = useState<UserProfileData>();
   const router = useRouter();
   const { id } = router.query;
   const [posts, setPosts] = useState<PostData[]>();
+  const [portfolios, setPortfolios] = useState<PostData[]>([]);
   const [own, setOwn] = useState(false);
   const [hasLoaded, setHasLoaded] = useState(false);
   const [isNotFound, setNotFound] = useState(false);
   const [selectedNeed, setSelectedNeed] = useState<PostData | undefined>(
     undefined,
   );
-  console.log(posts);
+  
+  const [selectedPortfolio, setSelectedPortfolio] = useState<
+    PostData | undefined
+  >(undefined);
 
   useEffect(() => {
     const getUserProfileData = async () => {
@@ -40,6 +46,18 @@ export default function ManageUserPosts() {
             }
           })
           .catch((err) => setNotFound(true));
+        await axiosPrivate
+          .get(`/admin/user/${id}/portfolios`)
+          .then((response) => {
+            if ((response?.data ?? null) != null) {
+              if (response?.data?.length) {
+                setNotFound(true);
+              }
+              setPortfolios(response.data);
+              setHasLoaded(true);
+            }
+          })
+          .catch((err) => setNotFound(true));
       }
     };
 
@@ -47,6 +65,7 @@ export default function ManageUserPosts() {
   }, [id]);
 
   const staticPosts = [];
+  const staticPortfolios = [];
 
   if (posts) {
     for (const post of posts) {
@@ -55,6 +74,18 @@ export default function ManageUserPosts() {
           data={post}
           key={post?.id ?? ''}
           select={() => setSelectedNeed(post)}
+        />,
+      );
+    }
+  }
+
+  if (portfolios) {
+    for (const p of portfolios) {
+      staticPortfolios.push(
+        <PortfolioCardForAdmin
+          data={p}
+          key={p?.id ?? ''}
+          select={() => setSelectedPortfolio(p)}
         />,
       );
     }
@@ -70,11 +101,25 @@ export default function ManageUserPosts() {
             uid={typeof id != 'string' ? '' : id}
           />
         )}
-        {selectedNeed == undefined && (
+        {selectedPortfolio && (
+          <UserPortfolioForAdmin
+            post={selectedPortfolio}
+            back={() => setSelectedPortfolio(undefined)}
+            uid={typeof id != 'string' ? '' : id}
+          />
+        )}
+        {selectedPortfolio == undefined && selectedNeed == undefined && (
           <Div>
-            <H3>NEED</H3>
-            <P css={{ color: '$neutral600' }}>View and edit user’s needs</P>
+            <H3>NEEDS</H3>
+            <P css={{ color: '$neutral600' }}>
+              View and edit user’s needs
+            </P>
             <Flex wrap>{staticPosts}</Flex>
+            <H3 css={{ margin: "$5 0 $3 0" }}>PORTFOLIO POSTS</H3>
+            <P css={{ color: '$neutral600' }}>
+              View and edit user’s portfolio posts
+            </P>
+            <Flex wrap>{staticPortfolios}</Flex>
           </Div>
         )}
       </FullWidth>
