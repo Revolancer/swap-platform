@@ -100,7 +100,7 @@ export default function ProjectPage() {
       <Title>
         {hasLoaded ? loadedData?.need?.title ?? 'Project' : 'Project'}
       </Title>
-      <AdminLayout>
+      <AdminLayout roles={['admin', 'moderator']}>
         <CrumbBar>
           <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/users">User Management</Crumb>
