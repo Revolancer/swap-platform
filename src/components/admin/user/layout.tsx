@@ -47,7 +47,7 @@ export default function ManageUserLayout({ children }: { children: any }) {
       <Title>
         {profile ? `${profile.first_name} ${profile.last_name}` : 'User'}
       </Title>
-      <AdminLayout roles={['admin']}>
+      <AdminLayout roles={['admin', 'moderator']}>
         <CrumbBar>
           <Crumb href="#">Admin</Crumb>
           <Crumb href="/admin/users">User Management</Crumb>
