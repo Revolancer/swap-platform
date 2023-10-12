@@ -9,6 +9,7 @@ import { ProjectStatusEntry } from '@/components/project-hub/active/project-stat
 import { CollaboratorEntry } from '@/components/project-hub/active/collaborator-entry';
 import { ProjectCreditEntry } from '@/components/project-hub/active/project-credit-entry';
 import { ViewProject } from '@/components/modals/admin-view-project-modal';
+import AdminViewProject from '@/components/admin/user/preojects/amin-view-project';
 
 export default function UserProjects() {
   const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
@@ -56,7 +57,7 @@ export default function UserProjects() {
               return (
                 <TR key={project.id}>
                   <TD>
-                    <ViewProject project={project} id={id} />
+                    <AdminViewProject project={project} id={id} />
                   </TD>
                   <TD>
                     <CollaboratorEntry project={project} id={id} />

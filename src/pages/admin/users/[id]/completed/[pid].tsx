@@ -5,7 +5,6 @@ import { useRouter } from 'next/router';
 import { useEffect, useMemo, useState } from 'react';
 import { Project, UserProfileData } from '@/lib/types';
 import { validate as isValidUUID } from 'uuid';
-import { ProjectCompletionToggle } from '@/components/project-hub/active/project-completion-toggle';
 import { Tags } from '@/components/user-posts/tags';
 import { OutputData } from '@editorjs/editorjs';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -13,7 +12,6 @@ import { faTicket } from '@fortawesome/free-solid-svg-icons';
 import { ProjectThread } from '@/components/messaging/project-messaging/project-thread';
 import { ParagraphBlock } from 'editorjs-blocks-react-renderer';
 import { ProjectOtherUserProfile } from '@/components/messaging/project-messaging/project-other-user-profile';
-import { ProjectStatus } from '@/components/project-hub/project-status';
 import { H1, P } from '@revolancer/ui/text';
 import { FullWidth, Flex, Divider, Card, Div } from '@revolancer/ui/layout';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
@@ -120,13 +118,13 @@ export default function ProjectPage() {
               />
             )}
           </Crumb>
-          <Crumb href={`/admin/users/${uid}/projects`} active>
+          <Crumb href={`/admin/users/${uid}/completed`} active>
             Projects
           </Crumb>
         </CrumbBar>
         <FullWidth>
           <Div css={{ margin: '$5 0 $3 0' }}>
-            <Button href={`/admin/users/${uid}/projects`} role="secondary">
+            <Button href={`/admin/users/${uid}/completed`} role="secondary">
               Go back
             </Button>
           </Div>
