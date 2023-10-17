@@ -7,9 +7,38 @@ import { NeedProfileCard } from '../user-posts/need-profile-card';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
+import { Masonry as Mason, useInfiniteLoader } from 'masonic';
+
+const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
+  //if (index === 0) return <AddSomething />;
+  switch (data.type) {
+    case 'need': {
+      return (
+        <NeedProfileCard
+          data={data.data}
+          key={data.data?.id ?? ''}
+          withAuthor
+        />
+      );
+    }
+    case 'portfolio': {
+      return (
+        <PortfolioProfileCard
+          data={data.data}
+          key={data.data?.id ?? ''}
+          withAuthor
+        />
+      );
+    }
+    default: {
+      return <UserProfileCard uid={data.data?.id ?? ''} />;
+    }
+  }
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
+  const [renderedPosts, setRenderedPosts] = useState<FeedPostData[]>(posts);
 
   const loadPostsForUser = useCallback(async () => {
     axiosPrivate
@@ -39,36 +68,36 @@ export const FeedSegment = () => {
       clearInterval(interval);
     };
   }, [loadPostsForUser]);
-  const staticPosts = [];
-  for (const post of posts) {
-    if (post.type == 'need') {
-      staticPosts.push(
-        <NeedProfileCard
-          data={post.data}
-          key={post.data?.id ?? ''}
-          withAuthor
-        />,
-      );
-    } else {
-      staticPosts.push(
-        <PortfolioProfileCard
-          data={post.data}
-          key={post.data?.id ?? ''}
-          withAuthor
-          hideIfEmpty
-        />,
-      );
-    }
-  }
+
+  const maybeLoadMore = useInfiniteLoader(
+    async (startIndex, stopIndex, currentItems) => {
+      const nextItems = await getRenderedItemsPromise(startIndex, stopIndex);
+      setRenderedPosts((current) => [...current, ...nextItems]);
+    },
+    {
+      isItemLoaded: (index, items) => !!items[index],
+      minimumBatchSize: 32,
+      threshold: 3,
+    },
+  );
+
+  const getRenderedItemsPromise = (start: number, end: number) =>
+    Promise.resolve(getRenderedItems(start, end));
+
+  const getRenderedItems = (start = 0, end = 32) => {
+    const renderedItems = [];
+    for (let i = start; i < end; i++) renderedItems.push(posts[i]);
+    return renderedItems;
+  };
 
   return (
-    <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-      <Masonry gutter="0.8rem">
-        <AddSomething />
-        {staticPosts.length === 0
-          ? skeletonPortfoliosArray(15, true)
-          : staticPosts}
-      </Masonry>
-    </ResponsiveMasonry>
+    <Mason
+      onRender={maybeLoadMore}
+      items={renderedPosts}
+      render={FeedEntry}
+      columnGutter={16}
+      maxColumnCount={3}
+      overscanBy={3}
+    />
   );
 };
