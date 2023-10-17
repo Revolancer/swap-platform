@@ -43,10 +43,7 @@ export const NeedOrClientModal = () => {
           Need? Or are you looking for a client?
         </P>
         <Flex gap="5" css={{ alignItems: 'center' }}>
-          <Button
-            role="secondary"
-            href="https://revolancer.com/magazine/get-clients/"
-          >
+          <Button role="secondary" href="https://www.work.revolancer.com/">
             Find Clients
           </Button>
           <Button

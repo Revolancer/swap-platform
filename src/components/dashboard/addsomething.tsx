@@ -63,7 +63,7 @@ export const AddSomething = () => {
           </Button>
         </Flex>
         <Button
-          href="https://revolancer.com/magazine/get-clients/"
+          href="https://www.work.revolancer.com/"
           target="_blank"
           size="small"
           role="secondary"
