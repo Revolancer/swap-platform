@@ -68,8 +68,8 @@ export const ProposalNoPortfolioModal = ({
         </P>
         <P>
           <strong>
-            Users who add examples of their work to their portfolios have a 30%
-            higher chance of landing projects.
+            Generate more interest by showcasing your best work on your
+            portfolio.
           </strong>{' '}
           Add yours now!
         </P>

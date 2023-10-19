@@ -35,12 +35,12 @@ export const NoPortfolioNagbar = () => {
   return (
     <NagBar>
       <P>
-        Users with active portfolios get 30% more interest.{' '}
+        Generate more interest 🤩 -{' '}
         <Link
           href="/portfolio/new"
           css={{ color: '$orange600', '&:hover': { color: '$orange800' } }}
         >
-          <strong>Add to my portfolio</strong>
+          <strong>Add to your portfolio</strong>
         </Link>
       </P>
     </NagBar>
