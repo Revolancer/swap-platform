@@ -58,7 +58,7 @@
     "luxon": "^3.4.3",
     "masonic": "^3.7.0",
     "match-sorter": "^6.3.1",
-    "next": "^13.5.6",
+    "next": "^14.0.0",
     "osm-api": "^1.0.5",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
