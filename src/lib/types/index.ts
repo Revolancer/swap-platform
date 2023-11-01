@@ -46,7 +46,7 @@ export interface PostData {
 }
 
 export interface FeedPostData {
-  type: 'portfolio' | 'need';
+  type: 'portfolio' | 'need' | 'user';
   data: PostData;
 }
 
@@ -147,3 +147,9 @@ export interface BrandPriority {
   priority: number;
   icon: IconDefinition;
 }
+
+//Search Query Types
+export type Filters = ('portfolios' | 'needs' | 'users')[] | undefined;
+export type Sort = 'created' | 'relevance' | undefined;
+export type Order = 'ASC' | 'DESC' | undefined;
+export type SortType = 'newest' | 'oldest' | 'relevance';
