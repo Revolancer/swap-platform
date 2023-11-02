@@ -62,7 +62,6 @@ export const FeedSegment = () => {
       .catch(() => {
         return;
       });
-    console.log('here');
   }, [feedFilters, posts]);
 
   useEffect(() => {
