@@ -3,7 +3,7 @@ import { FilterSegment } from './filtersegment';
 import { SearchSegment } from './searchsegment';
 import { SortSegment } from './sortsegment';
 
-export const SearchBar = ({ onSearch }: { onSearch: () => void }) => {
+export const SearchBar = () => {
   return (
     <Flex
       gap={6}
@@ -11,16 +11,17 @@ export const SearchBar = ({ onSearch }: { onSearch: () => void }) => {
       css={{ alignItems: 'center', '@md': { flexDirection: 'row' } }}
     >
       <Flex css={{ width: '100%', '@md': { width: '60%' } }}>
-        <SearchSegment onSearch={onSearch} />
+        <SearchSegment />
       </Flex>
       <Flex
+        gap={6}
         css={{ width: '100%', alignItems: 'center', '@md': { width: '40%' } }}
       >
         <Flex css={{ width: '50%' }}>
-          <SortSegment onSearch={onSearch} />
+          <FilterSegment />
         </Flex>
         <Flex css={{ width: '50%' }}>
-          <FilterSegment onSearch={onSearch} />
+          <SortSegment />
         </Flex>
       </Flex>
     </Flex>

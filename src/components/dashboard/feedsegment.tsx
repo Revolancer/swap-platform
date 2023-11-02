@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FeedPostData, Filters } from '@/lib/types';
+import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
@@ -110,7 +110,7 @@ export const FeedSegment = () => {
 
   return (
     <>
-      <SearchBar onSearch={loadPostsForUser} />
+      <SearchBar />
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
         <Masonry gutter="0.8rem">
           <AddSomething />

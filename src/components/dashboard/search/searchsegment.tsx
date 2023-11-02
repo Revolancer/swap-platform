@@ -5,21 +5,17 @@ import { TertiaryFormButton } from '@revolancer/ui/buttons';
 import { Form, InputInner, InputOuter } from '@revolancer/ui/forms';
 import { Flex } from '@revolancer/ui/layout';
 import { Formik } from 'formik';
-import debounce from 'lodash.debounce';
 import { clearTerm, setTerm } from './reducer';
 
-export const SearchSegment = ({ onSearch }: { onSearch: () => void }) => {
+export const SearchSegment = () => {
   const { term } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
-
-  const debouncedLoad = debounce(onSearch, 500);
 
   return (
     <Formik
       initialValues={{ searchTerm: term }}
       onSubmit={(values, actions) => {
         dispatch(setTerm(values.searchTerm));
-        debouncedLoad();
       }}
     >
       {({ handleBlur, values, handleChange, handleSubmit }) => (

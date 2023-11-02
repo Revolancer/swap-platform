@@ -1,13 +1,17 @@
 import { Order, Sort, SortType } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { Form, Select, SelectGroup, SelectItem } from '@revolancer/ui/forms';
 import { Flex } from '@revolancer/ui/layout';
-import { Formik } from 'formik';
-import debounce from 'lodash.debounce';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { setSort } from './reducer';
+import {
+  Dropdown,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+  DropdownSeparator,
+} from './dropdown';
+import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 
-export const SortSegment = ({ onSearch }: { onSearch: () => void }) => {
+export const SortSegment = () => {
   const { sort, order } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
 
@@ -21,10 +25,54 @@ export const SortSegment = ({ onSearch }: { onSearch: () => void }) => {
     getSortOption(sort as Sort, order as Order) || 'newest',
   );
 
-  const debouncedLoad = debounce(onSearch, 500);
+  const [expanded, setExpanded] = useState(false);
+
+  const toggle = useCallback(() => {
+    setExpanded(!expanded);
+  }, [expanded]);
 
   return (
-    <Formik
+    <>
+      <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
+        <Dropdown placeholder="Sort" open={expanded} onOpen={toggle}>
+          <DropdownMenuRadioGroup
+            value={sortOption}
+            onValueChange={(value) => setSortOption(value)}
+          >
+            <DropdownMenuRadioItem value="newest">
+              Newest to Oldest
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="oldest">
+              Oldest to Newest
+            </DropdownMenuRadioItem>
+            <DropdownMenuRadioItem value="relevance">
+              Most Relevant
+            </DropdownMenuRadioItem>
+          </DropdownMenuRadioGroup>
+          <DropdownSeparator />
+          <Flex
+            gap={4}
+            css={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '$3 0',
+            }}
+          >
+            <TertiaryFormButton
+              onClick={() => {
+                setSortOption('newest');
+                dispatch(setSort('newest'));
+              }}
+            >
+              Clear All
+            </TertiaryFormButton>
+            <FormButton onClick={() => dispatch(setSort(sortOption))}>
+              Apply
+            </FormButton>
+          </Flex>
+        </Dropdown>
+      </Flex>
+      {/*<Formik
       initialValues={{ sort: sortOption }}
       onSubmit={(values, actions) => {
         dispatch(setSort(values.sort));
@@ -51,6 +99,7 @@ export const SortSegment = ({ onSearch }: { onSearch: () => void }) => {
           </Flex>
         </Form>
       )}
-    </Formik>
+      </Formik>*/}
+    </>
   );
 };

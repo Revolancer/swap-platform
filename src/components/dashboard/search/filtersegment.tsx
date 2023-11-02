@@ -1,37 +1,87 @@
 import { Filters } from '@/lib/types';
-import {
-  Checkbox,
-  Form,
-  Select,
-  SelectGroup,
-  SelectItem,
-} from '@revolancer/ui/forms';
-import { Card, Flex } from '@revolancer/ui/layout';
-import { Formik } from 'formik';
-import debounce from 'lodash.debounce';
+import { Flex } from '@revolancer/ui/layout';
 import { useCallback, useState } from 'react';
-import { P } from '@revolancer/ui/text';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { clearFilters, setFilters } from './reducer';
+import {
+  Dropdown,
+  DropdownMenuCheckboxItem,
+  DropdownSeparator,
+} from './dropdown';
 
-export const FilterSegment = ({ onSearch }: { onSearch: () => void }) => {
+export const FilterSegment = () => {
+  const { datatype, term } = useAppSelector((state) => state.feedFilters);
+  const dispatch = useAppDispatch();
+
   const [expanded, setExpanded] = useState(false);
+  const [portfolios, setPortfolios] = useState(
+    datatype?.includes('portfolios') || false,
+  );
+  const [needs, setNeeds] = useState(datatype?.includes('needs') || false);
+  const [users, setUsers] = useState(datatype?.includes('users') || false);
 
   const toggle = useCallback(() => {
     setExpanded(!expanded);
   }, [expanded]);
 
-  const { datatype, term } = useAppSelector((state) => state.feedFilters);
-  const dispatch = useAppDispatch();
-
-  const debouncedLoad = debounce(onSearch, 500);
-
   return (
     <>
-      <Formik
+      <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
+        <Dropdown placeholder="Filter" open={expanded} onOpen={toggle}>
+          <DropdownMenuCheckboxItem
+            checked={portfolios}
+            onCheckedChange={() => setPortfolios(!portfolios)}
+          >
+            Portfolio Posts
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={needs}
+            onCheckedChange={() => setNeeds(!needs)}
+          >
+            Needs
+          </DropdownMenuCheckboxItem>
+          <DropdownMenuCheckboxItem
+            checked={users}
+            onCheckedChange={() => setUsers(!users)}
+            disabled={term !== undefined}
+          >
+            User Profiles
+          </DropdownMenuCheckboxItem>
+          <DropdownSeparator />
+          <Flex
+            gap={4}
+            css={{
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: '$3 0',
+            }}
+          >
+            <TertiaryFormButton
+              onClick={() => {
+                setPortfolios(false);
+                setNeeds(false);
+                setUsers(false);
+                dispatch(clearFilters());
+              }}
+            >
+              Clear All
+            </TertiaryFormButton>
+            <FormButton
+              onClick={() => {
+                const payload: Filters = [];
+                if (portfolios) payload.push('portfolios');
+                if (needs) payload.push('needs');
+                if (users) payload.push('users');
+                dispatch(setFilters(payload));
+              }}
+            >
+              Apply
+            </FormButton>
+          </Flex>
+        </Dropdown>
+      </Flex>
+      {/*<Formik
         initialValues={{
           portfolios: datatype?.includes('portfolios'),
           needs: datatype?.includes('needs'),
@@ -113,7 +163,7 @@ export const FilterSegment = ({ onSearch }: { onSearch: () => void }) => {
             )}
           </Form>
         )}
-      </Formik>
+      </Formik>*/}
     </>
   );
 };
