@@ -32,74 +32,46 @@ export const SortSegment = () => {
   }, [expanded]);
 
   return (
-    <>
-      <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
-        <Dropdown placeholder="Sort" open={expanded} onOpen={toggle}>
-          <DropdownMenuRadioGroup
-            value={sortOption}
-            onValueChange={(value) => setSortOption(value)}
-          >
-            <DropdownMenuRadioItem value="newest">
-              Newest to Oldest
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="oldest">
-              Oldest to Newest
-            </DropdownMenuRadioItem>
-            <DropdownMenuRadioItem value="relevance">
-              Most Relevant
-            </DropdownMenuRadioItem>
-          </DropdownMenuRadioGroup>
-          <DropdownSeparator />
-          <Flex
-            gap={4}
-            css={{
-              justifyContent: 'center',
-              alignItems: 'center',
-              padding: '$3 0',
+    <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
+      <Dropdown placeholder="Sort" open={expanded} onOpen={toggle}>
+        <DropdownMenuRadioGroup
+          value={sortOption}
+          onValueChange={(value) => setSortOption(value)}
+        >
+          <DropdownMenuRadioItem value="newest">
+            Newest to Oldest
+          </DropdownMenuRadioItem>
+          <DropdownSeparator light />
+          <DropdownMenuRadioItem value="oldest">
+            Oldest to Newest
+          </DropdownMenuRadioItem>
+          <DropdownSeparator light />
+          <DropdownMenuRadioItem value="relevance">
+            Most Relevant
+          </DropdownMenuRadioItem>
+        </DropdownMenuRadioGroup>
+        <DropdownSeparator />
+        <Flex
+          gap={4}
+          css={{
+            justifyContent: 'space-between',
+            alignItems: 'center',
+            padding: '$3 $5',
+          }}
+        >
+          <TertiaryFormButton
+            onClick={() => {
+              setSortOption('newest');
+              dispatch(setSort('newest'));
             }}
           >
-            <TertiaryFormButton
-              onClick={() => {
-                setSortOption('newest');
-                dispatch(setSort('newest'));
-              }}
-            >
-              Clear All
-            </TertiaryFormButton>
-            <FormButton onClick={() => dispatch(setSort(sortOption))}>
-              Apply
-            </FormButton>
-          </Flex>
-        </Dropdown>
-      </Flex>
-      {/*<Formik
-      initialValues={{ sort: sortOption }}
-      onSubmit={(values, actions) => {
-        dispatch(setSort(values.sort));
-        setSortOption(values.sort);
-        debouncedLoad();
-      }}
-    >
-      {({ submitForm }) => (
-        <Form onChange={submitForm}>
-          <Flex css={{ padding: '$7 0', height: '92px' }}>
-            <Select placeholder="Sort By" name="sort">
-              <SelectGroup id="sort">
-                <SelectItem id="newest" value="newest">
-                  Newest to Oldest
-                </SelectItem>
-                <SelectItem id="oldest" value="oldest">
-                  Oldest to Newest
-                </SelectItem>
-                <SelectItem id="relevance" value="relevance">
-                  Most Relevant
-                </SelectItem>
-              </SelectGroup>
-            </Select>
-          </Flex>
-        </Form>
-      )}
-      </Formik>*/}
-    </>
+            Clear All
+          </TertiaryFormButton>
+          <FormButton onClick={() => dispatch(setSort(sortOption))}>
+            Apply
+          </FormButton>
+        </Flex>
+      </Dropdown>
+    </Flex>
   );
 };
