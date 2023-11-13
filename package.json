@@ -53,7 +53,7 @@
     "html-react-parser": "^4.2.9",
     "jwt-decode": "^3.1.2",
     "linkify-react": "^4.1.1",
-    "linkifyjs": "^4.1.1",
+    "linkifyjs": "^4.1.2",
     "lodash.debounce": "^4.0.8",
     "luxon": "^3.4.3",
     "masonic": "^3.7.0",
