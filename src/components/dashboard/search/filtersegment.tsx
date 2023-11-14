@@ -47,7 +47,7 @@ export const FilterSegment = () => {
           <DropdownMenuCheckboxItem
             checked={users}
             onCheckedChange={() => setUsers(!users)}
-            disabled={term !== undefined}
+            disabled={term === ''}
           >
             User Profiles
           </DropdownMenuCheckboxItem>

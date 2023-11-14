@@ -9,10 +9,22 @@ import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
 import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
+import { feedInitialState } from './search/reducer';
 
 const compareArrays = (a: any, b: any) =>
   a.length === b.length &&
-  a.every((element: string, index: number) => element === b[index]);
+  a.every((element: any, index: number) => {
+    if (typeof element === 'object') {
+      return compareArrays(Object.values(element), Object.values(b[index]));
+    }
+    return element === b[index];
+  });
+
+const isInitalState = (obj: typeof feedInitialState) => {
+  const initVals = Object.values(feedInitialState);
+  const testVals = Object.values(obj);
+  return compareArrays(initVals, testVals);
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
@@ -20,23 +32,15 @@ export const FeedSegment = () => {
 
   const loadPostsForUser = useCallback(async () => {
     // Creates the Request URL for discovery feed.
-    const isInitalState = () => {
-      const { term, sort, order, page, datatype } = feedFilters;
-      const isTerm = term === '';
-      const isSort = sort === 'created';
-      const isOrder = order === 'DESC';
-      const isPage = page === 1;
-      const isDataType = compareArrays(datatype, ['portfolios', 'needs']);
-      return isTerm && isSort && isOrder && isPage && isDataType;
-    };
-
     const requestUrl = () => {
-      if (isInitalState()) return 'feed';
-      const { term, sort, order, page, datatype } = feedFilters;
+      if (isInitalState(feedFilters)) return 'feed';
+      const { term, sort, order, page, datatype, tags } = feedFilters;
       const termQuery = term ? `term=${term}` : '';
       const sortQuery = sort ? `${term ? '&' : ''}sort=${sort}` : '';
       const orderQuery = order ? `&order=${order}` : '';
       const pageQuery = page ? `&page=${page}` : '';
+      let tagsQuery = '';
+      tags?.forEach((tag) => (tagsQuery += `&tag=${tag.id}`));
       let filterQuery = '';
       datatype?.forEach((type) => (filterQuery += `&datatype=${type}`));
       return `${
@@ -112,7 +116,7 @@ export const FeedSegment = () => {
       <SearchBar />
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
         <Masonry gutter="0.8rem">
-          <AddSomething />
+          {isInitalState(feedFilters) && <AddSomething />}
           {staticPosts.length === 0
             ? skeletonPortfoliosArray(15, true)
             : staticPosts}
