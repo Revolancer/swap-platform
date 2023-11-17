@@ -6,21 +6,25 @@ import { Form, InputInner, InputOuter } from '@revolancer/ui/forms';
 import { Flex } from '@revolancer/ui/layout';
 import { Formik } from 'formik';
 import { clearTerm, setTerm } from './reducer';
+import { useEffect, useState } from 'react';
 
 export const SearchSegment = () => {
   const { term } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
+  const [search, setSearch] = useState(term ?? '');
+
+  useEffect(() => setSearch(term), [term]);
 
   return (
     <Formik
-      initialValues={{ searchTerm: term }}
+      initialValues={{ searchTerm: search }}
       onSubmit={(values, actions) => {
         dispatch(setTerm(values.searchTerm));
       }}
     >
       {({ handleBlur, values, handleChange, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Flex gap={6} css={{ padding: '$7 0' }}>
+          <Flex css={{ height: '42px' }}>
             <InputOuter key={'term'}>
               <FontAwesomeIcon icon={faSearch} style={{ marginRight: '5px' }} />
               <InputInner

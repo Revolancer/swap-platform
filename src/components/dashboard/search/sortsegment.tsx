@@ -32,7 +32,7 @@ export const SortSegment = () => {
   }, [expanded]);
 
   return (
-    <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
+    <Flex css={{ width: '100%' }}>
       <Dropdown placeholder="Sort" open={expanded} onOpen={toggle}>
         <DropdownMenuRadioGroup
           value={sortOption}

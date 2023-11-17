@@ -8,15 +8,23 @@ export const SearchBar = () => {
   return (
     <>
       <Flex
-        gap={6}
         column
-        css={{ alignItems: 'center', '@md': { flexDirection: 'row' } }}
+        css={{
+          padding: '$5 0',
+          alignItems: 'center',
+          '@md': { flexDirection: 'row', padding: '$5 0 $7' },
+        }}
       >
-        <Flex css={{ width: '100%', '@md': { width: '60%' } }}>
+        <Flex
+          css={{
+            paddingBottom: '$2',
+            width: '100%',
+            '@md': { paddingBottom: '0', width: '60%' },
+          }}
+        >
           <SearchSegment />
         </Flex>
         <Flex
-          gap={6}
           css={{ width: '100%', alignItems: 'center', '@md': { width: '40%' } }}
         >
           <Flex css={{ width: '50%' }}>

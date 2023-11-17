@@ -27,7 +27,7 @@ export const FilterSegment = () => {
   }, [expanded]);
 
   return (
-    <Flex css={{ padding: '$7 0', height: '92px', width: '100%' }}>
+    <Flex css={{ width: '100%' }}>
       <Dropdown placeholder="Filter" open={expanded} onOpen={toggle}>
         <DropdownGroup>
           <DropdownMenuCheckboxItem
