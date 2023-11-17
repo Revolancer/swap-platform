@@ -2,14 +2,40 @@ import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { TertiaryFormButton } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
-import { clearTags, removeTag } from './reducer';
 import { styled } from '@revolancer/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
+import { feedInitialState, resetField, resetFilters } from './reducer';
+import { useEffect, useState } from 'react';
+
+const compareArrays = (a: any, b: any) =>
+  a.length === b.length &&
+  a.every((element: any, index: number) => {
+    if (typeof element === 'object') {
+      return compareArrays(Object.values(element), Object.values(b[index]));
+    }
+    return element === b[index];
+  });
 
 export const TagSegment = () => {
-  const tags = useAppSelector((state) => state.feedFilters.tags);
+  const feedFilter = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
+
+  const [tagArray, setTagArray] = useState<[string, string][]>([]);
+
+  useEffect(() => {
+    const initState = Object.entries(feedInitialState);
+    const changedFilters = Object.entries(feedFilter).filter(
+      ([key, value], idx) => {
+        if (typeof value === 'object') {
+          compareArrays(Object.values(value), Object.values(initState[idx][1]));
+        }
+        return value !== initState[idx][1];
+      },
+    );
+    console.log(changedFilters);
+    setTagArray(changedFilters);
+  }, [feedFilter]);
 
   const TagContainer = styled('div', {
     color: '$pink500',
@@ -18,11 +44,13 @@ export const TagSegment = () => {
     background: '$pink100',
   });
 
-  const renderTags = tags.map((tag) => (
-    <TagContainer key={tag.id}>
-      {tag.text}
+  const renderTags = tagArray.map(([key, value]) => (
+    <TagContainer key={key}>
+      {value}
       <TertiaryFormButton
-        onClick={() => dispatch(removeTag(tag.id))}
+        onClick={() => {
+          dispatch(resetField(key));
+        }}
         css={{ marginLeft: '$3', color: '$pink500' }}
       >
         <FontAwesomeIcon icon={faXmark} />
@@ -31,11 +59,15 @@ export const TagSegment = () => {
   ));
 
   return (
-    tags.length > 0 && (
+    tagArray.length > 0 && (
       <Flex column css={{ justifyContent: 'center', marginBottom: '$8' }}>
         <Flex css={{ justifyContent: 'space-between' }}>
           <P>Search results for:</P>
-          <TertiaryFormButton onClick={() => dispatch(clearTags())}>
+          <TertiaryFormButton
+            onClick={() => {
+              dispatch(resetFilters());
+            }}
+          >
             Clear All
           </TertiaryFormButton>
         </Flex>

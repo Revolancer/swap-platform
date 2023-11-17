@@ -7,7 +7,7 @@ interface FeedState {
   sort: Sort;
   order: Order;
   datatype: Filters;
-  tags: Tag[];
+  tag: Tag | {};
   page: number;
 }
 
@@ -16,11 +16,11 @@ const initialState = {
   sort: 'created',
   order: 'DESC',
   datatype: ['portfolios', 'needs'],
-  tags: [],
+  tag: {},
   page: 1,
 } as FeedState;
 
-export const addTag = createAsyncThunk(
+export const setTag = createAsyncThunk(
   'tags/:id',
   async (id: string) =>
     await axiosPublic.get(`tags/${id}`).then((res) => res.data),
@@ -36,11 +36,8 @@ const feedSlice = createSlice({
     clearTerm(state) {
       state.term = '';
     },
-    removeTag(state, action: PayloadAction<string>) {
-      state.tags = state.tags.filter((tag: Tag) => tag.id !== action.payload);
-    },
-    clearTags(state) {
-      state.tags = [];
+    clearTag(state) {
+      state.tag = {};
     },
     setSort(state, action: PayloadAction<SortType>) {
       switch (action.payload) {
@@ -70,25 +67,46 @@ const feedSlice = createSlice({
     nextPage(state) {
       state.page++;
     },
+    resetField(state, action: PayloadAction<string>) {
+      switch (action.payload) {
+        case 'term':
+          state.term = initialState.term;
+          break;
+        case 'sort':
+          state.sort = initialState.sort;
+          break;
+        case 'datatype':
+          state.datatype = initialState.datatype;
+          break;
+        case 'order':
+          state.order = initialState.order;
+          break;
+        case 'tag':
+          state.tag = initialState.tag;
+          break;
+      }
+    },
+    resetFilters: () => initialState,
   },
   extraReducers: (builder) => {
     builder
-      .addCase(addTag.fulfilled, (state, action: PayloadAction<Tag>) => {
-        state.tags.push(action.payload);
+      .addCase(setTag.fulfilled, (state, action: PayloadAction<Tag>) => {
+        state.tag = action.payload;
       })
-      .addCase(addTag.rejected, () => {});
+      .addCase(setTag.rejected, () => {});
   },
 });
 
 export const {
   setTerm,
   clearTerm,
-  removeTag,
-  clearTags,
+  clearTag,
   setSort,
   setFilters,
   clearFilters,
   nextPage,
+  resetField,
+  resetFilters,
 } = feedSlice.actions;
 export const feedInitialState = feedSlice.getInitialState();
 export default feedSlice.reducer;

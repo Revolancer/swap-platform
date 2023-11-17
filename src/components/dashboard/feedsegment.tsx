@@ -34,13 +34,12 @@ export const FeedSegment = () => {
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
       if (isInitalState(feedFilters)) return 'feed';
-      const { term, sort, order, page, datatype, tags } = feedFilters;
+      const { term, sort, order, page, datatype, tag } = feedFilters;
       const termQuery = term ? `term=${term}` : '';
       const sortQuery = sort ? `${term ? '&' : ''}sort=${sort}` : '';
       const orderQuery = order ? `&order=${order}` : '';
       const pageQuery = page ? `&page=${page}` : '';
-      let tagsQuery = '';
-      tags?.forEach((tag) => (tagsQuery += `&tag=${tag.id}`));
+      //const tagQuery = Object.keys(tag).includes('id') ? `tag=${tag.id}` : '';
       let filterQuery = '';
       datatype?.forEach((type) => (filterQuery += `&datatype=${type}`));
       return `${

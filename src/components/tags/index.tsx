@@ -2,7 +2,7 @@ import { Tag } from '@/lib/types';
 import { useAppDispatch } from '@/redux/store';
 import { styled } from '@revolancer/ui';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { addTag } from '../dashboard/search/reducer';
+import { setTag } from '../dashboard/search/reducer';
 
 const TagContainer = styled('div', {
   color: '$pink500',
@@ -15,7 +15,7 @@ export const TagElement = ({ tag }: { tag: Tag }) => {
   const dispatch = useAppDispatch();
   return (
     <TagContainer key={tag.id}>
-      <UnstyledLink href="/" onClick={() => dispatch(addTag(tag.id))}>
+      <UnstyledLink href="/" onClick={() => dispatch(setTag(tag.id))}>
         {tag.text}
       </UnstyledLink>
     </TagContainer>
