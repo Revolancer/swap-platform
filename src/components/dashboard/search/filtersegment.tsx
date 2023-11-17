@@ -1,6 +1,6 @@
 import { Filters } from '@/lib/types';
 import { Flex } from '@revolancer/ui/layout';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { clearFilters, setFilters } from './reducer';
@@ -21,6 +21,13 @@ export const FilterSegment = () => {
   );
   const [needs, setNeeds] = useState(datatype?.includes('needs') || false);
   const [users, setUsers] = useState(datatype?.includes('users') || false);
+
+  useEffect(() => {
+    if (!datatype) return;
+    setPortfolios(datatype.includes('portfolios'));
+    setNeeds(datatype.includes('needs'));
+    setUsers(datatype.includes('users'));
+  }, [datatype]);
 
   const toggle = useCallback(() => {
     setExpanded(!expanded);

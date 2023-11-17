@@ -5,7 +5,12 @@ import { P } from '@revolancer/ui/text';
 import { styled } from '@revolancer/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import { feedInitialState, resetField, resetFilters } from './reducer';
+import {
+  feedInitialState,
+  removeFilter,
+  resetField,
+  resetFilters,
+} from './reducer';
 import { useEffect, useState } from 'react';
 
 const compareArrays = (a: any, b: any) =>
@@ -21,7 +26,7 @@ export const TagSegment = () => {
   const feedFilter = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
 
-  const [tagArray, setTagArray] = useState<[string, string][]>([]);
+  const [tagArray, setTagArray] = useState<[string, any][]>([]);
 
   useEffect(() => {
     const initState = Object.entries(feedInitialState);
@@ -33,7 +38,6 @@ export const TagSegment = () => {
         return value !== initState[idx][1];
       },
     );
-    console.log(changedFilters);
     setTagArray(changedFilters);
   }, [feedFilter]);
 
@@ -44,19 +48,56 @@ export const TagSegment = () => {
     background: '$pink100',
   });
 
-  const renderTags = tagArray.map(([key, value]) => (
-    <TagContainer key={key}>
-      {value}
-      <TertiaryFormButton
-        onClick={() => {
-          dispatch(resetField(key));
-        }}
-        css={{ marginLeft: '$3', color: '$pink500' }}
-      >
-        <FontAwesomeIcon icon={faXmark} />
-      </TertiaryFormButton>
-    </TagContainer>
-  ));
+  const renderTags = tagArray.map(([key, value]) => {
+    switch (key) {
+      case 'tag': {
+        return (
+          <TagContainer key={key}>
+            {value?.text}
+            <TertiaryFormButton
+              onClick={() => {
+                dispatch(resetField(key));
+              }}
+              css={{ marginLeft: '$3', color: '$pink500' }}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </TertiaryFormButton>
+          </TagContainer>
+        );
+      }
+      case 'datatype': {
+        return value.map((item: 'portfolios' | 'needs' | 'users') => (
+          <TagContainer key={item}>
+            {item}
+            <TertiaryFormButton
+              onClick={() => {
+                dispatch(removeFilter(item));
+              }}
+              css={{ marginLeft: '$3', color: '$pink500' }}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </TertiaryFormButton>
+          </TagContainer>
+        ));
+      }
+      default:
+        return (
+          <TagContainer key={key}>
+            {value === 'relevance' && 'Most Relevant'}
+            {value === 'ASC' && 'Oldest to Newest'}
+            {key !== 'sort' && key !== 'order' && value}
+            <TertiaryFormButton
+              onClick={() => {
+                dispatch(resetField(key));
+              }}
+              css={{ marginLeft: '$3', color: '$pink500' }}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </TertiaryFormButton>
+          </TagContainer>
+        );
+    }
+  });
 
   return (
     tagArray.length > 0 && (

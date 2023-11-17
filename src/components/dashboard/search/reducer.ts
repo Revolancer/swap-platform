@@ -61,6 +61,14 @@ const feedSlice = createSlice({
     setFilters(state, action: PayloadAction<Filters>) {
       state.datatype = action.payload;
     },
+    removeFilter(
+      state,
+      action: PayloadAction<'portfolios' | 'needs' | 'users'>,
+    ) {
+      state.datatype = state.datatype?.filter(
+        (item) => item !== action.payload,
+      );
+    },
     clearFilters(state) {
       state.datatype = [];
     },
@@ -103,6 +111,7 @@ export const {
   clearTag,
   setSort,
   setFilters,
+  removeFilter,
   clearFilters,
   nextPage,
   resetField,

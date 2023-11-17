@@ -1,7 +1,7 @@
 import { Order, Sort, SortType } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Flex } from '@revolancer/ui/layout';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { setSort } from './reducer';
 import {
   Dropdown,
@@ -26,6 +26,10 @@ export const SortSegment = () => {
   );
 
   const [expanded, setExpanded] = useState(false);
+
+  useEffect(() => {
+    setSortOption(getSortOption(sort as Sort, order as Order));
+  }, [sort, order]);
 
   const toggle = useCallback(() => {
     setExpanded(!expanded);
