@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { FeedPostData } from '@/lib/types';
+import { FeedPostData, Tag } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
@@ -12,7 +12,7 @@ import { SearchBar } from './search/searchbar';
 import { feedInitialState } from './search/reducer';
 
 const compareArrays = (a: any, b: any) =>
-  a.length === b.length &&
+  Object.values(a).length === Object.values(b).length &&
   a.every((element: any, index: number) => {
     if (typeof element === 'object') {
       return compareArrays(Object.values(element), Object.values(b[index]));
@@ -29,22 +29,43 @@ const isInitalState = (obj: typeof feedInitialState) => {
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
+  const [paramsArray, setParamsArray] = useState<[string, any][]>([]);
+
+  useEffect(() => {
+    const initState = Object.entries(feedInitialState);
+    const changedFilters = Object.entries(feedFilters).filter(
+      ([key, value], idx) => {
+        if (typeof value === 'object') {
+          compareArrays(Object.values(value), Object.values(initState[idx][1]));
+        }
+        return value !== initState[idx][1];
+      },
+    );
+    setParamsArray(changedFilters);
+  }, [feedFilters]);
 
   const loadPostsForUser = useCallback(async () => {
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
-      if (isInitalState(feedFilters)) return 'feed';
-      const { term, sort, order, page, datatype, tag } = feedFilters;
-      const termQuery = term ? `term=${term}` : '';
-      const sortQuery = sort ? `${term ? '&' : ''}sort=${sort}` : '';
-      const orderQuery = order ? `&order=${order}` : '';
-      const pageQuery = page ? `&page=${page}` : '';
-      //const tagQuery = Object.keys(tag).includes('id') ? `tag=${tag.id}` : '';
-      let filterQuery = '';
-      datatype?.forEach((type) => (filterQuery += `&datatype=${type}`));
-      return `${
-        term ? 'search?' : 'feed/v2?'
-      }${termQuery}${sortQuery}${orderQuery}${pageQuery}${filterQuery}`;
+      if (paramsArray.length === 0) return 'feed';
+      const paramsArr = paramsArray.map(([key, value], idx) => {
+        const append = idx > 0 ? '&' : '';
+        if (key === 'tags') {
+          const tagsValue = value.map((tag: Tag) => tag.id).join(',');
+          return `${append}${key}=${tagsValue}`;
+        } else if (key === 'datatype') {
+          const arrValue = value.join(',');
+          return `${append}${key}=${arrValue}`;
+        } else {
+          return `${append}${key}=${value}`;
+        }
+      });
+      const header = paramsArray.some(
+        ([key, value]) => key === 'term' || key === 'tags',
+      )
+        ? 'search?'
+        : 'feed/v2?';
+      return header + paramsArr.join('');
     };
 
     axiosPrivate
@@ -65,7 +86,7 @@ export const FeedSegment = () => {
       .catch(() => {
         return;
       });
-  }, [feedFilters, posts]);
+  }, [paramsArray, posts]);
 
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);

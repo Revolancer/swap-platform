@@ -7,7 +7,7 @@ interface FeedState {
   sort: Sort;
   order: Order;
   datatype: Filters;
-  tag: Tag | {};
+  tags: Tag[];
   page: number;
 }
 
@@ -16,7 +16,7 @@ const initialState = {
   sort: 'created',
   order: 'DESC',
   datatype: ['portfolios', 'needs'],
-  tag: {},
+  tags: [],
   page: 1,
 } as FeedState;
 
@@ -36,8 +36,8 @@ const feedSlice = createSlice({
     clearTerm(state) {
       state.term = '';
     },
-    clearTag(state) {
-      state.tag = {};
+    removeTag(state, action: PayloadAction<string>) {
+      state.tags = state.tags.filter((tag) => tag.id !== action.payload);
     },
     setSort(state, action: PayloadAction<SortType>) {
       switch (action.payload) {
@@ -90,7 +90,7 @@ const feedSlice = createSlice({
           state.order = initialState.order;
           break;
         case 'tag':
-          state.tag = initialState.tag;
+          state.tags = initialState.tags;
           break;
       }
     },
@@ -99,7 +99,7 @@ const feedSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setTag.fulfilled, (state, action: PayloadAction<Tag>) => {
-        state.tag = action.payload;
+        state.tags.push(action.payload);
       })
       .addCase(setTag.rejected, () => {});
   },
@@ -108,7 +108,7 @@ const feedSlice = createSlice({
 export const {
   setTerm,
   clearTerm,
-  clearTag,
+  removeTag,
   setSort,
   setFilters,
   removeFilter,

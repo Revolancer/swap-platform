@@ -8,10 +8,12 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons';
 import {
   feedInitialState,
   removeFilter,
+  removeTag,
   resetField,
   resetFilters,
 } from './reducer';
 import { useEffect, useState } from 'react';
+import { Tag } from '@/lib/types';
 
 const compareArrays = (a: any, b: any) =>
   a.length === b.length &&
@@ -50,20 +52,20 @@ export const TagSegment = () => {
 
   const renderTags = tagArray.map(([key, value]) => {
     switch (key) {
-      case 'tag': {
-        return (
-          <TagContainer key={key}>
-            {value?.text}
+      case 'tags': {
+        return value.map((tag: Tag) => (
+          <TagContainer key={tag.id}>
+            {tag.text}
             <TertiaryFormButton
               onClick={() => {
-                dispatch(resetField(key));
+                dispatch(removeTag(tag.id));
               }}
               css={{ marginLeft: '$3', color: '$pink500' }}
             >
               <FontAwesomeIcon icon={faXmark} />
             </TertiaryFormButton>
           </TagContainer>
-        );
+        ));
       }
       case 'datatype': {
         return value.map((item: 'portfolios' | 'needs' | 'users') => (
