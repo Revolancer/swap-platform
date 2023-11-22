@@ -51,15 +51,18 @@ export const FeedSegment = () => {
       const paramsArr = paramsArray.map(([key, value], idx) => {
         const append = idx > 0 ? '&' : '';
         if (key === 'tags') {
+          if (value.length === 0) return;
           const tagsValue = value.map((tag: Tag) => tag.id).join(',');
           return `${append}${key}=${tagsValue}`;
         } else if (key === 'datatype') {
+          if (value.length === 0) return;
           const arrValue = value.join(',');
           return `${append}${key}=${arrValue}`;
         } else {
           return `${append}${key}=${value}`;
         }
       });
+      console.log(paramsArray);
       const header = paramsArray.some(
         ([key, value]) => key === 'term' || key === 'tags',
       )
