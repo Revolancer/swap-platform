@@ -85,7 +85,7 @@
     "@types/match-sorter": "^6.0.0",
     "@types/react-beautiful-dnd": "^13.1.6",
     "@types/react-datepicker": "^4.19.1",
-    "@types/react-modal": "^3.16.2",
+    "@types/react-modal": "^3.16.3",
     "@types/react-responsive-masonry": "^2.1.2",
     "@types/react-tag-input": "^6.6.5",
     "@types/uuid": "^9.0.6",
