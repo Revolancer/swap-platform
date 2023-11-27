@@ -76,52 +76,85 @@ export default function UserProfile() {
     }
   }, [postData]);
 
-  const StyledBlocksContainer = styled('div', {
-    width: '100%',
-    maxWidth: '800px',
-    marginInline: 'auto',
-    fontSize: '$body1',
-    lineHeight: '$body1',
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '$3',
-    '& .image-block--stretched': {
+  const imageStyles = {
+    '& figure': {
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '$5',
       '& img': {
-        width: '100%',
+        overflow: 'hidden',
+        borderRadius: '$2',
+      },
+    },
+    '& .image-block--stretched': {
+      width: '100%',
+    },
+    '& .image-block--with-border': {
+      '& img': {
+        border: '2px solid $neutral400',
+      },
+    },
+    '& .image-block--with-background': {
+      '& img': {
+        backgroundColor: '$neutral400',
       },
     },
     '& figcaption': {
       color: '$neutral700',
-      fontStyle: 'italic',
-      textAlign: 'end',
+      fontSize: '$body2',
+      textAlign: 'center',
     },
+  };
+
+  const tableStyles = {
     '& table': {
       width: '100%',
       borderSpacing: '0',
-      borderCollapse: 'collapse',
+      borderCollapse: 'separate',
+      overflow: 'hidden',
+    },
+    '& th, td': {
+      border: '1px solid $neutral400',
+      textAlign: 'start',
+      padding: '$4',
     },
     '& th': {
-      border: '1px solid black',
-      textAlign: 'center',
+      backgroundColor: '$neutral200',
     },
-    '& td': {
-      border: '1px solid black',
-      textAlign: 'center',
+    '& tr:first-child th:first-child': {
+      borderTopLeftRadius: '$2',
     },
+    '& tr:first-child th:last-child': {
+      borderTopRightRadius: '$2',
+    },
+    '& tr:last-child td:first-child': {
+      borderBottomLeftRadius: '$2',
+    },
+    '& tr:last-child td:last-child': {
+      borderBottomRightRadius: '$2',
+    },
+  };
+
+  const codeStyles = {
     '& pre': {
       backgroundColor: '$neutral800',
       color: '$neutral100',
-      padding: '$3',
+      padding: '$5',
+      borderRadius: '$2',
+      overflowX: 'scroll',
     },
+  };
+
+  const quoteStyles = {
     '& blockquote': {
-      background: '$neutral100',
-      borderLeft: '10px solid $neutral600',
-      marginInline: '10px',
-      padding: '0.5em 10px',
+      border: '1px solid $neutral400',
+      borderRadius: '$2',
+      boxShadow: '$2',
+      padding: '$5',
       quotes: '“”‘’',
     },
     '& blockquote:before': {
-      color: '$neutral800',
+      color: '$neutral900',
       content: 'open-quote',
       fontSize: '4em',
       lineHeight: '0.1em',
@@ -130,7 +163,28 @@ export default function UserProfile() {
     },
     '& blockquote p': {
       display: 'inline',
+      color: '$neutral900',
     },
+    '& blockquote footer': {
+      textAlign: 'end',
+      fontSize: '$body2',
+      color: '$neutral700',
+    },
+  };
+
+  const StyledBlocksContainer = styled('div', {
+    width: '100%',
+    maxWidth: '800px',
+    marginInline: 'auto',
+    fontSize: '$body1',
+    lineHeight: '$body1',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '$5',
+    ...imageStyles,
+    ...tableStyles,
+    ...codeStyles,
+    ...quoteStyles,
     '& iframe': {
       display: 'block',
       width: '100%',
@@ -192,7 +246,7 @@ export default function UserProfile() {
       {postData?.user && <Author uid={postData.user?.id ?? ''} />}
       {postData?.tags && <Tags tags={postData.tags} />}
       {own && postData?.id && (
-        <Flex>
+        <Flex css={{ padding: '$3 0 $5' }}>
           <Button
             role="secondary"
             href={`/portfolio/${postData.id}`}
@@ -243,7 +297,7 @@ export default function UserProfile() {
           )}
         </CrumbBar>
         <FullWidth>
-          <Flex column gap={3}>
+          <Flex column gap={3} css={{ margin: '0 auto', maxWidth: '800px' }}>
             {!loading && postData ? <MainContent /> : <Skeleton />}
           </Flex>
         </FullWidth>
