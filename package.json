@@ -20,7 +20,7 @@
     "@editorjs/image": "^2.8.2",
     "@editorjs/list": "^1.8.0",
     "@editorjs/marker": "^1.3.0",
-    "@editorjs/nested-list": "^1.3.0",
+    "@editorjs/nested-list": "^1.4.1",
     "@editorjs/paragraph": "^2.11.3",
     "@editorjs/quote": "^2.5.0",
     "@editorjs/table": "^2.2.2",
