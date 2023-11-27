@@ -13,7 +13,7 @@
     "@bugsnag/js": "^7.22.2",
     "@bugsnag/plugin-react": "^7.19.0",
     "@editorjs/checklist": "^1.5.0",
-    "@editorjs/code": "^2.8.0",
+    "@editorjs/code": "^2.9.0",
     "@editorjs/editorjs": "^2.28.2",
     "@editorjs/embed": "^2.6.0",
     "@editorjs/header": "^2.7.0",
