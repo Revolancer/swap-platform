@@ -48,27 +48,11 @@ export const FeedSegment = () => {
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
       if (paramsArray.length === 0) return 'feed';
-      const paramsArr = paramsArray.map(([key, value], idx) => {
-        const append = idx > 0 ? '&' : '';
-        if (key === 'tags') {
-          if (value.length === 0) return;
-          const tagsValue = value.map((tag: Tag) => tag.id).join(',');
-          return `${append}${key}=${tagsValue}`;
-        } else if (key === 'datatype') {
-          if (value.length === 0) return;
-          const arrValue = value.join(',');
-          return `${append}${key}=${arrValue}`;
-        } else {
-          return `${append}${key}=${value}`;
-        }
-      });
-      console.log(paramsArray);
-      const header = paramsArray.some(
+      return paramsArray.some(
         ([key, value]) => key === 'term' || key === 'tags',
       )
-        ? 'search?'
-        : 'feed/v2?';
-      return header + paramsArr.join('');
+        ? 'search'
+        : 'feed/v2';
     };
 
     axiosPrivate
@@ -77,6 +61,7 @@ export const FeedSegment = () => {
         cache: {
           ttl: 1000, // 1 second.
         },
+        params: Object.fromEntries(paramsArray),
       })
       .then((response) => {
         const firstRendered = posts.length > 0 ? posts[0].data.id : '';
