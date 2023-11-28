@@ -36,12 +36,22 @@ export const FeedSegment = () => {
     const changedFilters = Object.entries(feedFilters).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
+          if (value.length === 0) return false;
           compareArrays(Object.values(value), Object.values(initState[idx][1]));
         }
         return value !== initState[idx][1];
       },
     );
-    setParamsArray(changedFilters);
+    const transformFilters: [string, any][] = changedFilters.map(
+      ([key, value]) => {
+        if (key === 'tags') {
+          const newVal = value.map((tag: Tag) => tag.id);
+          return [key, newVal];
+        }
+        return [key, value];
+      },
+    );
+    setParamsArray(transformFilters);
   }, [feedFilters]);
 
   const loadPostsForUser = useCallback(async () => {

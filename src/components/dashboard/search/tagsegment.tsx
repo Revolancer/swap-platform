@@ -35,6 +35,7 @@ export const TagSegment = () => {
     const changedFilters = Object.entries(feedFilter).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
+          if (value.length === 0) return false;
           compareArrays(Object.values(value), Object.values(initState[idx][1]));
         }
         return value !== initState[idx][1];
