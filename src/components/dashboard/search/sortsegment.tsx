@@ -8,15 +8,14 @@ import {
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownSeparator,
-} from './dropdown';
+} from '@revolancer/ui/collapsible';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { styled } from '@revolancer/ui';
 import { P } from '@revolancer/ui/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Formik } from 'formik';
-import { Form } from '@revolancer/ui/forms';
-import { Radio, RadioItem } from './radio';
+import { Radio, RadioItem, Form } from '@revolancer/ui/forms';
 
 export const SortSegment = () => {
   const { sort, order } = useAppSelector((state) => state.feedFilters);

@@ -9,7 +9,7 @@ import {
   DropdownGroup,
   DropdownMenuCheckboxItem,
   DropdownSeparator,
-} from './dropdown';
+} from '@revolancer/ui/collapsible';
 import { styled } from '@revolancer/ui';
 import { P } from '@revolancer/ui/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
