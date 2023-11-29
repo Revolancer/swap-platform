@@ -80,14 +80,17 @@ export default function UserProfile() {
     '& figure': {
       display: 'flex',
       flexDirection: 'column',
+      alignItems: 'center',
+      borderRadius: '$2',
       gap: '$5',
       '& img': {
         overflow: 'hidden',
         borderRadius: '$2',
+        width: '75%',
       },
     },
     '& .image-block--stretched': {
-      width: '100%',
+      '& img': { width: '100%' },
     },
     '& .image-block--with-border': {
       '& img': {
@@ -95,8 +98,10 @@ export default function UserProfile() {
       },
     },
     '& .image-block--with-background': {
-      '& img': {
-        backgroundColor: '$neutral400',
+      backgroundColor: '$neutral400',
+      '& img': { margin: '$5 0 0' },
+      '& figcaption': {
+        color: '$neutral800',
       },
     },
     '& figcaption': {
@@ -173,8 +178,6 @@ export default function UserProfile() {
   };
 
   const StyledBlocksContainer = styled('div', {
-    width: '100%',
-    maxWidth: '800px',
     marginInline: 'auto',
     fontSize: '$body1',
     lineHeight: '$body1',
