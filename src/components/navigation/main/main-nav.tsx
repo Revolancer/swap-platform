@@ -181,7 +181,7 @@ const NonAdminSideBar = ({ expanded }: { expanded: boolean }) => {
         label="Job Board"
         icon={faBriefcase}
         expanded={expanded}
-        href="https://revolancer.com/magazine/get-clients/"
+        href="https://www.work.revolancer.com/"
         target="_blank"
       />
     </>

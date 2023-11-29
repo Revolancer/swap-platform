@@ -9,36 +9,37 @@ import { ProjectStatusEntry } from '@/components/project-hub/active/project-stat
 import { CollaboratorEntry } from '@/components/project-hub/active/collaborator-entry';
 import { ProjectCreditEntry } from '@/components/project-hub/active/project-credit-entry';
 import { ViewProject } from '@/components/modals/admin-view-project-modal';
+import AdminViewProject from '@/components/admin/user/preojects/amin-view-project';
 
 export default function UserProjects() {
-  const [completedProjects, setCompletedProjects] = useState<Project[]>([]);
-  const [completedProjectsCount, setCompletedProjectsCount] = useState(0);
+  const [activeProjects, setActiveProjects] = useState<Project[]>([]);
+  const [activeProjectsCount, setActiveProjectsCount] = useState(0);
   const router = useRouter();
   const { id } = router.query;
 
   useEffect(() => {
     axiosPrivate
-      .get(`admin/users/${id}/projects/completed`)
+      .get(`admin/users/${id}/projects/active`)
       .then((res) => res.data)
       .then((data) => {
-        setCompletedProjects(data);
+        setActiveProjects(data);
       })
-      .catch(() => setCompletedProjects([]));
+      .catch(() => setActiveProjects([]));
 
     axiosPrivate
-      .get(`admin/users/${id}/projects/completed/count`)
+      .get(`admin/users/${id}/projects/active/count`)
       .then((response) => {
-        setCompletedProjectsCount(response.data);
+        setActiveProjectsCount(response.data);
       })
-      .catch((e) => setCompletedProjectsCount(0));
+      .catch((e) => setActiveProjectsCount(0));
   }, [id]);
 
-  const NoProjects = () => <P>No completed projects yet!</P>;
+  const NoProjects = () => <P>No active projects</P>;
 
   const MainContent = () => (
     <>
-      <H5>Completed Projects: {completedProjectsCount}</H5>
-      <Span>Projects that have been completed</Span>
+      <H5>Active Projects: {activeProjectsCount}</H5>
+      <Span>Projects user is involved in</Span>
       <DataTable
         roundedBottom
         roundedTop
@@ -52,11 +53,11 @@ export default function UserProjects() {
         )}
         renderBodyRows={() => (
           <>
-            {completedProjects.map((project) => {
+            {activeProjects.map((project) => {
               return (
                 <TR key={project.id}>
                   <TD>
-                    <ViewProject project={project} id={id} />
+                    <AdminViewProject project={project} id={id} />
                   </TD>
                   <TD>
                     <CollaboratorEntry project={project} id={id} />
@@ -78,7 +79,7 @@ export default function UserProjects() {
 
   return (
     <ManageUserLayout>
-      {completedProjectsCount > 0 ? <MainContent /> : <NoProjects />}
+      {activeProjectsCount > 0 ? <MainContent /> : <NoProjects />}
     </ManageUserLayout>
   );
 }
