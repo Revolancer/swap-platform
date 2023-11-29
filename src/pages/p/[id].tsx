@@ -152,6 +152,7 @@ export default function UserProfile() {
 
   const quoteStyles = {
     '& blockquote': {
+      backgroundColor: '$neutral100',
       border: '1px solid $neutral400',
       borderRadius: '$2',
       boxShadow: '$2',
