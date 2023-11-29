@@ -307,7 +307,7 @@ export const MainNav = () => {
                     checked={adminMode}
                     handleCheckedChange={() => dispatch(toggle())}
                   >
-                    {}
+                    <></>
                   </Switch>
                 </Flex>
               )}
