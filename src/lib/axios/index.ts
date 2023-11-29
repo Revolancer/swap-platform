@@ -1,6 +1,6 @@
 import store from '@/redux/store';
 import axios from 'axios';
-import jwt_decode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { logout, refreshToken } from '../user/auth';
 import { setupCache } from 'axios-cache-interceptor';
 
@@ -21,14 +21,14 @@ axiosPrivate.interceptors.request.use(
 
     let currentDate = new Date();
     if (user?.accessToken) {
-      const decodedRefreshToken: { exp: number } = jwt_decode(
+      const decodedRefreshToken: { exp: number } = jwtDecode(
         user?.refreshToken,
       );
       if (decodedRefreshToken.exp * 1000 < currentDate.getTime()) {
         store?.dispatch(logout());
         return config;
       }
-      const decodedToken: { exp: number } = jwt_decode(user?.accessToken);
+      const decodedToken: { exp: number } = jwtDecode(user?.accessToken);
       if (decodedToken.exp * 1000 < currentDate.getTime()) {
         await store?.dispatch(refreshToken());
       }
