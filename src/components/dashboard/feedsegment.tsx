@@ -9,6 +9,8 @@ import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
 import { Masonry as Mason, useInfiniteLoader } from 'masonic';
 
+const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
+
 const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
   //if (index === 0) return <AddSomething />;
   switch (data.type) {
@@ -30,70 +32,48 @@ const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
         />
       );
     }
-    default: {
+    case 'user': {
       return <UserProfileCard uid={data.data?.id ?? ''} />;
+    }
+    default: {
+      return <AddSomething />;
     }
   }
 };
 
 export const FeedSegment = () => {
-  const [posts, setPosts] = useState<FeedPostData[]>([]);
-  const [renderedPosts, setRenderedPosts] = useState<FeedPostData[]>(posts);
+  const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
 
-  const loadPostsForUser = useCallback(async () => {
-    axiosPrivate
-      .get(`feed`, {
+  const loadPostsForUser = async (
+    startIndex: number,
+    stopIndex: number,
+    currentItems: any,
+  ) => {
+    console.log(startIndex, stopIndex);
+    const nextItems = await axiosPrivate
+      .get('feed', {
         id: 'feed-data',
-        cache: {
-          ttl: 1000 * 60, // 1 minute.
-        },
+        cache: { ttl: 1000 * 60 },
       })
-      .then((response) => {
-        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
-        const firstFetched =
-          response.data.length > 0 ? response.data[0].data.id : '';
-        if (firstRendered !== firstFetched) {
-          setPosts(response.data ?? []);
-        }
+      .then((res) => {
+        const { data } = res;
+        return data.slice(startIndex, stopIndex);
       })
       .catch(() => {
         return;
       });
-  }, [posts]);
-
-  useEffect(() => {
-    const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
-    loadPostsForUser();
-    return () => {
-      clearInterval(interval);
-    };
-  }, [loadPostsForUser]);
-
-  const maybeLoadMore = useInfiniteLoader(
-    async (startIndex, stopIndex, currentItems) => {
-      const nextItems = await getRenderedItemsPromise(startIndex, stopIndex);
-      setRenderedPosts((current) => [...current, ...nextItems]);
-    },
-    {
-      isItemLoaded: (index, items) => !!items[index],
-      minimumBatchSize: 32,
-      threshold: 3,
-    },
-  );
-
-  const getRenderedItemsPromise = (start: number, end: number) =>
-    Promise.resolve(getRenderedItems(start, end));
-
-  const getRenderedItems = (start = 0, end = 32) => {
-    const renderedItems = [];
-    for (let i = start; i < end; i++) renderedItems.push(posts[i]);
-    return renderedItems;
+    setPosts((current) => [...posts, ...nextItems]);
   };
+
+  const maybeLoadMore = useInfiniteLoader(loadPostsForUser, {
+    minimumBatchSize: 50,
+    threshold: 10,
+  });
 
   return (
     <Mason
       onRender={maybeLoadMore}
-      items={renderedPosts}
+      items={posts}
       render={FeedEntry}
       columnGutter={16}
       maxColumnCount={3}
