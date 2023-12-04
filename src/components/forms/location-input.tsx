@@ -77,8 +77,8 @@ export const LocationInput = (props: FieldHookConfig<any>) => {
             backgroundColor: state.isSelected
               ? theme.colors['navy300']
               : state.isFocused
-              ? theme.colors['navy100']
-              : 'unset',
+                ? theme.colors['navy100']
+                : 'unset',
             color: theme.colors['neutral900'],
           }),
         },
