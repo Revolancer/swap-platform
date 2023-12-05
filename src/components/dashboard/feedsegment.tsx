@@ -1,18 +1,17 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+//import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
-import { Masonry as Mason, useInfiniteLoader } from 'masonic';
+import { Masonry, useInfiniteLoader } from 'masonic';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
 
 const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
-  //if (index === 0) return <AddSomething />;
   switch (data.type) {
     case 'need': {
       return (
@@ -43,35 +42,31 @@ const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
+  const startIndex = useMemo(() => posts.length - 1, [posts]);
+  const stopIndex = useMemo(() => startIndex + 16, [startIndex]);
 
-  const loadPostsForUser = async (
-    startIndex: number,
-    stopIndex: number,
-    currentItems: any,
-  ) => {
-    console.log(startIndex, stopIndex);
-    const nextItems = await axiosPrivate
+  const loadPostsForUser = useCallback(async () => {
+    const items = await axiosPrivate
       .get('feed', {
         id: 'feed-data',
         cache: { ttl: 1000 * 60 },
+        params: { from: startIndex, to: stopIndex },
       })
-      .then((res) => {
-        const { data } = res;
-        return data.slice(startIndex, stopIndex);
-      })
-      .catch(() => {
-        return;
-      });
-    setPosts((current) => [...posts, ...nextItems]);
-  };
+      .then((res) => res.data);
+    setPosts([...posts, ...items]);
+  }, [posts, startIndex, stopIndex]);
 
   const maybeLoadMore = useInfiniteLoader(loadPostsForUser, {
-    minimumBatchSize: 50,
-    threshold: 10,
+    isItemLoaded: (index, items: FeedPostData[]) => {
+      console.log(index, posts.includes(items[index]));
+      return !!items[index];
+    },
+    minimumBatchSize: 16,
+    threshold: 8,
   });
 
   return (
-    <Mason
+    <Masonry
       onRender={maybeLoadMore}
       items={posts}
       render={FeedEntry}
