@@ -3,7 +3,7 @@ import { Divider, Flex } from '@revolancer/ui/layout';
 import { useCallback, useEffect, useState } from 'react';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { clearFilters, setFilters } from './reducer';
+import { clearFilters, resetField, setFilters } from './reducer';
 import {
   Dropdown,
   DropdownGroup,
@@ -17,12 +17,17 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Formik } from 'formik';
 import { Checkbox, Form } from '@revolancer/ui/forms';
 
-export const FilterSegment = () => {
+export const FilterSegment = ({
+  expand,
+  setExpand,
+}: {
+  expand: 'filter' | 'sort' | false;
+  setExpand: (arg0: any) => void;
+}) => {
   const { datatype, term } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
   const mobileBP = window.innerWidth < 600;
 
-  const [expanded, setExpanded] = useState(false);
   const [portfolios, setPortfolios] = useState(
     datatype?.includes('portfolios') || false,
   );
@@ -35,10 +40,6 @@ export const FilterSegment = () => {
     setNeeds(datatype.includes('needs'));
     setUsers(datatype.includes('users'));
   }, [datatype]);
-
-  const toggle = useCallback(() => {
-    setExpanded(!expanded);
-  }, [expanded]);
 
   const MobileFilter = () => {
     const buttonStyle = {
@@ -70,6 +71,7 @@ export const FilterSegment = () => {
         expanded: {
           true: {
             height: '65dvh',
+            padding: '$3 $5',
           },
         },
       },
@@ -81,7 +83,7 @@ export const FilterSegment = () => {
           <FormButton
             role="secondary"
             css={buttonStyle}
-            onClick={() => toggle()}
+            onClick={() => setExpand('filter')}
           >
             <P>Filter</P>
             <P css={{ color: '$neutral500' }}>
@@ -89,8 +91,8 @@ export const FilterSegment = () => {
             </P>
           </FormButton>
         </Flex>
-        <MobileExpander expanded={expanded}>
-          {expanded && (
+        <MobileExpander expanded={expand === 'filter'}>
+          {expand === 'filter' && (
             <Flex
               css={{
                 width: '100%',
@@ -111,6 +113,7 @@ export const FilterSegment = () => {
                   if (values.needs) payload.push('needs');
                   if (values.users) payload.push('users');
                   dispatch(setFilters(payload));
+                  setExpand(false);
                 }}
               >
                 {(props) => {
@@ -163,7 +166,8 @@ export const FilterSegment = () => {
                           <TertiaryFormButton
                             role="secondary"
                             onClick={() => {
-                              dispatch(clearFilters());
+                              dispatch(resetField('datatype'));
+                              setExpand(false);
                             }}
                           >
                             Clear All
@@ -171,7 +175,6 @@ export const FilterSegment = () => {
                           <FormButton
                             onClick={() => {
                               props.submitForm();
-                              toggle();
                             }}
                           >
                             Save
@@ -191,7 +194,11 @@ export const FilterSegment = () => {
 
   const DesktopFilter = () => (
     <Flex css={{ width: '100%' }}>
-      <Dropdown placeholder="Filter" open={expanded} onOpen={toggle}>
+      <Dropdown
+        placeholder="Filter"
+        open={expand === 'filter'}
+        onOpen={() => setExpand('filter')}
+      >
         <DropdownGroup>
           <DropdownMenuCheckboxItem
             checked={portfolios}
@@ -229,6 +236,7 @@ export const FilterSegment = () => {
                 setNeeds(false);
                 setUsers(false);
                 dispatch(clearFilters());
+                setExpand(false);
               }}
             >
               Clear All
@@ -240,6 +248,7 @@ export const FilterSegment = () => {
                 if (needs) payload.push('needs');
                 if (users) payload.push('users');
                 dispatch(setFilters(payload));
+                setExpand(false);
               }}
             >
               Apply

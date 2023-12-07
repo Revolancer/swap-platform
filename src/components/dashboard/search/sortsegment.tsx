@@ -2,7 +2,7 @@ import { Order, Sort, SortType } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Divider, Flex } from '@revolancer/ui/layout';
 import { useCallback, useEffect, useState } from 'react';
-import { setSort } from './reducer';
+import { resetField, setSort } from './reducer';
 import {
   Dropdown,
   DropdownMenuRadioGroup,
@@ -17,7 +17,13 @@ import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
 import { Formik } from 'formik';
 import { Radio, RadioItem, Form } from '@revolancer/ui/forms';
 
-export const SortSegment = () => {
+export const SortSegment = ({
+  expand,
+  setExpand,
+}: {
+  expand: 'filter' | 'sort' | false;
+  setExpand: (arg0: any) => void;
+}) => {
   const { sort, order } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
   const mobileBP = window.innerWidth < 600;
@@ -32,15 +38,9 @@ export const SortSegment = () => {
     getSortOption(sort as Sort, order as Order) || 'newest',
   );
 
-  const [expanded, setExpanded] = useState(false);
-
   useEffect(() => {
     setSortOption(getSortOption(sort as Sort, order as Order));
   }, [sort, order]);
-
-  const toggle = useCallback(() => {
-    setExpanded(!expanded);
-  }, [expanded]);
 
   const MobileSort = () => {
     const buttonStyle = {
@@ -84,7 +84,7 @@ export const SortSegment = () => {
           <FormButton
             role="secondary"
             css={buttonStyle}
-            onClick={() => toggle()}
+            onClick={() => setExpand('sort')}
           >
             <P>Sort</P>
             <P css={{ color: '$neutral500' }}>
@@ -92,8 +92,8 @@ export const SortSegment = () => {
             </P>
           </FormButton>
         </Flex>
-        <MobileExpander expanded={expanded}>
-          {expanded && (
+        <MobileExpander expanded={expand === 'sort'}>
+          {expand === 'sort' && (
             <Flex
               css={{
                 width: '100%',
@@ -107,6 +107,7 @@ export const SortSegment = () => {
                 }}
                 onSubmit={(values) => {
                   dispatch(setSort(values.sortOption));
+                  setExpand(false);
                 }}
               >
                 {(props) => {
@@ -157,7 +158,9 @@ export const SortSegment = () => {
                           <TertiaryFormButton
                             role="secondary"
                             onClick={() => {
-                              dispatch(setSort('newest'));
+                              dispatch(resetField('sort'));
+                              dispatch(resetField('order'));
+                              setExpand(false);
                             }}
                           >
                             Clear All
@@ -165,7 +168,6 @@ export const SortSegment = () => {
                           <FormButton
                             onClick={() => {
                               props.submitForm();
-                              toggle();
                             }}
                           >
                             Save
@@ -185,7 +187,11 @@ export const SortSegment = () => {
 
   const DesktopSort = () => (
     <Flex css={{ width: '100%' }}>
-      <Dropdown placeholder="Sort" open={expanded} onOpen={toggle}>
+      <Dropdown
+        placeholder="Sort"
+        open={expand === 'sort'}
+        onOpen={() => setExpand('sort')}
+      >
         <DropdownMenuRadioGroup
           value={sortOption}
           onValueChange={(value) => setSortOption(value)}
@@ -215,11 +221,17 @@ export const SortSegment = () => {
             onClick={() => {
               setSortOption('newest');
               dispatch(setSort('newest'));
+              setExpand(false);
             }}
           >
             Clear All
           </TertiaryFormButton>
-          <FormButton onClick={() => dispatch(setSort(sortOption))}>
+          <FormButton
+            onClick={() => {
+              dispatch(setSort(sortOption));
+              setExpand(false);
+            }}
+          >
             Apply
           </FormButton>
         </Flex>
