@@ -13,7 +13,7 @@ import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { styled } from '@revolancer/ui';
 import { P } from '@revolancer/ui/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { Formik } from 'formik';
 import { Radio, RadioItem, Form } from '@revolancer/ui/forms';
 
@@ -84,11 +84,16 @@ export const SortSegment = ({
           <FormButton
             role="secondary"
             css={buttonStyle}
-            onClick={() => setExpand('sort')}
+            onClick={() => {
+              if (expand == 'sort') setExpand(false);
+              else setExpand('sort');
+            }}
           >
             <P>Sort</P>
             <P css={{ color: '$neutral500' }}>
-              <FontAwesomeIcon icon={faChevronDown} />
+              <FontAwesomeIcon
+                icon={expand === 'sort' ? faChevronUp : faChevronDown}
+              />
             </P>
           </FormButton>
         </Flex>

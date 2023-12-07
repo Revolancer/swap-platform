@@ -13,7 +13,7 @@ import {
 import { styled } from '@revolancer/ui';
 import { P } from '@revolancer/ui/text';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown } from '@fortawesome/free-solid-svg-icons';
+import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { Formik } from 'formik';
 import { Checkbox, Form } from '@revolancer/ui/forms';
 
@@ -83,11 +83,16 @@ export const FilterSegment = ({
           <FormButton
             role="secondary"
             css={buttonStyle}
-            onClick={() => setExpand('filter')}
+            onClick={() => {
+              if (expand == 'filter') setExpand(false);
+              else setExpand('filter');
+            }}
           >
             <P>Filter</P>
             <P css={{ color: '$neutral500' }}>
-              <FontAwesomeIcon icon={faChevronDown} />
+              <FontAwesomeIcon
+                icon={expand == 'filter' ? faChevronUp : faChevronDown}
+              />
             </P>
           </FormButton>
         </Flex>

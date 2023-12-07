@@ -3,8 +3,11 @@ import { FilterSegment } from './filtersegment';
 import { SearchSegment } from './searchsegment';
 import { SortSegment } from './sortsegment';
 import { TagSegment } from './tagsegment';
+import { useState } from 'react';
 
 export const SearchBar = () => {
+  const [expand, setExpand] = useState<'filter' | 'sort' | false>(false);
+
   return (
     <>
       <Flex
@@ -28,10 +31,10 @@ export const SearchBar = () => {
           css={{ width: '100%', alignItems: 'center', '@md': { width: '40%' } }}
         >
           <Flex css={{ width: '50%' }}>
-            <FilterSegment />
+            <FilterSegment expand={expand} setExpand={setExpand} />
           </Flex>
           <Flex css={{ width: '50%' }}>
-            <SortSegment />
+            <SortSegment expand={expand} setExpand={setExpand} />
           </Flex>
         </Flex>
       </Flex>
