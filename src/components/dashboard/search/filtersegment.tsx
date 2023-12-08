@@ -202,7 +202,10 @@ export const FilterSegment = ({
       <Dropdown
         placeholder="Filter"
         open={expand === 'filter'}
-        onOpen={() => setExpand('filter')}
+        onOpen={() => {
+          if (expand == 'filter') setExpand(false);
+          else setExpand('filter');
+        }}
       >
         <DropdownGroup>
           <DropdownMenuCheckboxItem
@@ -237,10 +240,7 @@ export const FilterSegment = ({
           >
             <TertiaryFormButton
               onClick={() => {
-                setPortfolios(false);
-                setNeeds(false);
-                setUsers(false);
-                dispatch(clearFilters());
+                dispatch(resetField('datatype'));
                 setExpand(false);
               }}
             >

@@ -195,7 +195,10 @@ export const SortSegment = ({
       <Dropdown
         placeholder="Sort"
         open={expand === 'sort'}
-        onOpen={() => setExpand('sort')}
+        onOpen={() => {
+          if (expand == 'sort') setExpand(false);
+          else setExpand('sort');
+        }}
       >
         <DropdownMenuRadioGroup
           value={sortOption}
@@ -224,8 +227,8 @@ export const SortSegment = ({
         >
           <TertiaryFormButton
             onClick={() => {
-              setSortOption('newest');
-              dispatch(setSort('newest'));
+              dispatch(resetField('sort'));
+              dispatch(resetField('order'));
               setExpand(false);
             }}
           >
