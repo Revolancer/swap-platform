@@ -29,16 +29,16 @@ export const FilterSegment = ({
   const mobileBP = window.innerWidth < 600;
 
   const [portfolios, setPortfolios] = useState(
-    datatype?.includes('portfolios') || false,
+    datatype?.includes('portfolio') || false,
   );
-  const [needs, setNeeds] = useState(datatype?.includes('needs') || false);
-  const [users, setUsers] = useState(datatype?.includes('users') || false);
+  const [needs, setNeeds] = useState(datatype?.includes('need') || false);
+  const [users, setUsers] = useState(datatype?.includes('user') || false);
 
   useEffect(() => {
     if (!datatype) return;
-    setPortfolios(datatype.includes('portfolios'));
-    setNeeds(datatype.includes('needs'));
-    setUsers(datatype.includes('users'));
+    setPortfolios(datatype.includes('portfolio'));
+    setNeeds(datatype.includes('need'));
+    setUsers(datatype.includes('user'));
   }, [datatype]);
 
   const MobileFilter = () => {
@@ -114,9 +114,9 @@ export const FilterSegment = ({
                 }}
                 onSubmit={(values) => {
                   const payload: Filters = [];
-                  if (values.portfolios) payload.push('portfolios');
-                  if (values.needs) payload.push('needs');
-                  if (values.users) payload.push('users');
+                  if (values.portfolios) payload.push('portfolio');
+                  if (values.needs) payload.push('need');
+                  if (values.users) payload.push('user');
                   dispatch(setFilters(payload));
                   setExpand(false);
                 }}
@@ -150,6 +150,7 @@ export const FilterSegment = ({
                           id="users"
                           name="users"
                           checked={props.values.users}
+                          disabled={term === ''}
                         >
                           User Profiles
                         </Checkbox>
@@ -249,9 +250,9 @@ export const FilterSegment = ({
             <FormButton
               onClick={() => {
                 const payload: Filters = [];
-                if (portfolios) payload.push('portfolios');
-                if (needs) payload.push('needs');
-                if (users) payload.push('users');
+                if (portfolios) payload.push('portfolio');
+                if (needs) payload.push('need');
+                if (users) payload.push('user');
                 dispatch(setFilters(payload));
                 setExpand(false);
               }}

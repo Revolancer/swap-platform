@@ -149,7 +149,7 @@ export interface BrandPriority {
 }
 
 //Search Query Types
-export type Filters = ('portfolios' | 'needs' | 'users')[] | undefined;
+export type Filters = ('portfolio' | 'need' | 'user')[] | undefined;
 export type Sort = 'created' | 'relevance' | undefined;
 export type Order = 'ASC' | 'DESC' | undefined;
 export type SortType = 'newest' | 'oldest' | 'relevance';

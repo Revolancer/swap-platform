@@ -15,7 +15,7 @@ const initialState = {
   term: '',
   sort: 'created',
   order: 'DESC',
-  datatype: ['portfolios', 'needs'],
+  datatype: ['portfolio', 'need'],
   tags: [],
   page: 1,
 } as FeedState;
@@ -32,9 +32,6 @@ const feedSlice = createSlice({
   reducers: {
     setTerm(state, action: PayloadAction<string>) {
       state.term = action.payload;
-    },
-    clearTerm(state) {
-      state.term = '';
     },
     removeTag(state, action: PayloadAction<string>) {
       state.tags = state.tags.filter((tag) => tag.id !== action.payload);
@@ -61,10 +58,7 @@ const feedSlice = createSlice({
     setFilters(state, action: PayloadAction<Filters>) {
       state.datatype = action.payload;
     },
-    removeFilter(
-      state,
-      action: PayloadAction<'portfolios' | 'needs' | 'users'>,
-    ) {
+    removeFilter(state, action: PayloadAction<'portfolio' | 'need' | 'user'>) {
       state.datatype = state.datatype?.filter(
         (item) => item !== action.payload,
       );
@@ -79,6 +73,8 @@ const feedSlice = createSlice({
       switch (action.payload) {
         case 'term':
           state.term = initialState.term;
+          if (state.datatype?.includes('user'))
+            state.datatype = state.datatype.filter((type) => type !== 'user');
           break;
         case 'sort':
           state.sort = initialState.sort;
@@ -91,6 +87,8 @@ const feedSlice = createSlice({
           break;
         case 'tag':
           state.tags = initialState.tags;
+          if (state.datatype?.includes('user'))
+            state.datatype = state.datatype.filter((type) => type !== 'user');
           break;
       }
     },
@@ -107,7 +105,6 @@ const feedSlice = createSlice({
 
 export const {
   setTerm,
-  clearTerm,
   removeTag,
   setSort,
   setFilters,
