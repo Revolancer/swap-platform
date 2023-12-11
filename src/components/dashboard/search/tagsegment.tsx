@@ -77,7 +77,7 @@ export const TagSegment = () => {
         ));
       }
       case 'datatype': {
-        return value.map((item: 'portfolios' | 'needs' | 'users') => (
+        return value.map((item: 'portfolio' | 'need' | 'user') => (
           <TagContainer key={item}>
             {item}
             <TertiaryFormButton
