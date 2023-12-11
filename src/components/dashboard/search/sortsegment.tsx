@@ -42,7 +42,31 @@ export const SortSegment = ({
     setSortOption(getSortOption(sort as Sort, order as Order));
   }, [sort, order]);
 
-  const MobileSort = () => {
+  const mobileExpanderStyle = {
+    height: '$0',
+    width: '100%',
+    zIndex: '$4',
+    position: 'fixed',
+    top: '35dvh',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    backgroundColor: '$background',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    transition: 'height 0.4s ease-in-out',
+
+    variants: {
+      expanded: {
+        true: {
+          height: '65dvh',
+          padding: '$3 $5',
+        },
+      },
+    },
+  };
+
+  /*const MobileSort = () => {
     const buttonStyle = {
       width: '100%',
       height: '42px',
@@ -54,29 +78,7 @@ export const SortSegment = ({
       alignItems: 'center',
     };
 
-    const MobileExpander = styled('div', {
-      height: '$0',
-      width: '100%',
-      zIndex: '$4',
-      position: 'fixed',
-      top: '35dvh',
-      left: '50%',
-      transform: 'translate(-50%, 0)',
-      backgroundColor: '$background',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      transition: 'height 0.4s ease-in-out',
-
-      variants: {
-        expanded: {
-          true: {
-            height: '65dvh',
-            padding: '$3 $5',
-          },
-        },
-      },
-    });
+    const MobileExpander = styled('div', mobileExpanderStyle);
 
     return (
       <>
@@ -188,9 +190,9 @@ export const SortSegment = ({
         </MobileExpander>
       </>
     );
-  };
+  };*/
 
-  const DesktopSort = () => (
+  return (
     <Flex css={{ width: '100%' }}>
       <Dropdown
         placeholder="Sort"
@@ -199,6 +201,7 @@ export const SortSegment = ({
           if (expand == 'sort') setExpand(false);
           else setExpand('sort');
         }}
+        //contentCss={mobileBP && { ...mobileExpanderStyle }}
       >
         <DropdownMenuRadioGroup
           value={sortOption}
@@ -246,6 +249,4 @@ export const SortSegment = ({
       </Dropdown>
     </Flex>
   );
-
-  return mobileBP ? <MobileSort /> : <DesktopSort />;
 };

@@ -20,16 +20,11 @@ const compareArrays = (a: any, b: any) =>
     return element === b[index];
   });
 
-const isInitalState = (obj: typeof feedInitialState) => {
-  const initVals = Object.values(feedInitialState);
-  const testVals = Object.values(obj);
-  return compareArrays(initVals, testVals);
-};
-
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const [paramsArray, setParamsArray] = useState<[string, any][]>([]);
+  console.log(paramsArray);
 
   useEffect(() => {
     const initState = Object.entries(feedInitialState);
@@ -37,6 +32,13 @@ export const FeedSegment = () => {
       ([key, value], idx) => {
         if (typeof value === 'object') {
           if (value.length === 0) return false;
+          console.log(
+            key,
+            compareArrays(
+              Object.values(value),
+              Object.values(initState[idx][1]),
+            ),
+          );
           compareArrays(Object.values(value), Object.values(initState[idx][1]));
         }
         return value !== initState[idx][1];
@@ -65,6 +67,33 @@ export const FeedSegment = () => {
         : 'feed/v2';
     };
 
+    const getFeedData = (res: any) => {
+      const firstRendered = posts.length > 0 ? posts[0].data.id : '';
+      const firstFetched = res.data.length > 0 ? res.data[0].data.id : '';
+      if (firstRendered !== firstFetched) {
+        setPosts(res.data ?? []);
+      }
+    };
+
+    const getSearchResults = (res: any) => {
+      const results = res.data[0];
+      const searchResults: FeedPostData[] = results.map(
+        async ({
+          otherId,
+          contentType,
+        }: {
+          otherId: string;
+          contentType: string;
+        }) => {
+          const reqUrl = `${contentType}/${otherId}`;
+          const item = await axiosPrivate.get(reqUrl).then((res) => res.data);
+          console.log(item);
+          return item;
+        },
+      );
+      setPosts(searchResults ?? []);
+    };
+
     axiosPrivate
       .get(requestUrl(), {
         id: 'feed-data',
@@ -74,12 +103,8 @@ export const FeedSegment = () => {
         params: Object.fromEntries(paramsArray),
       })
       .then((response) => {
-        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
-        const firstFetched =
-          response.data.length > 0 ? response.data[0].data.id : '';
-        if (firstRendered !== firstFetched) {
-          setPosts(response.data ?? []);
-        }
+        if (requestUrl() === 'feed') getFeedData(response);
+        else getSearchResults(response);
       })
       .catch(() => {
         return;
@@ -93,6 +118,7 @@ export const FeedSegment = () => {
       clearInterval(interval);
     };
   }, [loadPostsForUser]);
+
   const staticPosts = [];
   for (const post of posts) {
     switch (post.type) {
@@ -134,7 +160,7 @@ export const FeedSegment = () => {
       <SearchBar />
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
         <Masonry gutter="0.8rem">
-          {isInitalState(feedFilters) && <AddSomething />}
+          {paramsArray.length === 0 && <AddSomething />}
           {staticPosts.length === 0
             ? skeletonPortfoliosArray(15, true)
             : staticPosts}
