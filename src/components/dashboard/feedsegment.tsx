@@ -14,16 +14,15 @@ import { feedInitialState } from './search/reducer';
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
   const arrB = Object.values(b);
-  arrA.length === arrB.length &&
+  return (
+    arrA.length === arrB.length &&
     arrA.every((element: any, index: number) => {
       if (typeof element === 'object') {
-        return compareArrays(
-          Object.values(element),
-          Object.values(arrB[index]),
-        );
+        compareArrays(Object.values(element), Object.values(arrB[index]));
       }
       return element === arrB[index];
-    });
+    })
+  );
 };
 
 export const FeedSegment = () => {
@@ -36,12 +35,10 @@ export const FeedSegment = () => {
     const changedFilters = Object.entries(feedFilters).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
-          return (
-            value.length === 0 &&
-            compareArrays(
-              Object.values(value),
-              Object.values(initState[idx][1]),
-            )
+          if (value.length === 0) return false;
+          return !compareArrays(
+            Object.values(value),
+            Object.values(initState[idx][1]),
           );
         }
         return value !== initState[idx][1];
@@ -90,7 +87,6 @@ export const FeedSegment = () => {
         }) => {
           const reqUrl = `${contentType}/${otherId}`;
           const item = await axiosPrivate.get(reqUrl).then((res) => res.data);
-          console.log(item);
           return item;
         },
       );
@@ -107,7 +103,8 @@ export const FeedSegment = () => {
       })
       .then((response) => {
         if (requestUrl() === 'feed') getFeedData(response);
-        else getSearchResults(response);
+        return;
+        //else getSearchResults(response);
       })
       .catch(() => {
         return;

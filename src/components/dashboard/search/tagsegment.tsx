@@ -18,16 +18,15 @@ import { Tag } from '@/lib/types';
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
   const arrB = Object.values(b);
-  arrA.length === arrB.length &&
+  return (
+    arrA.length === arrB.length &&
     arrA.every((element: any, index: number) => {
       if (typeof element === 'object') {
-        return compareArrays(
-          Object.values(element),
-          Object.values(arrB[index]),
-        );
+        compareArrays(Object.values(element), Object.values(arrB[index]));
       }
       return element === arrB[index];
-    });
+    })
+  );
 };
 
 export const TagSegment = () => {
@@ -41,12 +40,10 @@ export const TagSegment = () => {
     const changedFilters = Object.entries(feedFilter).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
-          return (
-            value.length === 0 &&
-            compareArrays(
-              Object.values(value),
-              Object.values(initState[idx][1]),
-            )
+          if (value.length === 0) return false;
+          return !compareArrays(
+            Object.values(value),
+            Object.values(initState[idx][1]),
           );
         }
         return value !== initState[idx][1];
