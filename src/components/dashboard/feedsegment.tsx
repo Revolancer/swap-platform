@@ -11,35 +11,38 @@ import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
 import { feedInitialState } from './search/reducer';
 
-const compareArrays = (a: any, b: any) =>
-  Object.values(a).length === Object.values(b).length &&
-  a.every((element: any, index: number) => {
-    if (typeof element === 'object') {
-      return compareArrays(Object.values(element), Object.values(b[index]));
-    }
-    return element === b[index];
-  });
+const compareArrays = (a: object, b: object) => {
+  const arrA = Object.values(a);
+  const arrB = Object.values(b);
+  arrA.length === arrB.length &&
+    arrA.every((element: any, index: number) => {
+      if (typeof element === 'object') {
+        return compareArrays(
+          Object.values(element),
+          Object.values(arrB[index]),
+        );
+      }
+      return element === arrB[index];
+    });
+};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const [paramsArray, setParamsArray] = useState<[string, any][]>([]);
-  console.log(paramsArray);
 
   useEffect(() => {
     const initState = Object.entries(feedInitialState);
     const changedFilters = Object.entries(feedFilters).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
-          if (value.length === 0) return false;
-          console.log(
-            key,
+          return (
+            value.length === 0 &&
             compareArrays(
               Object.values(value),
               Object.values(initState[idx][1]),
-            ),
+            )
           );
-          compareArrays(Object.values(value), Object.values(initState[idx][1]));
         }
         return value !== initState[idx][1];
       },

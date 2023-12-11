@@ -15,14 +15,20 @@ import {
 import { useEffect, useState } from 'react';
 import { Tag } from '@/lib/types';
 
-const compareArrays = (a: any, b: any) =>
-  a.length === b.length &&
-  a.every((element: any, index: number) => {
-    if (typeof element === 'object') {
-      return compareArrays(Object.values(element), Object.values(b[index]));
-    }
-    return element === b[index];
-  });
+const compareArrays = (a: object, b: object) => {
+  const arrA = Object.values(a);
+  const arrB = Object.values(b);
+  arrA.length === arrB.length &&
+    arrA.every((element: any, index: number) => {
+      if (typeof element === 'object') {
+        return compareArrays(
+          Object.values(element),
+          Object.values(arrB[index]),
+        );
+      }
+      return element === arrB[index];
+    });
+};
 
 export const TagSegment = () => {
   const feedFilter = useAppSelector((state) => state.feedFilters);
@@ -35,8 +41,13 @@ export const TagSegment = () => {
     const changedFilters = Object.entries(feedFilter).filter(
       ([key, value], idx) => {
         if (typeof value === 'object') {
-          if (value.length === 0) return false;
-          compareArrays(Object.values(value), Object.values(initState[idx][1]));
+          return (
+            value.length === 0 &&
+            compareArrays(
+              Object.values(value),
+              Object.values(initState[idx][1]),
+            )
+          );
         }
         return value !== initState[idx][1];
       },
