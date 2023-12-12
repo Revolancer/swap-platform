@@ -67,7 +67,7 @@ export const FeedSegment = () => {
         : 'feed/v2';
     };
 
-    axiosPrivate
+    await axiosPrivate
       .get(requestUrl(), {
         id: 'feed-data',
         cache: {
@@ -76,18 +76,11 @@ export const FeedSegment = () => {
         params: Object.fromEntries(paramsArray),
       })
       .then((response) => {
-        if (requestUrl() === 'feed') return response.data;
-        else return response.data[0];
+        return requestUrl() === 'feed' ? response.data : response.data[0];
       })
       .then((data) => {
-        if (requestUrl() === 'feed') {
-          const firstRendered = posts.length > 0 ? posts[0].data.id : '';
-          const firstFetched = data.length > 0 ? data[0].data.id : '';
-          if (firstRendered !== firstFetched) {
-            return data;
-          }
-          return [];
-        } else {
+        if (requestUrl() === 'feed') return data ?? [];
+        else {
           const searchResults: FeedPostData[] = [];
           data.forEach(
             ({
@@ -113,8 +106,12 @@ export const FeedSegment = () => {
           return searchResults;
         }
       })
-      .then((posts) => {
-        setPosts(posts);
+      .then((data) => {
+        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
+        const firstFetched = data.length > 0 ? data[0].data.id : '';
+        if (firstRendered !== firstFetched) {
+          setPosts(data ?? []);
+        }
       })
       .catch(() => {
         return;
@@ -123,47 +120,43 @@ export const FeedSegment = () => {
 
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
-    //loadPostsForUser();
+    loadPostsForUser();
     return () => {
       clearInterval(interval);
     };
   }, [loadPostsForUser]);
 
-  const staticPosts = [];
-  for (const post of posts) {
+  const staticPosts = posts.map((post) => {
     switch (post.type) {
       case 'portfolio': {
-        staticPosts.push(
+        return (
           <PortfolioProfileCard
             data={post.data}
             key={post.data?.id ?? ''}
             withAuthor
             hideIfEmpty
-          />,
+          />
         );
-        break;
       }
       case 'need': {
-        staticPosts.push(
+        return (
           <NeedProfileCard
             data={post.data}
             key={post.data?.id ?? ''}
             withAuthor
-          />,
+          />
         );
-        break;
       }
       case 'user': {
-        staticPosts.push(
+        return (
           <UserProfileCard
             uid={post.data?.user?.id}
             key={post.data?.id ?? ''}
-          />,
+          />
         );
-        break;
       }
     }
-  }
+  });
 
   return (
     <>
