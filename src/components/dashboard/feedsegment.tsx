@@ -60,37 +60,9 @@ export const FeedSegment = () => {
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
       if (paramsArray.length === 0) return 'feed';
-      return paramsArray.some(
-        ([key, value]) => key === 'term' || key === 'tags',
-      )
+      return paramsArray.some(([key, value]) => ['term', 'tags'].includes(key))
         ? 'search'
         : 'feed/v2';
-    };
-
-    const getFeedData = (res: any) => {
-      const firstRendered = posts.length > 0 ? posts[0].data.id : '';
-      const firstFetched = res.data.length > 0 ? res.data[0].data.id : '';
-      if (firstRendered !== firstFetched) {
-        setPosts(res.data ?? []);
-      }
-    };
-
-    const getSearchResults = (res: any) => {
-      const results = res.data[0];
-      const searchResults: FeedPostData[] = results.map(
-        async ({
-          otherId,
-          contentType,
-        }: {
-          otherId: string;
-          contentType: string;
-        }) => {
-          const reqUrl = `${contentType}/${otherId}`;
-          const item = await axiosPrivate.get(reqUrl).then((res) => res.data);
-          return item;
-        },
-      );
-      setPosts(searchResults ?? []);
     };
 
     axiosPrivate
@@ -102,9 +74,45 @@ export const FeedSegment = () => {
         params: Object.fromEntries(paramsArray),
       })
       .then((response) => {
-        if (requestUrl() === 'feed') getFeedData(response);
-        return;
-        //else getSearchResults(response);
+        if (requestUrl() === 'feed') return response.data;
+        else return response.data[0];
+      })
+      .then((data) => {
+        if (requestUrl() === 'feed') {
+          const firstRendered = posts.length > 0 ? posts[0].data.id : '';
+          const firstFetched = data.length > 0 ? data[0].data.id : '';
+          if (firstRendered !== firstFetched) {
+            return data;
+          }
+          return [];
+        } else {
+          const searchResults: FeedPostData[] = [];
+          data.forEach(
+            ({
+              otherId,
+              contentType,
+            }: {
+              otherId: string;
+              contentType: string;
+            }) => {
+              const reqUrl =
+                contentType === 'user'
+                  ? `${contentType}/profile/by_id/${otherId}`
+                  : `${contentType}/${otherId}`;
+              axiosPrivate.get(reqUrl).then((res) => {
+                const item = {
+                  type: contentType as 'portfolio' | 'need' | 'user',
+                  data: res.data,
+                };
+                searchResults.push(item);
+              });
+            },
+          );
+          return searchResults;
+        }
+      })
+      .then((posts) => {
+        setPosts(posts);
       })
       .catch(() => {
         return;
