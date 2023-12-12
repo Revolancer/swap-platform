@@ -1,6 +1,6 @@
 import store from '@/redux/store';
 import axios from 'axios';
-import jwtDecode from 'jwt-decode';
+import { jwtDecode } from 'jwt-decode';
 import { logout, refreshToken } from '../user/auth';
 import { setupCache } from 'axios-cache-interceptor';
 
