@@ -56,7 +56,9 @@ export const FeedSegment = () => {
     setParamsArray(transformFilters);
   }, [feedFilters]);
 
+  //TO-DO: fix repeated calling
   const loadPostsForUser = useCallback(async () => {
+    console.log('callback');
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
       if (paramsArray.length === 0) return 'feed';
@@ -121,7 +123,7 @@ export const FeedSegment = () => {
 
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
-    loadPostsForUser();
+    //loadPostsForUser();
     return () => {
       clearInterval(interval);
     };
