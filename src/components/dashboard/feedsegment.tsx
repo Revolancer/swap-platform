@@ -58,7 +58,6 @@ export const FeedSegment = () => {
 
   //TO-DO: fix repeated calling
   const loadPostsForUser = useCallback(async () => {
-    console.log('callback');
     // Creates the Request URL for discovery feed.
     const requestUrl = () => {
       if (paramsArray.length === 0) return 'feed';
@@ -79,44 +78,39 @@ export const FeedSegment = () => {
         return requestUrl() === 'feed' ? response.data : response.data[0];
       })
       .then((data) => {
-        if (requestUrl() === 'feed') return data ?? [];
+        if (requestUrl() === 'feed') return data;
         else {
-          const searchResults: FeedPostData[] = [];
-          data.forEach(
-            ({
-              otherId,
-              contentType,
-            }: {
-              otherId: string;
-              contentType: string;
-            }) => {
-              const reqUrl =
-                contentType === 'user'
-                  ? `${contentType}/profile/by_id/${otherId}`
-                  : `${contentType}/${otherId}`;
-              axiosPrivate.get(reqUrl).then((res) => {
-                const item = {
-                  type: contentType as 'portfolio' | 'need' | 'user',
-                  data: res.data,
-                };
-                searchResults.push(item);
-              });
-            },
+          return Promise.all(
+            data.map(
+              async ({
+                otherId,
+                contentType,
+              }: {
+                otherId: string;
+                contentType: string;
+              }) => {
+                const reqUrl =
+                  contentType === 'user'
+                    ? `${contentType}/profile/by_id/${otherId}`
+                    : `${contentType}/${otherId}`;
+                return await axiosPrivate.get(reqUrl).then(({ data }) => {
+                  return {
+                    type: contentType as 'portfolio' | 'need' | 'user',
+                    data,
+                  };
+                });
+              },
+            ),
           );
-          return searchResults;
         }
       })
       .then((data) => {
-        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
-        const firstFetched = data.length > 0 ? data[0].data.id : '';
-        if (firstRendered !== firstFetched) {
-          setPosts(data ?? []);
-        }
+        setPosts(data);
       })
       .catch(() => {
         return;
       });
-  }, [paramsArray, posts]);
+  }, [paramsArray]);
 
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
