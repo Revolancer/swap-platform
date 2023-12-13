@@ -28,9 +28,9 @@ const compareArrays = (a: object, b: object) => {
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
-  const [paramsArray, setParamsArray] = useState<[string, any][]>([]);
 
-  useEffect(() => {
+  const loadPostsForUser = useCallback(async () => {
+    // Set up and find any filter params changed from initial state
     const initState = Object.entries(feedInitialState);
     const changedFilters = Object.entries(feedFilters).filter(
       ([key, value], idx) => {
@@ -53,26 +53,25 @@ export const FeedSegment = () => {
         return [key, value];
       },
     );
-    setParamsArray(transformFilters);
-  }, [feedFilters]);
 
-  //TO-DO: fix repeated calling
-  const loadPostsForUser = useCallback(async () => {
-    // Creates the Request URL for discovery feed.
+    // Creates the Request URL for discovery feed based from filter params.
     const requestUrl = () => {
-      if (paramsArray.length === 0) return 'feed';
-      return paramsArray.some(([key, value]) => ['term', 'tags'].includes(key))
+      if (transformFilters.length === 0) return 'feed';
+      return transformFilters.some(([key, value]) =>
+        ['term', 'tags'].includes(key),
+      )
         ? 'search'
         : 'feed/v2';
     };
 
+    // Actual fetching of data based from params.
     await axiosPrivate
       .get(requestUrl(), {
         id: 'feed-data',
         cache: {
           ttl: 1000, // 1 second.
         },
-        params: Object.fromEntries(paramsArray),
+        params: Object.fromEntries(transformFilters),
       })
       .then((response) => {
         return requestUrl() === 'feed' ? response.data : response.data[0];
@@ -110,8 +109,9 @@ export const FeedSegment = () => {
       .catch(() => {
         return;
       });
-  }, [paramsArray]);
+  }, [feedFilters]);
 
+  // TO-DO(?): create a load new data button instead? similar to reddit's return to top button(loads new data)
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
     loadPostsForUser();
@@ -152,12 +152,14 @@ export const FeedSegment = () => {
     }
   });
 
+  // TO-DO: remove Addsomething component when search is being done.
+  // TO-DO: create no results found component.
   return (
     <>
       <SearchBar />
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
         <Masonry gutter="0.8rem">
-          {paramsArray.length === 0 && <AddSomething />}
+          <AddSomething />
           {staticPosts.length === 0
             ? skeletonPortfoliosArray(15, true)
             : staticPosts}
