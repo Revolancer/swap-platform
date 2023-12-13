@@ -10,6 +10,7 @@ import { UserProfileCard } from '../user-posts/user-profile-card';
 import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
 import { feedInitialState } from './search/reducer';
+import Image from 'next/image';
 
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
@@ -28,8 +29,10 @@ const compareArrays = (a: object, b: object) => {
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
+  const [loading, setLoading] = useState(true);
 
   const loadPostsForUser = useCallback(async () => {
+    setLoading(true);
     // Set up and find any filter params changed from initial state
     const initState = Object.entries(feedInitialState);
     const changedFilters = Object.entries(feedFilters).filter(
@@ -73,8 +76,8 @@ export const FeedSegment = () => {
         },
         params: Object.fromEntries(transformFilters),
       })
-      .then((response) => {
-        return requestUrl() === 'feed' ? response.data : response.data[0];
+      .then(({ data }) => {
+        return requestUrl() === 'feed' ? data : data[0];
       })
       .then((data) => {
         if (requestUrl() === 'feed') return data;
@@ -105,13 +108,14 @@ export const FeedSegment = () => {
       })
       .then((data) => {
         setPosts(data);
+        setLoading(false);
       })
       .catch(() => {
         return;
       });
   }, [feedFilters]);
 
-  // TO-DO(?): create a load new data button instead? similar to reddit's return to top button(loads new data)
+  // TO-DO(?): create a load new data button instead? similar to reddit's return to top button that loads new data
   useEffect(() => {
     const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
     loadPostsForUser();
@@ -158,12 +162,14 @@ export const FeedSegment = () => {
     <>
       <SearchBar />
       <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-        <Masonry gutter="0.8rem">
-          <AddSomething />
-          {staticPosts.length === 0
-            ? skeletonPortfoliosArray(15, true)
-            : staticPosts}
-        </Masonry>
+        {loading ? (
+          <Masonry gutter="0.8rem">{skeletonPortfoliosArray(15, true)}</Masonry>
+        ) : (
+          <Masonry gutter="0.8rem">
+            <AddSomething />
+            {staticPosts}
+          </Masonry>
+        )}
       </ResponsiveMasonry>
     </>
   );
