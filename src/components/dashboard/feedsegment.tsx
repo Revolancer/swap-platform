@@ -11,6 +11,8 @@ import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
 import { feedInitialState } from './search/reducer';
 import Image from 'next/image';
+import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
@@ -30,6 +32,7 @@ export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const [loading, setLoading] = useState(true);
+  const [feed, setFeed] = useState(true);
 
   const loadPostsForUser = useCallback(async () => {
     setLoading(true);
@@ -59,12 +62,17 @@ export const FeedSegment = () => {
 
     // Creates the Request URL for discovery feed based from filter params.
     const requestUrl = () => {
-      if (transformFilters.length === 0) return 'feed';
-      return transformFilters.some(([key, value]) =>
-        ['term', 'tags'].includes(key),
-      )
-        ? 'search'
-        : 'feed/v2';
+      if (transformFilters.length === 0) {
+        setFeed(true);
+        return 'feed';
+      } else {
+        setFeed(false);
+        return transformFilters.some(([key, value]) =>
+          ['term', 'tags'].includes(key),
+        )
+          ? 'search'
+          : 'feed/v2';
+      }
     };
 
     // Actual fetching of data based from params.
@@ -156,21 +164,42 @@ export const FeedSegment = () => {
     }
   });
 
+  const NoResultsFound = () => (
+    <Flex column gap={5} css={{ alignItems: 'center', textAlign: 'center' }}>
+      <P>Sorry, we couldn’t find any results for “{feedFilters.term}”.</P>
+      <Image
+        src="/img/revy/Revy_Confused.png"
+        alt="Revy, happy to guide you back to safety"
+        width={210}
+        height={314}
+      />
+      <P>
+        Make sure all words are spelled correctly, or try searching for simpler
+        terms.
+      </P>
+    </Flex>
+  );
+
   // TO-DO: remove Addsomething component when search is being done.
   // TO-DO: create no results found component.
   return (
     <>
       <SearchBar />
-      <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-        {loading ? (
+      {loading && (
+        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
           <Masonry gutter="0.8rem">{skeletonPortfoliosArray(15, true)}</Masonry>
-        ) : (
+        </ResponsiveMasonry>
+      )}
+      {!loading && staticPosts.length > 0 ? (
+        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
           <Masonry gutter="0.8rem">
-            <AddSomething />
+            {feed && <AddSomething />}
             {staticPosts}
           </Masonry>
-        )}
-      </ResponsiveMasonry>
+        </ResponsiveMasonry>
+      ) : (
+        <NoResultsFound />
+      )}
     </>
   );
 };
