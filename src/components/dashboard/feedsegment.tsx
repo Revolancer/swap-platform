@@ -42,25 +42,25 @@ const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
-  const startIndex = useMemo(() => posts.length - 1, [posts]);
-  const stopIndex = useMemo(() => startIndex + 16, [startIndex]);
+  const start = useMemo(() => posts.length - 1, [posts]);
+  const end = useMemo(() => start + 16, [start]);
 
   const loadPostsForUser = useCallback(async () => {
     const items = await axiosPrivate
       .get('feed', {
         id: 'feed-data',
         cache: { ttl: 1000 * 60 },
-        params: { from: startIndex, to: stopIndex },
+        params: { start, end },
       })
-      .then((res) => res.data);
+      .then(({ data }) => {
+        console.log(start, end, data);
+        return data;
+      });
     setPosts([...posts, ...items]);
-  }, [posts, startIndex, stopIndex]);
+  }, [end, posts, start]);
 
   const maybeLoadMore = useInfiniteLoader(loadPostsForUser, {
-    isItemLoaded: (index, items: FeedPostData[]) => {
-      console.log(index, posts.includes(items[index]));
-      return !!items[index];
-    },
+    isItemLoaded: (index, items: FeedPostData[]) => !!items[index],
     minimumBatchSize: 16,
     threshold: 8,
   });
@@ -72,7 +72,7 @@ export const FeedSegment = () => {
       render={FeedEntry}
       columnGutter={16}
       maxColumnCount={3}
-      overscanBy={3}
+      overscanBy={4}
     />
   );
 };
