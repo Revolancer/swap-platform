@@ -1,21 +1,15 @@
 import { Filters } from '@/lib/types';
-import { Divider, Flex } from '@revolancer/ui/layout';
-import { useCallback, useEffect, useState } from 'react';
+import { Flex } from '@revolancer/ui/layout';
+import { useEffect, useState } from 'react';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { clearFilters, resetField, setFilters } from './reducer';
+import { resetField, setFilters } from './reducer';
 import {
   Dropdown,
   DropdownGroup,
   DropdownMenuCheckboxItem,
   DropdownSeparator,
 } from '@revolancer/ui/collapsible';
-import { styled } from '@revolancer/ui';
-import { P } from '@revolancer/ui/text';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { Formik } from 'formik';
-import { Checkbox, Form } from '@revolancer/ui/forms';
 
 export const FilterSegment = ({
   expand,
@@ -41,164 +35,31 @@ export const FilterSegment = ({
     setUsers(datatype.includes('user'));
   }, [datatype]);
 
-  const MobileFilter = () => {
-    const buttonStyle = {
-      width: '100%',
-      height: '42px',
-      padding: '$3 $5',
-      display: 'inline-flex',
-      fontWeight: '$normal',
-      fontSize: '$body2',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    };
+  const mobileExpanderStyle = {
+    height: '$0',
+    width: '100%',
+    zIndex: '$4',
+    position: 'fixed',
+    top: '35dvh',
+    left: '50%',
+    transform: 'translate(-50%, 0)',
+    backgroundColor: '$background',
+    display: 'flex',
+    alignItems: 'center',
+    flexDirection: 'column',
+    transition: 'height 0.4s ease-in-out',
 
-    const MobileExpander = styled('div', {
-      height: '$0',
-      width: '100%',
-      zIndex: '$4',
-      position: 'fixed',
-      top: '35dvh',
-      left: '50%',
-      transform: 'translate(-50%, 0)',
-      backgroundColor: '$background',
-      display: 'flex',
-      alignItems: 'center',
-      flexDirection: 'column',
-      transition: 'height 0.4s ease-in-out',
-
-      variants: {
-        expanded: {
-          true: {
-            height: '65dvh',
-            padding: '$3 $5',
-          },
+    variants: {
+      expanded: {
+        true: {
+          height: '65dvh',
+          padding: '$3 $5',
         },
       },
-    });
-
-    return (
-      <>
-        <Flex css={{ width: '100%' }}>
-          <FormButton
-            role="secondary"
-            css={buttonStyle}
-            onClick={() => {
-              if (expand == 'filter') setExpand(false);
-              else setExpand('filter');
-            }}
-          >
-            <P>Filter</P>
-            <P css={{ color: '$neutral500' }}>
-              <FontAwesomeIcon
-                icon={expand == 'filter' ? faChevronUp : faChevronDown}
-              />
-            </P>
-          </FormButton>
-        </Flex>
-        <MobileExpander expanded={expand === 'filter'}>
-          {expand === 'filter' && (
-            <Flex
-              css={{
-                width: '100%',
-                maxWidth: '420px',
-                padding: '$5',
-                height: '100%',
-              }}
-            >
-              <Formik
-                initialValues={{
-                  portfolios: portfolios,
-                  needs: needs,
-                  users: users,
-                }}
-                onSubmit={(values) => {
-                  const payload: Filters = [];
-                  if (values.portfolios) payload.push('portfolio');
-                  if (values.needs) payload.push('need');
-                  if (values.users) payload.push('user');
-                  dispatch(setFilters(payload));
-                  setExpand(false);
-                }}
-              >
-                {(props) => {
-                  return (
-                    <Form
-                      onSubmit={props.handleSubmit}
-                      css={{
-                        alignContent: 'space-between',
-                      }}
-                    >
-                      <Flex column>
-                        <Checkbox
-                          id="portfolios"
-                          name="portfolios"
-                          checked={props.values.portfolios}
-                        >
-                          Portfolio Posts
-                        </Checkbox>
-                        <Divider />
-                        <Checkbox
-                          id="needs"
-                          name="needs"
-                          checked={props.values.needs}
-                        >
-                          Needs
-                        </Checkbox>
-                        <Divider />
-                        <Checkbox
-                          id="users"
-                          name="users"
-                          checked={props.values.users}
-                          disabled={term === ''}
-                        >
-                          User Profiles
-                        </Checkbox>
-                      </Flex>
-                      <Divider />
-                      <Flex
-                        column
-                        css={{
-                          width: '100%',
-                        }}
-                      >
-                        <Divider />
-                        <Flex
-                          css={{
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        >
-                          <TertiaryFormButton
-                            role="secondary"
-                            onClick={() => {
-                              dispatch(resetField('datatype'));
-                              setExpand(false);
-                            }}
-                          >
-                            Clear All
-                          </TertiaryFormButton>
-                          <FormButton
-                            onClick={() => {
-                              props.submitForm();
-                            }}
-                          >
-                            Save
-                          </FormButton>
-                        </Flex>
-                      </Flex>
-                    </Form>
-                  );
-                }}
-              </Formik>
-            </Flex>
-          )}
-        </MobileExpander>
-      </>
-    );
+    },
   };
 
-  const DesktopFilter = () => (
+  return (
     <Flex css={{ width: '100%' }}>
       <Dropdown
         placeholder="Filter"
@@ -207,6 +68,7 @@ export const FilterSegment = ({
           if (expand == 'filter') setExpand(false);
           else setExpand('filter');
         }}
+        //contentCss={mobileBP && { ...mobileExpanderStyle }}
       >
         <DropdownGroup>
           <DropdownMenuCheckboxItem
@@ -264,6 +126,4 @@ export const FilterSegment = ({
       </Dropdown>
     </Flex>
   );
-
-  return mobileBP ? <MobileFilter /> : <DesktopFilter />;
 };

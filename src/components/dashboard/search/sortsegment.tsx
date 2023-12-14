@@ -1,7 +1,7 @@
 import { Order, Sort, SortType } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { Divider, Flex } from '@revolancer/ui/layout';
-import { useCallback, useEffect, useState } from 'react';
+import { Flex } from '@revolancer/ui/layout';
+import { useEffect, useState } from 'react';
 import { resetField, setSort } from './reducer';
 import {
   Dropdown,
@@ -10,12 +10,6 @@ import {
   DropdownSeparator,
 } from '@revolancer/ui/collapsible';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
-import { styled } from '@revolancer/ui';
-import { P } from '@revolancer/ui/text';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
-import { Formik } from 'formik';
-import { Radio, RadioItem, Form } from '@revolancer/ui/forms';
 
 export const SortSegment = ({
   expand,
