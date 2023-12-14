@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { resetField, setSort } from './reducer';
 import {
   Dropdown,
+  DropdownGroup,
   DropdownMenuRadioGroup,
   DropdownMenuRadioItem,
   DropdownSeparator,
@@ -87,33 +88,35 @@ export const SortSegment = ({
             Most Relevant
           </DropdownMenuRadioItem>
         </DropdownMenuRadioGroup>
-        <DropdownSeparator />
-        <Flex
-          gap={4}
-          css={{
-            justifyContent: 'space-between',
-            alignItems: 'center',
-            padding: '$3 $5',
-          }}
-        >
-          <TertiaryFormButton
-            onClick={() => {
-              dispatch(resetField('sort'));
-              dispatch(resetField('order'));
-              setExpand(false);
+        <DropdownGroup>
+          <DropdownSeparator />
+          <Flex
+            gap={4}
+            css={{
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              padding: '$3 $5',
             }}
           >
-            Clear All
-          </TertiaryFormButton>
-          <FormButton
-            onClick={() => {
-              dispatch(setSort(sortOption));
-              setExpand(false);
-            }}
-          >
-            Apply
-          </FormButton>
-        </Flex>
+            <TertiaryFormButton
+              onClick={() => {
+                dispatch(resetField('sort'));
+                dispatch(resetField('order'));
+                setExpand(false);
+              }}
+            >
+              Clear All
+            </TertiaryFormButton>
+            <FormButton
+              onClick={() => {
+                dispatch(setSort(sortOption));
+                setExpand(false);
+              }}
+            >
+              Apply
+            </FormButton>
+          </Flex>
+        </DropdownGroup>
       </Dropdown>
     </Flex>
   );

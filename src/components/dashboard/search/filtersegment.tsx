@@ -92,6 +92,8 @@ export const FilterSegment = ({
           >
             User Profiles
           </DropdownMenuCheckboxItem>
+        </DropdownGroup>
+        <DropdownGroup>
           <DropdownSeparator />
           <Flex
             gap={4}
