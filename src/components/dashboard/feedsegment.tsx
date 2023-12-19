@@ -73,17 +73,17 @@ export const FeedSegment = () => {
     };
   }, [loadPostsForUser]);
 
-  const maybeLoadMore = useInfiniteLoader(
-    (startIndex, stopIndex, currentItems) => {
+  const loadRenderedPosts = useCallback(
+    (startIndex: number, stopIndex: number, currentItems: any[]) => {
       const nextItems = posts.slice(startIndex, stopIndex);
       setRenderedPosts((current) => [...current, ...nextItems]);
     },
-    {
-      isItemLoaded: (index, items) => !!items[index],
-      minimumBatchSize: 16,
-      threshold: 8,
-    },
+    [posts],
   );
+
+  const maybeLoadMore = useInfiniteLoader(loadRenderedPosts, {
+    threshold: 15,
+  });
 
   return (
     <Masonry
@@ -92,7 +92,7 @@ export const FeedSegment = () => {
       render={FeedEntry}
       columnGutter={16}
       maxColumnCount={3}
-      overscanBy={4}
+      overscanBy={5}
     />
   );
 };
