@@ -11,7 +11,7 @@ import { Masonry, useInfiniteLoader } from 'masonic';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
 
-const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
+const FeedEntry = ({ data }: { data: FeedPostData }) => {
   switch (data.type) {
     case 'need': {
       return (
@@ -41,34 +41,54 @@ const FeedEntry = ({ index, data }: { index: number; data: FeedPostData }) => {
 };
 
 export const FeedSegment = () => {
-  const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
-  const start = useMemo(() => posts.length - 1, [posts]);
-  const end = useMemo(() => start + 16, [start]);
+  const [posts, setPosts] = useState<FeedPostData[]>([]);
+  const [renderedPosts, setRenderedPosts] = useState<FeedPostData[]>([
+    addSomethingObj,
+  ]);
 
   const loadPostsForUser = useCallback(async () => {
     const items = await axiosPrivate
       .get('feed', {
         id: 'feed-data',
         cache: { ttl: 1000 * 60 },
-        params: { start, end },
       })
-      .then(({ data }) => {
-        console.log(start, end, data);
-        return data;
+      .then((response) => {
+        const firstRendered = posts.length > 0 ? posts[0].data.id : '';
+        const firstFetched =
+          response.data.length > 0 ? response.data[0].data.id : '';
+        if (firstRendered !== firstFetched) {
+          setPosts(response.data ?? []);
+        }
+      })
+      .catch(() => {
+        return;
       });
-    setPosts([...posts, ...items]);
-  }, [end, posts, start]);
+  }, [posts]);
 
-  const maybeLoadMore = useInfiniteLoader(loadPostsForUser, {
-    isItemLoaded: (index, items: FeedPostData[]) => !!items[index],
-    minimumBatchSize: 16,
-    threshold: 8,
-  });
+  useEffect(() => {
+    const interval = setInterval(loadPostsForUser, 10 * 60 * 1000);
+    loadPostsForUser();
+    return () => {
+      clearInterval(interval);
+    };
+  }, [loadPostsForUser]);
+
+  const maybeLoadMore = useInfiniteLoader(
+    (startIndex, stopIndex, currentItems) => {
+      const nextItems = posts.slice(startIndex, stopIndex);
+      setRenderedPosts((current) => [...current, ...nextItems]);
+    },
+    {
+      isItemLoaded: (index, items) => !!items[index],
+      minimumBatchSize: 16,
+      threshold: 8,
+    },
+  );
 
   return (
     <Masonry
       onRender={maybeLoadMore}
-      items={posts}
+      items={renderedPosts}
       render={FeedEntry}
       columnGutter={16}
       maxColumnCount={3}
