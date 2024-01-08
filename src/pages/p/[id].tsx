@@ -179,7 +179,6 @@ export default function UserProfile() {
   };
 
   const StyledBlocksContainer = styled('div', {
-    marginInline: 'auto',
     fontSize: '$body1',
     lineHeight: '$body1',
     display: 'flex',
@@ -247,7 +246,12 @@ export default function UserProfile() {
   const MainContent = () => (
     <>
       <H1>{postData?.title ?? 'Loading...'}</H1>
-      {postData?.user && <Author uid={postData.user?.id ?? ''} />}
+      {postData?.user && (
+        <Author
+          uid={postData.user?.id ?? ''}
+          hasDate={postData?.published_at as string}
+        />
+      )}
       {postData?.tags && <Tags tags={postData.tags} />}
       {own && postData?.id && (
         <Flex css={{ padding: '$3 0 $5' }}>

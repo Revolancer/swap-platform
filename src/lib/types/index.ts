@@ -42,6 +42,7 @@ export interface PostData {
   title?: string;
   tags?: Tag[];
   data?: string;
+  published_at?: string;
   unpublish_at?: string;
 }
 
