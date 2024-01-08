@@ -6,9 +6,16 @@ import { UserProfileData } from '@/lib/types';
 import NextLink from 'next/link';
 import { TertiaryButton } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
-import { P } from '@revolancer/ui/text';
+import { H5, P } from '@revolancer/ui/text';
+import { DateTime } from 'luxon';
 
-export const Author = ({ uid = '' }: { uid: string }) => {
+export const Author = ({
+  uid = '',
+  hasDate,
+}: {
+  uid: string;
+  hasDate?: string;
+}) => {
   const [profile, setProfile] = useState<UserProfileData>({});
 
   const loadAuthor = useCallback(() => {
@@ -27,8 +34,8 @@ export const Author = ({ uid = '' }: { uid: string }) => {
   const ProfileImageContainer = styled('div', {
     backgroundColor: '$neutral300',
     overflow: 'hidden',
-    width: `32px`,
-    height: `32px`,
+    width: hasDate ? `48px` : `32px`,
+    height: hasDate ? `48px` : `32px`,
     borderRadius: '$2',
   });
 
@@ -43,18 +50,31 @@ export const Author = ({ uid = '' }: { uid: string }) => {
           <NextLink href={`/u/${profile.slug ?? ''}`}>
             <ProfileImage
               src={profile?.profile_image ?? ''}
-              height={32}
-              width={32}
+              height={hasDate ? 48 : 32}
+              width={hasDate ? 48 : 32}
               alt={"This user's profile picture"}
             ></ProfileImage>
           </NextLink>
         )}
       </ProfileImageContainer>
-      {profile?.first_name && (
-        <TertiaryButton href={`/u/${profile.slug ?? ''}`}>
-          <P>{`${profile?.first_name} ${profile?.last_name}`}</P>
-        </TertiaryButton>
-      )}
+      <Flex column gap={0} css={{ justifyContent: 'start' }}>
+        {profile?.first_name && (
+          <TertiaryButton href={`/u/${profile.slug ?? ''}`}>
+            {hasDate ? (
+              <H5
+                css={{ textTransform: 'none', fontFamily: '$body' }}
+              >{`${profile?.first_name} ${profile?.last_name}`}</H5>
+            ) : (
+              <P>{`${profile?.first_name} ${profile?.last_name}`}</P>
+            )}
+          </TertiaryButton>
+        )}
+        {hasDate && (
+          <P css={{ color: '$neutral600' }}>
+            {DateTime.fromISO(hasDate).toFormat('DDD')}
+          </P>
+        )}
+      </Flex>
     </Flex>
   );
 };
