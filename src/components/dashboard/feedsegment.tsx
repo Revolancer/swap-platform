@@ -45,6 +45,7 @@ export const FeedSegment = () => {
   const [renderedPosts, setRenderedPosts] = useState<FeedPostData[]>([
     addSomethingObj,
   ]);
+  console.log(renderedPosts.length);
 
   const loadPostsForUser = useCallback(async () => {
     const items = await axiosPrivate
@@ -75,6 +76,7 @@ export const FeedSegment = () => {
 
   const loadRenderedPosts = useCallback(
     (startIndex: number, stopIndex: number, currentItems: any[]) => {
+      console.log('loading more');
       const nextItems = posts.slice(startIndex, stopIndex);
       setRenderedPosts((current) => [...current, ...nextItems]);
     },
@@ -82,7 +84,9 @@ export const FeedSegment = () => {
   );
 
   const maybeLoadMore = useInfiniteLoader(loadRenderedPosts, {
-    threshold: 15,
+    isItemLoaded: (index, items) => !!items[index],
+    minimumBatchSize: 15,
+    threshold: 6,
   });
 
   return (
@@ -92,7 +96,7 @@ export const FeedSegment = () => {
       render={FeedEntry}
       columnGutter={16}
       maxColumnCount={3}
-      overscanBy={5}
+      overscanBy={1.5}
     />
   );
 };
