@@ -10,7 +10,7 @@
     "fix": "next lint --fix"
   },
   "dependencies": {
-    "@bugsnag/js": "^7.22.2",
+    "@bugsnag/js": "^7.22.3",
     "@bugsnag/plugin-react": "^7.19.0",
     "@editorjs/checklist": "^1.6.0",
     "@editorjs/code": "^2.9.0",
