@@ -46,7 +46,7 @@ export interface PostData {
 }
 
 export interface FeedPostData {
-  type: 'portfolio' | 'need' | 'user';
+  type: 'portfolio' | 'need' | 'user' | 'add';
   data: PostData;
 }
 

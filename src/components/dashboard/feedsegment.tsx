@@ -1,10 +1,8 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FeedPostData, Tag } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
-import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
-import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
 import { useAppSelector } from '@/redux/store';
@@ -13,6 +11,7 @@ import { feedInitialState } from './search/reducer';
 import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
+import { Masonry as Masonic } from 'masonic';
 
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
@@ -28,8 +27,42 @@ const compareArrays = (a: object, b: object) => {
   );
 };
 
+const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
+
+const FeedCard = ({ data }: { data: FeedPostData }) => {
+  switch (data.type) {
+    case 'add': {
+      return <AddSomething />;
+    }
+    case 'portfolio': {
+      return (
+        <PortfolioProfileCard
+          data={data.data}
+          key={data.data?.id ?? ''}
+          withAuthor
+          hideIfEmpty
+        />
+      );
+    }
+    case 'need': {
+      return (
+        <NeedProfileCard
+          data={data.data}
+          key={data.data?.id ?? ''}
+          withAuthor
+        />
+      );
+    }
+    case 'user': {
+      return (
+        <UserProfileCard uid={data.data?.user?.id} key={data.data?.id ?? ''} />
+      );
+    }
+  }
+};
+
 export const FeedSegment = () => {
-  const [posts, setPosts] = useState<FeedPostData[]>([]);
+  const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const [loading, setLoading] = useState(true);
   const [feed, setFeed] = useState(true);
@@ -64,7 +97,7 @@ export const FeedSegment = () => {
     const requestUrl = () => {
       if (transformFilters.length === 0) {
         setFeed(true);
-        return 'feed';
+        return 'feed/v2';
       } else {
         setFeed(false);
         return transformFilters.some(([key, value]) =>
@@ -84,38 +117,36 @@ export const FeedSegment = () => {
         },
         params: Object.fromEntries(transformFilters),
       })
-      .then(({ data }) => {
-        return requestUrl() === 'feed' ? data : data[0];
+      .then(({ data }) => data[0])
+      .then((data) => {
+        return Promise.all(
+          data.map(
+            async ({
+              otherId,
+              contentType,
+            }: {
+              otherId: string;
+              contentType: string;
+            }) => {
+              const reqUrl =
+                contentType === 'user'
+                  ? `${contentType}/profile/by_id/${otherId}`
+                  : `${contentType}/${otherId}`;
+              return await axiosPrivate.get(reqUrl).then(({ data }) => {
+                return {
+                  type: contentType as 'portfolio' | 'need' | 'user',
+                  data,
+                };
+              });
+            },
+          ),
+        );
       })
       .then((data) => {
-        if (requestUrl() === 'feed') return data;
-        else {
-          return Promise.all(
-            data.map(
-              async ({
-                otherId,
-                contentType,
-              }: {
-                otherId: string;
-                contentType: string;
-              }) => {
-                const reqUrl =
-                  contentType === 'user'
-                    ? `${contentType}/profile/by_id/${otherId}`
-                    : `${contentType}/${otherId}`;
-                return await axiosPrivate.get(reqUrl).then(({ data }) => {
-                  return {
-                    type: contentType as 'portfolio' | 'need' | 'user',
-                    data,
-                  };
-                });
-              },
-            ),
-          );
-        }
-      })
-      .then((data) => {
-        setPosts(data);
+        setPosts((current) => {
+          if (transformFilters.length === 0) return [...current, ...data];
+          return [...current, ...data].filter((post) => post.type === 'add');
+        });
         setLoading(false);
       })
       .catch(() => {
@@ -131,38 +162,6 @@ export const FeedSegment = () => {
       clearInterval(interval);
     };
   }, [loadPostsForUser]);
-
-  const staticPosts = posts.map((post) => {
-    switch (post.type) {
-      case 'portfolio': {
-        return (
-          <PortfolioProfileCard
-            data={post.data}
-            key={post.data?.id ?? ''}
-            withAuthor
-            hideIfEmpty
-          />
-        );
-      }
-      case 'need': {
-        return (
-          <NeedProfileCard
-            data={post.data}
-            key={post.data?.id ?? ''}
-            withAuthor
-          />
-        );
-      }
-      case 'user': {
-        return (
-          <UserProfileCard
-            uid={post.data?.user?.id}
-            key={post.data?.id ?? ''}
-          />
-        );
-      }
-    }
-  });
 
   const NoResultsFound = () => (
     <Flex column gap={5} css={{ alignItems: 'center', textAlign: 'center' }}>
@@ -180,23 +179,17 @@ export const FeedSegment = () => {
     </Flex>
   );
 
-  // TO-DO: remove Addsomething component when search is being done.
-  // TO-DO: create no results found component.
   return (
     <>
       <SearchBar />
-      {loading && (
-        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-          <Masonry gutter="0.8rem">{skeletonPortfoliosArray(15, true)}</Masonry>
-        </ResponsiveMasonry>
-      )}
-      {!loading && staticPosts.length > 0 ? (
-        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 905: 2, 1440: 3 }}>
-          <Masonry gutter="0.8rem">
-            {feed && <AddSomething />}
-            {staticPosts}
-          </Masonry>
-        </ResponsiveMasonry>
+      {posts.length > 0 ? (
+        <Masonic
+          items={feed ? posts : posts.filter((post) => post.type === 'add')}
+          render={FeedCard}
+          maxColumnCount={3}
+          columnGutter={16}
+          overscanBy={4}
+        />
       ) : (
         <NoResultsFound />
       )}
