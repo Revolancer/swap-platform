@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TertiaryFormButton } from '@revolancer/ui/buttons';
 import { InputInner, InputOuter } from '@revolancer/ui/forms';
 import { Flex } from '@revolancer/ui/layout';
-import { resetField, setTerm } from './reducer';
+import { resetField, setTerm } from '../reducer';
 import { useEffect, useState } from 'react';
 
 export const SearchSegment = () => {

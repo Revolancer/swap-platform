@@ -11,7 +11,7 @@ import {
   removeTag,
   resetField,
   resetFilters,
-} from './reducer';
+} from '../reducer';
 import { useEffect, useState } from 'react';
 import { Tag } from '@/lib/types';
 

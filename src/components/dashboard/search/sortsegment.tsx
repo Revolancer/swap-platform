@@ -2,7 +2,7 @@ import { Order, Sort, SortType } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { Flex } from '@revolancer/ui/layout';
 import { useEffect, useState } from 'react';
-import { resetField, setSort } from './reducer';
+import { resetField, setSort } from '../reducer';
 import {
   Dropdown,
   DropdownGroup,

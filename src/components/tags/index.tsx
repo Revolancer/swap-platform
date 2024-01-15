@@ -2,7 +2,7 @@ import { Tag } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { styled } from '@revolancer/ui';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { setTag } from '../dashboard/search/reducer';
+import { setTag } from '../dashboard/reducer';
 
 const TagContainer = styled('div', {
   color: '$pink500',

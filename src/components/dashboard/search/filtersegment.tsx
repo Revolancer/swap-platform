@@ -3,7 +3,7 @@ import { Flex } from '@revolancer/ui/layout';
 import { useEffect, useState } from 'react';
 import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { resetField, setFilters } from './reducer';
+import { resetField, setFilters } from '../reducer';
 import {
   Dropdown,
   DropdownGroup,

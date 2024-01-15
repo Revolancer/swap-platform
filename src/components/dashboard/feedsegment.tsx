@@ -7,25 +7,12 @@ import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
 import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
-import { feedInitialState } from './search/reducer';
+import { feedInitialState } from './reducer';
 import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 import { Masonry as Masonic } from 'masonic';
-
-const compareArrays = (a: object, b: object) => {
-  const arrA = Object.values(a);
-  const arrB = Object.values(b);
-  return (
-    arrA.length === arrB.length &&
-    arrA.every((element: any, index: number) => {
-      if (typeof element === 'object') {
-        compareArrays(Object.values(element), Object.values(arrB[index]));
-      }
-      return element === arrB[index];
-    })
-  );
-};
+import { compareArrays } from './utils';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
 
@@ -184,7 +171,7 @@ export const FeedSegment = () => {
       <SearchBar />
       {posts.length > 0 ? (
         <Masonic
-          items={feed ? posts : posts.filter((post) => post.type === 'add')}
+          items={posts}
           render={FeedCard}
           maxColumnCount={3}
           columnGutter={16}
