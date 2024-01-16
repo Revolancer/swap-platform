@@ -15,8 +15,23 @@ const compareArrays = (a: object, b: object) => {
 };
 
 const isInitialState = (state: FeedState) => {
-  console.log(compareArrays(state, feedInitialState));
   return compareArrays(state, feedInitialState);
 };
 
-export { compareArrays, isInitialState };
+const filterFromInitial = (state: FeedState) => {
+  if (isInitialState(state)) return;
+  const initState = Object.entries(feedInitialState);
+  const feedState = Object.entries(state).filter(([key, value], idx) => {
+    if (typeof value === 'object') {
+      if (value.length === 0) return false;
+      return !compareArrays(
+        Object.values(value),
+        Object.values(initState[idx][1]),
+      );
+    }
+    return value !== initState[idx][1];
+  });
+  return feedState;
+};
+
+export { compareArrays, isInitialState, filterFromInitial };

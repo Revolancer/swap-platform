@@ -7,45 +7,29 @@ import { AddSomething } from './addsomething';
 import { UserProfileCard } from '../user-posts/user-profile-card';
 import { useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
-import { feedInitialState } from './reducer';
 import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 //import { Masonry as Masonic } from 'masonic';
-import { compareArrays, isInitialState } from './utils';
+import { isInitialState } from './utils';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
 
 const FeedCard = ({ data }: { data: FeedPostData }) => {
-  switch (data.type) {
+  switch (data?.type) {
     case 'add': {
       return <AddSomething />;
     }
     case 'portfolio': {
-      return (
-        <PortfolioProfileCard
-          data={data.data}
-          key={data.data?.id ?? ''}
-          withAuthor
-          hideIfEmpty
-        />
-      );
+      return <PortfolioProfileCard data={data.data} withAuthor hideIfEmpty />;
     }
     case 'need': {
-      return (
-        <NeedProfileCard
-          data={data.data}
-          key={data.data?.id ?? ''}
-          withAuthor
-        />
-      );
+      return <NeedProfileCard data={data.data} withAuthor />;
     }
     case 'user': {
-      return (
-        <UserProfileCard uid={data.data?.user?.id} key={data.data?.id ?? ''} />
-      );
+      return <UserProfileCard uid={data.data?.user?.id} />;
     }
   }
 };
@@ -57,10 +41,8 @@ export const FeedSegment = () => {
 
   const loadPostsForUser = useCallback(async () => {
     setLoading(true);
-    console.log('loading');
     // Creates the Request URL for discovery feed based from filter params.
-    const hasSearchTerm =
-      feedFilters.term !== '' || feedFilters.tags.length > 0;
+    const hasSearchTerm = feedFilters.term !== '' || feedFilters.tag.length > 0;
 
     // Actual fetching of data based from params.
     await axiosPrivate
@@ -71,12 +53,8 @@ export const FeedSegment = () => {
         },
         params: feedFilters,
       })
-      .then(({ data }) => {
-        console.log(data);
-        return data[0];
-      })
+      .then(({ data }) => data[0])
       .then((data) => {
-        console.log('fetching');
         return Promise.all(
           data.map(
             async ({
@@ -90,6 +68,7 @@ export const FeedSegment = () => {
                 contentType === 'user'
                   ? `${contentType}/profile/by_id/${otherId}`
                   : `${contentType}/${otherId}`;
+
               return await axiosPrivate.get(reqUrl).then(({ data }) => {
                 return {
                   type: contentType as 'portfolio' | 'need' | 'user',
@@ -101,10 +80,7 @@ export const FeedSegment = () => {
         );
       })
       .then((data) => {
-        setPosts((current) => {
-          if (isInitialState(feedFilters)) return [...current, ...data];
-          return [...current, ...data].filter((post) => post.type === 'add');
-        });
+        setPosts(data);
         setLoading(false);
       })
       .catch(() => {
@@ -138,7 +114,7 @@ export const FeedSegment = () => {
   );
 
   const staticPosts = posts.map((post) => (
-    <FeedCard key={post.data.id} data={post} />
+    <FeedCard key={post?.data.id} data={post} />
   ));
 
   return (
@@ -148,6 +124,7 @@ export const FeedSegment = () => {
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
           <Masonry gutter="0.8rem">
             {loading ? skeletonPortfoliosArray(15, true) : staticPosts}
+            {skeletonPortfoliosArray(6, true)}
           </Masonry>
         </ResponsiveMasonry>
       ) : (

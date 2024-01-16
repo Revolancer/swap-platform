@@ -2,7 +2,7 @@ import { Tag } from '@/lib/types';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { styled } from '@revolancer/ui';
 import { UnstyledLink } from '@revolancer/ui/buttons';
-import { setTag } from '../dashboard/reducer';
+import { addTag, setTag } from '../dashboard/reducer';
 
 const TagContainer = styled('div', {
   color: '$pink500',
@@ -12,15 +12,15 @@ const TagContainer = styled('div', {
 });
 
 export const TagElement = ({ tag }: { tag: Tag }) => {
-  const tags = useAppSelector((state) => state.feedFilters.tags);
+  const tags = useAppSelector((state) => state.feedFilters.tag);
   const dispatch = useAppDispatch();
   return (
     <TagContainer key={tag.id}>
       <UnstyledLink
         href="/"
         onClick={() => {
-          if (tags.some(({ id, text }) => id === tag.id)) return;
-          dispatch(setTag(tag.id));
+          if (tags.some((id) => id === tag.id)) return;
+          dispatch(addTag(tag.id));
         }}
       >
         {tag.text}

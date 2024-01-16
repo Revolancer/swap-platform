@@ -14,20 +14,8 @@ import {
 } from '../reducer';
 import { useEffect, useState } from 'react';
 import { Tag } from '@/lib/types';
-
-const compareArrays = (a: object, b: object) => {
-  const arrA = Object.values(a);
-  const arrB = Object.values(b);
-  return (
-    arrA.length === arrB.length &&
-    arrA.every((element: any, index: number) => {
-      if (typeof element === 'object') {
-        compareArrays(Object.values(element), Object.values(arrB[index]));
-      }
-      return element === arrB[index];
-    })
-  );
-};
+import { compareArrays, filterFromInitial } from '../utils';
+import { axiosPublic } from '@/lib/axios';
 
 export const TagSegment = () => {
   const feedFilter = useAppSelector((state) => state.feedFilters);
@@ -36,20 +24,7 @@ export const TagSegment = () => {
   const [tagArray, setTagArray] = useState<[string, any][]>([]);
 
   useEffect(() => {
-    const initState = Object.entries(feedInitialState);
-    const changedFilters = Object.entries(feedFilter).filter(
-      ([key, value], idx) => {
-        if (typeof value === 'object') {
-          if (value.length === 0) return false;
-          return !compareArrays(
-            Object.values(value),
-            Object.values(initState[idx][1]),
-          );
-        }
-        return value !== initState[idx][1];
-      },
-    );
-    setTagArray(changedFilters);
+    setTagArray(filterFromInitial(feedFilter) ?? []);
   }, [feedFilter]);
 
   const TagContainer = styled('div', {
@@ -62,19 +37,26 @@ export const TagSegment = () => {
   const renderTags = tagArray.map(([key, value]) => {
     switch (key) {
       case 'tags': {
-        return value.map((tag: Tag) => (
-          <TagContainer key={tag.id}>
-            {tag.text}
-            <TertiaryFormButton
-              onClick={() => {
-                dispatch(removeTag(tag.id));
-              }}
-              css={{ marginLeft: '$3', color: '$pink500' }}
-            >
-              <FontAwesomeIcon icon={faXmark} />
-            </TertiaryFormButton>
-          </TagContainer>
-        ));
+        return value.map(async (tag: string) => {
+          return await axiosPublic
+            .get(`tags/${tag}`)
+            .then(({ data }) => data.text)
+            .then((text) => {
+              return (
+                <TagContainer key={tag}>
+                  {text}
+                  <TertiaryFormButton
+                    onClick={() => {
+                      dispatch(removeTag(tag));
+                    }}
+                    css={{ marginLeft: '$3', color: '$pink500' }}
+                  >
+                    <FontAwesomeIcon icon={faXmark} />
+                  </TertiaryFormButton>
+                </TagContainer>
+              );
+            });
+        });
       }
       case 'datatype': {
         return value.map((item: 'portfolio' | 'need' | 'user') => (

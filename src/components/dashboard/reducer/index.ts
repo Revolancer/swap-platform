@@ -7,7 +7,7 @@ export interface FeedState {
   sort: Sort;
   order: Order;
   datatype: Filters;
-  tags: Tag[];
+  tag: string[];
   page: number;
 }
 
@@ -16,7 +16,7 @@ const initialState = {
   sort: 'created',
   order: 'DESC',
   datatype: ['portfolio', 'need'],
-  tags: [],
+  tag: [],
   page: 1,
 } as FeedState;
 
@@ -33,8 +33,11 @@ const feedSlice = createSlice({
     setTerm(state, action: PayloadAction<string>) {
       state.term = action.payload;
     },
+    addTag(state, action: PayloadAction<string>) {
+      state.tag.push(action.payload);
+    },
     removeTag(state, action: PayloadAction<string>) {
-      state.tags = state.tags.filter((tag) => tag.id !== action.payload);
+      state.tag = state.tag.filter((tag) => tag !== action.payload);
     },
     setSort(state, action: PayloadAction<SortType>) {
       switch (action.payload) {
@@ -86,7 +89,7 @@ const feedSlice = createSlice({
           state.order = initialState.order;
           break;
         case 'tag':
-          state.tags = initialState.tags;
+          state.tag = initialState.tag;
           if (state.datatype?.includes('user'))
             state.datatype = state.datatype.filter((type) => type !== 'user');
           break;
@@ -97,7 +100,7 @@ const feedSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(setTag.fulfilled, (state, action: PayloadAction<Tag>) => {
-        state.tags.push(action.payload);
+        state.tag.push(action.payload.id);
       })
       .addCase(setTag.rejected, () => {});
   },
@@ -105,6 +108,7 @@ const feedSlice = createSlice({
 
 export const {
   setTerm,
+  addTag,
   removeTag,
   setSort,
   setFilters,
