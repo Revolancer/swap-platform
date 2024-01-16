@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
-import { FeedPostData, Tag } from '@/lib/types';
+import { useCallback, useEffect, useState } from 'react';
+import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
 import { NeedProfileCard } from '../user-posts/need-profile-card';
@@ -11,7 +11,6 @@ import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 //import { Masonry as Masonic } from 'masonic';
-import { isInitialState } from './utils';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 

@@ -5,16 +5,10 @@ import { P } from '@revolancer/ui/text';
 import { styled } from '@revolancer/ui';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faXmark } from '@fortawesome/free-solid-svg-icons';
-import {
-  feedInitialState,
-  removeFilter,
-  removeTag,
-  resetField,
-  resetFilters,
-} from '../reducer';
+import { removeFilter, removeTag, resetField, resetFilters } from '../reducer';
 import { useEffect, useState } from 'react';
 import { Tag } from '@/lib/types';
-import { compareArrays, filterFromInitial } from '../utils';
+import { filterFromInitial } from '../utils';
 import { axiosPublic } from '@/lib/axios';
 
 export const TagSegment = () => {
@@ -36,27 +30,27 @@ export const TagSegment = () => {
 
   const renderTags = tagArray.map(([key, value]) => {
     switch (key) {
-      case 'tags': {
-        return value.map(async (tag: string) => {
-          return await axiosPublic
-            .get(`tags/${tag}`)
-            .then(({ data }) => data.text)
-            .then((text) => {
-              return (
-                <TagContainer key={tag}>
-                  {text}
+      case 'tag': {
+        return value.map(
+          async (id: string) =>
+            await axiosPublic
+              .get(`tags/${id}`)
+              .then(({ data }) => data)
+              .then((tag: Tag) => (
+                <TagContainer key={tag.id}>
+                  {tag.text}
                   <TertiaryFormButton
                     onClick={() => {
-                      dispatch(removeTag(tag));
+                      dispatch(removeTag(tag.id));
                     }}
                     css={{ marginLeft: '$3', color: '$pink500' }}
                   >
                     <FontAwesomeIcon icon={faXmark} />
                   </TertiaryFormButton>
                 </TagContainer>
-              );
-            });
-        });
+              ))
+              .catch((err) => {}),
+        );
       }
       case 'datatype': {
         return value.map((item: 'portfolio' | 'need' | 'user') => (
