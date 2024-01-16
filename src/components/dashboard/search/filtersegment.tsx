@@ -36,27 +36,15 @@ export const FilterSegment = ({
   }, [datatype]);
 
   const mobileExpanderStyle = {
-    height: '$0',
-    width: '100%',
-    zIndex: '$4',
-    position: 'fixed',
-    top: '35dvh',
-    left: '50%',
-    transform: 'translate(-50%, 0)',
-    backgroundColor: '$background',
+    minWidth: '100vw',
+    minHeight: '64vh',
+    boxShadow: '$0',
+    borderRadius: '$0',
+    border: '$0',
     display: 'flex',
-    alignItems: 'center',
     flexDirection: 'column',
-    transition: 'height 0.4s ease-in-out',
-
-    variants: {
-      expanded: {
-        true: {
-          height: '65dvh',
-          padding: '$3 $5',
-        },
-      },
-    },
+    justifyContent: 'space-between',
+    padding: '$5',
   };
 
   return (
@@ -68,7 +56,10 @@ export const FilterSegment = ({
           if (expand == 'filter') setExpand(false);
           else setExpand('filter');
         }}
-        //contentCss={mobileBP && { ...mobileExpanderStyle }}
+        portalCss={{
+          top: '30vh',
+        }}
+        contentCss={mobileBP ? { ...mobileExpanderStyle } : {}}
       >
         <DropdownGroup>
           <DropdownMenuCheckboxItem
