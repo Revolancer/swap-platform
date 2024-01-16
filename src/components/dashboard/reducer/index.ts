@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Filters, Order, Sort, SortType, Tag } from '../../../lib/types';
 import { axiosPublic } from '@/lib/axios';
 
-interface FeedState {
+export interface FeedState {
   term: string;
   sort: Sort;
   order: Order;

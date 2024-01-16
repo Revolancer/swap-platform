@@ -11,8 +11,10 @@ import { feedInitialState } from './reducer';
 import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
-import { Masonry as Masonic } from 'masonic';
-import { compareArrays } from './utils';
+//import { Masonry as Masonic } from 'masonic';
+import { compareArrays, isInitialState } from './utils';
+import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
+import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
 
@@ -52,60 +54,29 @@ export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const [loading, setLoading] = useState(true);
-  const [feed, setFeed] = useState(true);
 
   const loadPostsForUser = useCallback(async () => {
     setLoading(true);
-    // Set up and find any filter params changed from initial state
-    const initState = Object.entries(feedInitialState);
-    const changedFilters = Object.entries(feedFilters).filter(
-      ([key, value], idx) => {
-        if (typeof value === 'object') {
-          if (value.length === 0) return false;
-          return !compareArrays(
-            Object.values(value),
-            Object.values(initState[idx][1]),
-          );
-        }
-        return value !== initState[idx][1];
-      },
-    );
-    const transformFilters: [string, any][] = changedFilters.map(
-      ([key, value]) => {
-        if (key === 'tags') {
-          const newVal = value.map((tag: Tag) => tag.id);
-          return [key, newVal];
-        }
-        return [key, value];
-      },
-    );
-
+    console.log('loading');
     // Creates the Request URL for discovery feed based from filter params.
-    const requestUrl = () => {
-      if (transformFilters.length === 0) {
-        setFeed(true);
-        return 'feed/v2';
-      } else {
-        setFeed(false);
-        return transformFilters.some(([key, value]) =>
-          ['term', 'tags'].includes(key),
-        )
-          ? 'search'
-          : 'feed/v2';
-      }
-    };
+    const hasSearchTerm =
+      feedFilters.term !== '' || feedFilters.tags.length > 0;
 
     // Actual fetching of data based from params.
     await axiosPrivate
-      .get(requestUrl(), {
+      .get(hasSearchTerm ? 'search' : 'feed/v2', {
         id: 'feed-data',
         cache: {
           ttl: 1000, // 1 second.
         },
-        params: Object.fromEntries(transformFilters),
+        params: feedFilters,
       })
-      .then(({ data }) => data[0])
+      .then(({ data }) => {
+        console.log(data);
+        return data[0];
+      })
       .then((data) => {
+        console.log('fetching');
         return Promise.all(
           data.map(
             async ({
@@ -131,7 +102,7 @@ export const FeedSegment = () => {
       })
       .then((data) => {
         setPosts((current) => {
-          if (transformFilters.length === 0) return [...current, ...data];
+          if (isInitialState(feedFilters)) return [...current, ...data];
           return [...current, ...data].filter((post) => post.type === 'add');
         });
         setLoading(false);
@@ -166,17 +137,19 @@ export const FeedSegment = () => {
     </Flex>
   );
 
+  const staticPosts = posts.map((post) => (
+    <FeedCard key={post.data.id} data={post} />
+  ));
+
   return (
     <>
       <SearchBar />
-      {posts.length > 0 ? (
-        <Masonic
-          items={posts}
-          render={FeedCard}
-          maxColumnCount={3}
-          columnGutter={16}
-          overscanBy={4}
-        />
+      {staticPosts ? (
+        <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
+          <Masonry gutter="0.8rem">
+            {loading ? skeletonPortfoliosArray(15, true) : staticPosts}
+          </Masonry>
+        </ResponsiveMasonry>
       ) : (
         <NoResultsFound />
       )}

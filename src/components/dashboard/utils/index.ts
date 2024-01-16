@@ -1,3 +1,5 @@
+import { FeedState, feedInitialState } from '../reducer';
+
 const compareArrays = (a: object, b: object) => {
   const arrA = Object.values(a);
   const arrB = Object.values(b);
@@ -12,4 +14,9 @@ const compareArrays = (a: object, b: object) => {
   );
 };
 
-export { compareArrays };
+const isInitialState = (state: FeedState) => {
+  console.log(compareArrays(state, feedInitialState));
+  return compareArrays(state, feedInitialState);
+};
+
+export { compareArrays, isInitialState };
