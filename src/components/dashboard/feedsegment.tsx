@@ -123,16 +123,18 @@ export const FeedSegment = () => {
   return (
     <>
       <SearchBar />
-      {staticPosts ? (
+      {isInitialState(feedFilters) || posts.length ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
           <Masonry gutter="0.8rem">
             {isInitialState(feedFilters) && <AddSomething />}
-            {staticPosts.length > 0
+            {staticPosts.length
               ? staticPosts
               : skeletonPortfoliosArray(15, true)}
-            <div ref={ref}>
-              <PortfoliosSkeleton withAuthor />
-            </div>
+            {staticPosts.length >= 20 && (
+              <div ref={ref}>
+                <PortfoliosSkeleton withAuthor />
+              </div>
+            )}
           </Masonry>
         </ResponsiveMasonry>
       ) : (
