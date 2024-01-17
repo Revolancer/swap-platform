@@ -9,7 +9,6 @@ import { removeFilter, removeTag, resetField, resetFilters } from '../reducer';
 import { useEffect, useState } from 'react';
 import { Tag } from '@/lib/types';
 import { filterFromInitial } from '../utils';
-import { axiosPublic } from '@/lib/axios';
 
 export const TagSegment = () => {
   const feedFilter = useAppSelector((state) => state.feedFilters);
@@ -31,26 +30,19 @@ export const TagSegment = () => {
   const renderTags = tagArray.map(([key, value]) => {
     switch (key) {
       case 'tag': {
-        return value.map(
-          async (id: string) =>
-            await axiosPublic
-              .get(`tags/${id}`)
-              .then(({ data }) => data)
-              .then((tag: Tag) => (
-                <TagContainer key={tag.id}>
-                  {tag.text}
-                  <TertiaryFormButton
-                    onClick={() => {
-                      dispatch(removeTag(tag.id));
-                    }}
-                    css={{ marginLeft: '$3', color: '$pink500' }}
-                  >
-                    <FontAwesomeIcon icon={faXmark} />
-                  </TertiaryFormButton>
-                </TagContainer>
-              ))
-              .catch((err) => {}),
-        );
+        return value.map((tag: Tag) => (
+          <TagContainer key={tag.id}>
+            {tag.text}
+            <TertiaryFormButton
+              onClick={() => {
+                dispatch(removeTag(tag.id));
+              }}
+              css={{ marginLeft: '$3', color: '$pink500' }}
+            >
+              <FontAwesomeIcon icon={faXmark} />
+            </TertiaryFormButton>
+          </TagContainer>
+        ));
       }
       case 'datatype': {
         return value.map((item: 'portfolio' | 'need' | 'user') => (

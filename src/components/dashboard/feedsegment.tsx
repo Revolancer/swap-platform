@@ -13,25 +13,11 @@ import { P } from '@revolancer/ui/text';
 //import { Masonry as Masonic } from 'masonic';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
+import { FeedCard } from './search/feedcard';
+import { isInitialState } from './utils';
+import { LoadMore } from './search/loadmore';
 
 const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
-
-const FeedCard = ({ data }: { data: FeedPostData }) => {
-  switch (data?.type) {
-    case 'add': {
-      return <AddSomething />;
-    }
-    case 'portfolio': {
-      return <PortfolioProfileCard data={data.data} withAuthor hideIfEmpty />;
-    }
-    case 'need': {
-      return <NeedProfileCard data={data.data} withAuthor />;
-    }
-    case 'user': {
-      return <UserProfileCard uid={data.data?.user?.id} />;
-    }
-  }
-};
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
@@ -41,7 +27,8 @@ export const FeedSegment = () => {
   const loadPostsForUser = useCallback(async () => {
     setLoading(true);
     // Creates the Request URL for discovery feed based from filter params.
-    const hasSearchTerm = feedFilters.term !== '' || feedFilters.tag.length > 0;
+    const { term, sort, order, datatype, tag, page } = feedFilters;
+    const hasSearchTerm = term !== '' || tag.length > 0;
 
     // Actual fetching of data based from params.
     await axiosPrivate
@@ -50,7 +37,14 @@ export const FeedSegment = () => {
         cache: {
           ttl: 1000, // 1 second.
         },
-        params: feedFilters,
+        params: {
+          term,
+          sort,
+          order,
+          datatype,
+          tag: tag.map((tag) => tag.id),
+          page,
+        },
       })
       .then(({ data }) => data[0])
       .then((data) => {
@@ -79,7 +73,10 @@ export const FeedSegment = () => {
         );
       })
       .then((data) => {
-        setPosts(data);
+        setPosts(() => {
+          if (isInitialState(feedFilters)) return [addSomethingObj, ...data];
+          return data;
+        });
         setLoading(false);
       })
       .catch(() => {
@@ -123,7 +120,7 @@ export const FeedSegment = () => {
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
           <Masonry gutter="0.8rem">
             {loading ? skeletonPortfoliosArray(15, true) : staticPosts}
-            {skeletonPortfoliosArray(6, true)}
+            {LoadMore()}
           </Masonry>
         </ResponsiveMasonry>
       ) : (
