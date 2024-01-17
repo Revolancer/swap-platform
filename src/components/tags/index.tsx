@@ -12,13 +12,14 @@ const TagContainer = styled('div', {
 });
 
 export const TagElement = ({ tag }: { tag: Tag }) => {
-  const tags = useAppSelector((state) => state.feedFilters.tag);
+  const { tag: tags, term } = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
   return (
     <TagContainer key={tag.id}>
       <UnstyledLink
         href="/"
         onClick={() => {
+          if (term === '') return;
           if (tags.some((a) => a.id === tag.id)) return;
           dispatch(setTag(tag.id));
         }}

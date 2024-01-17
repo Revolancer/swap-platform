@@ -64,7 +64,8 @@ export const TagSegment = () => {
           <TagContainer key={key}>
             {value === 'relevance' && 'Most Relevant'}
             {value === 'ASC' && 'Oldest to Newest'}
-            {key !== 'sort' && key !== 'order' && value}
+            {key === 'page' && `Page ${value}`}
+            {key !== 'sort' && key !== 'order' && key !== 'page' && value}
             <TertiaryFormButton
               onClick={() => {
                 dispatch(resetField(key));
