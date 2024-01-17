@@ -1,31 +1,30 @@
 import { useCallback, useEffect, useState } from 'react';
 import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
-import { PortfolioProfileCard } from '../user-posts/portfolio-profile-card';
-import { NeedProfileCard } from '../user-posts/need-profile-card';
 import { AddSomething } from './addsomething';
-import { UserProfileCard } from '../user-posts/user-profile-card';
-import { useAppSelector } from '@/redux/store';
+import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
 import Image from 'next/image';
 import { Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 //import { Masonry as Masonic } from 'masonic';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
-import { skeletonPortfoliosArray } from '../skeletons/portfolio-profile-card';
+import {
+  PortfoliosSkeleton,
+  skeletonPortfoliosArray,
+} from '../skeletons/portfolio-profile-card';
 import { FeedCard } from './search/feedcard';
 import { isInitialState } from './utils';
-import { LoadMore } from './search/loadmore';
-
-const addSomethingObj: FeedPostData = { type: 'add', data: { id: 'add' } };
+import { useInView } from 'react-intersection-observer';
+import { nextPage } from './reducer';
 
 export const FeedSegment = () => {
-  const [posts, setPosts] = useState<FeedPostData[]>([addSomethingObj]);
+  const [posts, setPosts] = useState<FeedPostData[]>([]);
+  console.log('posts:', posts.length);
   const feedFilters = useAppSelector((state) => state.feedFilters);
-  const [loading, setLoading] = useState(true);
+  const dispatch = useAppDispatch();
 
   const loadPostsForUser = useCallback(async () => {
-    setLoading(true);
     // Creates the Request URL for discovery feed based from filter params.
     const { term, sort, order, datatype, tag, page } = feedFilters;
     const hasSearchTerm = term !== '' || tag.length > 0;
@@ -73,16 +72,24 @@ export const FeedSegment = () => {
         );
       })
       .then((data) => {
-        setPosts(() => {
-          if (isInitialState(feedFilters)) return [addSomethingObj, ...data];
-          return data;
+        setPosts((current) => {
+          if (page === 1) return data;
+          return [...current, ...data];
         });
-        setLoading(false);
       })
       .catch(() => {
         return;
       });
   }, [feedFilters]);
+
+  const { ref, inView } = useInView();
+
+  useEffect(() => {
+    if (inView) {
+      console.log('in view');
+      dispatch(nextPage());
+    }
+  }, [dispatch, inView]);
 
   // TO-DO(?): create a load new data button instead? similar to reddit's return to top button that loads new data
   useEffect(() => {
@@ -110,7 +117,7 @@ export const FeedSegment = () => {
   );
 
   const staticPosts = posts.map((post) => (
-    <FeedCard key={post?.data.id} data={post} />
+    <FeedCard key={post?.data?.id} data={post} />
   ));
 
   return (
@@ -119,8 +126,13 @@ export const FeedSegment = () => {
       {staticPosts ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
           <Masonry gutter="0.8rem">
-            {loading ? skeletonPortfoliosArray(15, true) : staticPosts}
-            {LoadMore()}
+            {isInitialState(feedFilters) && <AddSomething />}
+            {staticPosts.length > 0
+              ? staticPosts
+              : skeletonPortfoliosArray(15, true)}
+            <div ref={ref}>
+              <PortfoliosSkeleton withAuthor />
+            </div>
           </Masonry>
         </ResponsiveMasonry>
       ) : (

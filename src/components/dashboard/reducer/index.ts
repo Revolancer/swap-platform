@@ -93,6 +93,9 @@ const feedSlice = createSlice({
           if (state.datatype?.includes('user'))
             state.datatype = state.datatype.filter((type) => type !== 'user');
           break;
+        case 'page':
+          state.page = 1;
+          break;
       }
     },
     resetFilters: () => initialState,

@@ -101,6 +101,7 @@ export const SortSegment = ({
             <FormButton
               onClick={() => {
                 dispatch(setSort(sortOption));
+                dispatch(resetField('page'));
                 setExpand(false);
               }}
             >

@@ -109,6 +109,7 @@ export const FilterSegment = ({
                 if (needs) payload.push('need');
                 if (users) payload.push('user');
                 dispatch(setFilters(payload));
+                dispatch(resetField('page'));
                 setExpand(false);
               }}
             >

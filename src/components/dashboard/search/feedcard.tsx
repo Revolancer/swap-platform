@@ -6,9 +6,6 @@ import { UserProfileCard } from '@/components/user-posts/user-profile-card';
 
 export const FeedCard = ({ data }: { data: FeedPostData }) => {
   switch (data?.type) {
-    case 'add': {
-      return <AddSomething />;
-    }
     case 'portfolio': {
       return <PortfolioProfileCard data={data.data} withAuthor hideIfEmpty />;
     }

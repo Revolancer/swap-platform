@@ -43,7 +43,10 @@ export const SearchSegment = () => {
           ) : (
             <TertiaryFormButton
               type="submit"
-              onClick={() => dispatch(setTerm(searchTerm))}
+              onClick={() => {
+                dispatch(setTerm(searchTerm));
+                dispatch(resetField('page'));
+              }}
             >
               Search
             </TertiaryFormButton>
