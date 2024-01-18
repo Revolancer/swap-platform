@@ -1,5 +1,8 @@
+import { faAngleDoubleUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { TertiaryFormButton } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
+import { P } from '@revolancer/ui/text';
 
 export const BackToTop = ({
   scroll,
@@ -36,6 +39,9 @@ export const BackToTop = ({
         borderWidth: '$2',
         borderStyle: '$solid',
         borderColor: '$neutral200',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '$3',
 
         '&:hover': {
           borderColor: '$neutral300',
@@ -52,7 +58,8 @@ export const BackToTop = ({
         },
       }}
     >
-      Back to Top
+      <FontAwesomeIcon icon={faAngleDoubleUp} />
+      <P>Back to Top</P>
     </TertiaryFormButton>
   </Flex>
 );
