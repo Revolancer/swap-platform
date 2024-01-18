@@ -1,11 +1,11 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { AddSomething } from './addsomething';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
 import { SearchBar } from './search/searchbar';
 import Image from 'next/image';
-import { Flex } from '@revolancer/ui/layout';
+import { Divider, Flex } from '@revolancer/ui/layout';
 import { P } from '@revolancer/ui/text';
 //import { Masonry as Masonic } from 'masonic';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
@@ -17,10 +17,11 @@ import { FeedCard } from './search/feedcard';
 import { isInitialState } from './utils';
 import { useInView } from 'react-intersection-observer';
 import { nextPage } from './reducer';
+import { BackToTop } from './search/backtotop';
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
-  console.log('posts:', posts.length);
+  const [element, setElement] = useState<HTMLDivElement>();
   const feedFilters = useAppSelector((state) => state.feedFilters);
   const dispatch = useAppDispatch();
 
@@ -85,11 +86,17 @@ export const FeedSegment = () => {
   const { ref, inView } = useInView();
 
   useEffect(() => {
-    if (inView) {
-      console.log('in view');
-      dispatch(nextPage());
-    }
+    if (inView) dispatch(nextPage());
   }, [dispatch, inView]);
+
+  const scrollTop = useCallback(() => {
+    if (element)
+      element.scrollIntoView({
+        behavior: 'smooth',
+        block: 'end',
+        inline: 'nearest',
+      });
+  }, [element]);
 
   // TO-DO(?): create a load new data button instead? similar to reddit's return to top button that loads new data
   useEffect(() => {
@@ -122,7 +129,12 @@ export const FeedSegment = () => {
 
   return (
     <>
-      <SearchBar />
+      <BackToTop scroll={scrollTop} />
+      <SearchBar
+        refItem={(el: any) => {
+          if (el) setElement(el);
+        }}
+      />
       {isInitialState(feedFilters) || posts.length ? (
         <ResponsiveMasonry columnsCountBreakPoints={{ 0: 1, 650: 2, 900: 3 }}>
           <Masonry gutter="0.8rem">

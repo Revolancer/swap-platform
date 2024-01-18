@@ -5,11 +5,11 @@ import { SortSegment } from './sortsegment';
 import { TagSegment } from './tagsegment';
 import { useState } from 'react';
 
-export const SearchBar = () => {
+export const SearchBar = ({ refItem }: { refItem: any }) => {
   const [expand, setExpand] = useState<'filter' | 'sort' | false>(false);
 
   return (
-    <>
+    <div ref={refItem}>
       <Flex
         column
         css={{
@@ -39,6 +39,6 @@ export const SearchBar = () => {
         </Flex>
       </Flex>
       <TagSegment />
-    </>
+    </div>
   );
 };
