@@ -1,7 +1,13 @@
 import { TertiaryFormButton } from '@revolancer/ui/buttons';
 import { Flex } from '@revolancer/ui/layout';
 
-export const BackToTop = ({ scroll }: { scroll: () => void }) => (
+export const BackToTop = ({
+  scroll,
+  showScroll,
+}: {
+  scroll: () => void;
+  showScroll: boolean;
+}) => (
   <Flex
     css={{
       backgroundImage:
@@ -10,14 +16,13 @@ export const BackToTop = ({ scroll }: { scroll: () => void }) => (
       height: '10vh',
       top: '8%',
       left: 0,
-      display: 'flex',
+      display: showScroll ? 'flex' : 'none',
       justifyContent: 'center',
       alignItems: 'center',
       position: 'fixed',
       '@sm': {
-        top: '0%',
+        top: 0,
       },
-      //visibility: 'hidden',
     }}
   >
     <TertiaryFormButton

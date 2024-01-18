@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
 import { AddSomething } from './addsomething';
@@ -84,9 +84,13 @@ export const FeedSegment = () => {
   }, [feedFilters]);
 
   const { ref, inView } = useInView();
+  const [showScroll, setShowScroll] = useState(false);
 
   useEffect(() => {
-    if (inView) dispatch(nextPage());
+    if (inView) {
+      setShowScroll(true);
+      dispatch(nextPage());
+    }
   }, [dispatch, inView]);
 
   const scrollTop = useCallback(() => {
@@ -96,6 +100,7 @@ export const FeedSegment = () => {
         block: 'end',
         inline: 'nearest',
       });
+    setShowScroll(false);
   }, [element]);
 
   // TO-DO(?): create a load new data button instead? similar to reddit's return to top button that loads new data
@@ -129,7 +134,7 @@ export const FeedSegment = () => {
 
   return (
     <>
-      <BackToTop scroll={scrollTop} />
+      <BackToTop scroll={scrollTop} showScroll={showScroll} />
       <SearchBar
         refItem={(el: any) => {
           if (el) setElement(el);
