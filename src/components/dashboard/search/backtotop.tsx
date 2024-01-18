@@ -11,7 +11,7 @@ export const BackToTop = ({
   <Flex
     css={{
       backgroundImage:
-        'linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,0.35), rgba(255,255,255,0.66), rgba(255,255,255,0.75), rgba(255,255,255,1))',
+        'linear-gradient(to top, rgba(255,255,255,0), rgba(255,255,255,1))',
       width: '100%',
       height: '10vh',
       top: '8%',
@@ -33,12 +33,18 @@ export const BackToTop = ({
         opacity: 0.75,
         padding: '$3 $5',
         borderRadius: '$2',
+        borderWidth: '$2',
+        borderStyle: '$solid',
+        borderColor: '$neutral200',
 
         '&:hover': {
-          borderColor: '$neutral200',
-          borderWidth: '$2',
-          color: '$neutral600',
+          borderColor: '$neutral300',
+          color: '$neutral500',
           opacity: 1,
+        },
+
+        '&:active': {
+          textDecoration: 'none',
         },
 
         '@sm': {
