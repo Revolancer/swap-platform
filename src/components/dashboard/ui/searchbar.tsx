@@ -1,8 +1,5 @@
 import { Flex } from '@revolancer/ui/layout';
-import { FilterSegment } from './filtersegment';
-import { SearchSegment } from './searchsegment';
-import { SortSegment } from './sortsegment';
-import { TagSegment } from './tagsegment';
+import { FilterSegment, SearchSegment, SortSegment, TagSegment } from '.';
 import { useState } from 'react';
 
 export const SearchBar = ({ refItem }: { refItem: any }) => {

@@ -1,23 +1,22 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { FeedPostData } from '@/lib/types';
 import { axiosPrivate } from '@/lib/axios';
-import { AddSomething } from './addsomething';
+import {
+  AddSomething,
+  SearchBar,
+  FeedCard,
+  BackToTop,
+  NoResultsFound,
+} from './ui';
 import { useAppDispatch, useAppSelector } from '@/redux/store';
-import { SearchBar } from './search/searchbar';
-import Image from 'next/image';
-import { Divider, Flex } from '@revolancer/ui/layout';
-import { P } from '@revolancer/ui/text';
-//import { Masonry as Masonic } from 'masonic';
 import Masonry, { ResponsiveMasonry } from 'react-responsive-masonry';
 import {
   PortfoliosSkeleton,
   skeletonPortfoliosArray,
 } from '../skeletons/portfolio-profile-card';
-import { FeedCard } from './search/feedcard';
 import { isInitialState } from './utils';
 import { useInView } from 'react-intersection-observer';
 import { nextPage } from './reducer';
-import { BackToTop } from './search/backtotop';
 
 export const FeedSegment = () => {
   const [posts, setPosts] = useState<FeedPostData[]>([]);
@@ -112,22 +111,6 @@ export const FeedSegment = () => {
     };
   }, [loadPostsForUser]);
 
-  const NoResultsFound = () => (
-    <Flex column gap={5} css={{ alignItems: 'center', textAlign: 'center' }}>
-      <P>Sorry, we couldn’t find any results for “{feedFilters.term}”.</P>
-      <Image
-        src="/img/revy/Revy_Confused.png"
-        alt="Revy, happy to guide you back to safety"
-        width={210}
-        height={314}
-      />
-      <P>
-        Make sure all words are spelled correctly, or try searching for simpler
-        terms.
-      </P>
-    </Flex>
-  );
-
   const staticPosts = posts.map((post) => (
     <FeedCard key={post?.data?.id} data={post} />
   ));
@@ -155,7 +138,7 @@ export const FeedSegment = () => {
           </Masonry>
         </ResponsiveMasonry>
       ) : (
-        <NoResultsFound />
+        <NoResultsFound term={feedFilters.term} tag={feedFilters.tag} />
       )}
     </>
   );
