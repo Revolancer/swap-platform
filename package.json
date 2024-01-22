@@ -57,7 +57,7 @@
     "lodash.debounce": "^4.0.8",
     "luxon": "^3.4.4",
     "masonic": "^3.7.0",
-    "match-sorter": "^6.3.1",
+    "match-sorter": "^6.3.3",
     "next": "^14.0.3",
     "osm-api": "^1.0.5",
     "react": "^18.2.0",
