@@ -13,6 +13,8 @@ import {
   faChartPie,
   faCog,
   faComments,
+  faDatabase,
+  faEnvelope,
   faHouse,
   faLayerGroup,
   //faMagnifyingGlass,
@@ -222,6 +224,12 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
             href="https://support.revolancer.com/"
             target="_blank"
           />
+          <Navigable
+            label="Index Management"
+            icon={faDatabase}
+            expanded={expanded}
+            href="/admin/index-management"
+          />
         </>
       )}
       <Navigable
@@ -229,6 +237,12 @@ const AdminSideBar = ({ expanded }: { expanded: boolean }) => {
         icon={faArrowTrendUp}
         expanded={expanded}
         href="/admin/stats"
+      />
+      <Navigable
+        label="Bulk Emails"
+        icon={faEnvelope}
+        expanded={expanded}
+        href="/admin/bulk-email"
       />
     </>
   );
