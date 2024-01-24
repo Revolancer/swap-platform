@@ -33,8 +33,9 @@ axiosPrivate.interceptors.request.use(
         await store?.dispatch(refreshToken());
       }
       if (config?.headers) {
-        config.headers['Authorization'] = `Bearer ${store?.getState()?.userData
-          ?.user?.accessToken}`;
+        config.headers['Authorization'] = `Bearer ${
+          store?.getState()?.userData?.user?.accessToken
+        }`;
       }
     }
     return config;
