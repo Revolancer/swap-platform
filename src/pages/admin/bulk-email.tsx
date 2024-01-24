@@ -1,7 +1,7 @@
 import { Title } from '@/components/head/title';
 import { AdminLayout } from '@/components/layout/layouts';
 import { axiosPrivate } from '@/lib/axios';
-import { Button, FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
+import { FormButton, TertiaryFormButton } from '@revolancer/ui/buttons';
 import {
   Feedback,
   Form,
@@ -9,18 +9,9 @@ import {
   InputOuter,
   Radio,
   RadioItem,
-  Select,
-  SelectGroup,
-  SelectItem,
 } from '@revolancer/ui/forms';
-import {
-  Card,
-  Divider,
-  Flex,
-  FullWidth,
-  HalfWidth,
-} from '@revolancer/ui/layout';
-import { ConfirmationDialog, RevoModal } from '@revolancer/ui/modals';
+import { Flex, FullWidth } from '@revolancer/ui/layout';
+import { RevoModal } from '@revolancer/ui/modals';
 import { Crumb, CrumbBar } from '@revolancer/ui/navigation';
 import { SkeletonText } from '@revolancer/ui/skeleton';
 import { H1, H4, H5, P } from '@revolancer/ui/text';
@@ -61,7 +52,7 @@ export default function BulkEmails() {
             <Flex column gap={3}>
               <H5>Sending Emails</H5>
               <P>
-                To send bulk emails provide a Sendgrid email template ID and
+                To send bulk emails, provide a Sendgrid email template ID and
                 choose the email type.
               </P>
             </Flex>
