@@ -3,6 +3,7 @@ import adminToggle from '@/components/navigation/main/admin-toggle';
 import { userSlice } from '@/lib/user/auth';
 import { walletSlice } from '@/lib/user/wallet';
 import indicatorsSlice from '@/lib/notifications';
+import feedFilters from '@/components/dashboard/reducer';
 import { combineReducers } from '@reduxjs/toolkit';
 
 const navigation = combineReducers({ toggle: navToggle });
@@ -14,4 +15,5 @@ export const rootReducer = combineReducers({
   userData: userSlice.reducer,
   wallet: walletSlice.reducer,
   indicator: indicatorsSlice,
+  feedFilters: feedFilters,
 });
