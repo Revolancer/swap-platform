@@ -30,10 +30,32 @@ export default function BulkEmails() {
     toggle();
   };
 
-  const sendEmails = (close: () => void) => {
+  const handleSubmit = (close: () => void) => {
+    sendEmails();
+    handleClose(close);
+  };
+
+  //Add axios request here
+  const sendEmails = () => {
     console.log('emails sent!');
-    close();
-    toggle();
+  };
+
+  //Add return template id error if response 404
+  const validateData = (values: { templateId: string; emailType: string }) => {
+    const errors: { templateId: string; emailType: string } = {
+      templateId: '',
+      emailType: '',
+    };
+    if (!values?.templateId) {
+      errors.templateId = 'Please enter a Sendgrid template ID.';
+    } else if (values?.templateId !== 'hello') {
+      errors.templateId = 'Invalid template ID format.';
+    }
+    if (!values?.emailType) {
+      errors.emailType = 'Email type must be chosen';
+    }
+    if (errors.templateId || errors.emailType) return errors;
+    return {};
   };
 
   return (
@@ -61,22 +83,7 @@ export default function BulkEmails() {
                 templateId: templateId,
                 emailType: emailType,
               }}
-              validate={(values) => {
-                const errors: { templateId: string; emailType: string } = {
-                  templateId: '',
-                  emailType: '',
-                };
-                if (!values.templateId) {
-                  errors.templateId = 'Please enter a Sendgrid template ID.';
-                } else if (values.templateId !== 'hello') {
-                  errors.templateId = 'Invalid template ID format.';
-                }
-                if (!values.emailType) {
-                  errors.emailType = 'Email type must be chosen';
-                }
-                if (errors.templateId || errors.emailType) return errors;
-                return {};
-              }}
+              validate={(values) => validateData(values)}
               onSubmit={({ templateId, emailType }, { setSubmitting }) => {
                 setSubmitting(true);
                 setTemplateId(templateId);
@@ -142,16 +149,15 @@ export default function BulkEmails() {
                 <Flex
                   column
                   css={{
-                    padding: '$4',
-                    width: '100%',
-                    paddingTop: '$0',
-                    paddingBottom: '$6',
+                    padding: '0px 12px 20px',
                   }}
                 >
-                  <H4>Email summary</H4>
-                  <P>Template ID:</P>
+                  <P css={{ fontSize: '$body1', fontWeight: '$bold' }}>
+                    Email summary
+                  </P>
+                  <P css={{ fontSize: '$body1' }}>Template ID:</P>
                   <P>{templateId}</P>
-                  <P>Type:</P>
+                  <P css={{ fontSize: '$body1' }}>Type:</P>
                   <P>
                     {emailType === '1'
                       ? 'Revolancer email'
@@ -161,10 +167,16 @@ export default function BulkEmails() {
                     This action cannot be undone.
                   </Feedback>
                   <Flex css={{ alignItems: 'center' }} gap={6}>
-                    <FormButton size="small" onClick={() => sendEmails(close)}>
+                    <FormButton
+                      size="small"
+                      onClick={() => handleSubmit(close)}
+                    >
                       Send
                     </FormButton>
-                    <TertiaryFormButton onClick={() => handleClose(close)}>
+                    <TertiaryFormButton
+                      css={{ fontSize: '$body1' }}
+                      onClick={() => handleClose(close)}
+                    >
                       Cancel
                     </TertiaryFormButton>
                   </Flex>
