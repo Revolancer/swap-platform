@@ -141,15 +141,19 @@ export default function BulkEmails() {
             showCloseIcon
             openOnTrigger={open}
             css={{
-              minWidth: '33%',
-              height: '50vh',
+              minWidth: '100vw',
+              height: '300px',
+              alignItems: 'flex-start',
+              '@sm': {
+                minWidth: '500px',
+              },
             }}
             renderChildren={({ close }) => {
               return (
                 <Flex
                   column
                   css={{
-                    padding: '0px 12px 20px',
+                    padding: '12px',
                   }}
                 >
                   <P css={{ fontSize: '$body1', fontWeight: '$bold' }}>
