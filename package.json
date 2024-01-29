@@ -61,7 +61,7 @@
     "masonic": "^3.7.0",
     "match-sorter": "^6.3.3",
     "next": "^14.1.0",
-    "osm-api": "^1.0.5",
+    "osm-api": "^2.0.0",
     "react": "^18.2.0",
     "react-beautiful-dnd": "^13.1.1",
     "react-datepicker": "^4.25.0",
