@@ -39,7 +39,7 @@
     "@reduxjs/toolkit": "^1.9.7",
     "@revolancer/ui": "^1.3.4",
     "@types/node": "20.11.6",
-    "@types/react": "18.2.48",
+    "@types/react": "18.2.64",
     "@types/react-dom": "18.2.18",
     "@vercel/analytics": "^1.1.2",
     "axios": "^1.6.5",
