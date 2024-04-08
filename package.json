@@ -97,7 +97,7 @@
     "eslint-plugin-prettier": "^5.1.3",
     "git-commit-info": "^2.0.2",
     "prettier": "^3.2.4",
-    "typescript": "^5.3.3",
+    "typescript": "^5.4.4",
     "webpack-bugsnag-plugins": "^1.8.0"
   }
 }
