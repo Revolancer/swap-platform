@@ -82,7 +82,7 @@
   },
   "devDependencies": {
     "@types/country-list": "^2.1.4",
-    "@types/google.maps": "^3.54.10",
+    "@types/google.maps": "^3.55.8",
     "@types/lodash.debounce": "^4.0.9",
     "@types/luxon": "^3.4.2",
     "@types/match-sorter": "^6.0.0",
